@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W.I.N.D Enterprise Payroll & HRIS Pro</title>
+    <title>W.I.N.D Enterprise Payroll & HRIS Pro Max</title>
     <link rel="icon" type="image/png" href="wind_logo.png">
     
     <!-- Tailwind CSS CDN -->
@@ -56,7 +56,7 @@
                     <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
                 </div>
                 <h1 class="text-2xl font-bold text-white tracking-tight">W.I.N.D<span class="text-emerald-400">.</span> Enterprise</h1>
-                <p class="text-sm text-slate-400">Payroll & HRIS Pro Portal - Silakan masuk ke akun Anda</p>
+                <p class="text-sm text-slate-400">Payroll & HRIS Pro Max - Silakan masuk ke akun Anda</p>
             </div>
 
             <form onsubmit="handleLoginSubmit(event)" class="space-y-5 text-sm relative z-10">
@@ -128,7 +128,7 @@
                 <h2 id="pageTitle" class="text-2xl font-bold text-slate-900 transition-colors duration-300">Beranda & Ringkasan Perusahaan</h2>
                 
                 <div class="flex items-center gap-4 relative">
-                    <!-- FITUR BARU: PILIHAN PERIODE BULAN & ARSIP -->
+                    <!-- PILIHAN PERIODE BULAN & ARSIP -->
                     <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-2xl border border-slate-200 text-sm">
                         <i class="fa-solid fa-calendar-days text-indigo-600"></i>
                         <span class="text-xs font-bold text-slate-500 uppercase">Periode:</span>
@@ -216,16 +216,33 @@
                         </div>
                     </div>
 
-                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
-                        <div class="flex justify-between items-center border-b pb-4 border-slate-200">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
-                                <p class="text-sm text-slate-500 theme-subtext">Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
+                    <!-- FITUR BARU 3: ANALITIK KEUANGAN LANJUTAN (FORECASTING & RASIO) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 lg:col-span-2 transition-colors duration-300">
+                            <div class="flex justify-between items-center border-b pb-4 border-slate-200">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik & Proyeksi Anggaran Payroll (Forecasting)</h3>
+                                    <p class="text-sm text-slate-500 theme-subtext">Grafik perbandingan pengeluaran gaji aktual dan estimasi tren semester kedua 2026.</p>
+                                </div>
+                                <span class="text-sm bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full font-bold">Tahun 2026</span>
                             </div>
-                            <span class="text-sm bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full font-bold">Tahun 2026</span>
+                            <div class="h-72 relative">
+                                <canvas id="payrollAnalyticsChart"></canvas>
+                            </div>
                         </div>
-                        <div class="h-80 relative">
-                            <canvas id="payrollAnalyticsChart"></canvas>
+
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2 theme-text mb-2"><i class="fa-solid fa-pie-chart text-emerald-600"></i> Rasio Komponen Gaji</h3>
+                                <p class="text-xs text-slate-500 theme-subtext mb-4">Distribusi perbandingan total Gaji Pokok vs Tunjangan Tetap perusahaan.</p>
+                            </div>
+                            <div class="h-48 relative flex items-center justify-center">
+                                <canvas id="salaryRatioChart"></canvas>
+                            </div>
+                            <div class="border-t pt-4 border-slate-200 text-xs space-y-2 font-mono">
+                                <div class="flex justify-between text-slate-500"><span>Total Gaji Pokok:</span> <b class="text-indigo-600" id="ratioBaseVal">Rp 45 Juta</b></div>
+                                <div class="flex justify-between text-slate-500"><span>Total Tunjangan:</span> <b class="text-emerald-600" id="ratioAllowanceVal">Rp 18 Juta</b></div>
+                            </div>
                         </div>
                     </div>
 
@@ -322,12 +339,19 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ATTENDANCE -->
+                <!-- VIEW 3: ATTENDANCE (DENGAN FITUR BARU 2: SHIFT KERJA & LEMBUR / OVERTIME) -->
                 <div id="view-attendance" class="hidden space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
-                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
-                            <p class="text-sm text-slate-500 theme-subtext">Sistem mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman.</p>
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi GPS & Shift Kerja</h3>
+                                <select id="shiftSelector" onchange="changeEmployeeShift(this.value)" class="bg-indigo-50 text-indigo-700 font-bold px-3 py-1.5 rounded-xl text-xs border border-indigo-200">
+                                    <option value="Shift Pagi (08:00 - 17:00)">Shift Pagi (08:00 - 17:00)</option>
+                                    <option value="Shift Siang (13:00 - 21:00)">Shift Siang (13:00 - 21:00)</option>
+                                    <option value="Shift Malam (21:00 - 05:00)">Shift Malam (21:00 - 05:00)</option>
+                                </select>
+                            </div>
+                            <p class="text-sm text-slate-500 theme-subtext">Sistem mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman sesuai jadwal shift aktif.</p>
                             
                             <div class="theme-subcard bg-slate-50 p-6 rounded-2xl border space-y-3 text-sm font-mono border-slate-200">
                                 <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-500">Dalam Radius Kantor (< 100m)</b></div>
@@ -340,20 +364,27 @@
                             </button>
                         </div>
 
-                        <!-- MODUL AI FACIAL RECOGNITION -->
-                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
-                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-camera-retro text-indigo-600"></i> Absensi Wajah AI (*Facial Recognition*)</h3>
-                            <p class="text-sm text-slate-500 theme-subtext">Validasi wajah biometrik anti-joki untuk presisi kehadiran tingkat lanjut.</p>
-                            
-                            <div class="theme-subcard bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center space-y-4">
-                                <div id="faceScanBox" class="w-full h-36 bg-slate-900 rounded-xl border border-indigo-500/40 flex flex-col items-center justify-center text-slate-400 relative overflow-hidden">
-                                    <i class="fa-solid fa-face-smile text-indigo-400 text-3xl mb-2 animate-pulse"></i>
-                                    <span class="text-xs font-mono text-indigo-300">Kamera Biometrik Siap Aktif</span>
+                        <!-- MODUL OTOMATIS LEMBUR (OVERTIME CALCULATOR) -->
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-business-time text-amber-500"></i> Pengajuan Lembur (*Overtime*)</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis upah lembur berdasarkan tarif per jam (Rp 50.000 / jam).</p>
+                                
+                                <div class="space-y-3 text-sm">
+                                    <div>
+                                        <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Jumlah Jam Lembur</label>
+                                        <input type="number" id="overtimeHours" value="2" min="1" max="10" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 font-mono text-base">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Keterangan / Tugas Lembur</label>
+                                        <input type="text" id="overtimeDesc" placeholder="Penyelesaian laporan finansial bulanan..." class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 text-base">
+                                    </div>
                                 </div>
-                                <button onclick="triggerAiFaceRecognition()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3 rounded-xl transition shadow-sm">
-                                    <i class="fa-solid fa-camera mr-1.5"></i> Scan Wajah & Verifikasi Presensi
-                                </button>
                             </div>
+
+                            <button onclick="submitOvertimeRequest()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-2xl transition text-base shadow-sm">
+                                <i class="fa-solid fa-coins mr-2"></i> Ajukan Klaim Upah Lembur
+                            </button>
                         </div>
 
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 md:col-span-2 transition-colors duration-300">
@@ -391,9 +422,8 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: REIMBURSE & KASBON (DENGAN TOMBOL SAMPAH PENGHAPUS DATA) -->
+                <!-- VIEW 4: REIMBURSE & KASBON -->
                 <div id="view-reimburse" class="hidden space-y-8">
-                    <!-- MODUL KASBON DENGAN TOMBOL HAPUS -->
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
@@ -781,7 +811,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 15: SETTINGS -->
+                <!-- VIEW 15: SETTINGS (DENGAN FITUR BARU 4: BROADCAST TARGET DIVISI) -->
                 <div id="view-settings" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm transition-colors duration-300">
                         <div class="border-b pb-6 flex justify-between items-center border-slate-200">
@@ -823,12 +853,12 @@
                             </div>
                         </div>
 
-                        <!-- MODUL CHAT & GATEWAY -->
+                        <!-- MODUL CHAT & BROADCAST TARGET DIVISI -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-200">
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-4 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
                                 <div class="theme-input bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs border-slate-200" id="internalChatContainer">
-                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal W.I.N.D Pro! Silakan berkoordinasi di sini.</div>
+                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal W.I.N.D Pro Max! Silakan berkoordinasi di sini.</div>
                                 </div>
                                 <div class="flex gap-2">
                                     <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="theme-input border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
@@ -836,15 +866,24 @@
                                 </div>
                             </div>
 
-                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
-                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-robot text-emerald-600 mr-2"></i> WhatsApp & Email Gateway Simulator</h4>
-                                <p class="text-xs text-slate-500 theme-subtext">Kirimkan notifikasi otomatis slip gaji atau pengumuman via WhatsApp/Email langsung ke nomor terdaftar karyawan.</p>
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-4 transition-colors duration-300 border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-bullhorn text-emerald-600 mr-2"></i> Broadcast Target Divisi & WhatsApp</h4>
+                                <p class="text-xs text-slate-500 theme-subtext">Kirimkan pengumuman khusus ke divisi tertentu (Finance, HR, Product, dll.) atau ke seluruh perusahaan.</p>
                                 <div>
-                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Pesan Broadcast Otomatis</label>
-                                    <textarea id="broadcastMsgText" class="theme-input w-full border rounded-2xl p-3 bg-white text-xs" rows="3">Halo, Slip Gaji Periode Agustus 2026 telah terbit. Silakan cek portal ESS Anda.</textarea>
+                                    <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Target Divisi Penerima</label>
+                                    <select id="broadcastTargetDiv" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs font-semibold">
+                                        <option value="Semua Karyawan">Seluruh Karyawan (All Company)</option>
+                                        <option value="Finance & Accounting">Divisi Finance & Accounting</option>
+                                        <option value="HR & Management">Divisi HR & Management</option>
+                                        <option value="Product & Tech">Divisi Product & Tech</option>
+                                    </select>
                                 </div>
-                                <button onclick="sendWhatsAppBroadcast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition text-xs shadow-sm">
-                                    <i class="fa-brands fa-whatsapp mr-1.5"></i> Kirim Broadcast WhatsApp & Email
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Pesan Pengumuman</label>
+                                    <textarea id="broadcastMsgText" class="theme-input w-full border rounded-2xl p-3 bg-white text-xs" rows="2">Halo, mohon segera unggah laporan bulanan masing-masing.</textarea>
+                                </div>
+                                <button onclick="sendTargetedBroadcast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition text-xs shadow-sm">
+                                    <i class="fa-solid fa-paper-plane mr-1.5"></i> Kirim Broadcast Target Divisi
                                 </button>
                             </div>
                         </div>
@@ -1091,18 +1130,19 @@
             { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi W.I.N.D Enterprise Pro Max", detail: "Berhasil" }
         ];
         let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [
-            { text: "Modul Enterprise Appraisal & Digital Vault berhasil diaktifkan.", time: "Hari ini", unread: true }
+            { text: "Modul Shift, Lembur, dan Analitik Keuangan Lanjutan berhasil diaktifkan.", time: "Hari ini", unread: true }
         ];
 
-        // FITUR BARU: PENYIMPANAN ARSIP BULANAN DI LOCALSTORAGE
         let archivedMonthData = JSON.parse(localStorage.getItem('wind_archived_months')) || {
             "Juli 2026": { totalPayroll: 27800000, employeeCount: 2, status: "Arsip Tertutup" },
             "Juni 2026": { totalPayroll: 25500000, employeeCount: 2, status: "Arsip Tertutup" }
         };
         let currentActivePeriod = "Agustus 2026";
+        let activeShift = "Shift Pagi (08:00 - 17:00)";
 
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
+        let salaryRatioChartInstance = null;
         let isDarkMode = false;
 
         function toggleDarkModeTheme() {
@@ -1142,7 +1182,7 @@
                 modals.forEach(m => m.className = "theme-modal bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-100");
                 cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-3 rounded-2xl font-bold");
 
-                showToast("Mode Gelap diaktifkan (Teks & Kontras Optimal)", "success");
+                showToast("Mode Gelap diaktifkan", "success");
             } else {
                 body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
                 header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300";
@@ -1166,7 +1206,6 @@
             renderAll();
         }
 
-        // FITUR BARU: MENGGANTI PERIODE BULAN & MELIHAT REKAP ARSIP
         function changePayrollPeriod(periodVal) {
             currentActivePeriod = periodVal;
             document.getElementById('dashboardActivePeriodLabel').innerText = periodVal;
@@ -1174,8 +1213,6 @@
                 const archived = archivedMonthData[periodVal];
                 if(archived) {
                     showToast(`Memuat Arsip Rekap Bulan ${periodVal} (Total Payroll: ${formatRupiah(archived.totalPayroll)})`, "success");
-                } else {
-                    showToast(`Arsip untuk bulan ${periodVal} belum diarsipkan.`, "warning");
                 }
             } else {
                 showToast("Kembali ke Periode Aktif Agustus 2026", "success");
@@ -1201,7 +1238,29 @@
             addNotification(`Arsip finansial periode ${currentActivePeriod} berhasil dikunci.`);
         }
 
-        // FITUR BARU: TOMBOL SAMPAH PENGHAPUS KASBON & KLAIM
+        // FITUR BARU 2: SHIFT KERJA
+        function changeEmployeeShift(shiftVal) {
+            activeShift = shiftVal;
+            showToast(`Shift kerja berhasil diatur ke: ${shiftVal}`, "success");
+            logAudit("Pengaturan Shift", shiftVal);
+        }
+
+        // FITUR BARU 2: PENGAJUAN LEMBUR (OVERTIME)
+        function submitOvertimeRequest() {
+            const hours = parseInt(document.getElementById('overtimeHours').value) || 0;
+            const desc = document.getElementById('overtimeDesc').value || "Tugas lembur operasional";
+            const overtimePay = hours * 50000; // Tarif Rp 50.000 / jam
+
+            reimburseList.unshift({
+                id: Date.now(), name: employees[0].name, type: `Lembur (${hours} Jam)`, desc, amount: overtimePay, file: "Otorisasi_Lembur.pdf", status: 'Disetujui & Masuk Payroll'
+            });
+            localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
+            renderReimburse();
+            showToast(`Klaim upah lembur sebesar ${formatRupiah(overtimePay)} berhasil diajukan!`, "success");
+            logAudit("Pengajuan Lembur", `${hours} Jam (${formatRupiah(overtimePay)})`);
+            addNotification(`Klaim lembur ${employees[0].name} (${hours} jam) berhasil dicatat.`);
+        }
+
         function deleteLoanItem(idx) {
             if(confirm("Apakah Anda yakin ingin menghapus data kasbon/pinjaman ini?")) {
                 loanList.splice(idx, 1);
@@ -1299,7 +1358,7 @@
                                 <i class="fa-solid fa-chart-pie w-5 text-indigo-400 text-base"></i> Beranda & Ringkasan
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-emerald-400 text-base"></i> Absensi GPS & Cuti
+                                <i class="fa-solid fa-location-dot w-5 text-emerald-400 text-base"></i> Absensi, Shift & Lembur
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-sky-400 text-base"></i> Klaim & Reimbursement
@@ -1354,7 +1413,7 @@
                                 <i class="fa-solid fa-clock-rotate-left w-5 text-slate-400 text-base"></i> Log Aktivitas Internal
                             </button>
                             <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-gear w-5 text-indigo-400 text-base"></i> Pengaturan Sistem
+                                <i class="fa-solid fa-gear w-5 text-indigo-400 text-base"></i> Pengaturan & Broadcast
                             </button>
                         </div>
                     </div>
@@ -1370,7 +1429,7 @@
                                 <i class="fa-solid fa-user-shield w-5 text-emerald-400 text-base"></i> Portal Mandiri (ESS)
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-indigo-400 text-base"></i> Absensi GPS & Cuti
+                                <i class="fa-solid fa-location-dot w-5 text-indigo-400 text-base"></i> Absensi & Lembur
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-emerald-400 text-base"></i> Klaim & Reimbursement
@@ -1455,57 +1514,78 @@
             showToast("Pesan terkirim ke chat internal!", "success");
         }
 
-        function sendWhatsAppBroadcast() {
-            showToast("Broadcast WhatsApp & Email berhasil dikirim ke seluruh karyawan!", "success");
-            logAudit("Broadcast WA/Email", "Berhasil mengirim pengumuman massal");
-            addNotification("Broadcast pengumuman sistem berhasil dikirim.");
+        // FITUR BARU 4: BROADCAST TARGET DIVISI
+        function sendTargetedBroadcast() {
+            const targetDiv = document.getElementById('broadcastTargetDiv').value;
+            const msg = document.getElementById('broadcastMsgText').value;
+            showToast(`Broadcast berhasil dikirim ke [${targetDiv}]!`, "success");
+            logAudit("Broadcast Target Divisi", `Target: ${targetDiv}`);
+            addNotification(`Pengumuman baru untuk [${targetDiv}]: "${msg.substring(0, 30)}..."`);
         }
 
-        function renderPayrollChart(totalCurrentMonth) {
-            const ctx = document.getElementById('payrollAnalyticsChart');
-            if(!ctx) return;
-
-            if(payrollChartInstance) {
-                payrollChartInstance.destroy();
-            }
-
-            const inMillions = totalCurrentMonth / 1000000;
-
-            payrollChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Juni 2026', 'Juli 2026', 'Agustus 2026 (Aktif)', 'September 2026 (Est)', 'Oktober 2026 (Est)'],
-                    datasets: [{
-                        label: 'Total Pengeluaran Payroll (Juta IDR)',
-                        data: [25.5, 27.8, Number(inMillions.toFixed(2)), Number((inMillions * 1.05).toFixed(2)), Number((inMillions * 1.08).toFixed(2))],
-                        borderColor: '#4f46e5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.35,
-                        pointBackgroundColor: '#10b981',
-                        pointRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
+        // FITUR BARU 3: GRAFIK ANALITIK KEUANGAN & RASIO
+        function renderFinancialCharts(totalCurrentMonth) {
+            // Chart 1: Line Trend
+            const ctxLine = document.getElementById('payrollAnalyticsChart');
+            if(ctxLine) {
+                if(payrollChartInstance) payrollChartInstance.destroy();
+                const inMillions = totalCurrentMonth / 1000000;
+                payrollChartInstance = new Chart(ctxLine, {
+                    type: 'line',
+                    data: {
+                        labels: ['Juni 2026', 'Juli 2026', 'Agustus 2026 (Aktif)', 'September 2026 (Est)', 'Oktober 2026 (Est)'],
+                        datasets: [{
+                            label: 'Total Pengeluaran Payroll (Juta IDR)',
+                            data: [25.5, 27.8, Number(inMillions.toFixed(2)), Number((inMillions * 1.05).toFixed(2)), Number((inMillions * 1.08).toFixed(2))],
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.35,
+                            pointBackgroundColor: '#10b981',
+                            pointRadius: 6
+                        }]
                     },
-                    scales: {
-                        y: { 
-                            beginAtZero: false,
-                            grid: { color: isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)' },
-                            ticks: { font: { size: 14 }, color: isDarkMode ? '#94a3b8' : '#64748b' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { font: { size: 14 }, color: isDarkMode ? '#94a3b8' : '#64748b' }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { color: isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)' }, ticks: { color: isDarkMode ? '#94a3b8' : '#64748b' } },
+                            x: { grid: { display: false }, ticks: { color: isDarkMode ? '#94a3b8' : '#64748b' } }
                         }
                     }
-                }
-            });
+                });
+            }
+
+            // Chart 2: Ratio Doughnut
+            const ctxRatio = document.getElementById('salaryRatioChart');
+            if(ctxRatio) {
+                if(salaryRatioChartInstance) salaryRatioChartInstance.destroy();
+                let totalBase = 0;
+                let totalAllowance = 0;
+                employees.forEach(e => { totalBase += e.base; totalAllowance += e.allowance; });
+
+                document.getElementById('ratioBaseVal').innerText = formatRupiah(totalBase);
+                document.getElementById('ratioAllowanceVal').innerText = formatRupiah(totalAllowance);
+
+                salaryRatioChartInstance = new Chart(ctxRatio, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Gaji Pokok', 'Tunjangan Tetap'],
+                        datasets: [{
+                            data: [totalBase, totalAllowance],
+                            backgroundColor: ['#4f46e5', '#10b981'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, color: isDarkMode ? '#cbd5e1' : '#334155' } } }
+                    }
+                });
+            }
         }
 
         function exportPayrollToExcel() {
@@ -1655,7 +1735,7 @@
             const titles = {
                 'dashboard': 'Beranda & Ringkasan W.I.N.D Company',
                 'ess': 'Portal Mandiri Karyawan (ESS)',
-                'attendance': 'Absensi GPS & Pengajuan Cuti',
+                'attendance': 'Absensi GPS, Shift Kerja & Lembur',
                 'reimburse': 'Modul Klaim & Reimbursement Mandiri',
                 'payroll-engine': 'Enterprise Payroll Run & PPh 21 TER',
                 'appraisal': 'Penilaian Kinerja & KPI Karyawan',
@@ -1667,7 +1747,7 @@
                 'profiles': 'Direktori Profil Karyawan & Atasan',
                 'workflow': 'Persetujuan Bertingkat (Approval Workflow)',
                 'audit': 'Log Aktivitas Internal (Audit Trail)',
-                'settings': 'Pengaturan Sistem & Perusahaan'
+                'settings': 'Pengaturan Sistem & Broadcast Divisi'
             };
             document.getElementById('pageTitle').innerText = titles[tabId];
         }
@@ -1700,7 +1780,6 @@
                 body.appendChild(tr);
             });
 
-            // Jika sedang melihat rekap arsip bulan lalu, sesuaikan total jika ada di arsip
             if(currentActivePeriod !== "Agustus 2026" && archivedMonthData[currentActivePeriod]) {
                 totalPayrollSum = archivedMonthData[currentActivePeriod].totalPayroll;
             }
@@ -1708,7 +1787,7 @@
             const totalPayrollEl = document.getElementById('dashTotalPayroll');
             if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
 
-            renderPayrollChart(totalPayrollSum);
+            renderFinancialCharts(totalPayrollSum);
         }
 
         function formatRupiahInput(input) {
@@ -1959,20 +2038,9 @@
         }
 
         function performClockIn() {
-            showToast('Absensi GPS Berhasil! Lokasi terdeteksi di Area Kantor Sudirman.', 'success');
-            logAudit("Absensi GPS Clock-In", "Berhasil terekam");
-            addNotification("Absensi GPS Clock-In berhasil terekam.");
-        }
-
-        function triggerAiFaceRecognition() {
-            const box = document.getElementById('faceScanBox');
-            box.innerHTML = `<i class="fa-solid fa-spinner text-indigo-400 text-3xl mb-2 animate-spin"></i><span class="text-xs font-mono text-indigo-300">Memindai Biometrik Wajah...</span>`;
-            setTimeout(() => {
-                box.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-3xl mb-2"></i><span class="text-xs font-mono text-emerald-300">Wajah Terverifikasi (99.8% Match)</span>`;
-                showToast("Absensi Wajah AI berhasil terekam!", "success");
-                logAudit("Absensi AI Facial Recognition", "Verifikasi wajah sukses");
-                addNotification("Absensi biometrik wajah berhasil dicatat.");
-            }, 1500);
+            showToast(`Absensi GPS Berhasil (${activeShift})! Lokasi di Area Kantor Sudirman.`, 'success');
+            logAudit("Absensi GPS Clock-In", activeShift);
+            addNotification(`Absensi GPS Clock-In (${activeShift}) berhasil terekam.`);
         }
 
         function submitLeaveForm(e) {
