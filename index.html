@@ -47,7 +47,7 @@
         <!-- SIDEBAR -->
         <aside class="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between border-r border-slate-800 no-print">
             <div class="overflow-y-auto flex-1">
-                <!-- LOGO & COMPANY NAME (PERBAIKAN UKURAN & TAMPILAN LOGO) -->
+                <!-- LOGO & COMPANY NAME -->
                 <div class="flex items-center gap-3 px-6 py-6 border-b border-slate-800 sticky top-0 bg-slate-900 z-10">
                     <div class="flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden shadow-md border border-slate-700 bg-slate-800 flex-shrink-0">
                         <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
@@ -103,7 +103,7 @@
             <!-- User Profile & RBAC Switcher -->
             <div class="p-4 border-t border-slate-800 space-y-3 bg-slate-950/40">
                 <div class="flex items-center gap-3">
-                    <div id="userAvatar" class="w-10 h-10 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner">FM</div>
+                    <div id="userAvatar" class="w-10 h-10 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner">FA</div>
                     <div>
                         <h4 id="userNameLabel" class="text-sm font-semibold text-white">Muhammad Faari Akbar</h4>
                         <span id="userRoleBadge" class="text-[10px] bg-indigo-600/30 text-indigo-300 font-bold px-2 py-0.5 rounded-full">Founder & CEO</span>
@@ -771,14 +771,22 @@
         function handleSaveEmployee(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('editEmployeeIdx').value);
-            const name = document.getElementById('newEmpName').value;
-            const email = document.getElementById('newEmpEmail').value;
-            const role = document.getElementById('newEmpRole').value;
+            const name = document.getElementById('newEmpName').value.trim();
+            const email = document.getElementById('newEmpEmail').value.trim();
+            const role = document.getElementById('newEmpRole').value.trim();
             const bank = document.getElementById('newEmpBank').value;
-            const accNum = document.getElementById('newEmpAcc').value;
-            const base = parseRupiahNumber(document.getElementById('newEmpBase').value);
-            const allowance = parseRupiahNumber(document.getElementById('newEmpAllowance').value);
+            const accNum = document.getElementById('newEmpAcc').value.trim();
+            const baseStr = document.getElementById('newEmpBase').value;
+            const allowanceStr = document.getElementById('newEmpAllowance').value;
             const ptkp = document.getElementById('newEmpPtkp').value;
+
+            if (!name || !email || !role || !accNum) {
+                showToast("Semua kolom wajib diisi dengan benar!", "error");
+                return;
+            }
+
+            const base = parseRupiahNumber(baseStr);
+            const allowance = parseRupiahNumber(allowanceStr);
             const superior = "Muhammad Faari Akbar (Founder & CEO)";
             const ext = String(Math.floor(104 + Math.random() * 896));
 
