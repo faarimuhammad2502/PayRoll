@@ -961,7 +961,8 @@
     <!-- SCRIPT UTAMA -->
     <script>
         let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
-            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100", leaveBalance: 12 }
+            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100", leaveBalance: 12 },
+            { name: "Sarah Wijaya", email: "sarah@windcompany.com", role: "Product Manager", superior: "Muhammad Faari Akbar", bank: "BCA", accNum: "5771307133", ptkp: "TK/0", base: 20000000, allowance: 10000000, ext: "102", leaveBalance: 12 }
         ];
 
         let assets = JSON.parse(localStorage.getItem('wind_enterprise_assets')) || [
@@ -1052,6 +1053,7 @@
 
                 showToast("Mode Terang diaktifkan", "success");
             }
+            renderAll();
         }
 
         function togglePasswordVisibility() {
@@ -1490,10 +1492,10 @@
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(emp.base)}</td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(emp.allowance)}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(emp.base)}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(emp.allowance)}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="editEmployee(${idx})" class="bg-sky-500 hover:bg-sky-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
@@ -1545,9 +1547,9 @@
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(bruto)}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(bruto)}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
@@ -1747,8 +1749,8 @@
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : ''}">${item.type}</td>
-                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : ''}">${item.desc}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${item.type}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}">${item.desc}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400">${formatRupiah(item.amount)}</td>
                     <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}"><i class="fa-solid fa-paperclip mr-1.5 text-slate-400"></i> ${item.file}</td>
                     <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full">${item.status}</span></td>
@@ -1786,7 +1788,7 @@
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
                     <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${app.name}</td>
-                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : ''}">${app.period}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}">${app.period}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${app.score} / 100</td>
                     <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${app.feedback}</td>
                     <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${app.grade}</span></td>
@@ -1902,8 +1904,8 @@
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(bruto)}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(bruto)}</td>
                     <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(bpjs)}</td>
                     <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(pph21)}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
