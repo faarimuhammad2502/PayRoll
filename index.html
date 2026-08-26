@@ -40,7 +40,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 text-base">
+<body class="bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300" id="mainBodyTheme">
 
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-3"></div>
@@ -124,12 +124,17 @@
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col overflow-y-auto relative">
             
-            <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print">
+            <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print" id="headerThemeContainer">
                 <h2 id="pageTitle" class="text-2xl font-bold text-slate-900">Beranda & Ringkasan Perusahaan</h2>
                 
-                <div class="flex items-center gap-6 relative">
+                <div class="flex items-center gap-4 relative">
+                    <!-- TOGGLE DARK MODE TAMBAHAN -->
+                    <button onclick="toggleDarkModeTheme()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base" title="Ubah Mode Terang / Gelap">
+                        <i id="darkModeIcon" class="fa-solid fa-moon"></i>
+                    </button>
+
                     <div class="relative">
-                        <button onclick="toggleNotificationDropdown()" class="w-12 h-12 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg">
+                        <button onclick="toggleNotificationDropdown()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg">
                             <i class="fa-solid fa-bell"></i>
                             <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-xs w-6 h-6 rounded-full flex items-center justify-center shadow-md hidden">0</span>
                         </button>
@@ -323,9 +328,12 @@
                             </button>
                         </div>
 
+                        <!-- MODUL PEMBARUAN: SISA KUOTA CUTI (LEAVE BALANCE) -->
                         <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Izin Online</h3>
-                            <p class="text-sm text-slate-500">Ajukan cuti tahunan atau izin sakit secara digital.</p>
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Sisa Kuota</h3>
+                                <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">Sisa Kuota: <b id="leaveBalanceCount">12 Hari</b></span>
+                            </div>
                             
                             <form onsubmit="submitLeaveForm(event)" class="space-y-4 text-sm">
                                 <div>
@@ -610,12 +618,14 @@
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Pusat Slip Gaji & Penghasilan Karyawan</h3>
-                                <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi berformat PDF untuk masing-masing karyawan periode Agustus 2026.</p>
+                                <h3 class="font-bold text-slate-900 text-xl">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1)</h3>
+                                <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi atau Formulir 1721-A1 bukti pemotongan PPh 21 tahunan.</p>
                             </div>
-                            <button onclick="downloadAllSlipsPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-file-zipper mr-2"></i> Download Semua Slip (Massal PDF)
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <button onclick="downloadAllSlipsPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-file-zipper mr-2"></i> Download Semua Slip PDF
+                                </button>
+                            </div>
                         </div>
                         <div class="overflow-x-auto border rounded-2xl">
                             <table class="w-full text-left border-collapse text-sm">
@@ -623,9 +633,9 @@
                                     <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs">
                                         <th class="py-4 px-6">Nama & Jabatan Karyawan</th>
                                         <th class="py-4 px-6">Bank & No. Rekening</th>
-                                        <th class="py-4 px-6">Total Gaji Kotor (Bruto)</th>
-                                        <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay (Net)</th>
-                                        <th class="py-4 px-6 text-center">Aksi Unduh Slip PDF</th>
+                                        <th class="py-4 px-6">Total Gaji Bruto</th>
+                                        <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay</th>
+                                        <th class="py-4 px-6 text-center">Aksi Dokumen (Slip & Form 1721-A1)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700 text-sm">
@@ -698,7 +708,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 15: SETTINGS & NEW ENHANCED MODULES -->
+                <!-- VIEW 15: SETTINGS -->
                 <div id="view-settings" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm">
                         <div class="border-b pb-6 flex justify-between items-center">
@@ -740,7 +750,7 @@
                             </div>
                         </div>
 
-                        <!-- MODUL TAMBAHAN BARU: CHAT & GATEWAY -->
+                        <!-- MODUL CHAT & GATEWAY -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t">
                             <div class="bg-slate-50 p-8 rounded-3xl border space-y-4">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
@@ -952,7 +962,7 @@
     <!-- SCRIPT UTAMA -->
     <script>
         let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
-            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100" }
+            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100", leaveBalance: 12 }
         ];
 
         let assets = JSON.parse(localStorage.getItem('wind_enterprise_assets')) || [
@@ -980,6 +990,25 @@
 
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
+        let isDarkMode = false;
+
+        function toggleDarkModeTheme() {
+            isDarkMode = !isDarkMode;
+            const body = document.getElementById('mainBodyTheme');
+            const icon = document.getElementById('darkModeIcon');
+            const header = document.getElementById('headerThemeContainer');
+            if(isDarkMode) {
+                body.className = "bg-slate-950 font-sans text-slate-100 text-base transition-colors duration-300";
+                header.className = "bg-slate-900 shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-800 no-print";
+                icon.className = "fa-solid fa-sun";
+                showToast("Mode Gelap diaktifkan", "success");
+            } else {
+                body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
+                header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print";
+                icon.className = "fa-solid fa-moon";
+                showToast("Mode Terang diaktifkan", "success");
+            }
+        }
 
         function togglePasswordVisibility() {
             const passInput = document.getElementById('loginPass');
@@ -1197,7 +1226,6 @@
         }
 
         function sendWhatsAppBroadcast() {
-            const msg = document.getElementById('broadcastMsgText').value;
             showToast("Broadcast WhatsApp & Email berhasil dikirim ke seluruh karyawan!", "success");
             logAudit("Broadcast WA/Email", "Berhasil mengirim pengumuman massal");
             addNotification("Broadcast pengumuman sistem berhasil dikirim.");
@@ -1326,7 +1354,7 @@
             const ext = String(Math.floor(104 + Math.random() * 896));
 
             if (idx === -1) {
-                employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext });
+                employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext, leaveBalance: 12 });
                 showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
                 logAudit("Tambah Karyawan Baru", `${name} (${role})`);
                 addNotification(`Karyawan baru terdaftar: ${name} (${role})`);
@@ -1477,9 +1505,12 @@
                     <td class="py-4 px-6 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
                     <td class="py-4 px-6 font-mono text-base">${formatRupiah(bruto)}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-600 text-base">${formatRupiah(net)}</td>
-                    <td class="py-4 px-6 text-center">
-                        <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-sm transition">
-                            <i class="fa-solid fa-file-pdf mr-1.5"></i> Download Slip PDF
+                    <td class="py-4 px-6 text-center space-x-2">
+                        <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
+                            <i class="fa-solid fa-file-pdf mr-1"></i> Slip Gaji
+                        </button>
+                        <button onclick="downloadTaxForm1721(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
+                            <i class="fa-solid fa-file-invoice-dollar mr-1"></i> Form 1721-A1
                         </button>
                     </td>
                 `;
@@ -1529,11 +1560,51 @@
             showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
         }
 
+        // GENERATOR FORMULIR PAJAK TAHUNAN FORM 1721-A1
+        function downloadTaxForm1721(idx) {
+            const emp = employees[idx];
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 32, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(15);
+            doc.text("BUKTI PEMOTONGAN PPH PASAL 21 (FORM 1721-A1)", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("W.I.N.D ENTERPRISE COMPANY - TAHUN PAJAK 2026", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            doc.text(`Nama Karyawan  : ${emp.name}`, 20, 46);
+            doc.text(`Jabatan        : ${emp.role}`, 20, 54);
+            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 62);
+            doc.text(`NPWP / Rekening: ${emp.bank} - ${emp.accNum}`, 20, 70);
+
+            const annualBruto = (emp.base + emp.allowance) * 12;
+            const annualTax = Math.round(annualBruto * 0.05);
+
+            doc.setFont("times", "bold");
+            doc.text("PERHITUNGAN PAJAK PENGHASILAN TAHUNAN:", 20, 86);
+            doc.setFont("times", "normal");
+            doc.text(`1. Total Penghasilan Bruto Setahun : ${formatRupiah(annualBruto)}`, 20, 96);
+            doc.text(`2. Penghasilan Tidak Kena Pajak    : Rp 54.000.000`, 20, 104);
+            doc.text(`3. PPh Pasal 21 Terutang Setahun   : ${formatRupiah(annualTax)}`, 20, 112);
+
+            doc.setLineWidth(0.5);
+            doc.line(20, 122, 190, 122);
+            doc.setFont("times", "bold");
+            doc.text(`Status Pelunasan : LUNAS / DIPOTONG LANGSUNG OLEH PERUSAHAAN`, 20, 134);
+
+            doc.save(`Form_1721_A1_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
+            showToast(`Formulir Pajak 1721-A1 ${emp.name} berhasil diunduh!`, 'success');
+        }
+
         function downloadAllSlipsPDF() {
             employees.forEach((emp, idx) => {
-                setTimeout(() => {
-                    downloadSpecificSlip(idx);
-                }, idx * 400);
+                setTimeout(() => { downloadSpecificSlip(idx); }, idx * 400);
             });
             showToast("Semua slip gaji berhasil di-download massal!", "success");
             logAudit("Download Massal Slip Gaji", "Berhasil unduh semua dokumen slip");
@@ -1554,6 +1625,8 @@
             renderAllEmployeesSlips();
             renderNotifications();
             document.getElementById('totalEmployeeCount').innerText = employees.length + ' Orang';
+            const leaveEl = document.getElementById('leaveBalanceCount');
+            if(leaveEl) leaveEl.innerText = (employees[0].leaveBalance || 12) + ' Hari';
         }
 
         function renderEssProfile() {
@@ -1606,13 +1679,19 @@
             const end = document.getElementById('attendanceEnd').value;
             const reason = document.getElementById('attendanceReason').value;
 
+            if (employees[0].leaveBalance > 0) {
+                employees[0].leaveBalance -= 1;
+            }
+
             leaveRequests.unshift({
                 id: Date.now(), name: employees[0].name, type, start, end, reason, status: 'Menunggu Approval CEO'
             });
 
+            localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
             localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
             renderWorkflow();
-            showToast('Pengajuan cuti berhasil dikirim!', 'success');
+            renderAll();
+            showToast('Pengajuan cuti berhasil dikirim & sisa kuota diperbarui!', 'success');
             logAudit("Pengajuan Cuti Online", `${type}`);
             addNotification(`Pengajuan cuti baru (${type}) dari ${employees[0].name}.`);
         }
