@@ -108,7 +108,7 @@
 
                 <!-- Menu Terkelompok Berdasarkan Section -->
                 <nav id="sidebarMenuContainer" class="mt-3 px-4 space-y-4 pb-6">
-                    <!-- Dimuat dinamis via JS dengan Section Header -->
+                    <!-- Dimuat dinamis via JS -->
                 </nav>
             </div>
 
@@ -195,7 +195,7 @@
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
                             <div>
                                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</p>
-                                <h3 class="text-2xl font-bold text-indigo-600 mt-1">Rp 4.500.000</h3>
+                                <h3 id="dashPlafonKlaim" class="text-2xl font-bold text-indigo-600 mt-1">Rp 4.500.000</h3>
                             </div>
                             <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-receipt"></i></div>
                         </div>
@@ -215,7 +215,7 @@
                                 <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
                                 <p class="text-xs text-slate-500">Grafik visual perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
                             </div>
-                            <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-semibold">Tahun 2026</span>
+                            <span id="chartCurrencyBadge" class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-semibold">IDR (Rupiah)</span>
                         </div>
                         <div class="h-72 relative">
                             <canvas id="payrollAnalyticsChart"></canvas>
@@ -373,7 +373,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-lg">Modul Klaim & Reimbursement Mandiri</h3>
-                                <p class="text-sm text-slate-500">Unggah kuitansi medis, perjalanan dinas, atau pulsa. Plafon Anda tersisa <b class="text-indigo-600">Rp 4.500.000</b>.</p>
+                                <p class="text-sm text-slate-500">Unggah kuitansi medis, perjalanan dinas, atau pulsa. Plafon Anda tersisa <b id="reimbursePlafonLabel" class="text-indigo-600">Rp 4.500.000</b>.</p>
                             </div>
                             <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
                                 <i class="fa-solid fa-plus mr-2"></i> Ajukan Klaim Baru
@@ -643,13 +643,13 @@
                     </div>
                 </div>
 
-                <!-- VIEW 13: SETTINGS (PENGATURAN PERUSAHAAN & SISTEM) -->
+                <!-- VIEW 13: SETTINGS (PENGATURAN PERUSAHAAN & MATA UANG) -->
                 <div id="view-settings" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6 text-xs">
                         <div class="border-b pb-4 flex justify-between items-center">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-base"><i class="fa-solid fa-gear text-indigo-600 mr-2"></i> Pengaturan Perusahaan & Sistem W.I.N.D</h3>
-                                <p class="text-slate-500">Kelola konfigurasi identitas perusahaan, standar parameter payroll, dan preferensi sistem.</p>
+                                <p class="text-slate-500">Kelola konfigurasi identitas perusahaan, mata uang global, dan parameter payroll.</p>
                             </div>
                             <button onclick="saveSystemSettings()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                                 <i class="fa-solid fa-floppy-disk mr-1.5"></i> Simpan Pengaturan
@@ -657,9 +657,9 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- IDENTITAS PERUSAHAAN -->
+                            <!-- IDENTITAS & MATA UANG -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4">
-                                <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wider"><i class="fa-solid fa-building text-indigo-600 mr-2"></i> Identitas Perusahaan</h4>
+                                <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wider"><i class="fa-solid fa-building text-indigo-600 mr-2"></i> Identitas & Mata Uang Utama</h4>
                                 <div>
                                     <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Resmi Perusahaan</label>
                                     <input type="text" id="settingCompName" value="W.I.N.D Enterprise Company" class="w-full border rounded-xl px-3 py-2 bg-white">
@@ -668,19 +668,16 @@
                                     <label class="block text-slate-500 mb-1 font-semibold uppercase">Alamat Kantor Pusat</label>
                                     <input type="text" id="settingCompAddress" value="Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan" class="w-full border rounded-xl px-3 py-2 bg-white">
                                 </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Zona Waktu Server</label>
-                                        <select id="settingTimezone" class="w-full border rounded-xl px-3 py-2 bg-white">
-                                            <option value="WIB">WIB (UTC+7)</option>
-                                            <option value="WITA">WITA (UTC+8)</option>
-                                            <option value="WIT">WIT (UTC+9)</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Mata Uang Utama</label>
-                                        <input type="text" disabled value="IDR (Rupiah)" class="w-full border rounded-xl px-3 py-2 bg-slate-100 text-slate-500 font-mono">
-                                    </div>
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Pilih Mata Uang Perusahaan (Currency)</label>
+                                    <select id="settingCurrency" class="w-full border rounded-xl px-3 py-2 bg-white font-bold text-indigo-600">
+                                        <option value="IDR">IDR - Rupiah Indonesia (Rp)</option>
+                                        <option value="USD">USD - US Dollar ($)</option>
+                                        <option value="EUR">EUR - Euro (€)</option>
+                                        <option value="GBP">GBP - British Pound Sterling (£)</option>
+                                        <option value="SGD">SGD - Dollar Singapura (S$)</option>
+                                    </select>
+                                    <span class="text-[10px] text-slate-400 mt-1 block">Konversi kurs otomatis diterapkan ke seluruh modul Gaji dan Slip.</span>
                                 </div>
                             </div>
 
@@ -769,7 +766,7 @@
                     <input type="text" id="reimDesc" required placeholder="Pembelian obat resep dokter..." class="w-full border rounded-xl px-3 py-2 bg-slate-50">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nominal (Rp)</label>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nominal</label>
                     <input type="number" id="reimAmount" required placeholder="500000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 font-mono">
                 </div>
                 <div>
@@ -819,12 +816,12 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Gaji Pokok (Rp)</label>
-                        <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Rp 10.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Gaji Pokok</label>
+                        <input type="text" id="newEmpBase" required oninput="formatCurrencyInput(this)" placeholder="10.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
                     </div>
                     <div>
-                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Tunjangan (Rp)</label>
-                        <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Rp 3.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Tunjangan</label>
+                        <input type="text" id="newEmpAllowance" required oninput="formatCurrencyInput(this)" placeholder="3.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
                     </div>
                 </div>
                 <div>
@@ -862,6 +859,7 @@
             { text: "Sistem HRIS berhasil diinisialisasi untuk periode Agustus 2026.", time: "Hari ini", unread: true }
         ];
 
+        let currentCurrency = localStorage.getItem('wind_currency') || 'IDR';
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
 
@@ -910,7 +908,6 @@
             checkLoginState();
         }
 
-        // SIDEBAR DENGAN MENU SETTING TAMBAHAN DI SECTION 3
         function renderSidebarByRole() {
             const isAdmin = loggedUserEmail === 'ceo@windcompany.com';
             const navContainer = document.getElementById('sidebarMenuContainer');
@@ -918,7 +915,6 @@
             let menuHTML = '';
             if (isAdmin) {
                 menuHTML = `
-                    <!-- SECTION 1: UTAMA & OPERASIONAL -->
                     <div>
                         <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Utama & Operasional</p>
                         <div class="space-y-1">
@@ -939,7 +935,6 @@
 
                     <hr class="border-slate-800 my-2">
 
-                    <!-- SECTION 2: MANAJEMEN & DIREKTORI -->
                     <div>
                         <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Manajemen & Direktori</p>
                         <div class="space-y-1">
@@ -960,7 +955,6 @@
 
                     <hr class="border-slate-800 my-2">
 
-                    <!-- SECTION 3: ADMINISTRASI & SISTEM -->
                     <div>
                         <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Administrasi & Sistem</p>
                         <div class="space-y-1">
@@ -1059,9 +1053,14 @@
 
         function saveSystemSettings() {
             const compName = document.getElementById('settingCompName').value;
-            showToast(`Pengaturan perusahaan "${compName}" berhasil disimpan!`, 'success');
-            logAudit("Update System Settings", "Konfigurasi perusahaan diperbarui");
-            addNotification("Konfigurasi sistem perusahaan diperbarui oleh Admin.");
+            const selectedCurr = document.getElementById('settingCurrency').value;
+            currentCurrency = selectedCurr;
+            localStorage.setItem('wind_currency', currentCurrency);
+
+            showToast(`Pengaturan perusahaan & mata uang (${currentCurrency}) berhasil disimpan!`, 'success');
+            logAudit("Update System Settings", `Mata uang diubah ke ${currentCurrency}`);
+            addNotification(`Pengaturan sistem diperbarui. Mata uang aktif: ${currentCurrency}`);
+            renderAll();
         }
 
         function resetSystemDataCache() {
@@ -1072,6 +1071,33 @@
             }
         }
 
+        // Fungsi Format Mata Uang Global (IDR, USD, EUR, GBP, SGD)
+        function formatCurrency(amountIDR) {
+            let converted = amountIDR;
+            let locale = 'id-ID';
+            let currStyle = { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 };
+
+            if (currentCurrency === 'USD') {
+                converted = amountIDR / 16000; // Asumsi kurs $1 = Rp 16.000
+                locale = 'en-US';
+                currStyle = { style: 'currency', currency: 'USD', minimumFractionDigits: 2 };
+            } else if (currentCurrency === 'EUR') {
+                converted = amountIDR / 17300; // Asumsi kurs 1 EUR = Rp 17.300
+                locale = 'de-DE';
+                currStyle = { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 };
+            } else if (currentCurrency === 'GBP') {
+                converted = amountIDR / 20500; // Asumsi kurs 1 GBP = Rp 20.500
+                locale = 'en-GB';
+                currStyle = { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 };
+            } else if (currentCurrency === 'SGD') {
+                converted = amountIDR / 12000; // Asumsi kurs 1 SGD = Rp 12.000
+                locale = 'en-SG';
+                currStyle = { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 };
+            }
+
+            return new Intl.NumberFormat(locale, currStyle).format(converted);
+        }
+
         function renderPayrollChart(totalCurrentMonth) {
             const ctx = document.getElementById('payrollAnalyticsChart');
             if(!ctx) return;
@@ -1080,15 +1106,22 @@
                 payrollChartInstance.destroy();
             }
 
-            const inMillions = totalCurrentMonth / 1000000;
+            let divisor = 1000000;
+            let labelSuffix = 'Juta IDR';
+            if (currentCurrency === 'USD') { divisor = 16000000; labelSuffix = 'Ribu USD'; }
+            else if (currentCurrency === 'EUR') { divisor = 17300000; labelSuffix = 'Ribu EUR'; }
+            else if (currentCurrency === 'GBP') { divisor = 20500000; labelSuffix = 'Ribu GBP'; }
+            else if (currentCurrency === 'SGD') { divisor = 12000000; labelSuffix = 'Ribu SGD'; }
+
+            const chartVal = (totalCurrentMonth / divisor);
 
             payrollChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Juni 2026', 'Juli 2026', 'Agustus 2026 (Aktif)', 'September 2026 (Est)', 'Oktober 2026 (Est)'],
                     datasets: [{
-                        label: 'Total Pengeluaran Payroll (Juta IDR)',
-                        data: [25.5, 27.8, Number(inMillions.toFixed(2)), Number((inMillions * 1.05).toFixed(2)), Number((inMillions * 1.08).toFixed(2))],
+                        label: `Total Payroll (${currentCurrency})`,
+                        data: [chartVal * 0.9, chartVal * 0.95, Number(chartVal.toFixed(2)), Number((chartVal * 1.05).toFixed(2)), Number((chartVal * 1.08).toFixed(2))],
                         borderColor: '#4f46e5',
                         backgroundColor: 'rgba(79, 70, 229, 0.1)',
                         borderWidth: 3,
@@ -1101,24 +1134,20 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: { 
-                            beginAtZero: false,
-                            grid: { color: 'rgba(226, 232, 240, 0.6)' }
-                        },
-                        x: {
-                            grid: { display: false }
-                        }
+                        y: { beginAtZero: false, grid: { color: 'rgba(226, 232, 240, 0.6)' } },
+                        x: { grid: { display: false } }
                     }
                 }
             });
+
+            const badge = document.getElementById('chartCurrencyBadge');
+            if(badge) badge.innerText = `${currentCurrency} (${labelSuffix})`;
         }
 
         function exportPayrollToExcel() {
-            let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok,Tunjangan,Take Home Pay\n";
+            let csvContent = `data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok (${currentCurrency}),Tunjangan (${currentCurrency}),Take Home Pay (${currentCurrency})\n`;
             employees.forEach(emp => {
                 const bruto = emp.base + emp.allowance;
                 const net = bruto - Math.round(bruto * 0.11);
@@ -1127,12 +1156,12 @@
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Laporan_Payroll_WIND_Agustus_2026.csv");
+            link.setAttribute("download", `Laporan_Payroll_WIND_${currentCurrency}_Agustus_2026.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             showToast("Laporan Payroll berhasil diexport ke Excel (CSV)!", "success");
-            logAudit("Export Payroll Excel", "Berhasil unduh laporan CSV");
+            logAudit("Export Payroll Excel", `Format ${currentCurrency}`);
         }
 
         function openAddEmployeeModal() {
@@ -1157,8 +1186,8 @@
             document.getElementById('newEmpRole').value = emp.role;
             document.getElementById('newEmpBank').value = emp.bank;
             document.getElementById('newEmpAcc').value = emp.accNum;
-            document.getElementById('newEmpBase').value = 'Rp ' + emp.base.toLocaleString('id-ID');
-            document.getElementById('newEmpAllowance').value = 'Rp ' + emp.allowance.toLocaleString('id-ID');
+            document.getElementById('newEmpBase').value = emp.base.toLocaleString('id-ID');
+            document.getElementById('newEmpAllowance').value = emp.allowance.toLocaleString('id-ID');
             document.getElementById('newEmpPtkp').value = emp.ptkp;
 
             document.getElementById('addEmployeeModal').classList.remove('hidden');
@@ -1187,13 +1216,8 @@
                 return;
             }
 
-            if (!email.includes("@")) {
-                showToast("Format alamat email perusahaan tidak valid!", "error");
-                return;
-            }
-
-            const base = parseRupiahNumber(baseStr);
-            const allowance = parseRupiahNumber(allowanceStr);
+            const base = parseCurrencyNumber(baseStr);
+            const allowance = parseCurrencyNumber(allowanceStr);
             const superior = "Muhammad Faari Akbar (Founder & CEO)";
             const ext = String(Math.floor(104 + Math.random() * 896));
 
@@ -1201,7 +1225,6 @@
                 employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext });
                 showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
                 logAudit("Tambah Karyawan Baru", `${name} (${role})`);
-                addNotification(`Karyawan baru terdaftar: ${name} (${role})`);
             } else {
                 employees[idx] = { ...employees[idx], name, email, role, bank, accNum, ptkp, base, allowance };
                 showToast(`Data karyawan ${name} berhasil diperbarui!`, 'success');
@@ -1227,93 +1250,13 @@
             logAudit("Update ESS Profile", `Karyawan: ${activeEmp.name}`);
         }
 
-        function formatRupiah(num) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'} text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center gap-3`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        function switchTab(tabId) {
-            ['dashboard', 'ess', 'attendance', 'reimburse', 'payroll-engine', 'directory', 'documents', 'assets', 'payroll', 'profiles', 'workflow', 'audit', 'settings'].forEach(id => {
-                const el = document.getElementById('view-' + id);
-                if(el) el.classList.add('hidden');
-                
-                const nav = document.getElementById('nav-' + id);
-                if(nav) nav.className = "w-full flex items-center gap-3 px-3.5 py-2.5 text-slate-400 hover:bg-slate-800/60 hover:text-white rounded-xl transition text-xs";
-            });
-
-            const active = document.getElementById('view-' + tabId);
-            if(active) active.classList.remove('hidden');
-            
-            const actNav = document.getElementById('nav-' + tabId);
-            if(actNav) actNav.className = "w-full flex items-center gap-3 px-3.5 py-2.5 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs";
-
-            const titles = {
-                'dashboard': 'Beranda & Ringkasan W.I.N.D Company',
-                'ess': 'Portal Mandiri Karyawan (ESS)',
-                'attendance': 'Absensi GPS & Pengajuan Cuti',
-                'reimburse': 'Modul Klaim & Reimbursement Mandiri',
-                'payroll-engine': 'Enterprise Payroll Run & PPh 21 Calculator',
-                'directory': 'Direktori Kontak Karyawan & Org Chart',
-                'documents': 'Pusat Dokumen & Company Handbook',
-                'assets': 'Inventaris Aset & Fasilitas Kantor',
-                'payroll': 'Gaji & Slip Penghasilan Karyawan',
-                'profiles': 'Direktori Profil Karyawan & Atasan',
-                'workflow': 'Persetujuan Bertingkat (Approval Workflow)',
-                'audit': 'Log Aktivitas Internal (Audit Trail)',
-                'settings': 'Pengaturan Sistem & Perusahaan'
-            };
-            document.getElementById('pageTitle').innerText = titles[tabId];
-        }
-
-        function renderDashEmployees() {
-            const body = document.getElementById('dashEmployeeTableBody');
-            if(!body) return;
-            body.innerHTML = '';
-            let totalPayrollSum = 0;
-
-            employees.forEach((emp, idx) => {
-                const bruto = emp.base + emp.allowance;
-                const deduction = Math.round(bruto * 0.11);
-                const net = bruto - deduction;
-                totalPayrollSum += net;
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition";
-                tr.innerHTML = `
-                    <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-3 px-4 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.base)}</td>
-                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.allowance)}</td>
-                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
-                    <td class="py-3 px-4 text-center space-x-1">
-                        <button onclick="editEmployee(${idx})" class="bg-sky-500 hover:bg-sky-600 text-white px-2.5 py-1.5 rounded-lg text-[11px] shadow-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-                        <button onclick="deleteEmployee(${idx})" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1.5 rounded-lg text-[11px] shadow-sm"><i class="fa-solid fa-trash"></i> Hapus</button>
-                    </td>
-                `;
-                body.appendChild(tr);
-            });
-
-            const totalPayrollEl = document.getElementById('dashTotalPayroll');
-            if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
-
-            renderPayrollChart(totalPayrollSum);
-        }
-
-        function formatRupiahInput(input) {
+        function formatCurrencyInput(input) {
             let value = input.value.replace(/[^\d]/g, '');
             if (value === '') { input.value = ''; return; }
-            input.value = 'Rp ' + parseInt(value, 10).toLocaleString('id-ID');
+            input.value = parseInt(value, 10).toLocaleString('id-ID');
         }
 
-        function parseRupiahNumber(strVal) {
+        function parseCurrencyNumber(strVal) {
             if (!strVal) return 0;
             return parseInt(String(strVal).replace(/[^\d]/g, ''), 10) || 0;
         }
@@ -1345,8 +1288,8 @@
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
                     <td class="py-3 px-4 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-3 px-4 font-mono">${formatRupiah(bruto)}</td>
-                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                    <td class="py-3 px-4 font-mono">${formatCurrency(bruto)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatCurrency(net)}</td>
                     <td class="py-3 px-4 text-center">
                         <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-[11px] shadow-sm font-semibold transition">
                             <i class="fa-solid fa-file-pdf mr-1"></i> Download Slip PDF
@@ -1369,7 +1312,7 @@
             doc.text("W.I.N.D ENTERPRISE COMPANY", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`SLIP GAJI RESMI: ${emp.name.toUpperCase()} - PERIODE AGUSTUS 2026`, 105, 24, { align: 'center' });
+            doc.text(`SLIP GAJI RESMI (${currentCurrency}): ${emp.name.toUpperCase()} - AGUSTUS 2026`, 105, 24, { align: 'center' });
             
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -1385,18 +1328,18 @@
             doc.setFont("times", "bold");
             doc.text("RINCIAN PENGHASILAN & POTONGAN:", 20, 80);
             doc.setFont("times", "normal");
-            doc.text(`1. Gaji Pokok                : ${formatRupiah(emp.base)}`, 20, 90);
-            doc.text(`2. Tunjangan Tetap           : ${formatRupiah(emp.allowance)}`, 20, 98);
-            doc.text(`3. Potongan (BPJS & PPh 21)  : -${formatRupiah(deduct)}`, 20, 106);
+            doc.text(`1. Gaji Pokok                : ${formatCurrency(emp.base)}`, 20, 90);
+            doc.text(`2. Tunjangan Tetap           : ${formatCurrency(emp.allowance)}`, 20, 98);
+            doc.text(`3. Potongan (BPJS & PPh 21)  : -${formatCurrency(deduct)}`, 20, 106);
             
             doc.setLineWidth(0.5);
             doc.line(20, 114, 190, 114);
             doc.setFont("times", "bold");
             doc.setFontSize(12);
-            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 126);
+            doc.text(`Gaji Bersih (Take Home Pay) : ${formatCurrency(net)}`, 20, 126);
 
-            doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
-            showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
+            doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_${currentCurrency}.pdf`);
+            showToast(`Slip gaji ${emp.name} berhasil di-download (${currentCurrency})!`, 'success');
         }
 
         function renderAll() {
@@ -1411,7 +1354,10 @@
             renderEmployeeProfiles();
             renderAllEmployeesSlips();
             renderNotifications();
+            
             document.getElementById('totalEmployeeCount').innerText = employees.length + ' Orang';
+            document.getElementById('settingCurrency').value = currentCurrency;
+            document.getElementById('reimbursePlafonLabel').innerText = formatCurrency(4500000);
         }
 
         function renderEssProfile() {
@@ -1485,7 +1431,7 @@
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-semibold">${item.type}</td>
                     <td class="py-3 px-4">${item.desc}</td>
-                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(item.amount)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatCurrency(item.amount)}</td>
                     <td class="py-3 px-4 font-mono text-xs text-slate-500"><i class="fa-solid fa-paperclip mr-1 text-slate-400"></i> ${item.file}</td>
                     <td class="py-3 px-4 text-center"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-[10px] rounded-full">${item.status}</span></td>
                 `;
@@ -1510,7 +1456,7 @@
             renderWorkflow();
             closeReimburseModal();
             showToast('Klaim berhasil diajukan!', 'success');
-            addNotification(`Klaim reimbursement baru (${type}) sebesar ${formatRupiah(amount)}.`);
+            addNotification(`Klaim reimbursement baru (${type}) sebesar ${formatCurrency(amount)}.`);
         }
 
         function renderPayrollEngine() {
@@ -1525,10 +1471,10 @@
                 tr.className = "hover:bg-slate-50";
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.base)}</td>
-                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.allowance)}</td>
-                    <td class="py-3 px-4 font-mono text-rose-600">-${formatRupiah(deduction)}</td>
-                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                    <td class="py-3 px-4 font-mono">${formatCurrency(emp.base)}</td>
+                    <td class="py-3 px-4 font-mono">${formatCurrency(emp.allowance)}</td>
+                    <td class="py-3 px-4 font-mono text-rose-600">-${formatCurrency(deduction)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatCurrency(net)}</td>
                     <td class="py-3 px-4 text-center"><span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold text-[10px] rounded-full">Siap Transfer</span></td>
                 `;
                 body.appendChild(tr);
