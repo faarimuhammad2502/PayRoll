@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>W.I.N.D Enterprise Mobile HRIS Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.I.N.D Enterprise Payroll & HRIS Pro Max</title>
     <link rel="icon" type="image/png" href="wind_logo.png">
     
     <!-- Tailwind CSS CDN -->
@@ -16,9 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.4); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.6); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.9); }
 
         .login-bg-texture {
             background-color: #030712;
@@ -28,92 +29,90 @@
                 radial-gradient(at 50% 50%, rgba(30, 41, 59, 0.5) 0px, transparent 70%);
         }
 
-        .mobile-container {
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-            position: relative;
-        }
-
-        @media (min-width: 768px) {
-            body { background-color: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-            .mobile-container {
-                width: 100%;
-                max-width: 440px;
-                height: 92vh;
-                max-height: 880px;
-                border-radius: 40px;
-                overflow: hidden;
-                border: 10px solid #1e293b;
-            }
+        @media print {
+            body * { visibility: hidden; }
+            #payslipModal, #payslipModal * { visibility: visible; }
+            #payslipModal { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
         }
     </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 text-sm transition-colors duration-300" id="mainBodyTheme">
+<body class="bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300" id="mainBodyTheme">
 
     <!-- TOAST NOTIFICATION CONTAINER -->
-    <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-11/12 max-w-sm space-y-2"></div>
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-3"></div>
 
     <!-- HALAMAN LOGIN -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-6">
-        <div class="bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl w-full max-w-sm p-8 shadow-2xl space-y-6 relative overflow-hidden text-white">
-            <div class="text-center space-y-3">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden border border-slate-700 bg-slate-800">
+        <div class="bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl max-w-lg w-full p-10 shadow-2xl space-y-8 relative overflow-hidden text-white">
+            <div class="text-center space-y-4 relative z-10">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-800">
                     <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
                 </div>
-                <h1 class="text-xl font-bold tracking-tight">W.I.N.D<span class="text-emerald-400">.</span> Mobile Pro</h1>
-                <p class="text-xs text-slate-400">Payroll & HRIS Enterprise Version</p>
+                <h1 class="text-2xl font-bold tracking-tight">W.I.N.D<span class="text-emerald-400">.</span> Enterprise</h1>
+                <p class="text-sm text-slate-400">Payroll & HRIS Pro Max - Silakan masuk ke akun Anda</p>
             </div>
 
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-5 text-sm relative z-10">
                 <div>
-                    <label class="block text-slate-300 mb-1.5 font-bold uppercase tracking-wider">Email Perusahaan</label>
-                    <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3.5 focus:outline-none focus:border-indigo-500 text-sm">
+                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs">Email Perusahaan</label>
+                    <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-indigo-500 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-300 mb-1.5 font-bold uppercase tracking-wider">Kata Sandi</label>
+                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs">Kata Sandi (Password)</label>
                     <div class="relative">
-                        <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3.5 pr-10 focus:outline-none focus:border-indigo-500 text-sm">
-                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 pr-12 focus:outline-none focus:border-indigo-500 text-base">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-lg">
                             <i id="togglePassIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg text-sm mt-2">
-                    Masuk Aplikasi <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition shadow-lg text-base">
+                    Masuk ke Sistem W.I.N.D <i class="fa-solid fa-arrow-right ml-2"></i>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- APLIKASI UTAMA (FRAME HP) -->
-    <div id="mainApp" class="mobile-container bg-slate-100 flex flex-col justify-between hidden overflow-hidden relative">
+    <!-- APLIKASI UTAMA -->
+    <div id="mainApp" class="flex h-screen overflow-hidden hidden">
         
-        <!-- HEADER MOBILE -->
-        <header class="bg-white shadow-sm h-16 flex items-center justify-between px-5 z-20 border-b border-slate-200 transition-colors duration-300 flex-shrink-0" id="headerThemeContainer">
-            <div class="flex items-center gap-3">
-                <button onclick="toggleSideDrawer()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <h2 id="pageTitle" class="text-base font-bold text-slate-900 truncate max-w-[180px]">Beranda</h2>
-            </div>
-            
-            <div class="flex items-center gap-2">
-                <button onclick="toggleDarkModeTheme()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-sm" id="darkModeBtnTheme">
-                    <i id="darkModeIcon" class="fa-solid fa-moon"></i>
-                </button>
-                <div class="relative">
-                    <button onclick="toggleNotificationDropdown()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-sm">
-                        <i class="fa-solid fa-bell"></i>
-                        <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
-                    </button>
+        <!-- SIDEBAR DESKTOP (Hanya tampil di Tablet/Laptop/PC, tersembunyi di HP) -->
+        <aside class="w-72 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between border-r border-slate-800 no-print flex-shrink-0">
+            <div class="overflow-y-auto flex-1">
+                <div class="flex items-center gap-3 px-6 py-6 border-b border-slate-800 sticky top-0 bg-slate-900 z-10">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-xl overflow-hidden shadow-md border border-slate-700 bg-slate-800 flex-shrink-0">
+                        <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+                            W.I.N.D<span class="text-emerald-400 font-black">.</span>
+                        </h1>
+                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Enterprise Payroll Pro</span>
+                    </div>
                 </div>
-            </div>
-        </header>
 
-        <!-- SIDE DRAWER MENU (SLIDE DARI KIRI) -->
-        <div id="sideDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
+                <nav id="sidebarMenuContainer" class="mt-4 px-4 space-y-4 pb-8">
+                    <!-- Dimuat dinamis -->
+                </nav>
+            </div>
+
+            <div class="p-5 border-t border-slate-800 space-y-4 bg-slate-950/60">
+                <div class="flex items-center gap-3">
+                    <div id="userAvatar" class="w-12 h-12 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-base shadow-inner">FA</div>
+                    <div class="overflow-hidden">
+                        <h4 id="userNameLabel" class="text-base font-bold text-white truncate">Muhammad Faari Akbar</h4>
+                        <span id="userRoleBadge" class="text-xs bg-indigo-600/30 text-indigo-300 font-bold px-2.5 py-1 rounded-full inline-block mt-1">Founder & CEO</span>
+                    </div>
+                </div>
+                <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 border border-rose-500/30">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
+                </button>
+            </div>
+        </aside>
+
+        <!-- MOBILE DRAWER MENU (Khusus untuk tampilan HP jika tombol menu diklik) -->
+        <div id="mobileDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden md:hidden">
             <div class="absolute left-0 top-0 bottom-0 w-80 bg-slate-900 text-slate-300 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
                 <div class="space-y-6">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-4">
@@ -123,478 +122,543 @@
                             </div>
                             <div>
                                 <h1 class="text-sm font-bold text-white">W.I.N.D Pro</h1>
-                                <span class="text-[10px] text-emerald-400 font-bold uppercase">Mobile HRIS</span>
+                                <span class="text-[10px] text-emerald-400 font-bold uppercase">Enterprise HRIS</span>
                             </div>
                         </div>
-                        <button onclick="toggleSideDrawer()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+                        <button onclick="toggleMobileDrawer()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
                     </div>
 
-                    <div id="sidebarMenuContainer" class="space-y-1.5 text-xs">
+                    <div id="mobileSidebarMenuContainer" class="space-y-1.5 text-xs">
                         <!-- Dimuat dinamis -->
                     </div>
                 </div>
-
-                <div class="pt-4 border-t border-slate-800 space-y-3">
-                    <div class="flex items-center gap-3">
-                        <div id="userAvatar" class="w-9 h-9 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-xs">FA</div>
-                        <div class="overflow-hidden">
-                            <h4 id="userNameLabel" class="text-xs font-bold text-white truncate">Muhammad Faari Akbar</h4>
-                            <span id="userRoleBadge" class="text-[10px] text-indigo-300 block">CEO</span>
-                        </div>
-                    </div>
-                    <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 border border-rose-500/30">
+                <div class="pt-4 border-t border-slate-800">
+                    <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2">
                         <i class="fa-solid fa-right-from-bracket"></i> Keluar
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- NOTIFIKASI MODAL / DROPDOWN KECIL -->
-        <div id="notifDropdown" class="absolute right-4 top-16 w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-40 p-4 space-y-3 text-xs">
-            <div class="flex justify-between items-center border-b pb-2 border-slate-200">
-                <h4 class="font-bold uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-1.5"></i> Notifikasi Sistem</h4>
-                <button onclick="clearNotifications()" class="text-indigo-600 font-bold">Tandai Dibaca</button>
-            </div>
-            <div id="notifListContainer" class="space-y-2 max-h-60 overflow-y-auto">
-                <p class="text-slate-400 text-center py-3">Tidak ada notifikasi baru.</p>
-            </div>
+        <!-- MAIN CONTENT CONTAINER -->
+        <div class="flex-1 flex flex-col overflow-y-auto relative pb-20 md:pb-0">
+            
+            <header class="bg-white shadow-sm h-20 flex items-center justify-between px-6 md:px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300 flex-shrink-0" id="headerThemeContainer">
+                <div class="flex items-center gap-3">
+                    <!-- Tombol Hamburger khusus HP -->
+                    <button onclick="toggleMobileDrawer()" class="md:hidden w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 id="pageTitle" class="text-lg md:text-2xl font-bold text-slate-900 transition-colors duration-300 truncate">Beranda</h2>
+                </div>
+                
+                <div class="flex items-center gap-2 md:gap-4 relative">
+                    <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-2xl border border-slate-200 text-sm">
+                        <i class="fa-solid fa-calendar-days text-indigo-600"></i>
+                        <span class="text-xs font-bold text-slate-500 uppercase">Periode:</span>
+                        <select id="globalPeriodSelector" onchange="changePayrollPeriod(this.value)" class="bg-transparent font-bold text-indigo-600 focus:outline-none cursor-pointer text-xs md:text-sm">
+                            <option value="Agustus 2026">Agustus 2026 (Aktif)</option>
+                            <option value="Juli 2026">Juli 2026 (Arsip)</option>
+                            <option value="Juni 2026">Juni 2026 (Arsip)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="toggleDarkModeTheme()" class="w-10 md:w-11 h-10 md:h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base" id="darkModeBtnTheme">
+                        <i id="darkModeIcon" class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <div class="relative">
+                        <button onclick="toggleNotificationDropdown()" class="w-10 md:w-11 h-10 md:h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg" id="notifBtnTheme">
+                            <i class="fa-solid fa-bell"></i>
+                            <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md hidden">0</span>
+                        </button>
+
+                        <div id="notifDropdown" class="absolute right-0 mt-3 w-80 md:w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-50 p-5 space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3 border-slate-200">
+                                <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi Sistem</h4>
+                                <button onclick="clearNotifications()" class="text-xs text-indigo-600 hover:underline font-bold">Tandai Dibaca</button>
+                            </div>
+                            <div id="notifListContainer" class="space-y-3 max-h-72 overflow-y-auto text-sm">
+                                <p class="text-slate-400 text-center py-4">Tidak ada notifikasi baru.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-4 md:p-8 space-y-8 flex-1">
+                
+                <!-- VIEW 1: DASHBOARD -->
+                <div id="view-dashboard" class="space-y-8">
+                    <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-6 md:p-8 rounded-3xl shadow-xl border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                        <div class="space-y-2">
+                            <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> Pengumuman Resmi CEO</span>
+                            <h3 class="font-bold text-lg md:text-xl text-white">Persiapan Akhir Bulan & Sinkronisasi Rekening Karyawan</h3>
+                            <p class="text-xs md:text-sm text-indigo-200">Seluruh karyawan dihimbau untuk memeriksa nomor rekening bank masing-masing melalui Portal ESS sebelum tanggal 28 Agustus 2026.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-xs md:text-sm whitespace-nowrap">
+                            <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> Periode Aktif: <b id="dashboardActivePeriodLabel">Agustus 2026</b>
+                        </div>
+                    </div>
+
+                    <!-- KARTU STATISTIK -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Karyawan</span>
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-users"></i></div>
+                            </div>
+                            <h3 id="totalEmployeeCount" class="text-2xl font-black text-slate-900 theme-text">1 Orang</h3>
+                        </div>
+
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</span>
+                                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
+                            </div>
+                            <h3 id="dashTotalPayroll" class="text-xl font-black text-emerald-500">Rp 29.3 Juta</h3>
+                        </div>
+
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</span>
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-receipt"></i></div>
+                            </div>
+                            <h3 class="text-xl font-black text-indigo-400">Rp 4.5 Juta</h3>
+                        </div>
+
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</span>
+                                <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-laptop"></i></div>
+                            </div>
+                            <h3 id="myAssetCount" class="text-2xl font-black text-amber-400">1 Unit</h3>
+                        </div>
+                    </div>
+
+                    <!-- ANALITIK KEUANGAN -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 lg:col-span-2 transition-colors duration-300">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 gap-2 border-slate-200">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base md:text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik & Proyeksi Anggaran</h3>
+                                    <p class="text-xs md:text-sm text-slate-500 theme-subtext">Grafik tren pengeluaran payroll aktual dan estimasi.</p>
+                                </div>
+                                <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-bold">2026</span>
+                            </div>
+                            <div class="h-64 md:h-72 relative"><canvas id="payrollAnalyticsChart"></canvas></div>
+                        </div>
+
+                        <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2 theme-text mb-2"><i class="fa-solid fa-pie-chart text-emerald-600"></i> Rasio Komponen Gaji</h3>
+                                <p class="text-xs text-slate-500 theme-subtext mb-4">Gaji Pokok vs Tunjangan Tetap.</p>
+                            </div>
+                            <div class="h-48 relative flex items-center justify-center"><canvas id="salaryRatioChart"></canvas></div>
+                            <div class="border-t pt-4 border-slate-200 text-xs space-y-2 font-mono">
+                                <div class="flex justify-between text-slate-500"><span>Gaji Pokok:</span> <b class="text-indigo-600" id="ratioBaseVal">Rp 45 Juta</b></div>
+                                <div class="flex justify-between text-slate-500"><span>Tunjangan:</span> <b class="text-emerald-600" id="ratioAllowanceVal">Rp 18 Juta</b></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABEL KARYAWAN -->
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-users-gear text-indigo-600"></i> Daftar Karyawan</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Kelola data karyawan dan ekspor laporan.</p>
+                            </div>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <button onclick="exportPayrollToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold px-4 py-3 rounded-2xl transition shadow-sm">
+                                    <i class="fa-solid fa-file-excel mr-2"></i> Export Excel
+                                </button>
+                                <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs md:text-sm font-bold px-4 py-3 rounded-2xl transition shadow-sm">
+                                    <i class="fa-solid fa-user-plus mr-2"></i> Tambah Karyawan
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
+                                        <th class="py-4 px-6">Nama & Jabatan</th>
+                                        <th class="py-4 px-6">Bank & Rekening</th>
+                                        <th class="py-4 px-6">Gaji Pokok</th>
+                                        <th class="py-4 px-6">Tunjangan</th>
+                                        <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay</th>
+                                        <th class="py-4 px-6 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700 divide-slate-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: ESS -->
+                <div id="view-ess" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-6 border-slate-200">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Employee Self-Service (ESS)</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Perbarui informasi pribadi dan rekening bank.</p>
+                            </div>
+                            <button onclick="saveMyEssProfile()" class="bg-indigo-600 text-white text-sm font-bold px-6 py-3 rounded-2xl shadow-sm">Simpan</button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-4">
+                                <h4 class="font-bold text-slate-800 text-base mb-2">Informasi Pribadi</h4>
+                                <div><label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Nama</label><input type="text" id="essName" class="w-full border rounded-xl px-4 py-3 bg-white"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Email</label><input type="email" id="essEmail" class="w-full border rounded-xl px-4 py-3 bg-white"></div>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-4">
+                                <h4 class="font-bold text-slate-800 text-base mb-2">Informasi Bank & Pajak</h4>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Bank</label>
+                                    <select id="essBankName" class="w-full border rounded-xl px-4 py-3 bg-white"><option value="BCA">BCA</option><option value="Mandiri">Mandiri</option></select>
+                                </div>
+                                <div><label class="block text-xs font-bold text-slate-500 mb-1 uppercase">No Rekening</label><input type="text" id="essAccountNum" class="w-full border rounded-xl px-4 py-3 bg-white font-mono"></div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Kategori PPh 21 TER</label>
+                                    <select id="essPtkp" class="w-full border rounded-xl px-4 py-3 bg-white font-bold text-indigo-600"><option value="TK/0">TK/0</option><option value="K/1">K/1</option></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ATTENDANCE (SHIFT & LEMBUR) -->
+                <div id="view-attendance" class="hidden space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-location-dot text-indigo-600 mr-2"></i> Absensi & Shift</h3>
+                                <select id="shiftSelector" onchange="changeEmployeeShift(this.value)" class="bg-indigo-50 text-indigo-700 font-bold px-3 py-1.5 rounded-xl text-xs border">
+                                    <option value="Shift Pagi (08:00 - 17:00)">Shift Pagi (08:00 - 17:00)</option>
+                                    <option value="Shift Siang (13:00 - 21:00)">Shift Siang (13:00 - 21:00)</option>
+                                    <option value="Shift Malam (21:00 - 05:00)">Shift Malam (21:00 - 05:00)</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border font-mono text-sm space-y-2">
+                                <div class="flex justify-between"><span>Status:</span> <b class="text-emerald-500">Dalam Radius (<100m)</b></div>
+                                <div class="flex justify-between"><span>Waktu:</span> <b id="liveClock">08:00:00 WIB</b></div>
+                            </div>
+                            <button onclick="performClockIn()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-sm"><i class="fa-solid fa-fingerprint mr-2"></i> Clock-In</button>
+                        </div>
+
+                        <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-business-time text-amber-500 mr-2"></i> Pengajuan Lembur</h3>
+                                <div><label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Jumlah Jam</label><input type="number" id="overtimeHours" value="2" min="1" max="10" class="w-full border rounded-xl px-4 py-3 bg-slate-50 font-mono"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Keterangan</label><input type="text" id="overtimeDesc" placeholder="Penyelesaian laporan..." class="w-full border rounded-xl px-4 py-3 bg-slate-50"></div>
+                            </div>
+                            <button onclick="submitOvertimeRequest()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-2xl shadow-sm">Ajukan Lembur</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: REIMBURSE & KASBON -->
+                <div id="view-reimburse" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Kasbon & Pinjaman</h3>
+                            <button onclick="openLoanModal()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Ajukan Kasbon</button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Keperluan</th><th class="p-4">Nominal</th><th class="p-4 text-center">Status</th></tr></thead>
+                                <tbody id="loanTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Reimbursement</h3>
+                            <button onclick="openReimburseModal()" class="bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Klaim Baru</button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Jenis</th><th class="p-4">Nominal</th><th class="p-4 text-center">Status</th></tr></thead>
+                                <tbody id="reimburseTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 5: PAYROLL ENGINE -->
+                <div id="view-payroll-engine" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Payroll Run & PPh 21 TER</h3>
+                            <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-3 py-2 rounded-xl text-xs border">
+                                <option value="IDR">IDR (Rp)</option><option value="USD">USD ($)</option><option value="SGD">SGD (S$)</option>
+                            </select>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Karyawan</th><th class="p-4">Bruto</th><th class="p-4">Take Home Pay</th><th class="p-4 text-center">Status</th></tr></thead>
+                                <tbody id="payrollEngineTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                        <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl shadow-sm">Eksekusi Payroll Run</button>
+                    </div>
+                </div>
+
+                <!-- VIEW 6: APPRAISAL -->
+                <div id="view-appraisal" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Penilaian Kinerja (KPI)</h3>
+                            <button onclick="openAppraisalModal()" class="bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Tambah Penilaian</button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Nama</th><th class="p-4">Skor</th><th class="p-4 text-center">Predikat</th></tr></thead>
+                                <tbody id="appraisalTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 7: DIGITAL VAULT -->
+                <div id="view-vault" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Brankas Dokumen Digital</h3>
+                            <button onclick="openVaultModal()" class="bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Unggah Dokumen</button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Jenis</th><th class="p-4 text-center">Aksi</th></tr></thead>
+                                <tbody id="vaultTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 8: DIREKTORI -->
+                <div id="view-directory" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg">Direktori Kontak & Org Chart</h3>
+                        <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama..." class="w-full border rounded-xl px-4 py-3 bg-slate-50 text-sm">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Nama</th><th class="p-4">Ekstensi</th></tr></thead>
+                                <tbody id="directoryTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 9: DOKUMEN & HANDBOOK -->
+                <div id="view-documents" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-900 text-lg">Pusat Dokumen & SOP W.I.N.D</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <button onclick="downloadVisiMisiPDF()" class="bg-indigo-600 text-white font-bold py-3 rounded-2xl text-xs">Visi & Misi (PDF)</button>
+                            <button onclick="downloadSOPKepegawaianPDF()" class="bg-emerald-700 text-white font-bold py-3 rounded-2xl text-xs">SOP Kepegawaian (PDF)</button>
+                            <button onclick="downloadSOPReimbursementPDF()" class="bg-slate-900 text-white font-bold py-3 rounded-2xl text-xs">SOP Klaim (PDF)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 10: ASET -->
+                <div id="view-assets" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Inventaris Aset</h3>
+                            <button onclick="openAssetModal()" class="bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Catat Aset</button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Aset</th><th class="p-4">Peminjam</th></tr></thead>
+                                <tbody id="assetTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 11: GAJI & SLIP -->
+                <div id="view-payroll" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg">Pusat Slip Gaji & Pajak 1721-A1</h3>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Karyawan</th><th class="p-4 text-center">Aksi</th></tr></thead>
+                                <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 12: PROFIL -->
+                <div id="view-profiles" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg">Direktori Profil Karyawan</h3>
+                        <div id="employeeProfilesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                    </div>
+                </div>
+
+                <!-- VIEW 13: WORKFLOW -->
+                <div id="view-workflow" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg">Approval Workflow</h3>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Pengajuan</th><th class="p-4 text-center">Aksi</th></tr></thead>
+                                <tbody id="workflowTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 14: AUDIT -->
+                <div id="view-audit" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg">Log Aktivitas Internal</h3>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="bg-slate-50 text-xs uppercase font-bold text-slate-600"><th class="p-4">Waktu & User</th><th class="p-4">Aktivitas</th></tr></thead>
+                                <tbody id="auditTableBody" class="divide-y text-slate-700"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 15: SETTINGS & BROADCAST -->
+                <div id="view-settings" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 text-sm">
+                        <h3 class="font-bold text-slate-900 text-lg">Pengaturan & Broadcast Divisi</h3>
+                        <div class="max-w-md space-y-4">
+                            <div><label class="block font-bold text-slate-500 mb-1 uppercase text-xs">Target Divisi</label><select id="broadcastTargetDiv" class="w-full border rounded-xl p-3 bg-slate-50"><option value="Semua">Semua Karyawan</option><option value="Finance">Finance</option></select></div>
+                            <div><label class="block font-bold text-slate-500 mb-1 uppercase text-xs">Pesan</label><textarea id="broadcastMsgText" class="w-full border rounded-xl p-3 bg-slate-50" rows="2">Mohon segera unggah laporan.</textarea></div>
+                            <button onclick="sendTargetedBroadcast()" class="bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl text-xs">Kirim Broadcast</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
         </div>
 
-        <!-- KONTEN UTAMA HALAMAN (SCROLLABLE) -->
-        <main class="flex-1 overflow-y-auto p-4 space-y-4 pb-20" id="mainContentScroll">
-            
-            <!-- VIEW 1: DASHBOARD -->
-            <div id="view-dashboard" class="space-y-4">
-                <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-5 rounded-2xl shadow-lg space-y-2">
-                    <span class="text-[10px] bg-emerald-500 text-white font-bold px-2.5 py-0.5 rounded-full uppercase"><i class="fa-solid fa-bullhorn mr-1"></i> Pengumuman CEO</span>
-                    <h3 class="font-bold text-sm">Persiapan Akhir Bulan & Rekening Karyawan</h3>
-                    <p class="text-xs text-indigo-200">Periksa nomor rekening Anda melalui Portal ESS sebelum 28 Agustus 2026.</p>
-                </div>
-
-                <!-- STATS GRID -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="theme-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Total Karyawan</span>
-                        <h3 id="totalEmployeeCount" class="text-lg font-black text-slate-900">1 Orang</h3>
-                    </div>
-                    <div class="theme-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Total Payroll</span>
-                        <h3 id="dashTotalPayroll" class="text-base font-black text-emerald-500">Rp 29.3 Juta</h3>
-                    </div>
-                    <div class="theme-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Plafon Klaim</span>
-                        <h3 class="text-base font-black text-indigo-400">Rp 4.5 Juta</h3>
-                    </div>
-                    <div class="theme-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Aset Dipinjam</span>
-                        <h3 id="myAssetCount" class="text-lg font-black text-amber-500">1 Unit</h3>
-                    </div>
-                </div>
-
-                <!-- ANALITIK KEUANGAN MOBILE -->
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5"><i class="fa-solid fa-chart-line text-indigo-600"></i> Proyeksi Anggaran & Rasio Gaji</h3>
-                    <div class="h-48 relative"><canvas id="payrollAnalyticsChart"></canvas></div>
-                    <div class="h-36 relative"><canvas id="salaryRatioChart"></canvas></div>
-                </div>
-
-                <!-- TABEL KARYAWAN MOBILE -->
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-users text-indigo-600 mr-1"></i> Daftar Karyawan</h3>
-                        <button onclick="openAddEmployeeModal()" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl"><i class="fa-solid fa-plus mr-1"></i> Tambah</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead>
-                                <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-[10px] theme-table-head">
-                                    <th class="py-3 px-3">Nama & Jabatan</th>
-                                    <th class="py-3 px-3">Take Home Pay</th>
-                                    <th class="py-3 px-3 text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700 divide-slate-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 2: ESS -->
-            <div id="view-ess" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm">Portal Mandiri (ESS) & Rekening</h3>
-                    <div class="space-y-3 text-xs">
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Nama Lengkap</label>
-                            <input type="text" id="essName" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Email</label>
-                            <input type="email" id="essEmail" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Bank</label>
-                            <select id="essBankName" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs">
-                                <option value="BCA">BCA</option><option value="Mandiri">Mandiri</option><option value="BRI">BRI</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">No. Rekening</label>
-                            <input type="text" id="essAccountNum" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs font-mono">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Kategori Pajak (PPh 21 TER)</label>
-                            <select id="essPtkp" class="theme-input w-full border rounded-xl px-3 py-2.5 bg-white text-xs font-bold text-indigo-600">
-                                <option value="TK/0">TK/0 (Kategori A)</option><option value="K/1">K/1 (Kategori B)</option><option value="K/3">K/3 (Kategori C)</option>
-                            </select>
-                        </div>
-                        <button onclick="saveMyEssProfile()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl transition text-xs shadow-sm">Simpan Perubahan</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 3: ATTENDANCE (SHIFT & LEMBUR) -->
-            <div id="view-attendance" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi GPS & Shift Kerja</h3>
-                    <div>
-                        <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Pilih Shift Kerja</label>
-                        <select id="shiftSelector" onchange="changeEmployeeShift(this.value)" class="w-full bg-indigo-50 text-indigo-700 font-bold px-3 py-2.5 rounded-xl text-xs border border-indigo-200">
-                            <option value="Shift Pagi (08:00 - 17:00)">Shift Pagi (08:00 - 17:00)</option>
-                            <option value="Shift Siang (13:00 - 21:00)">Shift Siang (13:00 - 21:00)</option>
-                            <option value="Shift Malam (21:00 - 05:00)">Shift Malam (21:00 - 05:00)</option>
-                        </select>
-                    </div>
-                    <div class="bg-slate-50 p-3.5 rounded-xl border text-[11px] font-mono space-y-1">
-                        <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-500">Dalam Radius (<100m)</b></div>
-                        <div class="flex justify-between"><span>Waktu Server:</span> <b id="liveClock">08:00:00 WIB</b></div>
-                    </div>
-                    <button onclick="performClockIn()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs shadow-sm"><i class="fa-solid fa-fingerprint mr-1.5"></i> Lakukan Clock-In</button>
-                </div>
-
-                <!-- LEMBUR / OVERTIME -->
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i class="fa-solid fa-business-time text-amber-500"></i> Pengajuan Lembur</h3>
-                    <div class="space-y-3 text-xs">
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Jumlah Jam Lembur</label>
-                            <input type="number" id="overtimeHours" value="2" min="1" max="10" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-mono text-xs">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Keterangan Tugas</label>
-                            <input type="text" id="overtimeDesc" placeholder="Penyelesaian laporan..." class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 text-xs">
-                        </div>
-                        <button onclick="submitOvertimeRequest()" class="w-full bg-amber-600 text-white font-bold py-3 rounded-xl text-xs shadow-sm">Ajukan Upah Lembur</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 4: REIMBURSE & KASBON -->
-            <div id="view-reimburse" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-1"></i> Kasbon & Pinjaman</h3>
-                        <button onclick="openLoanModal()" class="bg-emerald-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl">Ajukan</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Keperluan</th><th class="p-2.5">Nominal</th><th class="p-2.5 text-center">Aksi</th></tr></thead>
-                            <tbody id="loanTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs">Klaim Reimbursement</h3>
-                        <button onclick="openReimburseModal()" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl">Klaim Baru</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Jenis</th><th class="p-2.5">Nominal</th><th class="p-2.5 text-center">Status</th></tr></thead>
-                            <tbody id="reimburseTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 5: PAYROLL ENGINE -->
-            <div id="view-payroll-engine" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs"><i class="fa-solid fa-calculator text-amber-500 mr-1"></i> Payroll Run & PPh 21 TER</h3>
-                        <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-2 py-1.5 rounded-lg text-[10px]">
-                            <option value="IDR">IDR</option><option value="USD">USD</option><option value="SGD">SGD</option>
-                        </select>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Karyawan</th><th class="p-2.5">Bruto</th><th class="p-2.5">Net (THP)</th></tr></thead>
-                            <tbody id="payrollEngineTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                    <button onclick="runBulkPayrollDisbursement()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs shadow-sm">Eksekusi Payroll Run</button>
-                </div>
-            </div>
-
-            <!-- VIEW 6: APPRAISAL -->
-            <div id="view-appraisal" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs">Penilaian Kinerja (KPI)</h3>
-                        <button onclick="openAppraisalModal()" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl">Tambah</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Nama</th><th class="p-2.5">Skor</th><th class="p-2.5">Predikat</th></tr></thead>
-                            <tbody id="appraisalTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 7: DIGITAL VAULT -->
-            <div id="view-vault" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs">Brankas Dokumen Digital</h3>
-                        <button onclick="openVaultModal()" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl">Unggah</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Jenis</th><th class="p-2.5 text-center">Unduh</th></tr></thead>
-                            <tbody id="vaultTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 8: DIREKTORI -->
-            <div id="view-directory" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs">Direktori Kontak & Org Chart</h3>
-                    <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama..." class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 text-xs">
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Nama</th><th class="p-2.5">Ext</th></tr></thead>
-                            <tbody id="directoryTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 9: DOKUMEN & HANDBOOK -->
-            <div id="view-documents" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3">
-                    <h3 class="font-bold text-slate-900 text-xs">Pusat Dokumen & SOP W.I.N.D</h3>
-                    <button onclick="downloadVisiMisiPDF()" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs">Download Visi & Misi (PDF)</button>
-                    <button onclick="downloadSOPKepegawaianPDF()" class="w-full bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs">Download SOP Kepegawaian (PDF)</button>
-                    <button onclick="downloadSOPReimbursementPDF()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">Download SOP Klaim (PDF)</button>
-                </div>
-            </div>
-
-            <!-- VIEW 10: ASET -->
-            <div id="view-assets" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-900 text-xs">Inventaris Aset</h3>
-                        <button onclick="openAssetModal()" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-2 rounded-xl">Catat</button>
-                    </div>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Aset</th><th class="p-2.5">Peminjam</th></tr></thead>
-                            <tbody id="assetTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 11: GAJI & SLIP -->
-            <div id="view-payroll" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs">Pusat Slip Gaji & Pajak 1721-A1</h3>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Karyawan</th><th class="p-2.5 text-center">Aksi Dokumen</th></tr></thead>
-                            <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 12: PROFIL -->
-            <div id="view-profiles" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs">Direktori Profil Karyawan</h3>
-                    <div id="employeeProfilesContainer" class="space-y-3"></div>
-                </div>
-            </div>
-
-            <!-- VIEW 13: WORKFLOW -->
-            <div id="view-workflow" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs">Approval Workflow Bertingkat</h3>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Pengajuan</th><th class="p-2.5 text-center">Aksi</th></tr></thead>
-                            <tbody id="workflowTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 14: AUDIT -->
-            <div id="view-audit" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <h3 class="font-bold text-slate-900 text-xs">Log Aktivitas Internal</h3>
-                    <div class="overflow-x-auto border rounded-xl border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead><tr class="bg-slate-50 text-[10px] uppercase font-bold text-slate-600"><th class="p-2.5">Waktu & User</th><th class="p-2.5">Aktivitas</th></tr></thead>
-                            <tbody id="auditTableBody" class="divide-y text-slate-700"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 15: SETTINGS & BROADCAST -->
-            <div id="view-settings" class="hidden space-y-4">
-                <div class="theme-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
-                    <h3 class="font-bold text-slate-900 text-sm">Pengaturan & Broadcast Divisi</h3>
-                    <div>
-                        <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Target Divisi Broadcast</label>
-                        <select id="broadcastTargetDiv" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 text-xs font-semibold">
-                            <option value="Semua Karyawan">Seluruh Karyawan</option>
-                            <option value="Finance & Accounting">Divisi Finance</option>
-                            <option value="HR & Management">Divisi HR</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-500 mb-1 uppercase text-[10px]">Pesan Broadcast</label>
-                        <textarea id="broadcastMsgText" class="w-full border rounded-xl p-3 bg-slate-50 text-xs" rows="2">Mohon segera unggah laporan bulanan.</textarea>
-                    </div>
-                    <button onclick="sendTargetedBroadcast()" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-sm">Kirim Broadcast</button>
-                </div>
-            </div>
-
-        </main>
-
-        <!-- BOTTOM NAVIGATION BAR MOBILE -->
-        <nav class="bg-white border-t border-slate-200 h-16 flex items-center justify-around px-2 z-30 flex-shrink-0 transition-colors duration-300" id="bottomNavTheme">
-            <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center text-indigo-600 font-bold space-y-1">
+        <!-- BOTTOM NAVIGATION BAR (Hanya tampil di HP untuk kemudahan akses jempol) -->
+        <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 h-16 flex items-center justify-around px-2 z-30 transition-colors duration-300 shadow-lg" id="bottomNavTheme">
+            <button onclick="switchTab('dashboard')" class="flex flex-col items-center text-indigo-600 font-bold space-y-1">
                 <i class="fa-solid fa-chart-pie text-base"></i><span class="text-[10px]">Beranda</span>
             </button>
-            <button onclick="switchTab('attendance')" id="nav-btn-attendance" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
+            <button onclick="switchTab('attendance')" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
                 <i class="fa-solid fa-location-dot text-base"></i><span class="text-[10px]">Absensi</span>
             </button>
-            <button onclick="switchTab('reimburse')" id="nav-btn-reimburse" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
+            <button onclick="switchTab('reimburse')" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
                 <i class="fa-solid fa-receipt text-base"></i><span class="text-[10px]">Klaim</span>
             </button>
-            <button onclick="switchTab('payroll-engine')" id="nav-btn-payroll-engine" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
+            <button onclick="switchTab('payroll-engine')" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
                 <i class="fa-solid fa-calculator text-base"></i><span class="text-[10px]">Payroll</span>
             </button>
-            <button onclick="switchTab('ess')" id="nav-btn-ess" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
+            <button onclick="switchTab('ess')" class="flex flex-col items-center text-slate-400 font-medium space-y-1">
                 <i class="fa-solid fa-user-shield text-base"></i><span class="text-[10px]">ESS</span>
             </button>
         </nav>
     </div>
 
-    <!-- MODAL-MODAL KECIL MOBILE -->
+    <!-- MODAL-MODAL -->
     <div id="loanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl">
-            <h3 class="font-bold text-sm border-b pb-3">Ajukan Kasbon</h3>
-            <form onsubmit="handleLoanSubmit(event)" class="space-y-3">
-                <input type="text" id="loanEmpName" required value="Muhammad Faari Akbar" class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="text" id="loanReason" required placeholder="Keperluan pinjaman..." class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="number" id="loanAmount" required placeholder="Total Pinjaman (Rp)" class="w-full border rounded-xl p-3 bg-slate-50 font-mono">
-                <input type="number" id="loanInstallment" required placeholder="Cicilan per Bulan (Rp)" class="w-full border rounded-xl p-3 bg-slate-50 font-mono">
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeLoanModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold">Kirim</button>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-base border-b pb-3">Ajukan Kasbon</h3>
+            <form onsubmit="handleLoanSubmit(event)" class="space-y-4">
+                <input type="text" id="loanEmpName" required value="Muhammad Faari Akbar" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="text" id="loanReason" required placeholder="Keperluan..." class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="number" id="loanAmount" required placeholder="Total Pinjaman" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <input type="number" id="loanInstallment" required placeholder="Cicilan per Bulan" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeLoanModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">Kirim</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="reimburseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl">
-            <h3 class="font-bold text-sm border-b pb-3">Klaim Reimbursement</h3>
-            <form onsubmit="handleReimburseSubmit(event)" class="space-y-3">
-                <select id="reimType" class="w-full border rounded-xl p-3 bg-slate-50"><option value="Medis">Klaim Medis</option><option value="Transport">Transport Dinas</option></select>
-                <input type="text" id="reimDesc" required placeholder="Keterangan..." class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="number" id="reimAmount" required placeholder="Nominal (Rp)" class="w-full border rounded-xl p-3 bg-slate-50 font-mono">
-                <input type="file" id="reimFile" required class="w-full border rounded-xl p-2 bg-slate-50 text-[10px]">
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeReimburseModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold">Kirim</button>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-base border-b pb-3">Klaim Reimbursement</h3>
+            <form onsubmit="handleReimburseSubmit(event)" class="space-y-4">
+                <select id="reimType" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm"><option value="Medis">Medis</option><option value="Transport">Transport</option></select>
+                <input type="text" id="reimDesc" required placeholder="Keterangan" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="number" id="reimAmount" required placeholder="Nominal" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <input type="file" id="reimFile" required class="w-full border rounded-2xl p-3 bg-slate-50 text-xs">
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeReimburseModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Kirim</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="appraisalModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl">
-            <h3 class="font-bold text-sm border-b pb-3">Tambah Penilaian KPI</h3>
-            <form onsubmit="handleAppraisalSubmit(event)" class="space-y-3">
-                <input type="text" id="appEmpName" required placeholder="Nama Karyawan" class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="text" id="appPeriod" required value="Agustus 2026" class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="number" id="appScore" required min="0" max="100" placeholder="Skor (0-100)" class="w-full border rounded-xl p-3 bg-slate-50 font-mono">
-                <input type="text" id="appFeedback" required placeholder="Umpan balik..." class="w-full border rounded-xl p-3 bg-slate-50">
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeAppraisalModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold">Simpan</button>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-base border-b pb-3">Tambah Penilaian KPI</h3>
+            <form onsubmit="handleAppraisalSubmit(event)" class="space-y-4">
+                <input type="text" id="appEmpName" required placeholder="Nama Karyawan" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="text" id="appPeriod" required value="Agustus 2026" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="number" id="appScore" required min="0" max="100" placeholder="Skor (0-100)" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <input type="text" id="appFeedback" required placeholder="Feedback" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeAppraisalModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="vaultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl">
-            <h3 class="font-bold text-sm border-b pb-3">Unggah Dokumen Vault</h3>
-            <form onsubmit="handleVaultSubmit(event)" class="space-y-3">
-                <input type="text" id="vaultEmpName" required placeholder="Nama Karyawan" class="w-full border rounded-xl p-3 bg-slate-50">
-                <select id="vaultDocType" class="w-full border rounded-xl p-3 bg-slate-50"><option value="KTP & KK">KTP & KK</option><option value="Kontrak">Kontrak Kerja</option></select>
-                <input type="file" id="vaultFile" required class="w-full border rounded-xl p-2 bg-slate-50 text-[10px]">
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeVaultModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold">Unggah</button>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-base border-b pb-3">Unggah Dokumen Vault</h3>
+            <form onsubmit="handleVaultSubmit(event)" class="space-y-4">
+                <input type="text" id="vaultEmpName" required placeholder="Nama Karyawan" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <select id="vaultDocType" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm"><option value="KTP & KK">KTP & KK</option><option value="Kontrak">Kontrak</option></select>
+                <input type="file" id="vaultFile" required class="w-full border rounded-2xl p-3 bg-slate-50 text-xs">
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeVaultModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Unggah</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="assetModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl">
-            <h3 class="font-bold text-sm border-b pb-3">Catat Aset</h3>
-            <form onsubmit="handleAssetSubmit(event)" class="space-y-3">
-                <input type="text" id="assetNameInput" required placeholder="Nama Aset" class="w-full border rounded-xl p-3 bg-slate-50">
-                <input type="text" id="assetSerialInput" required placeholder="Nomor Seri" class="w-full border rounded-xl p-3 bg-slate-50 font-mono">
-                <input type="text" id="assetOwnerInput" required placeholder="Nama Peminjam" class="w-full border rounded-xl p-3 bg-slate-50">
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeAssetModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold">Simpan</button>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-base border-b pb-3">Catat Aset</h3>
+            <form onsubmit="handleAssetSubmit(event)" class="space-y-4">
+                <input type="text" id="assetNameInput" required placeholder="Nama Aset" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="text" id="assetSerialInput" required placeholder="Nomor Seri" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <input type="text" id="assetOwnerInput" required placeholder="Peminjam" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeAssetModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="addEmployeeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="theme-modal bg-white rounded-3xl w-full max-w-sm p-6 space-y-3 text-xs shadow-2xl">
-            <h3 id="modalTitleText" class="font-bold text-sm border-b pb-3">Tambah Karyawan</h3>
-            <form onsubmit="handleSaveEmployee(event)" class="space-y-2.5">
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 space-y-4 shadow-2xl">
+            <h3 id="modalTitleText" class="font-bold text-base border-b pb-3">Tambah Karyawan</h3>
+            <form onsubmit="handleSaveEmployee(event)" class="space-y-4">
                 <input type="hidden" id="editEmployeeIdx" value="-1">
-                <input type="text" id="newEmpName" required placeholder="Nama Lengkap" class="w-full border rounded-xl p-2.5 bg-slate-50">
-                <input type="email" id="newEmpEmail" required placeholder="Email" class="w-full border rounded-xl p-2.5 bg-slate-50">
-                <input type="text" id="newEmpRole" required placeholder="Jabatan" class="w-full border rounded-xl p-2.5 bg-slate-50">
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="newEmpBank" class="w-full border rounded-xl p-2.5 bg-slate-50"><option value="BCA">BCA</option><option value="Mandiri">Mandiri</option></select>
-                    <input type="text" id="newEmpAcc" required placeholder="No Rek" class="w-full border rounded-xl p-2.5 bg-slate-50 font-mono">
+                <input type="text" id="newEmpName" required placeholder="Nama Lengkap" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="email" id="newEmpEmail" required placeholder="Email" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <input type="text" id="newEmpRole" required placeholder="Jabatan" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm">
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="newEmpBank" class="w-full border rounded-2xl p-4 bg-slate-50 text-sm"><option value="BCA">BCA</option><option value="Mandiri">Mandiri</option></select>
+                    <input type="text" id="newEmpAcc" required placeholder="No Rek" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
                 </div>
-                <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Gaji Pokok" class="w-full border rounded-xl p-2.5 bg-slate-50 font-mono">
-                <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Tunjangan" class="w-full border rounded-xl p-2.5 bg-slate-50 font-mono">
-                <select id="newEmpPtkp" class="w-full border rounded-xl p-2.5 bg-slate-50 font-bold text-indigo-600"><option value="TK/0">TK/0 (Kategori A)</option><option value="K/1">K/1 (Kategori B)</option></select>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeAddEmployeeModal()" class="bg-slate-200 px-4 py-2.5 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold">Simpan</button>
+                <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Gaji Pokok" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Tunjangan" class="w-full border rounded-2xl p-4 bg-slate-50 font-mono text-sm">
+                <select id="newEmpPtkp" class="w-full border rounded-2xl p-4 bg-slate-50 font-bold text-indigo-600 text-sm"><option value="TK/0">TK/0</option><option value="K/1">K/1</option></select>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeAddEmployeeModal()" class="bg-slate-200 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan</button>
                 </div>
             </form>
         </div>
@@ -612,25 +676,25 @@
         ];
 
         let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [
-            { id: 1, name: "Muhammad Faari Akbar", type: "Cuti Tahunan", start: "01/09/2026", end: "03/09/2026", reason: "Keluarga", status: "Menunggu Approval" }
+            { id: 1, name: "Muhammad Faari Akbar", type: "Cuti Tahunan", start: "01/09/2026", end: "03/09/2026", reason: "Keluarga", status: "Menunggu" }
         ];
         let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
-            { id: 1, name: "Muhammad Faari Akbar", type: "Klaim Medis", desc: "Obat dokter", amount: 500000, file: "Kuitansi.pdf", status: "Menunggu" }
+            { id: 1, name: "Muhammad Faari Akbar", type: "Medis", desc: "Obat", amount: 500000, file: "Kuitansi.pdf", status: "Menunggu" }
         ];
         let loanList = JSON.parse(localStorage.getItem('wind_enterprise_loans')) || [
-            { id: 1, name: "Muhammad Faari Akbar", reason: "Renovasi rumah", amount: 3000000, installment: 1000000, status: "Aktif" }
+            { id: 1, name: "Muhammad Faari Akbar", reason: "Renovasi", amount: 3000000, installment: 1000000, status: "Aktif" }
         ];
         let appraisals = JSON.parse(localStorage.getItem('wind_enterprise_appraisals')) || [
-            { name: "Muhammad Faari Akbar", period: "Agustus 2026", score: 98, feedback: "Kepemimpinan sangat baik.", grade: "A (Unggul)" }
+            { name: "Muhammad Faari Akbar", period: "Agustus 2026", score: 98, feedback: "Sangat baik", grade: "A" }
         ];
         let vaultDocs = JSON.parse(localStorage.getItem('wind_enterprise_vault')) || [
-            { name: "Muhammad Faari Akbar", type: "Kontrak Kerja", fileName: "Kontrak_CEO.pdf", date: "2026-01-01" }
+            { name: "Muhammad Faari Akbar", type: "Kontrak", fileName: "Kontrak.pdf", date: "2026-01-01" }
         ];
         let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
-            { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi Sistem", detail: "Berhasil" }
+            { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi", detail: "Berhasil" }
         ];
         let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [
-            { text: "Versi Mobile Pro berhasil dimuat.", time: "Baru saja", unread: true }
+            { text: "Sistem Responsif Penuh berhasil dimuat.", time: "Baru saja", unread: true }
         ];
 
         let currentActivePeriod = "Agustus 2026";
@@ -640,49 +704,9 @@
         let salaryRatioChartInstance = null;
         let isDarkMode = false;
 
-        function toggleSideDrawer() {
-            const drawer = document.getElementById('sideDrawer');
+        function toggleMobileDrawer() {
+            const drawer = document.getElementById('mobileDrawer');
             drawer.classList.toggle('hidden');
-        }
-
-        function toggleDarkModeTheme() {
-            isDarkMode = !isDarkMode;
-            const body = document.getElementById('mainBodyTheme');
-            const icon = document.getElementById('darkModeIcon');
-            const header = document.getElementById('headerThemeContainer');
-            const bottomNav = document.getElementById('bottomNavTheme');
-            const darkModeBtn = document.getElementById('darkModeBtnTheme');
-
-            const cards = document.querySelectorAll('.theme-card');
-            const modals = document.querySelectorAll('.theme-modal');
-            const inputs = document.querySelectorAll('.theme-input');
-            const tableHeads = document.querySelectorAll('.theme-table-head');
-
-            if(isDarkMode) {
-                body.className = "bg-slate-950 font-sans text-slate-100 text-sm transition-colors duration-300";
-                header.className = "bg-slate-900 shadow-sm h-16 flex items-center justify-between px-5 z-20 border-b border-slate-800 transition-colors duration-300 flex-shrink-0";
-                bottomNav.className = "bg-slate-900 border-t border-slate-800 h-16 flex items-center justify-around px-2 z-30 flex-shrink-0 transition-colors duration-300";
-                darkModeBtn.className = "w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 flex items-center justify-center transition text-sm";
-                icon.className = "fa-solid fa-sun";
-
-                cards.forEach(c => c.className = "theme-card bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-800 space-y-3 text-slate-100");
-                modals.forEach(m => c.className = "theme-modal bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-sm p-6 space-y-4 text-xs shadow-2xl text-slate-100");
-                inputs.forEach(inp => inp.className = "theme-input w-full border rounded-xl px-3 py-2.5 bg-slate-900 border-slate-700 text-white text-xs");
-                tableHeads.forEach(th => th.className = "theme-table-head bg-slate-950 text-slate-300 uppercase border-b border-slate-800 font-bold text-[10px]");
-                showToast("Mode Gelap Aktif", "success");
-            } else {
-                body.className = "bg-slate-100 font-sans text-slate-800 text-sm transition-colors duration-300";
-                header.className = "bg-white shadow-sm h-16 flex items-center justify-between px-5 z-20 border-b border-slate-200 transition-colors duration-300 flex-shrink-0";
-                bottomNav.className = "bg-white border-t border-slate-200 h-16 flex items-center justify-around px-2 z-30 flex-shrink-0 transition-colors duration-300";
-                darkModeBtn.className = "w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-sm";
-                icon.className = "fa-solid fa-moon";
-
-                cards.forEach(c => c.className = "theme-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3 text-slate-800");
-                inputs.forEach(inp => inp.className = "theme-input w-full border rounded-xl px-3 py-2.5 bg-slate-50 border-slate-300 text-slate-900 text-xs");
-                tableHeads.forEach(th => th.className = "theme-table-head bg-slate-50 text-slate-600 uppercase border-b border-slate-200 font-bold text-[10px]");
-                showToast("Mode Terang Aktif", "success");
-            }
-            renderAll();
         }
 
         function checkLoginState() {
@@ -693,7 +717,8 @@
             if (isLoggedIn === 'true') {
                 loginPage.classList.add('hidden');
                 mainApp.classList.remove('hidden');
-                renderSidebarByRole();
+                renderDesktopSidebar();
+                renderMobileSidebar();
                 renderAll();
             } else {
                 loginPage.classList.remove('hidden');
@@ -707,7 +732,7 @@
             localStorage.setItem('wind_is_logged_in', 'true');
             localStorage.setItem('wind_logged_email', email);
             loggedUserEmail = email;
-            showToast("Berhasil Masuk ke Mobile Pro!", "success");
+            showToast("Berhasil Masuk!", "success");
             checkLoginState();
         }
 
@@ -723,37 +748,48 @@
             pass.type = pass.type === 'password' ? 'text' : 'password';
         }
 
-        function renderSidebarByRole() {
+        function renderDesktopSidebar() {
             const nav = document.getElementById('sidebarMenuContainer');
-            nav.innerHTML = `
-                <button onclick="switchTab('dashboard'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-chart-pie text-indigo-400"></i> Beranda</button>
-                <button onclick="switchTab('attendance'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-location-dot text-emerald-400"></i> Absensi & Shift</button>
-                <button onclick="switchTab('reimburse'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-receipt text-sky-400"></i> Kasbon & Klaim</button>
-                <button onclick="switchTab('payroll-engine'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-calculator text-amber-400"></i> Payroll & PPh 21</button>
-                <button onclick="switchTab('appraisal'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-star text-amber-400"></i> Penilaian KPI</button>
-                <button onclick="switchTab('vault'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-folder-closed text-indigo-400"></i> Brankas Vault</button>
-                <button onclick="switchTab('directory'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-sitemap text-sky-400"></i> Direktori Kontak</button>
-                <button onclick="switchTab('documents'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-book-bookmark text-amber-400"></i> Dokumen & SOP</button>
-                <button onclick="switchTab('assets'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-laptop text-indigo-400"></i> Aset Kantor</button>
-                <button onclick="switchTab('payroll'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-money-check-dollar text-emerald-400"></i> Slip Gaji</button>
-                <button onclick="switchTab('ess'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-user-shield text-emerald-400"></i> Portal ESS</button>
-                <button onclick="switchTab('profiles'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-id-card-clip text-sky-400"></i> Profil Tim</button>
-                <button onclick="switchTab('workflow'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-list-check text-rose-400"></i> Workflow Approval</button>
-                <button onclick="switchTab('audit'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-clock-rotate-left text-slate-400"></i> Log Aktivitas</button>
-                <button onclick="switchTab('settings'); toggleSideDrawer();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800 font-semibold flex items-center gap-2.5"><i class="fa-solid fa-gear text-indigo-400"></i> Pengaturan & Broadcast</button>
+            nav.innerHTML = getMenuHTML();
+        }
+
+        function renderMobileSidebar() {
+            const nav = document.getElementById('mobileSidebarMenuContainer');
+            nav.innerHTML = getMenuHTML(true);
+        }
+
+        function getMenuHTML(isMobile = false) {
+            const clickAction = isMobile ? "toggleMobileDrawer()" : "";
+            return `
+                <div class="space-y-1.5 text-sm">
+                    <button onclick="switchTab('dashboard'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-white"><i class="fa-solid fa-chart-pie w-5 text-indigo-400"></i> Beranda</button>
+                    <button onclick="switchTab('attendance'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-location-dot w-5 text-emerald-400"></i> Absensi & Shift</button>
+                    <button onclick="switchTab('reimburse'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-receipt w-5 text-sky-400"></i> Kasbon & Klaim</button>
+                    <button onclick="switchTab('payroll-engine'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-calculator w-5 text-amber-400"></i> Payroll & PPh 21</button>
+                    <button onclick="switchTab('appraisal'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-star w-5 text-amber-400"></i> Penilaian KPI</button>
+                    <button onclick="switchTab('vault'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-folder-closed w-5 text-indigo-400"></i> Brankas Vault</button>
+                    <button onclick="switchTab('directory'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-sitemap w-5 text-sky-400"></i> Direktori</button>
+                    <button onclick="switchTab('documents'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-book-bookmark w-5 text-amber-400"></i> Dokumen & SOP</button>
+                    <button onclick="switchTab('assets'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-laptop w-5 text-indigo-400"></i> Aset Kantor</button>
+                    <button onclick="switchTab('payroll'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-money-check-dollar w-5 text-emerald-400"></i> Slip Gaji</button>
+                    <button onclick="switchTab('ess'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-user-shield w-5 text-emerald-400"></i> Portal ESS</button>
+                    <button onclick="switchTab('profiles'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-id-card-clip w-5 text-sky-400"></i> Profil Tim</button>
+                    <button onclick="switchTab('workflow'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-list-check w-5 text-rose-400"></i> Workflow</button>
+                    <button onclick="switchTab('audit'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-clock-rotate-left w-5 text-slate-400"></i> Log Audit</button>
+                    <button onclick="switchTab('settings'); ${clickAction}" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition font-semibold text-slate-300"><i class="fa-solid fa-gear w-5 text-indigo-400"></i> Pengaturan</button>
+                </div>
             `;
         }
 
         function toggleNotificationDropdown() {
-            const dd = document.getElementById('notifDropdown');
-            dd.classList.toggle('hidden');
+            document.getElementById('notifDropdown').classList.toggle('hidden');
         }
 
         function clearNotifications() {
             notifications.forEach(n => n.unread = false);
             document.getElementById('notifBadge').classList.add('hidden');
             toggleNotificationDropdown();
-            showToast("Notifikasi ditandai dibaca", "success");
+            showToast("Notifikasi dibaca", "success");
         }
 
         function switchTab(tabId) {
@@ -763,8 +799,6 @@
             });
             const active = document.getElementById('view-' + tabId);
             if(active) active.classList.remove('hidden');
-
-            document.getElementById('mainContentScroll').scrollTop = 0;
 
             const titles = {
                 'dashboard': 'Beranda', 'ess': 'Portal ESS', 'attendance': 'Absensi & Shift',
@@ -783,8 +817,8 @@
         function showToast(msg, type='success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'} text-white px-4 py-3 rounded-xl shadow-xl text-xs font-bold flex items-center gap-2.5`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${msg}</span>`;
+            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'} text-white px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-bold flex items-center gap-3`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'} text-lg"></i><span>${msg}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
@@ -816,10 +850,13 @@
                 const net = bruto - Math.round(bruto * 0.05);
                 totalSum += net;
                 body.innerHTML += `
-                    <tr class="border-b border-slate-100">
-                        <td class="py-3 px-3"><b>${emp.name}</b><br><span class="text-[10px] text-slate-400">${emp.role}</span></td>
-                        <td class="py-3 px-3 font-mono font-bold text-indigo-500">${formatRupiah(net)}</td>
-                        <td class="py-3 px-3 text-center"><button onclick="editEmployee(${idx})" class="bg-sky-500 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Edit</button></td>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                        <td class="py-4 px-6 font-bold"><b>${emp.name}</b><br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
+                        <td class="py-4 px-6 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
+                        <td class="py-4 px-6 font-mono">${formatRupiah(emp.base)}</td>
+                        <td class="py-4 px-6 font-mono">${formatRupiah(emp.allowance)}</td>
+                        <td class="py-4 px-6 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                        <td class="py-4 px-6 text-center"><button onclick="editEmployee(${idx})" class="bg-sky-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold">Edit</button></td>
                     </tr>
                 `;
             });
@@ -833,7 +870,7 @@
                 if(payrollChartInstance) payrollChartInstance.destroy();
                 payrollChartInstance = new Chart(ctx1, {
                     type: 'line',
-                    data: { labels: ['Jun', 'Jul', 'Agu (Aktif)', 'Sep'], datasets: [{ data: [25, 27, total/1000000, 31], borderColor: '#4f46e5', tension: 0.3 }] },
+                    data: { labels: ['Jun', 'Jul', 'Agu (Aktif)', 'Sep'], datasets: [{ data: [25, 27, total/1000000, 31], borderColor: '#4f46e5', tension: 0.3, fill: true, backgroundColor: 'rgba(79,70,229,0.1)' }] },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                 });
             }
@@ -846,7 +883,7 @@
                 salaryRatioChartInstance = new Chart(ctx2, {
                     type: 'doughnut',
                     data: { labels: ['Gaji Pokok', 'Tunjangan'], datasets: [{ data: [b, a], backgroundColor: ['#4f46e5', '#10b981'] }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } }
                 });
             }
         }
@@ -860,7 +897,7 @@
             if(!body) return;
             body.innerHTML = '';
             reimburseList.forEach(r => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5">${r.type}</td><td class="p-2.5 font-mono">${formatRupiah(r.amount)}</td><td class="p-2.5 text-center"><span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] font-bold">${r.status}</span></td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4">${r.type}</td><td class="p-4 font-mono">${formatRupiah(r.amount)}</td><td class="p-4 text-center"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">${r.status}</span></td></tr>`;
             });
         }
 
@@ -869,7 +906,7 @@
             if(!body) return;
             body.innerHTML = '';
             loanList.forEach(l => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5">${l.reason}</td><td class="p-2.5 font-mono">${formatRupiah(l.amount)}</td><td class="p-2.5 text-center"><button onclick="showToast('Kasbon aktif')" class="text-indigo-600 font-bold">Detail</button></td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4">${l.reason}</td><td class="p-4 font-mono">${formatRupiah(l.amount)}</td><td class="p-4 text-center"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">${l.status}</span></td></tr>`;
             });
         }
 
@@ -878,7 +915,7 @@
             if(!body) return;
             body.innerHTML = '';
             appraisals.forEach(ap => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5 font-bold">${ap.name}</td><td class="p-2.5 font-mono">${ap.score}/100</td><td class="p-2.5"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px]">${ap.grade}</span></td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4 font-bold">${ap.name}</td><td class="p-4 font-mono">${ap.score}/100</td><td class="p-4 text-center"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">${ap.grade}</span></td></tr>`;
             });
         }
 
@@ -886,8 +923,8 @@
             const body = document.getElementById('vaultTableBody');
             if(!body) return;
             body.innerHTML = '';
-            vaultDocs.forEach((v, idx) => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5">${v.type} (${v.name})</td><td class="p-2.5 text-center"><button onclick="showToast('Unduh dokumen ${v.fileName}')" class="bg-indigo-600 text-white px-2 py-1 rounded text-[10px]">Unduh</button></td></tr>`;
+            vaultDocs.forEach(v => {
+                body.innerHTML += `<tr class="border-b"><td class="p-4">${v.type} (${v.name})</td><td class="p-4 text-center"><button onclick="showToast('Unduh ${v.fileName}')" class="bg-indigo-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold">Unduh</button></td></tr>`;
             });
         }
 
@@ -896,7 +933,7 @@
             if(!body) return;
             body.innerHTML = '';
             employees.forEach(e => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5"><b>${e.name}</b><br><span class="text-[10px] text-slate-400">${e.role}</span></td><td class="p-2.5 font-mono font-bold">Ext. ${e.ext}</td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4"><b>${e.name}</b><br><span class="text-xs text-slate-400">${e.role}</span></td><td class="p-4 font-mono font-bold">Ext. ${e.ext}</td></tr>`;
             });
         }
 
@@ -905,7 +942,7 @@
             if(!body) return;
             body.innerHTML = '';
             assets.forEach(as => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5">${as.name}</td><td class="p-2.5">${as.owner}</td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4">${as.name}</td><td class="p-4">${as.owner}</td></tr>`;
             });
         }
 
@@ -914,7 +951,7 @@
             if(!body) return;
             body.innerHTML = '';
             employees.forEach(e => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5"><b>${e.name}</b></td><td class="p-2.5 text-center"><button onclick="showToast('Slip ${e.name} diunduh')" class="bg-indigo-600 text-white px-2.5 py-1 rounded text-[10px]">PDF</button></td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4"><b>${e.name}</b></td><td class="p-4 text-center"><button onclick="showToast('Slip ${e.name} diunduh')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Download PDF</button></td></tr>`;
             });
         }
 
@@ -923,7 +960,7 @@
             if(!body) return;
             body.innerHTML = '';
             leaveRequests.forEach(l => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5">${l.name} - ${l.type}</td><td class="p-2.5 text-center"><button onclick="showToast('Disetujui')" class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px]">Setujui</button></td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4">${l.name} - ${l.type}</td><td class="p-4 text-center"><button onclick="showToast('Disetujui')" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Setujui</button></td></tr>`;
             });
         }
 
@@ -932,7 +969,7 @@
             if(!body) return;
             body.innerHTML = '';
             auditLogs.forEach(au => {
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5 font-mono text-[10px]">${au.time}<br><b>${au.user}</b></td><td class="p-2.5">${au.action}</td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4 font-mono text-xs">${au.time}<br><b>${au.user}</b></td><td class="p-4">${au.action}</td></tr>`;
             });
         }
 
@@ -943,7 +980,7 @@
             employees.forEach(e => {
                 const b = e.base + e.allowance;
                 const net = b - Math.round(b * 0.05);
-                body.innerHTML += `<tr class="border-b"><td class="p-2.5"><b>${e.name}</b></td><td class="p-2.5 font-mono">${formatRupiah(b)}</td><td class="p-2.5 font-mono font-bold text-indigo-500">${formatRupiah(net)}</td></tr>`;
+                body.innerHTML += `<tr class="border-b"><td class="p-4"><b>${e.name}</b></td><td class="p-4 font-mono">${formatRupiah(b)}</td><td class="p-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td><td class="p-4 text-center"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">Siap</span></td></tr>`;
             });
         }
 
@@ -961,7 +998,7 @@
             if(!cont) return;
             cont.innerHTML = '';
             employees.forEach(e => {
-                cont.innerHTML += `<div class="bg-slate-50 p-3 rounded-xl border space-y-1"><b>${e.name}</b><br><span class="text-indigo-600 font-semibold">${e.role}</span><br><span class="font-mono text-[10px]">Bank: ${e.bank} (${e.accNum})</span></div>`;
+                cont.innerHTML += `<div class="bg-slate-50 p-6 rounded-2xl border space-y-2"><b>${e.name}</b><br><span class="text-indigo-600 font-semibold">${e.role}</span><br><span class="font-mono text-xs">Bank: ${e.bank} (${e.accNum})</span></div>`;
             });
         }
 
@@ -994,7 +1031,7 @@
             localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
             renderAll();
             closeAddEmployeeModal();
-            showToast("Karyawan baru berhasil ditambahkan!", "success");
+            showToast("Karyawan baru ditambahkan!", "success");
         }
 
         function handleLoanSubmit(e) { e.preventDefault(); closeLoanModal(); showToast("Kasbon diajukan", "success"); }
@@ -1014,7 +1051,7 @@
         function runBulkPayrollDisbursement() { showToast("Payroll Run Berhasil", "success"); }
         function sendTargetedBroadcast() { showToast("Broadcast Terkirim", "success"); }
         function downloadVisiMisiPDF() { showToast("PDF Visi Misi Diunduh", "success"); }
-        function downloadSOPKepegawaianPDF() { showToast("PDF SOP Kepegawaian Diunduh", "success"); }
+        function downloadSOPKepegawaianPDF() { showToast("PDF SOP Diunduh", "success"); }
         function downloadSOPReimbursementPDF() { showToast("PDF SOP Klaim Diunduh", "success"); }
 
         setInterval(() => {
