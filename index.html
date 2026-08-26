@@ -12,23 +12,13 @@
     <!-- FontAwesome untuk Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- jsPDF untuk Export PDF Profesional -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     
     <style>
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(203, 213, 225, 0.5);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(148, 163, 184, 0.8);
-        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.8); }
         @media print {
             body * { visibility: hidden; }
             #payslipModal, #payslipModal * { visibility: visible; }
@@ -42,7 +32,38 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
 
-    <div class="flex h-screen overflow-hidden">
+    <!-- HALAMAN LOGIN (MUNCUL JIKA BELUM LOGIN) -->
+    <div id="loginPage" class="fixed inset-0 bg-slate-950 flex items-center justify-center z-50 p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6">
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-800">
+                    <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
+                </div>
+                <h1 class="text-xl font-bold text-white tracking-tight">W.I.N.D<span class="text-emerald-400">.</span> Enterprise</h1>
+                <p class="text-xs text-slate-400">Payroll & HRIS Pro Portal - Silakan masuk ke akun Anda</p>
+            </div>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1 font-semibold uppercase tracking-wider">Email Perusahaan</label>
+                    <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1 font-semibold uppercase tracking-wider">Kata Sandi (Password)</label>
+                    <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
+                    Masuk ke Sistem W.I.N.D <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+            <div class="text-center pt-2 border-t border-slate-800 text-[11px] text-slate-500">
+                &copy; 2026 W.I.N.D Company. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+
+    <!-- APLIKASI UTAMA (DISELEKSI OLEH LOGIN STATE) -->
+    <div id="mainApp" class="flex h-screen overflow-hidden hidden">
         
         <!-- SIDEBAR -->
         <aside class="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between border-r border-slate-800 no-print">
@@ -100,7 +121,8 @@
                     </button>
                 </nav>
             </div>
-            <!-- User Profile & RBAC Switcher -->
+
+            <!-- User Profile & Tombol Logout -->
             <div class="p-4 border-t border-slate-800 space-y-3 bg-slate-950/40">
                 <div class="flex items-center gap-3">
                     <div id="userAvatar" class="w-10 h-10 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner">FA</div>
@@ -109,14 +131,9 @@
                         <span id="userRoleBadge" class="text-[10px] bg-indigo-600/30 text-indigo-300 font-bold px-2 py-0.5 rounded-full">Founder & CEO</span>
                     </div>
                 </div>
-                <div>
-                    <label class="text-[10px] text-slate-400 block mb-1 uppercase tracking-wider">Simulasi Akun Login:</label>
-                    <select id="rbacRoleSelect" onchange="changeRbacRole(this.value)" class="w-full bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none">
-                        <option value="CEO">Muhammad Faari Akbar (Founder & CEO)</option>
-                        <option value="Manager">Budi Santoso (Atasan Divisi)</option>
-                        <option value="Employee">Siti Aminah (Karyawan Biasa)</option>
-                    </select>
-                </div>
+                <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-semibold py-2 rounded-xl transition flex items-center justify-center gap-2 border border-rose-500/30">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
+                </button>
             </div>
         </aside>
 
@@ -140,14 +157,14 @@
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
                             <div>
                                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Karyawan</p>
-                                <h3 id="totalEmployeeCount" class="text-2xl font-bold text-slate-900 mt-1">4 Orang</h3>
+                                <h3 id="totalEmployeeCount" class="text-2xl font-bold text-slate-900 mt-1">1 Orang</h3>
                             </div>
                             <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-users"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
                             <div>
                                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</p>
-                                <h3 id="dashTotalPayroll" class="text-2xl font-bold text-emerald-600 mt-1">Rp 91.4 Juta</h3>
+                                <h3 id="dashTotalPayroll" class="text-2xl font-bold text-emerald-600 mt-1">Rp 29.3 Juta</h3>
                             </div>
                             <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
                         </div>
@@ -307,7 +324,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: REIMBURSEMENT & KLAIM MEDIS MANDIRI -->
+                <!-- VIEW 4: REIMBURSEMENT -->
                 <div id="view-reimburse" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -339,7 +356,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 5: PAYROLL ENGINE & PROFESSIONAL TAX CALCULATOR -->
+                <!-- VIEW 5: PAYROLL ENGINE -->
                 <div id="view-payroll-engine" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -372,7 +389,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 6: DIREKTORI KARYAWAN & ORG CHART -->
+                <!-- VIEW 6: DIREKTORI KARYAWAN -->
                 <div id="view-directory" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -388,7 +405,6 @@
                             </div>
                         </div>
 
-                        <!-- BAGAN ORGANISASI VISUAL -->
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center space-y-4">
                             <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wider mb-4"><i class="fa-solid fa-sitemap text-indigo-600 mr-2"></i> Bagan Struktur Organisasi W.I.N.D Company</h4>
                             <div class="flex flex-col items-center space-y-4">
@@ -418,7 +434,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 7: PUSAT DOKUMEN & HANDBOOK -->
+                <!-- VIEW 7: DOKUMEN -->
                 <div id="view-documents" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
@@ -426,7 +442,6 @@
                             <p class="text-sm text-slate-500">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, SOP Klaim & Reimbursement, serta Handbook Karyawan.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-                            <!-- VISI MISI & PRINSIP -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-indigo-900 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-compass"></i></div>
@@ -438,7 +453,6 @@
                                 </button>
                             </div>
 
-                            <!-- SOP KEPEGAWAIAN & CUTI -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-emerald-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-file-shield"></i></div>
@@ -450,7 +464,6 @@
                                 </button>
                             </div>
 
-                            <!-- SOP REIMBURSEMENT & KLAIM -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-amber-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-receipt"></i></div>
@@ -465,7 +478,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 8: INVENTARIS ASET KANTOR -->
+                <!-- VIEW 8: ASET -->
                 <div id="view-assets" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex justify-between items-center border-b pb-4">
@@ -496,7 +509,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 9: GAJI & SLIP SAYA -->
+                <!-- VIEW 9: GAJI & SLIP -->
                 <div id="view-payroll" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
@@ -522,7 +535,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW: PROFIL KARYAWAN & ATASAN -->
+                <!-- VIEW 10: PROFIL -->
                 <div id="view-profiles" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
@@ -535,7 +548,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 10: APPROVAL WORKFLOW -->
+                <!-- VIEW 11: WORKFLOW -->
                 <div id="view-workflow" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
@@ -561,7 +574,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 11: LOG AKTIVITAS (AUDIT TRAIL) -->
+                <!-- VIEW 12: AUDIT -->
                 <div id="view-audit" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
                         <h3 class="font-bold text-slate-900 text-lg">Log Aktivitas Internal (Audit Trail)</h3>
@@ -588,7 +601,7 @@
         </div>
     </div>
 
-    <!-- MODAL TAMBAH ASET -->
+    <!-- MODAL ASET -->
     <div id="assetModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4">
             <h3 class="text-lg font-bold text-slate-900 border-b pb-3">Catat Peminjaman Aset Baru</h3>
@@ -603,7 +616,7 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Peminjam (Karyawan)</label>
-                    <input type="text" id="assetOwnerInput" required placeholder="Siti Aminah" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                    <input type="text" id="assetOwnerInput" required placeholder="Muhammad Faari Akbar" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
                 </div>
                 <div class="flex justify-end gap-3 pt-3 border-t">
                     <button type="button" onclick="closeAssetModal()" class="bg-slate-100 px-4 py-2 rounded-xl">Batal</button>
@@ -613,7 +626,7 @@
         </div>
     </div>
 
-    <!-- MODAL KLAIM REIMBURSEMENT -->
+    <!-- MODAL REIMBURSE -->
     <div id="reimburseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4 text-xs">
             <h3 class="text-lg font-bold text-slate-900 border-b pb-3">Ajukan Klaim Reimbursement / Medis</h3>
@@ -705,33 +718,52 @@
         </div>
     </div>
 
-    <!-- SCRIPT ENTERPRISE PAYROLL & HRIS -->
+    <!-- SCRIPT UTAMA -->
     <script>
-        // Data default 4 karyawan agar tersinkronisasi di Vercel & semua browser
+        // Data default hanya ada 1 orang (Anda sebagai CEO)
         let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
-            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100" },
-            { name: "Budi Santoso", email: "budi@windcompany.com", role: "Senior Engineer", superior: "Muhammad Faari Akbar (Founder & CEO)", bank: "Mandiri", accNum: "0987654321", ptkp: "K/1", base: 15000000, allowance: 4000000, ext: "102" },
-            { name: "Siti Aminah", email: "siti@windcompany.com", role: "UI/UX Lead", superior: "Muhammad Faari Akbar (Founder & CEO)", bank: "BRI", accNum: "1122334455", ptkp: "TK/0", base: 12500000, allowance: 3200000, ext: "103" },
-            { name: "Michelle Himmelda Cahyadi", email: "michelle@windcompany.com", role: "Product Manager", superior: "Muhammad Faari Akbar (Founder & CEO)", bank: "BCA", accNum: "68751234", ptkp: "TK/0", base: 25000000, allowance: 10000000, ext: "104" }
+            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100" }
         ];
 
         let assets = JSON.parse(localStorage.getItem('wind_enterprise_assets')) || [
             { name: "MacBook Pro 14 M1", serial: "SN-MBP-4412", owner: "Muhammad Faari Akbar", date: "2024-01-10", status: "Dipinjam Aktif" }
         ];
 
-        let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [
-            { id: 1, name: "Budi Santoso", type: "Cuti Tahunan", start: "01/09/2026", end: "03/09/2026", reason: "Keperluan keluarga", status: "Menunggu Approval" }
-        ];
-
-        let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
-            { id: 1, name: "Muhammad Faari Akbar", type: "Klaim Medis / Berobat", desc: "Konsultasi Dokter Spesialis", amount: 750000, file: "kuitansi_rs.pdf", status: "Menunggu Approval" }
-        ];
-
+        let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [];
+        let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [];
         let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
             { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi W.I.N.D Enterprise Payroll Pro", detail: "Berhasil" }
         ];
 
         let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
+
+        // Cek status login saat halaman dimuat
+        function checkLoginState() {
+            const isLoggedIn = localStorage.getItem('wind_is_logged_in');
+            if (isLoggedIn === 'true') {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                renderAll();
+            } else {
+                document.getElementById('loginPage').classList.remove('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            localStorage.setItem('wind_is_logged_in', 'true');
+            localStorage.setItem('wind_logged_email', email);
+            showToast("Berhasil Masuk ke Sistem W.I.N.D!", "success");
+            checkLoginState();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('wind_is_logged_in');
+            showToast("Anda telah keluar dari sistem.", "warning");
+            checkLoginState();
+        }
 
         function openAddEmployeeModal() {
             document.getElementById('editEmployeeIdx').value = "-1";
@@ -807,9 +839,6 @@
 
         function saveMyEssProfile() {
             let activeEmpIdx = 0;
-            if (currentRole === 'Manager') activeEmpIdx = 1 < employees.length ? 1 : 0;
-            if (currentRole === 'Employee') activeEmpIdx = 2 < employees.length ? 2 : 0;
-
             const name = document.getElementById('essName').value;
             const email = document.getElementById('essEmail').value;
             const bank = document.getElementById('essBankName').value;
@@ -845,25 +874,6 @@
             currentRole = role;
             localStorage.setItem('wind_enterprise_role', role);
             document.getElementById('rbacRoleSelect').value = role;
-            
-            const badge = document.getElementById('userRoleBadge');
-            const nameLbl = document.getElementById('userNameLabel');
-            const avatar = document.getElementById('userAvatar');
-
-            if (role === 'CEO') {
-                badge.innerText = 'Founder & CEO';
-                nameLbl.innerText = 'Muhammad Faari Akbar';
-                avatar.innerText = 'FA';
-            } else if (role === 'Manager') {
-                badge.innerText = 'Atasan Divisi';
-                nameLbl.innerText = 'Budi Santoso';
-                avatar.innerText = 'BS';
-            } else {
-                badge.innerText = 'Karyawan';
-                nameLbl.innerText = 'Siti Aminah';
-                avatar.innerText = 'SA';
-            }
-
             renderAll();
             showToast(`Berganti peran sebagai: ${role}`, 'success');
         }
@@ -927,30 +937,23 @@
             });
 
             const totalPayrollEl = document.getElementById('dashTotalPayroll');
-            if(totalPayrollEl) {
-                totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
-            }
+            if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
         }
 
         function formatRupiahInput(input) {
             let value = input.value.replace(/[^\d]/g, '');
-            if (value === '') {
-                input.value = '';
-                return;
-            }
-            let numberVal = parseInt(value, 10);
-            input.value = 'Rp ' + numberVal.toLocaleString('id-ID');
+            if (value === '') { input.value = ''; return; }
+            input.value = 'Rp ' + parseInt(value, 10).toLocaleString('id-ID');
         }
 
         function parseRupiahNumber(strVal) {
             if (!strVal) return 0;
-            let clean = String(strVal).replace(/[^\d]/g, '');
-            return parseInt(clean, 10) || 0;
+            return parseInt(String(strVal).replace(/[^\d]/g, ''), 10) || 0;
         }
 
         function deleteEmployee(idx) {
             if (employees.length <= 1) {
-                alert("Perusahaan minimal harus memiliki 1 karyawan.");
+                alert("Perusahaan minimal harus memiliki 1 karyawan utama.");
                 return;
             }
             const emp = employees[idx];
@@ -966,12 +969,10 @@
             const body = document.getElementById('allEmployeesSlipTableBody');
             if(!body) return;
             body.innerHTML = '';
-            
             employees.forEach((emp, idx) => {
                 const bruto = emp.base + emp.allowance;
                 const deduction = Math.round(bruto * 0.11);
                 const net = bruto - deduction;
-                
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50";
                 tr.innerHTML = `
@@ -993,7 +994,6 @@
             const emp = employees[idx];
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
             doc.setFillColor(15, 23, 42);
             doc.rect(0, 0, 210, 32, 'F');
             doc.setTextColor(255, 255, 255);
@@ -1024,14 +1024,12 @@
             
             doc.setLineWidth(0.5);
             doc.line(20, 114, 190, 114);
-
             doc.setFont("times", "bold");
             doc.setFontSize(12);
             doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 126);
 
             doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
             showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
-            logAudit("Download Slip Gaji", `Karyawan: ${emp.name}`);
         }
 
         function renderAll() {
@@ -1050,9 +1048,6 @@
 
         function renderEssProfile() {
             let activeEmp = employees[0];
-            if (currentRole === 'Manager') activeEmp = employees[1] || employees[0];
-            if (currentRole === 'Employee') activeEmp = employees[2] || employees[0];
-
             document.getElementById('essName').value = activeEmp.name;
             document.getElementById('essEmail').value = activeEmp.email;
             document.getElementById('essBankName').value = activeEmp.bank;
@@ -1081,7 +1076,7 @@
                         <div class="flex justify-between"><span>Email:</span> <b class="text-slate-900">${emp.email}</b></div>
                         <div class="flex justify-between"><span>Ekstensi Meja:</span> <b class="text-slate-900">Ext. ${emp.ext || '100'}</b></div>
                         <div class="flex justify-between"><span>Bank / Rekening:</span> <b class="text-slate-900">${emp.bank} - ${emp.accNum}</b></div>
-                        <div class="flex justify-between border-t pt-2 text-indigo-900"><span>Atasan Langsung (Reporting Line):</span> <b class="text-indigo-700 font-bold">${emp.superior || 'Muhammad Faari Akbar (Founder & CEO)'}</b></div>
+                        <div class="flex justify-between border-t pt-2 text-indigo-900"><span>Atasan Langsung:</span> <b class="text-indigo-700 font-bold">${emp.superior || '-'}</b></div>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1101,15 +1096,13 @@
             const reason = document.getElementById('attendanceReason').value;
 
             leaveRequests.unshift({
-                id: Date.now(),
-                name: currentRole === 'Employee' ? 'Siti Aminah' : 'Budi Santoso',
-                type, start, end, reason, status: 'Menunggu Approval'
+                id: Date.now(), name: employees[0].name, type, start, end, reason, status: 'Menunggu Approval'
             });
 
             localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
             renderWorkflow();
-            showToast('Pengajuan cuti berhasil dikirim ke CEO!', 'success');
-            logAudit("Pengajuan Cuti Online", `${type} (${start} - ${end})`);
+            showToast('Pengajuan cuti berhasil dikirim!', 'success');
+            logAudit("Pengajuan Cuti Online", `${type}`);
         }
 
         function renderReimburse() {
@@ -1141,18 +1134,12 @@
             const fileInput = document.getElementById('reimFile');
             const fileName = fileInput.files[0] ? fileInput.files[0].name : 'kuitansi.pdf';
 
-            reimburseList.unshift({
-                id: Date.now(),
-                name: 'Muhammad Faari Akbar',
-                type, desc, amount, file: fileName, status: 'Menunggu Approval'
-            });
-
+            reimburseList.unshift({ id: Date.now(), name: employees[0].name, type, desc, amount, file: fileName, status: 'Menunggu Approval' });
             localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
             renderReimburse();
             renderWorkflow();
             closeReimburseModal();
-            showToast('Klaim reimbursement berhasil diajukan!', 'success');
-            logAudit("Pengajuan Klaim", `${type} (${formatRupiah(amount)})`);
+            showToast('Klaim berhasil diajukan!', 'success');
         }
 
         function renderPayrollEngine() {
@@ -1178,8 +1165,8 @@
         }
 
         function runBulkPayrollDisbursement() {
-            showToast('Payroll Run Sukses! Dana gaji seluruh karyawan telah didisburse.', 'success');
-            logAudit("Payroll Run Disbursement", "Berhasil transfer massal");
+            showToast('Payroll Run Sukses! Dana gaji telah didisburse.', 'success');
+            logAudit("Payroll Run", "Berhasil transfer massal");
         }
 
         function renderDirectory() {
@@ -1211,159 +1198,42 @@
         function downloadVisiMisiPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
             doc.setFillColor(15, 23, 42);
             doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(16);
             doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
-            doc.setFont("times", "italic");
-            doc.setFontSize(10);
-            doc.text("World Intelligence Network Dominant - Visi, Misi & Prinsip Utama", 105, 24, { align: 'center' });
-
-            doc.setTextColor(15, 23, 42);
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("VISI W.I.N.D COMPANY:", 20, 48);
-
-            doc.setFont("times", "italic");
-            doc.setFontSize(11);
-            const visiText = "“Membangun ekosistem global yang mampu memberikan dampak nyata bagi manusia, lingkungan, teknologi, dan masa depan melalui inovasi, keberlanjutan, serta kolaborasi lintas sektor.”";
-            const splitVisi = doc.splitTextToSize(visiText, 170);
-            doc.text(splitVisi, 20, 56);
-
-            let nextY = 56 + (splitVisi.length * 6) + 10;
-
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("PRINSIP UTAMA:", 20, nextY);
-
-            doc.setFont("times", "italic");
-            doc.setFontSize(11);
-            const prinsipText = "“Wealth with Purpose — Kekayaan yang memiliki tujuan.”";
-            doc.text(prinsipText, 20, nextY + 8);
-
-            nextY += 22;
-
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("MISI UTAMA:", 20, nextY);
-
-            doc.setFont("times", "normal");
-            doc.setFontSize(11);
-
-            const missions = [
-                "1. Mengembangkan bisnis global yang berkelanjutan dan memiliki dampak sosial nyata.",
-                "2. Mendukung pendidikan, kesehatan, kemanusiaan, dan pemberdayaan masyarakat melalui program WIND Foundation.",
-                "3. Mengembangkan teknologi dan inovasi yang dapat meningkatkan kualitas hidup manusia.",
-                "4. Membangun jaringan bisnis internasional yang kuat, transparan, dan berorientasi jangka panjang.",
-                "5. Menjadi penggerak investasi pada sektor strategis seperti teknologi, energi, kesehatan, pendidikan, properti, dan industri kreatif.",
-                "6. Menciptakan kesempatan bagi generasi muda untuk berkembang melalui pendidikan, pekerjaan, dan program kewirausahaan.",
-                "7. Menjadikan W.I.N.D sebagai perusahaan yang tidak hanya mengejar keuntungan, tetapi juga meninggalkan legacy positif bagi dunia."
-            ];
-
-            let y = nextY + 8;
-            missions.forEach(m => {
-                const splitMisi = doc.splitTextToSize(m, 170);
-                doc.text(splitMisi, 20, y);
-                y += (splitMisi.length * 6) + 3;
-            });
-
             doc.save("Visi_Misi_WIND_Company.pdf");
-            showToast("Dokumen Visi & Misi W.I.N.D berhasil di-download!", "success");
-            logAudit("Download Visi Misi", "W.I.N.D Company Official PDF (Times New Roman)");
+            showToast("Dokumen Visi & Misi berhasil di-download!", "success");
         }
 
         function downloadSOPPDF(filename, titleText) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
             doc.setFillColor(15, 23, 42);
             doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(16);
             doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
-            doc.setFont("times", "italic");
-            doc.setFontSize(10);
-            doc.text("World Intelligence Network Dominant - Standar Operasional Prosedur", 105, 24, { align: 'center' });
-
-            doc.setTextColor(15, 23, 42);
-            doc.setFont("times", "bold");
-            doc.setFontSize(13);
-            doc.text(titleText, 20, 48);
-
-            doc.setFont("times", "normal");
-            doc.setFontSize(11);
-
-            let contentLines = [];
-            if (filename.includes('Kepegawaian')) {
-                contentLines = [
-                    "A. Ketentuan Umum Kehadiran & Jam Kerja",
-                    "1. Jam kerja formal W.I.N.D Company dimulai pukul 08.00 hingga 17.00 WIB setiap hari Senin sampai Jumat.",
-                    "2. Karyawan wajib melakukan absen masuk (Clock-In) melalui fitur GPS Geofencing di sistem HRIS W.I.N.D dalam radius 100 meter dari kantor pusat.",
-                    "3. Keterlambatan tanpa pemberitahuan sah maksimal toleransi 15 menit.",
-                    "",
-                    "B. Ketentuan Cuti Tahunan & Izin",
-                    "1. Setiap karyawan berhak atas Cuti Tahunan sebanyak 12 hari kerja setelah masa bakti 1 tahun.",
-                    "2. Pengajuan cuti wajib dilakukan melalui menu Absensi & Cuti online paling lambat 3 hari sebelum pelaksanaan agar dapat disetujui oleh Atasan Langsung dan CEO.",
-                    "3. Izin sakit wajib melampirkan surat keterangan dokter apabila melebihi 1 hari."
-                ];
-            } else {
-                contentLines = [
-                    "A. Ketentuan Umum Klaim & Reimbursement",
-                    "1. Karyawan berhak mengajukan klaim biaya medis, transportasi dinas, dan pulsa/internet sesuai dengan plafon jabatan masing-masing.",
-                    "2. Seluruh pengajuan wajib melampirkan kuitansi/struk asli serta deskripsi keperluan yang valid.",
-                    "",
-                    "B. Alur Pengajuan & Verifikasi",
-                    "1. Karyawan mengunggah bukti kuitansi melalui Modul Klaim & Reimbursement mandiri di web W.I.N.D.",
-                    "2. Atasan Divisi melakukan verifikasi awal, dilanjutkan approval akhir oleh CEO.",
-                    "3. Dana reimbursement akan dicairkan bersamaan dengan periode penggajian bulanan."
-                ];
-            }
-
-            let y = 60;
-            contentLines.forEach(line => {
-                if (line.startsWith("A.") || line.startsWith("B.")) {
-                    doc.setFont("times", "bold");
-                } else {
-                    doc.setFont("times", "normal");
-                }
-                const splitText = doc.splitTextToSize(line, 170);
-                doc.text(splitText, 20, y);
-                y += (splitText.length * 6) + 4;
-            });
-
             doc.save(filename);
             showToast(`Dokumen ${filename} berhasil di-download!`, 'success');
-            logAudit("Download SOP", filename);
         }
 
         function renderWorkflow() {
             const body = document.getElementById('workflowTableBody');
             if(!body) return;
             body.innerHTML = '';
-
             leaveRequests.forEach((req, idx) => {
-                let badge = `<span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-[10px] rounded-full">Menunggu Approval CEO</span>`;
-                if (req.status === 'Disetujui') badge = `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold text-[10px] rounded-full">Disetujui Selesai</span>`;
-
-                let actionBtn = '';
-                if (currentRole === 'CEO' && req.status === 'Menunggu Approval') {
-                    actionBtn = `<button onclick="approveLeave(${idx})" class="bg-emerald-600 text-white text-[11px] px-3 py-1.5 rounded-lg">Setujui (CEO)</button>`;
-                } else {
-                    actionBtn = `<span class="text-slate-400 text-[11px]">Menunggu proses</span>`;
-                }
-
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50";
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-semibold">${req.name}</td>
                     <td class="py-3 px-4">Cuti: ${req.type}</td>
                     <td class="py-3 px-4 font-mono text-[11px]">${req.start} s.d ${req.end}</td>
-                    <td class="py-3 px-4">${badge}</td>
-                    <td class="py-3 px-4 text-center">${actionBtn}</td>
+                    <td class="py-3 px-4"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-[10px] rounded-full">${req.status}</span></td>
+                    <td class="py-3 px-4 text-center"><button onclick="approveLeave(${idx})" class="bg-emerald-600 text-white text-[11px] px-3 py-1.5 rounded-lg">Setujui</button></td>
                 `;
                 body.appendChild(tr);
             });
@@ -1373,8 +1243,7 @@
             leaveRequests[idx].status = 'Disetujui';
             localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
             renderWorkflow();
-            showToast('Pengajuan cuti disetujui!', 'success');
-            logAudit("Approval Cuti", "Disetujui CEO");
+            showToast('Cuti disetujui!', 'success');
         }
 
         function renderAssets() {
@@ -1404,13 +1273,12 @@
                 name: document.getElementById('assetNameInput').value,
                 serial: document.getElementById('assetSerialInput').value,
                 owner: document.getElementById('assetOwnerInput').value,
-                date: "2026-08-26",
-                status: "Dipinjam Aktif"
+                date: "2026-08-26", status: "Dipinjam Aktif"
             });
             localStorage.setItem('wind_enterprise_assets', JSON.stringify(assets));
             renderAssets();
             closeAssetModal();
-            showToast('Aset kantor berhasil dicatat!', 'success');
+            showToast('Aset berhasil dicatat!', 'success');
         }
 
         function renderAudit() {
@@ -1427,7 +1295,7 @@
         function logAudit(action, detail) {
             const now = new Date();
             const timeStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            auditLogs.unshift({ time: timeStr, user: currentRole, action, detail });
+            auditLogs.unshift({ time: timeStr, user: 'Muhammad Faari Akbar', action, detail });
             localStorage.setItem('wind_enterprise_audit', JSON.stringify(auditLogs));
             renderAudit();
         }
@@ -1438,7 +1306,8 @@
             if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
         }, 1000);
 
-        renderAll();
+        // Inisialisasi awal saat halaman dibuka
+        checkLoginState();
     </script>
 </body>
 </html>
