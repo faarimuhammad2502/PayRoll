@@ -19,6 +19,19 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.5); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.8); }
+
+        /* Latar Belakang Bertekstur Modern & Futuristik */
+        .login-bg-texture {
+            background-color: #030712;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(79, 70, 229, 0.25) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(16, 185, 129, 0.2) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(30, 41, 59, 0.5) 0px, transparent 70%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
         @media print {
             body * { visibility: hidden; }
             #payslipModal, #payslipModal * { visibility: visible; }
@@ -32,10 +45,15 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
 
-    <!-- HALAMAN LOGIN (MUNCUL JIKA BELUM LOGIN) -->
-    <div id="loginPage" class="fixed inset-0 bg-slate-950 flex items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6">
-            <div class="text-center space-y-3">
+    <!-- HALAMAN LOGIN DENGAN TEKSTUR BACKGROUND -->
+    <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-4">
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 rounded-3xl max-w-md w-full p-8 shadow-2xl shadow-indigo-950/50 space-y-6 relative overflow-hidden">
+            
+            <!-- Efek Cahaya Aksen di Kartu -->
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center space-y-3 relative z-10">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-800">
                     <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
                 </div>
@@ -43,26 +61,26 @@
                 <p class="text-xs text-slate-400">Payroll & HRIS Pro Portal - Silakan masuk ke akun Anda</p>
             </div>
 
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs relative z-10">
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold uppercase tracking-wider">Email Perusahaan</label>
-                    <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                    <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-950/60 border border-slate-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold uppercase tracking-wider">Kata Sandi (Password)</label>
-                    <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                    <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950/60 border border-slate-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition">
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Masuk ke Sistem W.I.N.D <i class="fa-solid fa-arrow-right ml-2"></i>
                 </button>
             </form>
-            <div class="text-center pt-2 border-t border-slate-800 text-[11px] text-slate-500">
+            <div class="text-center pt-2 border-t border-slate-800/80 text-[11px] text-slate-500 relative z-10">
                 &copy; 2026 W.I.N.D Company. All Rights Reserved.
             </div>
         </div>
     </div>
 
-    <!-- APLIKASI UTAMA (DISELEKSI OLEH LOGIN STATE) -->
+    <!-- APLIKASI UTAMA -->
     <div id="mainApp" class="flex h-screen overflow-hidden hidden">
         
         <!-- SIDEBAR -->
@@ -215,7 +233,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 2: EMPLOYEE SELF-SERVICE (ESS) -->
+                <!-- VIEW 2: ESS -->
                 <div id="view-ess" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex justify-between items-center border-b pb-4">
@@ -273,7 +291,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ABSENSI GPS & CUTI -->
+                <!-- VIEW 3: ATTENDANCE -->
                 <div id="view-attendance" class="hidden space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
@@ -324,7 +342,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: REIMBURSEMENT -->
+                <!-- VIEW 4: REIMBURSE -->
                 <div id="view-reimburse" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -389,7 +407,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 6: DIREKTORI KARYAWAN -->
+                <!-- VIEW 6: DIREKTORI -->
                 <div id="view-directory" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
@@ -659,7 +677,7 @@
         </div>
     </div>
 
-    <!-- MODAL TAMBAH / EDIT KARYAWAN -->
+    <!-- MODAL TAMBAH KARYAWAN -->
     <div id="addEmployeeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4 text-xs">
             <h3 id="modalTitleText" class="text-lg font-bold text-slate-900 border-b pb-3"><i class="fa-solid fa-user-plus text-indigo-600 mr-2"></i> Tambah Karyawan & Gaji Baru</h3>
@@ -720,7 +738,6 @@
 
     <!-- SCRIPT UTAMA -->
     <script>
-        // Data default hanya ada 1 orang (Anda sebagai CEO)
         let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
             { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100" }
         ];
@@ -737,7 +754,6 @@
 
         let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
 
-        // Cek status login saat halaman dimuat
         function checkLoginState() {
             const isLoggedIn = localStorage.getItem('wind_is_logged_in');
             if (isLoggedIn === 'true') {
@@ -838,23 +854,17 @@
         }
 
         function saveMyEssProfile() {
-            let activeEmpIdx = 0;
-            const name = document.getElementById('essName').value;
-            const email = document.getElementById('essEmail').value;
-            const bank = document.getElementById('essBankName').value;
-            const accNum = document.getElementById('essAccountNum').value;
-            const ptkp = document.getElementById('essPtkp').value;
-
-            employees[activeEmpIdx].name = name;
-            employees[activeEmpIdx].email = email;
-            employees[activeEmpIdx].bank = bank;
-            employees[activeEmpIdx].accNum = accNum;
-            employees[activeEmpIdx].ptkp = ptkp;
+            let activeEmp = employees[0];
+            activeEmp.name = document.getElementById('essName').value;
+            activeEmp.email = document.getElementById('essEmail').value;
+            activeEmp.bank = document.getElementById('essBankName').value;
+            activeEmp.accNum = document.getElementById('essAccountNum').value;
+            activeEmp.ptkp = document.getElementById('essPtkp').value;
 
             localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
             renderAll();
             showToast("Profil Portal Mandiri (ESS) berhasil disimpan!", "success");
-            logAudit("Update ESS Profile", `Karyawan: ${name}`);
+            logAudit("Update ESS Profile", `Karyawan: ${activeEmp.name}`);
         }
 
         function formatRupiah(num) {
@@ -1306,7 +1316,6 @@
             if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
         }, 1000);
 
-        // Inisialisasi awal saat halaman dibuka
         checkLoginState();
     </script>
 </body>
