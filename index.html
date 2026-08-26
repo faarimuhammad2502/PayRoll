@@ -45,7 +45,7 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
 
-    <!-- HALAMAN LOGIN -->
+    <!-- HALAMAN LOGIN (DEFAULT MUNCUL PERTAMA KALI) -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-4">
         <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 rounded-3xl max-w-md w-full p-8 shadow-2xl shadow-indigo-950/50 space-y-6 relative overflow-hidden">
             
@@ -768,16 +768,21 @@
             }
         }
 
+        // Memastikan saat website dibuka, sesi login dicek secara ketat
         function checkLoginState() {
             const isLoggedIn = localStorage.getItem('wind_is_logged_in');
+            const loginPage = document.getElementById('loginPage');
+            const mainApp = document.getElementById('mainApp');
+
             if (isLoggedIn === 'true') {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
+                loginPage.classList.add('hidden');
+                mainApp.classList.remove('hidden');
                 renderSidebarByRole();
                 renderAll();
             } else {
-                document.getElementById('loginPage').classList.remove('hidden');
-                document.getElementById('mainApp').classList.add('hidden');
+                // Paksa tampilkan halaman login dan sembunyikan aplikasi utama
+                loginPage.classList.remove('hidden');
+                mainApp.classList.add('hidden');
             }
         }
 
@@ -793,11 +798,11 @@
 
         function handleLogout() {
             localStorage.removeItem('wind_is_logged_in');
+            localStorage.removeItem('wind_logged_email');
             showToast("Anda telah keluar dari sistem.", "warning");
             checkLoginState();
         }
 
-        // RBAC: Menyesuaikan menu sidebar berdasarkan hak akses email login
         function renderSidebarByRole() {
             const isAdmin = loggedUserEmail === 'ceo@windcompany.com';
             const navContainer = document.getElementById('sidebarMenuContainer');
@@ -868,7 +873,6 @@
             navContainer.innerHTML = menuHTML;
         }
 
-        // Fitur Lonceng Notifikasi Interaktif
         function toggleNotificationDropdown() {
             const dropdown = document.getElementById('notifDropdown');
             dropdown.classList.toggle('hidden');
@@ -913,7 +917,6 @@
             renderNotifications();
         }
 
-        // Fitur Export Laporan Payroll ke Excel (CSV)
         function exportPayrollToExcel() {
             let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok,Tunjangan,Take Home Pay\n";
             employees.forEach(emp => {
@@ -967,7 +970,6 @@
             document.getElementById('addEmployeeModal').classList.add('hidden'); 
         }
 
-        // Validasi Form Ketat saat Simpan Karyawan
         function handleSaveEmployee(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('editEmployeeIdx').value);
@@ -1617,6 +1619,11 @@
             if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
         }, 1000);
 
+        // PENTING: Saat pertama kali halaman dibuka, pastikan status login dibersihkan 
+        // agar selalu langsung mendarat di halaman login.
+        localStorage.removeItem('wind_is_logged_in');
+
+        // Jalankan pengecekan status login
         checkLoginState();
     </script>
 </body>
