@@ -45,11 +45,10 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
 
-    <!-- HALAMAN LOGIN DENGAN TEKSTUR BACKGROUND & TOMBOL LIHAT PASSWORD -->
+    <!-- HALAMAN LOGIN -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-4">
         <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 rounded-3xl max-w-md w-full p-8 shadow-2xl shadow-indigo-950/50 space-y-6 relative overflow-hidden">
             
-            <!-- Efek Cahaya Aksen di Kartu -->
             <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -458,7 +457,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 7: DOKUMEN -->
+                <!-- VIEW 7: DOKUMEN & HANDBOOK -->
                 <div id="view-documents" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
@@ -466,6 +465,7 @@
                             <p class="text-sm text-slate-500">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, SOP Klaim & Reimbursement, serta Handbook Karyawan.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                            <!-- VISI MISI -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-indigo-900 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-compass"></i></div>
@@ -477,24 +477,26 @@
                                 </button>
                             </div>
 
+                            <!-- SOP KEPEGAWAIAN -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-emerald-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-file-shield"></i></div>
                                     <h4 class="font-bold text-slate-900 text-sm">SOP Kepegawaian & Absensi GPS</h4>
                                     <p class="text-slate-500 text-xs">Standar Operasional Prosedur kehadiran, jam kerja, cuti, dan kedisiplinan karyawan W.I.N.D.</p>
                                 </div>
-                                <button onclick="downloadSOPPDF('SOP_Kepegawaian_WIND.pdf', 'SOP KEPEGAWAIAN DAN ABSENSI KEHADIRAN')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
+                                <button onclick="downloadSOPKepegawaianPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
                                     <i class="fa-solid fa-download mr-1.5"></i> Download SOP Kepegawaian (PDF)
                                 </button>
                             </div>
 
+                            <!-- SOP KLAIM & REIMBURSEMENT -->
                             <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
                                 <div class="space-y-3">
                                     <div class="w-10 h-10 bg-amber-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-receipt"></i></div>
                                     <h4 class="font-bold text-slate-900 text-sm">SOP Klaim & Reimbursement</h4>
                                     <p class="text-slate-500 text-xs">Panduan lengkap batas plafon, pengajuan kuitansi medis, dan tata cara pencairan dana.</p>
                                 </div>
-                                <button onclick="downloadSOPPDF('SOP_Reimbursement_WIND.pdf', 'SOP KLAIM DAN REIMBURSEMENT KARYAWAN')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
+                                <button onclick="downloadSOPReimbursementPDF()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
                                     <i class="fa-solid fa-download mr-1.5"></i> Download SOP Klaim (PDF)
                                 </button>
                             </div>
@@ -760,7 +762,6 @@
 
         let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
 
-        // Fungsi untuk melihat/menyembunyikan password
         function togglePasswordVisibility() {
             const passInput = document.getElementById('loginPass');
             const passIcon = document.getElementById('togglePassIcon');
@@ -1225,21 +1226,166 @@
             doc.setFont("times", "bold");
             doc.setFontSize(16);
             doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("World Intelligence Network Dominant - Visi, Misi & Prinsip Utama", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("VISI W.I.N.D COMPANY:", 20, 48);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(11);
+            const visiText = "“Membangun ekosistem global yang mampu memberikan dampak nyata bagi manusia, lingkungan, teknologi, dan masa depan melalui inovasi, keberlanjutan, serta kolaborasi lintas sektor.”";
+            const splitVisi = doc.splitTextToSize(visiText, 170);
+            doc.text(splitVisi, 20, 56);
+
+            let nextY = 56 + (splitVisi.length * 6) + 10;
+
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("PRINSIP UTAMA:", 20, nextY);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(11);
+            doc.text("“Wealth with Purpose — Kekayaan yang memiliki tujuan.”", 20, nextY + 8);
+
+            nextY += 22;
+
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("MISI UTAMA:", 20, nextY);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const missions = [
+                "1. Mengembangkan bisnis global yang berkelanjutan dan memiliki dampak sosial nyata.",
+                "2. Mendukung pendidikan, kesehatan, kemanusiaan, dan pemberdayaan masyarakat melalui program WIND Foundation.",
+                "3. Mengembangkan teknologi dan inovasi yang dapat meningkatkan kualitas hidup manusia.",
+                "4. Membangun jaringan bisnis internasional yang kuat, transparan, dan berorientasi jangka panjang.",
+                "5. Menjadi penggerak investasi pada sektor strategis seperti teknologi, energi, kesehatan, pendidikan, properti, dan industri kreatif.",
+                "6. Menciptakan kesempatan bagi generasi muda untuk berkembang melalui pendidikan, pekerjaan, dan program kewirausahaan.",
+                "7. Menjadikan W.I.N.D sebagai perusahaan yang tidak hanya mengejar keuntungan, tetapi juga meninggalkan legacy positif bagi dunia."
+            ];
+
+            let y = nextY + 8;
+            missions.forEach(m => {
+                const splitMisi = doc.splitTextToSize(m, 170);
+                doc.text(splitMisi, 20, y);
+                y += (splitMisi.length * 6) + 3;
+            });
+
             doc.save("Visi_Misi_WIND_Company.pdf");
             showToast("Dokumen Visi & Misi berhasil di-download!", "success");
+            logAudit("Download Visi Misi", "W.I.N.D Company Official PDF");
         }
 
-        function downloadSOPPDF(filename, titleText) {
+        function downloadSOPKepegawaianPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+            
             doc.setFillColor(15, 23, 42);
             doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(16);
             doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
-            doc.save(filename);
-            showToast(`Dokumen ${filename} berhasil di-download!`, 'success');
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("Standard Operating Procedure - Kepegawaian & Absensi GPS", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(13);
+            doc.text("SOP KEPEGAWAIAN DAN ABSENSI KEHADIRAN", 20, 48);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const lines = [
+                "A. Ketentuan Umum Jam Kerja & Kehadiran",
+                "1. Jam kerja formal W.I.N.D Company dimulai pukul 08.00 hingga 17.00 WIB, Senin sampai dengan Jumat.",
+                "2. Karyawan wajib melakukan absen masuk (Clock-In) melalui fitur GPS Geofencing di portal HRIS dalam radius 100 meter dari titik kantor pusat.",
+                "3. Toleransi keterlambatan kehadiran adalah maksimal 15 menit dari jam masuk resmi.",
+                "",
+                "B. Peraturan Cuti Tahunan & Izin Medis",
+                "1. Hak cuti tahunan karyawan adalah 12 hari kerja per tahun kalender setelah melewati masa percobaan (probation).",
+                "2. Pengajuan cuti wajib disubmit melalui sistem portal mandiri (ESS) selambat-lambatnya 3 hari sebelum tanggal pelaksanaan.",
+                "3. Izin karena sakit lebih dari 1 hari wajib menyertakan lampiran surat keterangan dokter yang sah.",
+                "",
+                "C. Kedisiplinan dan Evaluasi Kinerja",
+                "1. Setiap karyawan wajib menjaga kerahasiaan data perusahaan serta menjunjung tinggi nilai profesionalisme.",
+                "2. Pelanggaran terhadap SOP kehadiran atau etik kerja akan dicatat dalam Log Aktivitas Internal sebagai bahan evaluasi manajemen."
+            ];
+
+            let y = 60;
+            lines.forEach(line => {
+                if (line.startsWith("A.") || line.startsWith("B.") || line.startsWith("C.")) {
+                    doc.setFont("times", "bold");
+                } else {
+                    doc.setFont("times", "normal");
+                }
+                const splitText = doc.splitTextToSize(line, 170);
+                doc.text(splitText, 20, y);
+                y += (splitText.length * 6) + 3;
+            });
+
+            doc.save("SOP_Kepegawaian_WIND.pdf");
+            showToast("SOP Kepegawaian berhasil di-download!", "success");
+            logAudit("Download SOP", "SOP Kepegawaian & Absensi GPS");
+        }
+
+        function downloadSOPReimbursementPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("Standard Operating Procedure - Klaim & Reimbursement", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(13);
+            doc.text("SOP KLAIM DAN REIMBURSEMENT KARYAWAN", 20, 48);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const lines = [
+                "A. Lingkup Pengeluaran yang Dapat Diklaim",
+                "1. Klaim Medis / Berobat: Mencakup konsultasi dokter, pembelian obat resep, dan rawat jalan sesuai plafon jabatan masing-masing.",
+                "2. Biaya Transportasi Dinas: Pengeluaran operasional perjalanan dinas luar kota atau transport kunjungan klien.",
+                "3. Tunjangan Pulsa / Internet: Dukungan fasilitas komunikasi untuk keperluan pekerjaan jarak jauh (remote/hybrid).",
+                "",
+                "B. Prosedur Pengajuan & Batas Waktu",
+                "1. Karyawan wajib mengunggah bukti kuitansi/struk asli yang sah melalui Modul Klaim & Reimbursement di sistem portal HRIS.",
+                "2. Batas maksimal pengajuan klaim adalah tanggal 25 setiap bulannya agar dapat diproses bersamaan dengan siklus penggajian bulanan.",
+                "",
+                "C. Alur Verifikasi dan Persetujuan (Approval Workflow)",
+                "1. Setiap pengajuan klaim akan melalui verifikasi awal oleh Atasan Divisi terkait.",
+                "2. Persetujuan akhir (Final Approval) dan otorisasi pencairan dana dilakukan langsung oleh Founder & CEO melalui sistem."
+            ];
+
+            let y = 60;
+            lines.forEach(line => {
+                if (line.startsWith("A.") || line.startsWith("B.") || line.startsWith("C.")) {
+                    doc.setFont("times", "bold");
+                } else {
+                    doc.setFont("times", "normal");
+                }
+                const splitText = doc.splitTextToSize(line, 170);
+                doc.text(splitText, 20, y);
+                y += (splitText.length * 6) + 3;
+            });
+
+            doc.save("SOP_Reimbursement_WIND.pdf");
+            showToast("SOP Klaim & Reimbursement berhasil di-download!", "success");
+            logAudit("Download SOP", "SOP Klaim & Reimbursement");
         }
 
         function renderWorkflow() {
