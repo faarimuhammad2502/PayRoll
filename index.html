@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.I.N.D Enterprise Payroll & HRIS Pro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF untuk Export PDF Profesional -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(203, 213, 225, 0.5);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.8);
+        }
+        @media print {
+            body * { visibility: hidden; }
+            #payslipModal, #payslipModal * { visibility: visible; }
+            #payslipModal { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between border-r border-slate-800 no-print">
+            <div class="overflow-y-auto flex-1">
+                <!-- LOGO & COMPANY NAME -->
+                <div class="flex items-center gap-3.5 px-6 py-6 border-b border-slate-800 sticky top-0 bg-slate-900 z-10">
+                    <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/30 border border-slate-700">
+                        <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+                            WINDROLL<span class="text-emerald-400 font-black">.</span>
+                        </h1>
+                        <span class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">Enterprise Payroll Pro</span>
+                    </div>
+                </div>
+
+                <!-- Menu -->
+                <nav class="mt-4 px-4 space-y-1.5 pb-6">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs">
+                        <i class="fa-solid fa-chart-pie w-5 text-indigo-400"></i> Beranda & Ringkasan
+                    </button>
+                    <button onclick="switchTab('ess')" id="nav-ess" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-user-shield w-5 text-emerald-400"></i> Portal Mandiri (ESS)
+                    </button>
+                    <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-location-dot w-5 text-indigo-400"></i> Absensi GPS & Cuti
+                    </button>
+                    <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-receipt w-5 text-emerald-400"></i> Klaim & Reimbursement
+                    </button>
+                    <button onclick="switchTab('payroll-engine')" id="nav-payroll-engine" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-calculator w-5 text-amber-400"></i> Kalkulator & Payroll Run
+                    </button>
+                    <button onclick="switchTab('directory')" id="nav-directory" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-sitemap w-5 text-sky-400"></i> Direktori & Org Chart
+                    </button>
+                    <button onclick="switchTab('documents')" id="nav-documents" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-book-bookmark w-5 text-amber-400"></i> Dokumen & Handbook
+                    </button>
+                    <button onclick="switchTab('assets')" id="nav-assets" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-laptop w-5 text-indigo-400"></i> Inventaris Aset Kantor
+                    </button>
+                    <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400"></i> Gaji & Slip Saya
+                    </button>
+                    <button onclick="switchTab('profiles')" id="nav-profiles" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-id-card-clip w-5 text-sky-400"></i> Profil Karyawan & Atasan
+                    </button>
+                    <button onclick="switchTab('workflow')" id="nav-workflow" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-list-check w-5 text-rose-400"></i> Approval Workflow
+                    </button>
+                    <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-clock-rotate-left w-5 text-slate-400"></i> Log Aktivitas Internal
+                    </button>
+                </nav>
+            </div>
+            <!-- User Profile & RBAC Switcher -->
+            <div class="p-4 border-t border-slate-800 space-y-3 bg-slate-950/40">
+                <div class="flex items-center gap-3">
+                    <div id="userAvatar" class="w-10 h-10 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner">FM</div>
+                    <div>
+                        <h4 id="userNameLabel" class="text-sm font-semibold text-white">Faari Muhammad</h4>
+                        <span id="userRoleBadge" class="text-[10px] bg-indigo-600/30 text-indigo-300 font-bold px-2 py-0.5 rounded-full">Founder & CEO</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-slate-400 block mb-1 uppercase tracking-wider">Simulasi Akun Login:</label>
+                    <select id="rbacRoleSelect" onchange="changeRbacRole(this.value)" class="w-full bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none">
+                        <option value="CEO">Faari Muhammad (Founder & CEO)</option>
+                        <option value="Manager">Budi Santoso (Atasan Divisi)</option>
+                        <option value="Employee">Siti Aminah (Karyawan Biasa)</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 flex flex-col overflow-y-auto relative">
+            
+            <!-- TOPBAR -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print">
+                <h2 id="pageTitle" class="text-xl font-bold text-slate-900">Beranda & Ringkasan Perusahaan</h2>
+                <div class="flex items-center gap-5 relative">
+                    <span class="text-sm font-medium text-slate-600">W.I.N.D Enterprise | Periode Gaji: <b class="text-indigo-600">Agustus 2026</b></span>
+                </div>
+            </header>
+
+            <!-- CONTENT BODY -->
+            <main class="p-8 space-y-6">
+                
+                <!-- VIEW 1: DASHBOARD -->
+                <div id="view-dashboard" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Karyawan</p>
+                                <h3 id="totalEmployeeCount" class="text-2xl font-bold text-slate-900 mt-1">3 Orang</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-users"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</p>
+                                <h3 id="dashTotalPayroll" class="text-2xl font-bold text-emerald-600 mt-1">Rp 47.5 Juta</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</p>
+                                <h3 class="text-2xl font-bold text-indigo-600 mt-1">Rp 4.500.000</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-receipt"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</p>
+                                <h3 id="myAssetCount" class="text-2xl font-bold text-amber-600 mt-1">1 Unit</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-laptop"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- TABEL MANAJEMEN KARYAWAN & GAJI (DENGAN TOMBOL EDIT & HAPUS) -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
+                                <p class="text-xs text-slate-500">Lihat ringkasan gaji, edit data, atau hapus data karyawan langsung dari beranda utama perusahaan.</p>
+                            </div>
+                            <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                <i class="fa-solid fa-user-plus mr-1.5"></i> Tambah Karyawan Baru
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 uppercase border-b">
+                                        <th class="py-3 px-4">Nama & Jabatan</th>
+                                        <th class="py-3 px-4">Bank & Rekening</th>
+                                        <th class="py-3 px-4">Gaji Pokok</th>
+                                        <th class="py-3 px-4">Tunjangan</th>
+                                        <th class="py-3 px-4 font-bold text-indigo-600">Take Home Pay</th>
+                                        <th class="py-3 px-4 text-center">Aksi (Edit & Hapus)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: EMPLOYEE SELF-SERVICE (ESS) -->
+                <div id="view-ess" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Employee Self-Service (ESS) - Profil & Rekening</h3>
+                                <p class="text-sm text-slate-500">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan data keluarga (PTKP).</p>
+                            </div>
+                            <button onclick="saveMyEssProfile()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
+                                <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Perubahan Profil
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                            <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <h4 class="font-bold text-slate-800 text-base mb-2"><i class="fa-solid fa-user text-indigo-600 mr-2"></i> Informasi Pribadi & Kontak</h4>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Nama Lengkap</label>
+                                    <input type="text" id="essName" class="w-full border rounded-xl px-4 py-2 bg-white text-sm font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Email Perusahaan</label>
+                                    <input type="email" id="essEmail" class="w-full border rounded-xl px-4 py-2 bg-white text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Nomor Telepon / WhatsApp</label>
+                                    <input type="text" id="essPhone" value="081234567890" class="w-full border rounded-xl px-4 py-2 bg-white text-sm">
+                                </div>
+                            </div>
+
+                            <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                                <h4 class="font-bold text-slate-800 text-base mb-2"><i class="fa-solid fa-building-columns text-emerald-600 mr-2"></i> Informasi Bank & Pajak (PTKP)</h4>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Nama Bank</label>
+                                    <select id="essBankName" class="w-full border rounded-xl px-4 py-2 bg-white text-sm">
+                                        <option value="BCA">Bank BCA</option>
+                                        <option value="Mandiri">Bank Mandiri</option>
+                                        <option value="BRI">Bank BRI</option>
+                                        <option value="BNI">Bank BNI</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Nomor Rekening</label>
+                                    <input type="text" id="essAccountNum" class="w-full border rounded-xl px-4 py-2 bg-white text-sm font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase">Status Tanggungan Pajak (PTKP)</label>
+                                    <select id="essPtkp" class="w-full border rounded-xl px-4 py-2 bg-white text-sm font-semibold text-indigo-600">
+                                        <option value="TK/0">TK/0 - Tidak Menikah, Tanpa Tanggungan</option>
+                                        <option value="K/0">K/0 - Menikah, Tanpa Tanggungan</option>
+                                        <option value="K/1">K/1 - Menikah, 1 Anak Tanggungan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ABSENSI GPS & CUTI -->
+                <div id="view-attendance" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
+                            <p class="text-xs text-slate-500">Sistem otomatis mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman.</p>
+                            
+                            <div class="bg-slate-50 p-4 rounded-xl border space-y-2 text-xs font-mono">
+                                <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-600">Dalam Radius Kantor (< 100m)</b></div>
+                                <div class="flex justify-between"><span>Koordinat GPS:</span> <b>-6.2205, 106.8183 (Sudirman, Jakarta)</b></div>
+                                <div class="flex justify-between"><span>Waktu Server:</span> <b id="liveClock">08:00:00 WIB</b></div>
+                            </div>
+
+                            <button onclick="performClockIn()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-sm">
+                                <i class="fa-solid fa-fingerprint mr-2"></i> Lakukan Clock-In (Absen Masuk)
+                            </button>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Izin Online</h3>
+                            <p class="text-xs text-slate-500">Ajukan cuti tahunan atau izin sakit secara digital langsung ke atasan.</p>
+                            
+                            <form onsubmit="submitLeaveForm(event)" class="space-y-3 text-xs">
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Jenis Cuti / Izin</label>
+                                    <select id="attendanceLeaveType" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                                        <option value="Cuti Tahunan">Cuti Tahunan (Hak 12 Hari)</option>
+                                        <option value="Izin Sakit">Izin Sakit (Medical Leave)</option>
+                                        <option value="Cuti Khusus">Cuti Khusus / Menikah</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Mulai Tanggal</label>
+                                        <input type="text" id="attendanceStart" required placeholder="01/09/2026" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Sampai Tanggal</label>
+                                        <input type="text" id="attendanceEnd" required placeholder="03/09/2026" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Keterangan / Alasan</label>
+                                    <input type="text" id="attendanceReason" required placeholder="Keperluan keluarga..." class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                                </div>
+                                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition">Kirim Pengajuan Cuti</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: REIMBURSEMENT & KLAIM MEDIS MANDIRI -->
+                <div id="view-reimburse" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Modul Klaim & Reimbursement Mandiri</h3>
+                                <p class="text-sm text-slate-500">Unggah kuitansi medis, perjalanan dinas, atau pulsa. Plafon Anda tersisa <b class="text-indigo-600">Rp 4.500.000</b>.</p>
+                            </div>
+                            <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                <i class="fa-solid fa-plus mr-2"></i> Ajukan Klaim Baru
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase border-b">
+                                        <th class="py-3 px-4">Jenis Klaim</th>
+                                        <th class="py-3 px-4">Keterangan</th>
+                                        <th class="py-3 px-4">Nominal</th>
+                                        <th class="py-3 px-4">Bukti Lampiran</th>
+                                        <th class="py-3 px-4 text-center">Status Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reimburseTableBody" class="divide-y text-slate-700 text-xs">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 5: PAYROLL ENGINE & PROFESSIONAL TAX CALCULATOR -->
+                <div id="view-payroll-engine" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 Calculator</h3>
+                                <p class="text-sm text-slate-500">Kalkulasi otomatis gaji kotor, potongan BPJS Ketenagakerjaan/Kesehatan, PPh 21, dan pencairan massal.</p>
+                            </div>
+                            <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                <i class="fa-solid fa-paper-plane mr-2"></i> Eksekusi Payroll Run (Disbursement)
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase border-b">
+                                        <th class="py-3 px-4">Nama Karyawan & Jabatan</th>
+                                        <th class="py-3 px-4">Gaji Pokok</th>
+                                        <th class="py-3 px-4">Tunjangan</th>
+                                        <th class="py-3 px-4">Potongan (BPJS + PPh21)</th>
+                                        <th class="py-3 px-4 font-bold text-indigo-600">Take Home Pay (Net)</th>
+                                        <th class="py-3 px-4 text-center">Status Transfer</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payrollEngineTableBody" class="divide-y text-slate-700 text-xs">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 6: DIREKTORI KARYAWAN & ORG CHART -->
+                <div id="view-directory" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Direktori Kontak Karyawan & Struktur Organisasi</h3>
+                                <p class="text-sm text-slate-500">Cari ekstensi meja, email rekan kerja, atau lihat hierarki divisi perusahaan.</p>
+                            </div>
+                            <div class="flex items-center gap-3 w-full md:w-auto">
+                                <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama atau jabatan..." class="border rounded-xl px-4 py-2 bg-slate-50 text-xs w-full md:w-60">
+                                <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-user-plus mr-1.5"></i> Tambah Karyawan
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- BAGAN ORGANISASI VISUAL -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wider mb-4"><i class="fa-solid fa-sitemap text-indigo-600 mr-2"></i> Bagan Struktur Organisasi W.I.N.D Company</h4>
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white px-8 py-3.5 rounded-2xl shadow-lg w-72 border border-indigo-500/30">
+                                    <span class="text-[10px] bg-emerald-500 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Founder & CEO</span>
+                                    <b class="block text-sm mt-1.5 text-white">Muhammad Faari Akbar</b>
+                                    <span class="text-xs text-indigo-300">Founder & Executive Office (Ext. 100)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase border-b">
+                                        <th class="py-3 px-4">Nama Karyawan</th>
+                                        <th class="py-3 px-4">Jabatan & Divisi</th>
+                                        <th class="py-3 px-4">Email Kantor</th>
+                                        <th class="py-3 px-4">No. Ekstensi / Meja</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="directoryTableBody" class="divide-y text-slate-700 text-xs">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 7: PUSAT DOKUMEN & HANDBOOK -->
+                <div id="view-documents" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Pusat Dokumen, SOP & Company Handbook W.I.N.D Company</h3>
+                            <p class="text-sm text-slate-500">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, SOP Klaim & Reimbursement, serta Handbook Karyawan.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                            <!-- VISI MISI & PRINSIP -->
+                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="w-10 h-10 bg-indigo-900 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-compass"></i></div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Visi, Misi & Prinsip W.I.N.D</h4>
+                                    <p class="text-slate-500 text-xs">Dokumen resmi Visi, Misi, dan Prinsip "Wealth with Purpose" berformat Times New Roman.</p>
+                                </div>
+                                <button onclick="downloadVisiMisiPDF()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
+                                    <i class="fa-solid fa-file-pdf mr-1.5"></i> Download Visi & Misi (PDF)
+                                </button>
+                            </div>
+
+                            <!-- SOP KEPEGAWAIAN & CUTI -->
+                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="w-10 h-10 bg-emerald-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-file-shield"></i></div>
+                                    <h4 class="font-bold text-slate-900 text-sm">SOP Kepegawaian & Absensi GPS</h4>
+                                    <p class="text-slate-500 text-xs">Standar Operasional Prosedur kehadiran, jam kerja, cuti, dan kedisiplinan karyawan W.I.N.D.</p>
+                                </div>
+                                <button onclick="downloadSOPPDF('SOP_Kepegawaian_WIND.pdf', 'SOP KEPEGAWAIAN DAN ABSENSI KEHADIRAN')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
+                                    <i class="fa-solid fa-download mr-1.5"></i> Download SOP Kepegawaian (PDF)
+                                </button>
+                            </div>
+
+                            <!-- SOP REIMBURSEMENT & KLAIM -->
+                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="w-10 h-10 bg-amber-700 text-white rounded-xl flex items-center justify-center text-base shadow"><i class="fa-solid fa-receipt"></i></div>
+                                    <h4 class="font-bold text-slate-900 text-sm">SOP Klaim & Reimbursement</h4>
+                                    <p class="text-slate-500 text-xs">Panduan lengkap batas plafon, pengajuan kuitansi medis, dan tata cara pencairan dana.</p>
+                                </div>
+                                <button onclick="downloadSOPPDF('SOP_Reimbursement_WIND.pdf', 'SOP KLAIM DAN REIMBURSEMENT KARYAWAN')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center shadow-sm">
+                                    <i class="fa-solid fa-download mr-1.5"></i> Download SOP Klaim (PDF)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 8: INVENTARIS ASET KANTOR -->
+                <div id="view-assets" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Manajemen Inventaris & Aset Perusahaan</h3>
+                                <p class="text-sm text-slate-500">Pencatatan fasilitas kantor yang dipinjamkan ke karyawan.</p>
+                            </div>
+                            <button onclick="openAssetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                                <i class="fa-solid fa-plus mr-2"></i> Catat Peminjaman Aset
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase border-b">
+                                        <th class="py-3 px-4">Nama Aset / Barang</th>
+                                        <th class="py-3 px-4">Nomor Seri / Kode</th>
+                                        <th class="py-3 px-4">Peminjam</th>
+                                        <th class="py-3 px-4">Tanggal Pinjam</th>
+                                        <th class="py-3 px-4 text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assetTableBody" class="divide-y text-slate-700 text-xs">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 9: GAJI & SLIP SAYA (SELURUH KARYAWAN BISA DOWNLOAD SLIP) -->
+                <div id="view-payroll" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Pusat Slip Gaji & Penghasilan Karyawan</h3>
+                            <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi berformat PDF untuk masing-masing karyawan pada periode Agustus 2026.</p>
+                        </div>
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 uppercase border-b">
+                                        <th class="py-3 px-4">Nama & Jabatan Karyawan</th>
+                                        <th class="py-3 px-4">Bank & No. Rekening</th>
+                                        <th class="py-3 px-4">Total Gaji Kotor (Bruto)</th>
+                                        <th class="py-3 px-4 font-bold text-indigo-600">Take Home Pay (Net)</th>
+                                        <th class="py-3 px-4 text-center">Aksi Unduh Slip PDF</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: PROFIL KARYAWAN & ATASAN -->
+                <div id="view-profiles" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Direktori Profil Karyawan & Atasan W.I.N.D Company</h3>
+                            <p class="text-sm text-slate-500">Informasi lengkap profil, atasan langsung (reporting line), dan ekstensi kontak seluruh anggota tim.</p>
+                        </div>
+                        <div id="employeeProfilesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                            <!-- Dimuat dinamis -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 10: APPROVAL WORKFLOW -->
+                <div id="view-workflow" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">Multi-Tier Approval Workflow (Persetujuan Bertingkat)</h3>
+                            <p class="text-sm text-slate-500">Persetujuan otomatis cuti dan klaim oleh Atasan Divisi sebelum difinalisasi oleh CEO.</p>
+                        </div>
+                        <div class="overflow-x-auto border rounded-xl">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase border-b">
+                                        <th class="py-3 px-4">Nama Karyawan</th>
+                                        <th class="py-3 px-4">Jenis Pengajuan</th>
+                                        <th class="py-3 px-4">Keterangan / Tanggal</th>
+                                        <th class="py-3 px-4">Status</th>
+                                        <th class="py-3 px-4 text-center">Aksi Atasan / CEO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workflowTableBody" class="divide-y text-slate-700 text-xs">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 11: LOG AKTIVITAS (AUDIT TRAIL) -->
+                <div id="view-audit" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-900 text-lg">Log Aktivitas Internal (Audit Trail)</h3>
+                        <p class="text-sm text-slate-500">Rekaman kronologis seluruh perubahan data karyawan, absensi, dan approval dalam sistem.</p>
+                        <div class="overflow-x-auto border rounded-xl mt-4">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 uppercase border-b">
+                                        <th class="py-3 px-4 font-semibold">Waktu</th>
+                                        <th class="py-3 px-4 font-semibold">Pengguna</th>
+                                        <th class="py-3 px-4 font-semibold">Aktivitas</th>
+                                        <th class="py-3 px-4 font-semibold text-right">Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditTableBody" class="divide-y text-slate-600">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH ASET -->
+    <div id="assetModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4">
+            <h3 class="text-lg font-bold text-slate-900 border-b pb-3">Catat Peminjaman Aset Baru</h3>
+            <form onsubmit="handleAssetSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Aset / Barang</label>
+                    <input type="text" id="assetNameInput" required placeholder="Contoh: MacBook Pro M2" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nomor Seri / Kode Inventaris</label>
+                    <input type="text" id="assetSerialInput" required placeholder="SN-MACP-9988" class="w-full border rounded-xl px-3 py-2 bg-slate-50 font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Peminjam (Karyawan)</label>
+                    <input type="text" id="assetOwnerInput" required placeholder="Siti Aminah" class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                </div>
+                <div class="flex justify-end gap-3 pt-3 border-t">
+                    <button type="button" onclick="closeAssetModal()" class="bg-slate-100 px-4 py-2 rounded-xl">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-xl">Simpan Aset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL KLAIM REIMBURSEMENT -->
+    <div id="reimburseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4 text-xs">
+            <h3 class="text-lg font-bold text-slate-900 border-b pb-3">Ajukan Klaim Reimbursement / Medis</h3>
+            <form onsubmit="handleReimburseSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Jenis Klaim</label>
+                    <select id="reimType" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                        <option value="Klaim Medis / Berobat">Klaim Medis / Berobat</option>
+                        <option value="Biaya Transport Dinas">Biaya Transport Dinas</option>
+                        <option value="Klaim Pulsa / Internet">Klaim Pulsa / Internet</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Keterangan / Keperluan</label>
+                    <input type="text" id="reimDesc" required placeholder="Pembelian obat resep dokter..." class="w-full border rounded-xl px-3 py-2 bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nominal (Rp)</label>
+                    <input type="number" id="reimAmount" required placeholder="500000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Unggah Bukti Kuitansi / Struk (Scan/Foto)</label>
+                    <input type="file" id="reimFile" required class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-[11px]">
+                </div>
+                <div class="flex justify-end gap-3 pt-3 border-t">
+                    <button type="button" onclick="closeReimburseModal()" class="bg-slate-100 px-4 py-2 rounded-xl">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-xl">Kirim Pengajuan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH / EDIT KARYAWAN -->
+    <div id="addEmployeeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative space-y-4 text-xs">
+            <h3 id="modalTitleText" class="text-lg font-bold text-slate-900 border-b pb-3"><i class="fa-solid fa-user-plus text-indigo-600 mr-2"></i> Tambah Karyawan & Gaji Baru</h3>
+            <form onsubmit="handleSaveEmployee(event)" class="space-y-3">
+                <input type="hidden" id="editEmployeeIdx" value="-1">
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Lengkap Karyawan</label>
+                    <input type="text" id="newEmpName" required placeholder="Contoh: Sarah Wijaya" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Email Perusahaan</label>
+                    <input type="email" id="newEmpEmail" required placeholder="sarah@windcompany.com" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Jabatan / Divisi</label>
+                    <input type="text" id="newEmpRole" required placeholder="HR Specialist / Finance" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Nama Bank</label>
+                        <select id="newEmpBank" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                            <option value="BCA">BCA</option>
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BRI">BRI</option>
+                            <option value="BNI">BNI</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">No. Rekening</label>
+                        <input type="text" id="newEmpAcc" required placeholder="88992211" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Gaji Pokok (Rp)</label>
+                        <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Rp 10.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-slate-500 mb-1 font-semibold uppercase">Tunjangan (Rp)</label>
+                        <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Rp 3.000.000" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs font-mono">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1 font-semibold uppercase">Status PTKP Pajak</label>
+                    <select id="newEmpPtkp" class="w-full border rounded-xl px-3 py-2 bg-slate-50 text-xs">
+                        <option value="TK/0">TK/0 (Tidak Menikah)</option>
+                        <option value="K/0">K/0 (Menikah Tanpa Anak)</option>
+                        <option value="K/1">K/1 (Menikah 1 Anak)</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 pt-3 border-t">
+                    <button type="button" onclick="closeAddEmployeeModal()" class="bg-slate-100 px-4 py-2 rounded-xl">Batal</button>
+                    <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-xl font-semibold">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT ENTERPRISE PAYROLL & HRIS -->
+    <script>
+        let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
+            { name: "Faari Muhammad", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "1234567890", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100" },
+            { name: "Budi Santoso", email: "budi@windcompany.com", role: "Senior Engineer", superior: "Faari Muhammad (Founder & CEO)", bank: "Mandiri", accNum: "0987654321", ptkp: "K/1", base: 15000000, allowance: 4000000, ext: "102" },
+            { name: "Siti Aminah", email: "siti@windcompany.com", role: "UI/UX Lead", superior: "Faari Muhammad (Founder & CEO)", bank: "BRI", accNum: "1122334455", ptkp: "TK/0", base: 12500000, allowance: 3200000, ext: "103" }
+        ];
+
+        let assets = JSON.parse(localStorage.getItem('wind_enterprise_assets')) || [
+            { name: "MacBook Pro 14 M1", serial: "SN-MBP-4412", owner: "Faari Muhammad", date: "2024-01-10", status: "Dipinjam Aktif" }
+        ];
+
+        let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [
+            { id: 1, name: "Budi Santoso", type: "Cuti Tahunan", start: "01/09/2026", end: "03/09/2026", reason: "Keperluan keluarga", status: "Menunggu Approval" }
+        ];
+
+        let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
+            { id: 1, name: "Faari Muhammad", type: "Klaim Medis / Berobat", desc: "Konsultasi Dokter Spesialis", amount: 750000, file: "kuitansi_rs.pdf", status: "Menunggu Approval" }
+        ];
+
+        let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
+            { time: "26-08-2026 09:00", user: "Faari Muhammad", action: "Inisialisasi W.I.N.D Enterprise Payroll Pro", detail: "Berhasil" }
+        ];
+
+        let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
+
+        function openAddEmployeeModal() {
+            document.getElementById('editEmployeeIdx').value = "-1";
+            document.getElementById('modalTitleText').innerHTML = `<i class="fa-solid fa-user-plus text-indigo-600 mr-2"></i> Tambah Karyawan & Gaji Baru`;
+            document.getElementById('newEmpName').value = '';
+            document.getElementById('newEmpEmail').value = '';
+            document.getElementById('newEmpRole').value = '';
+            document.getElementById('newEmpAcc').value = '';
+            document.getElementById('newEmpBase').value = '';
+            document.getElementById('newEmpAllowance').value = '';
+            document.getElementById('addEmployeeModal').classList.remove('hidden');
+            document.getElementById('addEmployeeModal').classList.add('flex');
+        }
+
+        function editEmployee(idx) {
+            const emp = employees[idx];
+            document.getElementById('editEmployeeIdx').value = idx;
+            document.getElementById('modalTitleText').innerHTML = `<i class="fa-solid fa-pen-to-square text-indigo-600 mr-2"></i> Edit Data Karyawan`;
+            document.getElementById('newEmpName').value = emp.name;
+            document.getElementById('newEmpEmail').value = emp.email;
+            document.getElementById('newEmpRole').value = emp.role;
+            document.getElementById('newEmpBank').value = emp.bank;
+            document.getElementById('newEmpAcc').value = emp.accNum;
+            document.getElementById('newEmpBase').value = 'Rp ' + emp.base.toLocaleString('id-ID');
+            document.getElementById('newEmpAllowance').value = 'Rp ' + emp.allowance.toLocaleString('id-ID');
+            document.getElementById('newEmpPtkp').value = emp.ptkp;
+
+            document.getElementById('addEmployeeModal').classList.remove('hidden');
+            document.getElementById('addEmployeeModal').classList.add('flex');
+        }
+
+        function closeAddEmployeeModal() { 
+            document.getElementById('addEmployeeModal').classList.remove('flex'); 
+            document.getElementById('addEmployeeModal').classList.add('hidden'); 
+        }
+
+        function handleSaveEmployee(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('editEmployeeIdx').value);
+            const name = document.getElementById('newEmpName').value;
+            const email = document.getElementById('newEmpEmail').value;
+            const role = document.getElementById('newEmpRole').value;
+            const bank = document.getElementById('newEmpBank').value;
+            const accNum = document.getElementById('newEmpAcc').value;
+            const base = parseRupiahNumber(document.getElementById('newEmpBase').value);
+            const allowance = parseRupiahNumber(document.getElementById('newEmpAllowance').value);
+            const ptkp = document.getElementById('newEmpPtkp').value;
+            const superior = "Faari Muhammad (Founder & CEO)";
+            const ext = String(Math.floor(104 + Math.random() * 896));
+
+            if (idx === -1) {
+                employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext });
+                showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
+                logAudit("Tambah Karyawan Baru", `${name} (${role})`);
+            } else {
+                employees[idx] = { ...employees[idx], name, email, role, bank, accNum, ptkp, base, allowance };
+                showToast(`Data karyawan ${name} berhasil diperbarui!`, 'success');
+                logAudit("Edit Data Karyawan", `${name} (${role})`);
+            }
+
+            localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+            renderAll();
+            closeAddEmployeeModal();
+        }
+
+        function saveMyEssProfile() {
+            let activeEmpIdx = 0;
+            if (currentRole === 'Manager') activeEmpIdx = 1 < employees.length ? 1 : 0;
+            if (currentRole === 'Employee') activeEmpIdx = 2 < employees.length ? 2 : 0;
+
+            const name = document.getElementById('essName').value;
+            const email = document.getElementById('essEmail').value;
+            const bank = document.getElementById('essBankName').value;
+            const accNum = document.getElementById('essAccountNum').value;
+            const ptkp = document.getElementById('essPtkp').value;
+
+            employees[activeEmpIdx].name = name;
+            employees[activeEmpIdx].email = email;
+            employees[activeEmpIdx].bank = bank;
+            employees[activeEmpIdx].accNum = accNum;
+            employees[activeEmpIdx].ptkp = ptkp;
+
+            localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+            renderAll();
+            showToast("Profil Portal Mandiri (ESS) berhasil disimpan!", "success");
+            logAudit("Update ESS Profile", `Karyawan: ${name}`);
+        }
+
+        function formatRupiah(num) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'} text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center gap-3`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function changeRbacRole(role) {
+            currentRole = role;
+            localStorage.setItem('wind_enterprise_role', role);
+            document.getElementById('rbacRoleSelect').value = role;
+            
+            const badge = document.getElementById('userRoleBadge');
+            const nameLbl = document.getElementById('userNameLabel');
+            const avatar = document.getElementById('userAvatar');
+
+            if (role === 'CEO') {
+                badge.innerText = 'Founder & CEO';
+                nameLbl.innerText = 'Faari Muhammad';
+                avatar.innerText = 'FM';
+            } else if (role === 'Manager') {
+                badge.innerText = 'Atasan Divisi';
+                nameLbl.innerText = 'Budi Santoso';
+                avatar.innerText = 'BS';
+            } else {
+                badge.innerText = 'Karyawan';
+                nameLbl.innerText = 'Siti Aminah';
+                avatar.innerText = 'SA';
+            }
+
+            renderAll();
+            showToast(`Berganti peran sebagai: ${role}`, 'success');
+        }
+
+        function switchTab(tabId) {
+            ['dashboard', 'ess', 'attendance', 'reimburse', 'payroll-engine', 'directory', 'documents', 'assets', 'payroll', 'profiles', 'workflow', 'audit'].forEach(id => {
+                const el = document.getElementById('view-' + id);
+                if(el) el.classList.add('hidden');
+                const nav = document.getElementById('nav-' + id);
+                if(nav) nav.className = "w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs";
+            });
+
+            const active = document.getElementById('view-' + tabId);
+            if(active) active.classList.remove('hidden');
+            const actNav = document.getElementById('nav-' + tabId);
+            if(actNav) actNav.className = "w-full flex items-center gap-3 px-4 py-3 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs";
+
+            const titles = {
+                'dashboard': 'Beranda & Ringkasan W.I.N.D Company',
+                'ess': 'Portal Mandiri Karyawan (ESS)',
+                'attendance': 'Absensi GPS & Pengajuan Cuti',
+                'reimburse': 'Modul Klaim & Reimbursement Mandiri',
+                'payroll-engine': 'Enterprise Payroll Run & PPh 21 Calculator',
+                'directory': 'Direktori Kontak Karyawan & Org Chart',
+                'documents': 'Pusat Dokumen & Company Handbook',
+                'assets': 'Inventaris Aset & Fasilitas Kantor',
+                'payroll': 'Gaji & Slip Penghasilan Karyawan',
+                'profiles': 'Direktori Profil Karyawan & Atasan',
+                'workflow': 'Persetujuan Bertingkat (Approval Workflow)',
+                'audit': 'Log Aktivitas Internal (Audit Trail)'
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId];
+        }
+
+        function renderDashEmployees() {
+            const body = document.getElementById('dashEmployeeTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            let totalPayrollSum = 0;
+
+            employees.forEach((emp, idx) => {
+                const bruto = emp.base + emp.allowance;
+                const deduction = Math.round(bruto * 0.11);
+                const net = bruto - deduction;
+                totalPayrollSum += net;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.base)}</td>
+                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.allowance)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                    <td class="py-3 px-4 text-center space-x-1">
+                        <button onclick="editEmployee(${idx})" class="bg-sky-500 hover:bg-sky-600 text-white px-2.5 py-1.5 rounded-lg text-[11px] shadow-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        <button onclick="deleteEmployee(${idx})" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1.5 rounded-lg text-[11px] shadow-sm"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+
+            const totalPayrollEl = document.getElementById('dashTotalPayroll');
+            if(totalPayrollEl) {
+                totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
+            }
+        }
+
+        function formatRupiahInput(input) {
+            let value = input.value.replace(/[^\d]/g, '');
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            let numberVal = parseInt(value, 10);
+            input.value = 'Rp ' + numberVal.toLocaleString('id-ID');
+        }
+
+        function parseRupiahNumber(strVal) {
+            if (!strVal) return 0;
+            let clean = String(strVal).replace(/[^\d]/g, '');
+            return parseInt(clean, 10) || 0;
+        }
+
+        function deleteEmployee(idx) {
+            if (employees.length <= 1) {
+                alert("Perusahaan minimal harus memiliki 1 karyawan.");
+                return;
+            }
+            const emp = employees[idx];
+            if (confirm(`Apakah Anda yakin ingin menghapus ${emp.name}?`)) {
+                employees.splice(idx, 1);
+                localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+                renderAll();
+                showToast(`Karyawan ${emp.name} berhasil dihapus!`, 'warning');
+            }
+        }
+
+        function renderAllEmployeesSlips() {
+            const body = document.getElementById('allEmployeesSlipTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            
+            employees.forEach((emp, idx) => {
+                const bruto = emp.base + emp.allowance;
+                const deduction = Math.round(bruto * 0.11);
+                const net = bruto - deduction;
+                
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-3 px-4 font-mono">${formatRupiah(bruto)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-[11px] shadow-sm font-semibold transition">
+                            <i class="fa-solid fa-file-pdf mr-1"></i> Download Slip PDF
+                        </button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function downloadSpecificSlip(idx) {
+            const emp = employees[idx];
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 32, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("W.I.N.D ENTERPRISE COMPANY", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text(`SLIP GAJI RESMI: ${emp.name.toUpperCase()} - PERIODE AGUSTUS 2026`, 105, 24, { align: 'center' });
+            
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            doc.text(`Jabatan / Divisi : ${emp.role}`, 20, 48);
+            doc.text(`Bank & Rekening : ${emp.bank} - ${emp.accNum}`, 20, 56);
+            doc.text(`Status PTKP     : ${emp.ptkp}`, 20, 64);
+
+            const bruto = emp.base + emp.allowance;
+            const deduct = Math.round(bruto * 0.11);
+            const net = bruto - deduct;
+
+            doc.setFont("times", "bold");
+            doc.text("RINCIAN PENGHASILAN & POTONGAN:", 20, 80);
+            doc.setFont("times", "normal");
+            doc.text(`1. Gaji Pokok                : ${formatRupiah(emp.base)}`, 20, 90);
+            doc.text(`2. Tunjangan Tetap           : ${formatRupiah(emp.allowance)}`, 20, 98);
+            doc.text(`3. Potongan (BPJS & PPh 21)  : -${formatRupiah(deduct)}`, 20, 106);
+            
+            doc.setLineWidth(0.5);
+            doc.line(20, 114, 190, 114);
+
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 126);
+
+            doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
+            showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
+            logAudit("Download Slip Gaji", `Karyawan: ${emp.name}`);
+        }
+
+        function renderAll() {
+            renderEssProfile();
+            renderDashEmployees();
+            renderAssets();
+            renderWorkflow();
+            renderDirectory();
+            renderReimburse();
+            renderAudit();
+            renderPayrollEngine();
+            renderEmployeeProfiles();
+            renderAllEmployeesSlips();
+            document.getElementById('totalEmployeeCount').innerText = employees.length + ' Orang';
+        }
+
+        function renderEssProfile() {
+            let activeEmp = employees[0];
+            if (currentRole === 'Manager') activeEmp = employees[1] || employees[0];
+            if (currentRole === 'Employee') activeEmp = employees[2] || employees[0];
+
+            document.getElementById('essName').value = activeEmp.name;
+            document.getElementById('essEmail').value = activeEmp.email;
+            document.getElementById('essBankName').value = activeEmp.bank;
+            document.getElementById('essAccountNum').value = activeEmp.accNum;
+            document.getElementById('essPtkp').value = activeEmp.ptkp;
+        }
+
+        function renderEmployeeProfiles() {
+            const container = document.getElementById('employeeProfilesContainer');
+            if(!container) return;
+            container.innerHTML = '';
+            employees.forEach(emp => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 p-6 rounded-2xl border space-y-3";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 border-b pb-3">
+                        <div class="w-12 h-12 rounded-full bg-indigo-900 text-white font-bold flex items-center justify-center text-sm shadow">
+                            ${emp.name.split(' ').map(n => n[0]).join('').substring(0,2)}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">${emp.name}</h4>
+                            <span class="text-xs text-indigo-600 font-semibold">${emp.role}</span>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5 text-xs text-slate-600 font-mono">
+                        <div class="flex justify-between"><span>Email:</span> <b class="text-slate-900">${emp.email}</b></div>
+                        <div class="flex justify-between"><span>Ekstensi Meja:</span> <b class="text-slate-900">Ext. ${emp.ext || '100'}</b></div>
+                        <div class="flex justify-between"><span>Bank / Rekening:</span> <b class="text-slate-900">${emp.bank} - ${emp.accNum}</b></div>
+                        <div class="flex justify-between border-t pt-2 text-indigo-900"><span>Atasan Langsung (Reporting Line):</span> <b class="text-indigo-700 font-bold">${emp.superior || 'Faari Muhammad (Founder & CEO)'}</b></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function performClockIn() {
+            showToast('Absensi GPS Berhasil! Lokasi terdeteksi di Area Kantor Sudirman.', 'success');
+            logAudit("Absensi GPS Clock-In", "Berhasil terekam");
+        }
+
+        function submitLeaveForm(e) {
+            e.preventDefault();
+            const type = document.getElementById('attendanceLeaveType').value;
+            const start = document.getElementById('attendanceStart').value;
+            const end = document.getElementById('attendanceEnd').value;
+            const reason = document.getElementById('attendanceReason').value;
+
+            leaveRequests.unshift({
+                id: Date.now(),
+                name: currentRole === 'Employee' ? 'Siti Aminah' : 'Budi Santoso',
+                type, start, end, reason, status: 'Menunggu Approval'
+            });
+
+            localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
+            renderWorkflow();
+            showToast('Pengajuan cuti berhasil dikirim ke CEO!', 'success');
+            logAudit("Pengajuan Cuti Online", `${type} (${start} - ${end})`);
+        }
+
+        function renderReimburse() {
+            const body = document.getElementById('reimburseTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            reimburseList.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold">${item.type}</td>
+                    <td class="py-3 px-4">${item.desc}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(item.amount)}</td>
+                    <td class="py-3 px-4 font-mono text-xs text-slate-500"><i class="fa-solid fa-paperclip mr-1 text-slate-400"></i> ${item.file}</td>
+                    <td class="py-3 px-4 text-center"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-[10px] rounded-full">${item.status}</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function openReimburseModal() { document.getElementById('reimburseModal').classList.remove('hidden'); document.getElementById('reimburseModal').classList.add('flex'); }
+        function closeReimburseModal() { document.getElementById('reimburseModal').classList.remove('flex'); document.getElementById('reimburseModal').classList.add('hidden'); }
+
+        function handleReimburseSubmit(e) {
+            e.preventDefault();
+            const type = document.getElementById('reimType').value;
+            const desc = document.getElementById('reimDesc').value;
+            const amount = parseInt(document.getElementById('reimAmount').value);
+            const fileInput = document.getElementById('reimFile');
+            const fileName = fileInput.files[0] ? fileInput.files[0].name : 'kuitansi.pdf';
+
+            reimburseList.unshift({
+                id: Date.now(),
+                name: 'Faari Muhammad',
+                type, desc, amount, file: fileName, status: 'Menunggu Approval'
+            });
+
+            localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
+            renderReimburse();
+            renderWorkflow();
+            closeReimburseModal();
+            showToast('Klaim reimbursement berhasil diajukan!', 'success');
+            logAudit("Pengajuan Klaim", `${type} (${formatRupiah(amount)})`);
+        }
+
+        function renderPayrollEngine() {
+            const body = document.getElementById('payrollEngineTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            employees.forEach(emp => {
+                const bruto = emp.base + emp.allowance;
+                const deduction = Math.round(bruto * 0.11);
+                const net = bruto - deduction;
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}<br><span class="text-[10px] text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.base)}</td>
+                    <td class="py-3 px-4 font-mono">${formatRupiah(emp.allowance)}</td>
+                    <td class="py-3 px-4 font-mono text-rose-600">-${formatRupiah(deduction)}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">${formatRupiah(net)}</td>
+                    <td class="py-3 px-4 text-center"><span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold text-[10px] rounded-full">Siap Transfer</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function runBulkPayrollDisbursement() {
+            showToast('Payroll Run Sukses! Dana gaji seluruh karyawan telah didisburse.', 'success');
+            logAudit("Payroll Run Disbursement", "Berhasil transfer massal");
+        }
+
+        function renderDirectory() {
+            const body = document.getElementById('directoryTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            employees.forEach(emp => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold text-slate-900">${emp.name}</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md font-medium text-[11px]">${emp.role}</span></td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${emp.email}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-slate-800">Ext. ${emp.ext || '100'}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function filterDirectory() {
+            const input = document.getElementById('dirSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#directoryTableBody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? '' : 'none';
+            });
+        }
+
+        function downloadVisiMisiPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("World Intelligence Network Dominant - Visi, Misi & Prinsip Utama", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("VISI W.I.N.D COMPANY:", 20, 48);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(11);
+            const visiText = "“Membangun ekosistem global yang mampu memberikan dampak nyata bagi manusia, lingkungan, teknologi, dan masa depan melalui inovasi, keberlanjutan, serta kolaborasi lintas sektor.”";
+            const splitVisi = doc.splitTextToSize(visiText, 170);
+            doc.text(splitVisi, 20, 56);
+
+            let nextY = 56 + (splitVisi.length * 6) + 10;
+
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("PRINSIP UTAMA:", 20, nextY);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(11);
+            const prinsipText = "“Wealth with Purpose — Kekayaan yang memiliki tujuan.”";
+            doc.text(prinsipText, 20, nextY + 8);
+
+            nextY += 22;
+
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("MISI UTAMA:", 20, nextY);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+
+            const missions = [
+                "1. Mengembangkan bisnis global yang berkelanjutan dan memiliki dampak sosial nyata.",
+                "2. Mendukung pendidikan, kesehatan, kemanusiaan, dan pemberdayaan masyarakat melalui program WIND Foundation.",
+                "3. Mengembangkan teknologi dan inovasi yang dapat meningkatkan kualitas hidup manusia.",
+                "4. Membangun jaringan bisnis internasional yang kuat, transparan, dan berorientasi jangka panjang.",
+                "5. Menjadi penggerak investasi pada sektor strategis seperti teknologi, energi, kesehatan, pendidikan, properti, dan industri kreatif.",
+                "6. Menciptakan kesempatan bagi generasi muda untuk berkembang melalui pendidikan, pekerjaan, dan program kewirausahaan.",
+                "7. Menjadikan W.I.N.D sebagai perusahaan yang tidak hanya mengejar keuntungan, tetapi juga meninggalkan legacy positif bagi dunia."
+            ];
+
+            let y = nextY + 8;
+            missions.forEach(m => {
+                const splitMisi = doc.splitTextToSize(m, 170);
+                doc.text(splitMisi, 20, y);
+                y += (splitMisi.length * 6) + 3;
+            });
+
+            doc.save("Visi_Misi_WIND_Company.pdf");
+            showToast("Dokumen Visi & Misi W.I.N.D berhasil di-download!", "success");
+            logAudit("Download Visi Misi", "W.I.N.D Company Official PDF (Times New Roman)");
+        }
+
+        function downloadSOPPDF(filename, titleText) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("W.I.N.D COMPANY", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("World Intelligence Network Dominant - Standar Operasional Prosedur", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(13);
+            doc.text(titleText, 20, 48);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+
+            let contentLines = [];
+            if (filename.includes('Kepegawaian')) {
+                contentLines = [
+                    "A. Ketentuan Umum Kehadiran & Jam Kerja",
+                    "1. Jam kerja formal W.I.N.D Company dimulai pukul 08.00 hingga 17.00 WIB setiap hari Senin sampai Jumat.",
+                    "2. Karyawan wajib melakukan absen masuk (Clock-In) melalui fitur GPS Geofencing di sistem HRIS W.I.N.D dalam radius 100 meter dari kantor pusat.",
+                    "3. Keterlambatan tanpa pemberitahuan sah maksimal toleransi 15 menit.",
+                    "",
+                    "B. Ketentuan Cuti Tahunan & Izin",
+                    "1. Setiap karyawan berhak atas Cuti Tahunan sebanyak 12 hari kerja setelah masa bakti 1 tahun.",
+                    "2. Pengajuan cuti wajib dilakukan melalui menu Absensi & Cuti online paling lambat 3 hari sebelum pelaksanaan agar dapat disetujui oleh Atasan Langsung dan CEO.",
+                    "3. Izin sakit wajib melampirkan surat keterangan dokter apabila melebihi 1 hari."
+                ];
+            } else {
+                contentLines = [
+                    "A. Ketentuan Umum Klaim & Reimbursement",
+                    "1. Karyawan berhak mengajukan klaim biaya medis, transportasi dinas, dan pulsa/internet sesuai dengan plafon jabatan masing-masing.",
+                    "2. Seluruh pengajuan wajib melampirkan kuitansi/struk asli serta deskripsi keperluan yang valid.",
+                    "",
+                    "B. Alur Pengajuan & Verifikasi",
+                    "1. Karyawan mengunggah bukti kuitansi melalui Modul Klaim & Reimbursement mandiri di web W.I.N.D.",
+                    "2. Atasan Divisi melakukan verifikasi awal, dilanjutkan approval akhir oleh CEO.",
+                    "3. Dana reimbursement akan dicairkan bersamaan dengan periode penggajian bulanan."
+                ];
+            }
+
+            let y = 60;
+            contentLines.forEach(line => {
+                if (line.startsWith("A.") || line.startsWith("B.")) {
+                    doc.setFont("times", "bold");
+                } else {
+                    doc.setFont("times", "normal");
+                }
+                const splitText = doc.splitTextToSize(line, 170);
+                doc.text(splitText, 20, y);
+                y += (splitText.length * 6) + 4;
+            });
+
+            doc.save(filename);
+            showToast(`Dokumen ${filename} berhasil di-download!`, 'success');
+            logAudit("Download SOP", filename);
+        }
+
+        function renderWorkflow() {
+            const body = document.getElementById('workflowTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+
+            leaveRequests.forEach((req, idx) => {
+                let badge = `<span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold text-[10px] rounded-full">Menunggu Approval CEO</span>`;
+                if (req.status === 'Disetujui') badge = `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold text-[10px] rounded-full">Disetujui Selesai</span>`;
+
+                let actionBtn = '';
+                if (currentRole === 'CEO' && req.status === 'Menunggu Approval') {
+                    actionBtn = `<button onclick="approveLeave(${idx})" class="bg-emerald-600 text-white text-[11px] px-3 py-1.5 rounded-lg">Setujui (CEO)</button>`;
+                } else {
+                    actionBtn = `<span class="text-slate-400 text-[11px]">Menunggu proses</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold">${req.name}</td>
+                    <td class="py-3 px-4">Cuti: ${req.type}</td>
+                    <td class="py-3 px-4 font-mono text-[11px]">${req.start} s.d ${req.end}</td>
+                    <td class="py-3 px-4">${badge}</td>
+                    <td class="py-3 px-4 text-center">${actionBtn}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function approveLeave(idx) {
+            leaveRequests[idx].status = 'Disetujui';
+            localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
+            renderWorkflow();
+            showToast('Pengajuan cuti disetujui!', 'success');
+            logAudit("Approval Cuti", "Disetujui CEO");
+        }
+
+        function renderAssets() {
+            const body = document.getElementById('assetTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            assets.forEach(ast => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold">${ast.name}</td>
+                    <td class="py-3 px-4 font-mono text-[11px]">${ast.serial}</td>
+                    <td class="py-3 px-4">${ast.owner}</td>
+                    <td class="py-3 px-4 text-[11px]">${ast.date}</td>
+                    <td class="py-3 px-4 text-center"><span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-semibold rounded-full">${ast.status}</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function openAssetModal() { document.getElementById('assetModal').classList.remove('hidden'); document.getElementById('assetModal').classList.add('flex'); }
+        function closeAssetModal() { document.getElementById('assetModal').classList.remove('flex'); document.getElementById('assetModal').classList.add('hidden'); }
+
+        function handleAssetSubmit(e) {
+            e.preventDefault();
+            assets.push({
+                name: document.getElementById('assetNameInput').value,
+                serial: document.getElementById('assetSerialInput').value,
+                owner: document.getElementById('assetOwnerInput').value,
+                date: "2026-08-26",
+                status: "Dipinjam Aktif"
+            });
+            localStorage.setItem('wind_enterprise_assets', JSON.stringify(assets));
+            renderAssets();
+            closeAssetModal();
+            showToast('Aset kantor berhasil dicatat!', 'success');
+        }
+
+        function renderAudit() {
+            const body = document.getElementById('auditTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            auditLogs.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td class="py-3 px-4 font-mono">${log.time}</td><td class="py-3 px-4 font-semibold">${log.user}</td><td class="py-3 px-4 text-indigo-600">${log.action}</td><td class="py-3 px-4 text-right font-mono">${log.detail}</td>`;
+                body.appendChild(tr);
+            });
+        }
+
+        function logAudit(action, detail) {
+            const now = new Date();
+            const timeStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            auditLogs.unshift({ time: timeStr, user: currentRole, action, detail });
+            localStorage.setItem('wind_enterprise_audit', JSON.stringify(auditLogs));
+            renderAudit();
+        }
+
+        setInterval(() => {
+            const d = new Date();
+            const clock = document.getElementById('liveClock');
+            if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
+        }, 1000);
+
+        renderAll();
+    </script>
+</body>
+</html>
