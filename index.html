@@ -310,7 +310,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ATTENDANCE -->
+                <!-- VIEW 3: ATTENDANCE (DENGAN TAMBAHAN FITUR 5: AI FACIAL RECOGNITION SIMULATOR) -->
                 <div id="view-attendance" class="hidden space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
@@ -328,7 +328,23 @@
                             </button>
                         </div>
 
+                        <!-- MODUL TAMBAHAN FITUR 5: AI FACIAL RECOGNITION ATTENDANCE -->
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-camera-retro text-indigo-600"></i> Absensi Wajah AI (*Facial Recognition*)</h3>
+                            <p class="text-sm text-slate-500 theme-subtext">Validasi wajah biometrik anti-joki untuk presisi kehadiran tingkat lanjut.</p>
+                            
+                            <div class="theme-subcard bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center space-y-4">
+                                <div id="faceScanBox" class="w-full h-36 bg-slate-900 rounded-xl border border-indigo-500/40 flex flex-col items-center justify-center text-slate-400 relative overflow-hidden">
+                                    <i class="fa-solid fa-face-smile text-indigo-400 text-3xl mb-2 animate-pulse"></i>
+                                    <span class="text-xs font-mono text-indigo-300">Kamera Biometrik Siap Aktif</span>
+                                </div>
+                                <button onclick="triggerAiFaceRecognition()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3 rounded-xl transition shadow-sm">
+                                    <i class="fa-solid fa-camera mr-1.5"></i> Scan Wajah & Verifikasi Presensi
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 md:col-span-2 transition-colors duration-300">
                             <div class="flex justify-between items-center border-b pb-3 border-slate-200">
                                 <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Sisa Kuota</h3>
                                 <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">Sisa Kuota: <b id="leaveBalanceCount">12 Hari</b></span>
@@ -363,8 +379,37 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: REIMBURSE -->
+                <!-- VIEW 4: REIMBURSE (DENGAN TAMBAHAN FITUR 2: PINJAMAN & KASBON KARYAWAN) -->
                 <div id="view-reimburse" class="hidden space-y-8">
+                    <!-- MODUL TAMBAHAN FITUR 2: PINJAMAN & KASBON KARYAWAN -->
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Pengajuan Kasbon & Pinjaman Karyawan (*Employee Loan*)</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Ajukan pinjaman darurat yang cicilannya dipotong otomatis dari Take Home Pay bulanan.</p>
+                            </div>
+                            <button onclick="openLoanModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                <i class="fa-solid fa-plus mr-2"></i> Ajukan Pinjaman Baru
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
+                                        <th class="py-4 px-6">Nama Karyawan</th>
+                                        <th class="py-4 px-6">Keperluan Pinjaman</th>
+                                        <th class="py-4 px-6">Total Pinjaman</th>
+                                        <th class="py-4 px-6">Cicilan / Bulan</th>
+                                        <th class="py-4 px-6 text-center">Status Pinjaman</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="loanTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
@@ -395,7 +440,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 5: PAYROLL ENGINE -->
+                <!-- VIEW 5: PAYROLL ENGINE (DENGAN TAMBAHAN FITUR 3: MULTI-CURRENCY) -->
                 <div id="view-payroll-engine" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
@@ -403,9 +448,17 @@
                                 <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 TAR (TER)</h3>
                                 <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
                             </div>
-                            <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-paper-plane mr-2"></i> Eksekusi Payroll Run (Disbursement)
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <!-- MODUL TAMBAHAN FITUR 3: PILIHAN MATA UANG (MULTI-CURRENCY) -->
+                                <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-4 py-3 rounded-2xl text-xs border border-indigo-200">
+                                    <option value="IDR">IDR (Rp - Rupiah)</option>
+                                    <option value="USD">USD ($ - Dolar)</option>
+                                    <option value="SGD">SGD (S$ - Dolar Singapura)</option>
+                                </select>
+                                <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-paper-plane mr-2"></i> Eksekusi Payroll Run
+                                </button>
+                            </div>
                         </div>
 
                         <div class="overflow-x-auto border rounded-2xl border-slate-200">
@@ -414,7 +467,7 @@
                                     <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan & Jabatan</th>
                                         <th class="py-4 px-6">Gaji Kotor (Bruto)</th>
-                                        <th class="py-4 px-6">Potongan BPJS</th>
+                                        <th class="py-4 px-6">Potongan BPJS & Kasbon</th>
                                         <th class="py-4 px-6">PPh 21 TER</th>
                                         <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay (Net)</th>
                                         <th class="py-4 px-6 text-center">Status Transfer</th>
@@ -612,13 +665,13 @@
                     </div>
                 </div>
 
-                <!-- VIEW 11: GAJI & SLIP -->
+                <!-- VIEW 11: GAJI & SLIP (DENGAN TAMBAHAN FITUR 4: E-BUPOT DJP ONLINE) -->
                 <div id="view-payroll" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1)</h3>
-                                <p class="text-sm text-slate-500 theme-subtext">Unduh dokumen slip gaji resmi atau Formulir 1721-A1 bukti pemotongan PPh 21 tahunan.</p>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1 & e-Bupot)</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Unduh dokumen slip gaji resmi, Formulir 1721-A1, atau cetak file e-Bupot DJP Online.</p>
                             </div>
                             <div class="flex items-center gap-3">
                                 <button onclick="downloadAllSlipsPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -634,7 +687,7 @@
                                         <th class="py-4 px-6">Bank & No. Rekening</th>
                                         <th class="py-4 px-6">Total Gaji Bruto</th>
                                         <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay</th>
-                                        <th class="py-4 px-6 text-center">Aksi Dokumen (Slip & Form 1721-A1)</th>
+                                        <th class="py-4 px-6 text-center">Aksi Dokumen (Slip, Form 1721-A1 & e-Bupot)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
@@ -779,6 +832,35 @@
                 </div>
 
             </main>
+        </div>
+    </div>
+
+    <!-- MODAL LOAN (TAMBAHAN FITUR 2: PINJAMAN / KASBON) -->
+    <div id="loanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Ajukan Kasbon / Pinjaman Karyawan</h3>
+            <form onsubmit="handleLoanSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Karyawan</label>
+                    <input type="text" id="loanEmpName" required value="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Keperluan Pinjaman</label>
+                    <input type="text" id="loanReason" required placeholder="Renovasi darurat / Biaya medis..." class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Total Pinjaman (Rp)</label>
+                    <input type="number" id="loanAmount" required placeholder="3000000" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Cicilan Potong Gaji per Bulan (Rp)</label>
+                    <input type="number" id="loanInstallment" required placeholder="1000000" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeLoanModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">Kirim Pengajuan</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -974,6 +1056,10 @@
         ];
         let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
             { id: 1, name: "Muhammad Faari Akbar", type: "Klaim Medis / Berobat", desc: "Pembelian obat resep dokter spesialis", amount: 500000, file: "Kuitansi_Medis.pdf", status: "Menunggu Approval HR" }
+        ];
+        // DATA TAMBAHAN FITUR 2: KASBON / PINJAMAN KARYAWAN
+        let loanList = JSON.parse(localStorage.getItem('wind_enterprise_loans')) || [
+            { id: 1, name: "Muhammad Faari Akbar", reason: "Renovasi darurat rumah", amount: 3000000, installment: 1000000, status: "Disetujui & Cicilan Aktif" }
         ];
         let appraisals = JSON.parse(localStorage.getItem('wind_enterprise_appraisals')) || [
             { name: "Muhammad Faari Akbar", period: "Agustus 2026", score: 98, feedback: "Kepemimpinan eksekutif dan visi perusahaan yang luar biasa.", grade: "A (Sangat Unggul)" }
@@ -1433,6 +1519,18 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
         }
 
+        // FUNGSI KONVERSI MATA UANG (FITUR 3)
+        function formatCurrencyDynamic(num, currencyCode) {
+            if(currencyCode === 'USD') {
+                const converted = num / 16000; // Asumsi kurs $1 = Rp 16.000
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(converted);
+            } else if(currencyCode === 'SGD') {
+                const converted = num / 12000; // Asumsi kurs S$1 = Rp 12.000
+                return new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 }).format(converted);
+            }
+            return formatRupiah(num);
+        }
+
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -1553,10 +1651,13 @@
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
-                            <i class="fa-solid fa-file-pdf mr-1"></i> Slip Gaji
+                            <i class="fa-solid fa-file-pdf mr-1"></i> Slip
                         </button>
                         <button onclick="downloadTaxForm1721(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
-                            <i class="fa-solid fa-file-invoice-dollar mr-1"></i> Form 1721-A1
+                            <i class="fa-solid fa-file-invoice-dollar mr-1"></i> 1721-A1
+                        </button>
+                        <button onclick="downloadEBupotDJP(${idx})" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
+                            <i class="fa-solid fa-file-shield mr-1"></i> e-Bupot
                         </button>
                     </td>
                 `;
@@ -1647,6 +1748,50 @@
             showToast(`Formulir Pajak 1721-A1 ${emp.name} berhasil diunduh!`, 'success');
         }
 
+        // FUNGSI TAMBAHAN FITUR 4: GENERATOR e-BUPOT DJP ONLINE
+        function downloadEBupotDJP(idx) {
+            const emp = employees[idx];
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFillColor(30, 41, 59);
+            doc.rect(0, 0, 210, 32, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(15);
+            doc.text("BUKTI PEMOTONGAN ELEKTRONIK (e-BUPOT PPh 21)", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("DIREKTORAT JENDERAL PAJAK REPUBLIK INDONESIA - W.I.N.D ENTERPRISE", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            doc.text(`Nomor e-Bupot  : BUPOT-2026-${Math.floor(100000 + Math.random() * 900000)}`, 20, 46);
+            doc.text(`Masa / Tahun   : Agustus 2026 / 2026`, 20, 54);
+            doc.text(`Nama Pegawai   : ${emp.name}`, 20, 62);
+            doc.text(`Jabatan        : ${emp.role}`, 20, 70);
+            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 78);
+
+            const bruto = emp.base + emp.allowance;
+            const tax = Math.round(bruto * 0.05);
+
+            doc.setFont("times", "bold");
+            doc.text("RINCIAN PAJAK PENGHASILAN PASAL 21:", 20, 94);
+            doc.setFont("times", "normal");
+            doc.text(`1. Penghasilan Bruto Bulan Ini : ${formatRupiah(bruto)}`, 20, 104);
+            doc.text(`2. Tarif Efektif Rata-rata (TER) : 5%`, 20, 112);
+            doc.text(`3. PPh Pasal 21 Dipotong       : ${formatRupiah(tax)}`, 20, 120);
+
+            doc.setLineWidth(0.5);
+            doc.line(20, 130, 190, 130);
+            doc.setFont("times", "bold");
+            doc.text("VALIDASI QR CODE DJP ONLINE: [TERVERIFIKASI RESMI]", 20, 142);
+
+            doc.save(`e-Bupot_PPh21_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
+            showToast(`Dokumen e-Bupot DJP Online ${emp.name} berhasil diunduh!`, 'success');
+            logAudit("Generate e-Bupot DJP", `Berhasil unduh e-Bupot untuk ${emp.name}`);
+        }
+
         function downloadAllSlipsPDF() {
             employees.forEach((emp, idx) => {
                 setTimeout(() => { downloadSpecificSlip(idx); }, idx * 400);
@@ -1662,6 +1807,7 @@
             renderWorkflow();
             renderDirectory();
             renderReimburse();
+            renderLoans();
             renderAudit();
             renderPayrollEngine();
             renderAppraisal();
@@ -1717,6 +1863,18 @@
             addNotification("Absensi GPS Clock-In berhasil terekam.");
         }
 
+        // FUNGSI TAMBAHAN FITUR 5: SIMULASI AI FACIAL RECOGNITION
+        function triggerAiFaceRecognition() {
+            const box = document.getElementById('faceScanBox');
+            box.innerHTML = `<i class="fa-solid fa-spinner text-indigo-400 text-3xl mb-2 animate-spin"></i><span class="text-xs font-mono text-indigo-300">Memindai Biometrik Wajah...</span>`;
+            setTimeout(() => {
+                box.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-3xl mb-2"></i><span class="text-xs font-mono text-emerald-300">Wajah Terverifikasi (99.8% Match)</span>`;
+                showToast("Absensi Wajah AI berhasil terekam!", "success");
+                logAudit("Absensi AI Facial Recognition", "Verifikasi wajah sukses");
+                addNotification("Absensi biometrik wajah berhasil dicatat.");
+            }, 1500);
+        }
+
         function submitLeaveForm(e) {
             e.preventDefault();
             const type = document.getElementById('attendanceLeaveType').value;
@@ -1757,6 +1915,45 @@
                 `;
                 body.appendChild(tr);
             });
+        }
+
+        // FUNGSI TAMBAHAN FITUR 2: RENDER KASBON & PINJAMAN
+        function renderLoans() {
+            const body = document.getElementById('loanTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            loanList.forEach(loan => {
+                const tr = document.createElement('tr');
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
+                tr.innerHTML = `
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${loan.name}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}">${loan.reason}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400">${formatRupiah(loan.amount)}</td>
+                    <td class="py-4 px-6 font-mono text-rose-400">-${formatRupiah(loan.installment)} / bln</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${loan.status}</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function openLoanModal() { document.getElementById('loanModal').classList.remove('hidden'); document.getElementById('loanModal').classList.add('flex'); }
+        function closeLoanModal() { document.getElementById('loanModal').classList.remove('flex'); document.getElementById('loanModal').classList.add('hidden'); }
+
+        function handleLoanSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('loanEmpName').value;
+            const reason = document.getElementById('loanReason').value;
+            const amount = parseInt(document.getElementById('loanAmount').value);
+            const installment = parseInt(document.getElementById('loanInstallment').value);
+
+            loanList.unshift({ id: Date.now(), name, reason, amount, installment, status: 'Disetujui & Cicilan Aktif' });
+            localStorage.setItem('wind_enterprise_loans', JSON.stringify(loanList));
+            renderLoans();
+            renderPayrollEngine();
+            closeLoanModal();
+            showToast('Pengajuan kasbon & pinjaman berhasil disetujui!', 'success');
+            logAudit("Employee Loan", `Pinjaman ${name}: ${formatRupiah(amount)}`);
+            addNotification(`Kasbon baru disetujui untuk ${name} (${formatRupiah(amount)}).`);
         }
 
         function openReimburseModal() { document.getElementById('reimburseModal').classList.remove('hidden'); document.getElementById('reimburseModal').classList.add('flex'); }
@@ -1896,19 +2093,32 @@
             const body = document.getElementById('payrollEngineTableBody');
             if(!body) return;
             body.innerHTML = '';
+            const curr = document.getElementById('currencySelector') ? document.getElementById('currencySelector').value : 'IDR';
+
             employees.forEach(emp => {
                 const bruto = emp.base + emp.allowance;
                 const bpjs = Math.round(bruto * 0.03);
                 const pph21 = Math.round(bruto * 0.05);
-                const net = bruto - (bpjs + pph21);
+                
+                // Cek apakah karyawan memiliki kasbon aktif (Fitur 2)
+                let activeLoanDeduction = 0;
+                loanList.forEach(l => {
+                    if(l.name.toLowerCase() === emp.name.toLowerCase()) {
+                        activeLoanDeduction += l.installment;
+                    }
+                });
+
+                const totalDeductions = bpjs + pph21 + activeLoanDeduction;
+                const net = bruto - totalDeductions;
+
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
                     <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(bruto)}</td>
-                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(bpjs)}</td>
-                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(pph21)}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatCurrencyDynamic(bruto, curr)}</td>
+                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatCurrencyDynamic(bpjs + activeLoanDeduction, curr)}</td>
+                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatCurrencyDynamic(pph21, curr)}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatCurrencyDynamic(net, curr)}</td>
                     <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">Siap Transfer</span></td>
                 `;
                 body.appendChild(tr);
@@ -1916,8 +2126,8 @@
         }
 
         function runBulkPayrollDisbursement() {
-            showToast('Payroll Run Sukses! Dana gaji, BPJS, dan PPh 21 telah didisburse.', 'success');
-            logAudit("Payroll Run PPh 21 TER", "Berhasil transfer massal");
+            showToast('Payroll Run Sukses! Dana gaji, BPJS, cicilan kasbon, & PPh 21 telah didisburse.', 'success');
+            logAudit("Payroll Run PPh 21 TER", "Berhasil transfer massal multi-potongan");
             addNotification("Payroll Run Periode Agustus 2026 berhasil dieksekusi.");
         }
 
