@@ -124,17 +124,17 @@
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col overflow-y-auto relative">
             
-            <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print" id="headerThemeContainer">
-                <h2 id="pageTitle" class="text-2xl font-bold text-slate-900">Beranda & Ringkasan Perusahaan</h2>
+            <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300" id="headerThemeContainer">
+                <h2 id="pageTitle" class="text-2xl font-bold text-slate-900 transition-colors duration-300" id="headerTitleTheme">Beranda & Ringkasan Perusahaan</h2>
                 
                 <div class="flex items-center gap-4 relative">
-                    <!-- TOGGLE DARK MODE TAMBAHAN -->
-                    <button onclick="toggleDarkModeTheme()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base" title="Ubah Mode Terang / Gelap">
+                    <!-- TOGGLE DARK MODE -->
+                    <button onclick="toggleDarkModeTheme()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base" title="Ubah Mode Terang / Gelap" id="darkModeBtnTheme">
                         <i id="darkModeIcon" class="fa-solid fa-moon"></i>
                     </button>
 
                     <div class="relative">
-                        <button onclick="toggleNotificationDropdown()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg">
+                        <button onclick="toggleNotificationDropdown()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg" id="notifBtnTheme">
                             <i class="fa-solid fa-bell"></i>
                             <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-xs w-6 h-6 rounded-full flex items-center justify-center shadow-md hidden">0</span>
                         </button>
@@ -150,7 +150,7 @@
                         </div>
                     </div>
 
-                    <span class="text-base font-semibold text-slate-700 hidden sm:inline">W.I.N.D Enterprise | Periode: <b class="text-indigo-600">Agustus 2026</b></span>
+                    <span class="text-base font-semibold text-slate-700 hidden sm:inline transition-colors duration-300" id="periodTextTheme">W.I.N.D Enterprise | Periode: <b class="text-indigo-600">Agustus 2026</b></span>
                 </div>
             </header>
 
@@ -171,15 +171,15 @@
 
                     <!-- KARTU STATISTIK DASHBOARD -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Karyawan</span>
                                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-users"></i></div>
                             </div>
-                            <h3 id="totalEmployeeCount" class="text-2xl font-black text-slate-900">1 Orang</h3>
+                            <h3 id="totalEmployeeCount" class="text-2xl font-black text-slate-900 theme-text">1 Orang</h3>
                         </div>
 
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</span>
                                 <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
@@ -187,7 +187,7 @@
                             <h3 id="dashTotalPayroll" class="text-xl font-black text-emerald-600">Rp 29.3 Juta</h3>
                         </div>
 
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</span>
                                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-receipt"></i></div>
@@ -195,7 +195,7 @@
                             <h3 class="text-xl font-black text-indigo-600">Rp 4.5 Juta</h3>
                         </div>
 
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</span>
                                 <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-laptop"></i></div>
@@ -204,10 +204,10 @@
                         </div>
                     </div>
 
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                        <div class="flex justify-between items-center border-b pb-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
                                 <p class="text-sm text-slate-500">Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
                             </div>
                             <span class="text-sm bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full font-bold">Tahun 2026</span>
@@ -217,10 +217,10 @@
                         </div>
                     </div>
 
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
                                 <p class="text-sm text-slate-500">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
                             </div>
                             <div class="flex items-center gap-3">
@@ -232,10 +232,10 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs">
+                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
                                         <th class="py-4 px-6">Nama & Jabatan</th>
                                         <th class="py-4 px-6">Bank & Rekening</th>
                                         <th class="py-4 px-6">Gaji Pokok</th>
@@ -244,7 +244,7 @@
                                         <th class="py-4 px-6 text-center">Aksi (Edit & Hapus)</th>
                                     </tr>
                                 </thead>
-                                <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700">
+                                <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700 divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -254,10 +254,10 @@
 
                 <!-- VIEW 2: ESS -->
                 <div id="view-ess" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex justify-between items-center border-b pb-6">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-6 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Employee Self-Service (ESS) - Profil & Rekening</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Employee Self-Service (ESS) - Profil & Rekening</h3>
                                 <p class="text-sm text-slate-500">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.</p>
                             </div>
                             <button onclick="saveMyEssProfile()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-2xl transition shadow-sm">
@@ -266,27 +266,27 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-                            <div class="space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                                <h4 class="font-bold text-slate-800 text-base mb-3"><i class="fa-solid fa-user text-indigo-600 mr-2"></i> Informasi Pribadi & Kontak</h4>
+                            <div class="theme-subcard space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100 transition-colors duration-300">
+                                <h4 class="font-bold text-slate-800 text-base mb-3 theme-text"><i class="fa-solid fa-user text-indigo-600 mr-2"></i> Informasi Pribadi & Kontak</h4>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nama Lengkap</label>
-                                    <input type="text" id="essName" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-semibold">
+                                    <input type="text" id="essName" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Email Perusahaan</label>
-                                    <input type="email" id="essEmail" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
+                                    <input type="email" id="essEmail" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nomor Telepon / WhatsApp</label>
-                                    <input type="text" id="essPhone" value="081234567890" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
+                                    <input type="text" id="essPhone" value="081234567890" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                 </div>
                             </div>
 
-                            <div class="space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                                <h4 class="font-bold text-slate-800 text-base mb-3"><i class="fa-solid fa-building-columns text-emerald-600 mr-2"></i> Informasi Bank & Pajak (PTKP PPh 21 TER)</h4>
+                            <div class="theme-subcard space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100 transition-colors duration-300">
+                                <h4 class="font-bold text-slate-800 text-base mb-3 theme-text"><i class="fa-solid fa-building-columns text-emerald-600 mr-2"></i> Informasi Bank & Pajak (PTKP PPh 21 TER)</h4>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nama Bank</label>
-                                    <select id="essBankName" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
+                                    <select id="essBankName" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                         <option value="BCA">Bank BCA</option>
                                         <option value="Mandiri">Bank Mandiri</option>
                                         <option value="BRI">Bank BRI</option>
@@ -295,11 +295,11 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nomor Rekening</label>
-                                    <input type="text" id="essAccountNum" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-mono">
+                                    <input type="text" id="essAccountNum" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-mono">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Kategori Pajak (PPh 21 TER)</label>
-                                    <select id="essPtkp" class="w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-bold text-indigo-600">
+                                    <select id="essPtkp" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-bold text-indigo-600">
                                         <option value="TK/0">Kategori A (TAR A) - TK/0, TK/1, K/0</option>
                                         <option value="K/1">Kategori B (TAR B) - K/1, K/2, TK/2</option>
                                         <option value="K/3">Kategori C (TAR C) - K/3</option>
@@ -313,14 +313,14 @@
                 <!-- VIEW 3: ATTENDANCE -->
                 <div id="view-attendance" class="hidden space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
                             <p class="text-sm text-slate-500">Sistem mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman.</p>
                             
-                            <div class="bg-slate-50 p-6 rounded-2xl border space-y-3 text-sm font-mono">
+                            <div class="theme-subcard bg-slate-50 p-6 rounded-2xl border space-y-3 text-sm font-mono border-slate-200">
                                 <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-600">Dalam Radius Kantor (< 100m)</b></div>
-                                <div class="flex justify-between"><span>Koordinat GPS:</span> <b>-6.2205, 106.8183 (Jakarta)</b></div>
-                                <div class="flex justify-between"><span>Waktu Server:</span> <b id="liveClock">08:00:00 WIB</b></div>
+                                <div class="flex justify-between"><span>Koordinat GPS:</span> <b class="theme-text">-6.2205, 106.8183 (Jakarta)</b></div>
+                                <div class="flex justify-between"><span>Waktu Server:</span> <b class="theme-text" id="liveClock">08:00:00 WIB</b></div>
                             </div>
 
                             <button onclick="performClockIn()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl transition shadow-sm text-base">
@@ -328,17 +328,16 @@
                             </button>
                         </div>
 
-                        <!-- MODUL PEMBARUAN: SISA KUOTA CUTI (LEAVE BALANCE) -->
-                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                            <div class="flex justify-between items-center border-b pb-3">
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Sisa Kuota</h3>
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                            <div class="flex justify-between items-center border-b pb-3 border-slate-200">
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Pengajuan Cuti & Sisa Kuota</h3>
                                 <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">Sisa Kuota: <b id="leaveBalanceCount">12 Hari</b></span>
                             </div>
                             
                             <form onsubmit="submitLeaveForm(event)" class="space-y-4 text-sm">
                                 <div>
                                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Cuti / Izin</label>
-                                    <select id="attendanceLeaveType" class="w-full border rounded-2xl px-4 py-3 bg-slate-50">
+                                    <select id="attendanceLeaveType" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                         <option value="Cuti Tahunan">Cuti Tahunan (Hak 12 Hari)</option>
                                         <option value="Izin Sakit">Izin Sakit (Medical Leave)</option>
                                         <option value="Cuti Khusus">Cuti Khusus / Menikah</option>
@@ -347,16 +346,16 @@
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
                                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Mulai Tanggal</label>
-                                        <input type="text" id="attendanceStart" required placeholder="01/09/2026" class="w-full border rounded-2xl px-4 py-3 bg-slate-50">
+                                        <input type="text" id="attendanceStart" required placeholder="01/09/2026" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                     </div>
                                     <div>
                                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Sampai Tanggal</label>
-                                        <input type="text" id="attendanceEnd" required placeholder="03/09/2026" class="w-full border rounded-2xl px-4 py-3 bg-slate-50">
+                                        <input type="text" id="attendanceEnd" required placeholder="03/09/2026" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Keterangan / Alasan</label>
-                                    <input type="text" id="attendanceReason" required placeholder="Keperluan keluarga..." class="w-full border rounded-2xl px-4 py-3 bg-slate-50">
+                                    <input type="text" id="attendanceReason" required placeholder="Keperluan keluarga..." class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                 </div>
                                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl transition text-base">Kirim Pengajuan Cuti</button>
                             </form>
@@ -366,10 +365,10 @@
 
                 <!-- VIEW 4: REIMBURSE -->
                 <div id="view-reimburse" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Modul Klaim & Reimbursement Mandiri</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Modul Klaim & Reimbursement Mandiri</h3>
                                 <p class="text-sm text-slate-500">Unggah kuitansi medis atau perjalanan dinas. Plafon tersisa <b class="text-indigo-600">Rp 4.500.000</b>.</p>
                             </div>
                             <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -377,10 +376,10 @@
                             </button>
                         </div>
 
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Jenis Klaim</th>
                                         <th class="py-4 px-6">Keterangan</th>
                                         <th class="py-4 px-6">Nominal</th>
@@ -388,7 +387,7 @@
                                         <th class="py-4 px-6 text-center">Status Verifikasi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="reimburseTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="reimburseTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -398,10 +397,10 @@
 
                 <!-- VIEW 5: PAYROLL ENGINE -->
                 <div id="view-payroll-engine" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 TAR (TER)</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 TAR (TER)</h3>
                                 <p class="text-sm text-slate-500">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
                             </div>
                             <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -409,10 +408,10 @@
                             </button>
                         </div>
 
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan & Jabatan</th>
                                         <th class="py-4 px-6">Gaji Kotor (Bruto)</th>
                                         <th class="py-4 px-6">Potongan BPJS</th>
@@ -421,7 +420,7 @@
                                         <th class="py-4 px-6 text-center">Status Transfer</th>
                                     </tr>
                                 </thead>
-                                <tbody id="payrollEngineTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="payrollEngineTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -431,10 +430,10 @@
 
                 <!-- VIEW 6: APPRAISAL -->
                 <div id="view-appraisal" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Penilaian Kinerja & KPI Karyawan (Performance Appraisal)</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Penilaian Kinerja & KPI Karyawan (Performance Appraisal)</h3>
                                 <p class="text-sm text-slate-500">Evaluasi produktivitas bulanan sebagai dasar kenaikan gaji (*merit increase*) dan bonus.</p>
                             </div>
                             <button onclick="openAppraisalModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -442,10 +441,10 @@
                             </button>
                         </div>
 
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan</th>
                                         <th class="py-4 px-6">Periode Evaluasi</th>
                                         <th class="py-4 px-6">Skor KPI (0-100)</th>
@@ -453,7 +452,7 @@
                                         <th class="py-4 px-6 text-center">Predikat Kinerja</th>
                                     </tr>
                                 </thead>
-                                <tbody id="appraisalTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="appraisalTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -463,10 +462,10 @@
 
                 <!-- VIEW 7: DIGITAL VAULT -->
                 <div id="view-vault" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl"><i class="fa-solid fa-folder-closed text-indigo-600 mr-2"></i> Brankas Dokumen Digital Karyawan (Employee Vault)</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-folder-closed text-indigo-600 mr-2"></i> Brankas Dokumen Digital Karyawan (Employee Vault)</h3>
                                 <p class="text-sm text-slate-500">Penyimpanan aman dokumen penting seperti KTP, NPWP, Ijazah, dan Kontrak Kerja.</p>
                             </div>
                             <button onclick="openVaultModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -474,10 +473,10 @@
                             </button>
                         </div>
 
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan</th>
                                         <th class="py-4 px-6">Jenis Dokumen</th>
                                         <th class="py-4 px-6">Nama File</th>
@@ -485,7 +484,7 @@
                                         <th class="py-4 px-6 text-center">Aksi Unduh</th>
                                     </tr>
                                 </thead>
-                                <tbody id="vaultTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="vaultTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -495,22 +494,22 @@
 
                 <!-- VIEW 8: DIREKTORI -->
                 <div id="view-directory" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Direktori Kontak Karyawan & Struktur Organisasi</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Direktori Kontak Karyawan & Struktur Organisasi</h3>
                                 <p class="text-sm text-slate-500">Cari ekstensi meja, email rekan kerja, atau lihat hierarki divisi perusahaan.</p>
                             </div>
                             <div class="flex items-center gap-3 w-full md:w-auto">
-                                <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama atau jabatan..." class="border rounded-2xl px-5 py-3 bg-slate-50 text-sm w-full md:w-72">
+                                <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama atau jabatan..." class="theme-input border rounded-2xl px-5 py-3 bg-slate-50 text-sm w-full md:w-72">
                                 <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
                                     <i class="fa-solid fa-user-plus mr-2"></i> Tambah Karyawan
                                 </button>
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 text-center space-y-5">
-                            <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider mb-4"><i class="fa-solid fa-sitemap text-indigo-600 mr-2"></i> Bagan Struktur Organisasi W.I.N.D Company</h4>
+                        <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border border-slate-100 text-center space-y-5 transition-colors duration-300">
+                            <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider mb-4 theme-text"><i class="fa-solid fa-sitemap text-indigo-600 mr-2"></i> Bagan Struktur Organisasi W.I.N.D Company</h4>
                             <div class="flex flex-col items-center space-y-4">
                                 <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white px-10 py-4 rounded-2xl shadow-lg w-80 border border-indigo-500/30">
                                     <span class="text-xs bg-emerald-500 text-white font-bold px-2.5 py-1 rounded-full uppercase tracking-widest">Founder & CEO</span>
@@ -520,17 +519,17 @@
                             </div>
                         </div>
 
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan</th>
                                         <th class="py-4 px-6">Jabatan & Divisi</th>
                                         <th class="py-4 px-6">Email Kantor</th>
                                         <th class="py-4 px-6">No. Ekstensi / Meja</th>
                                     </tr>
                                 </thead>
-                                <tbody id="directoryTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="directoryTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -540,16 +539,16 @@
 
                 <!-- VIEW 9: DOKUMEN & HANDBOOK -->
                 <div id="view-documents" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="border-b pb-6">
-                            <h3 class="font-bold text-slate-900 text-xl">Pusat Dokumen, SOP & Company Handbook W.I.N.D</h3>
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="border-b pb-6 border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Dokumen, SOP & Company Handbook W.I.N.D</h3>
                             <p class="text-sm text-slate-500">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, dan Handbook.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between">
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between transition-colors duration-300 border-slate-200">
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-indigo-900 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-compass"></i></div>
-                                    <h4 class="font-bold text-slate-900 text-base">Visi, Misi & Prinsip W.I.N.D</h4>
+                                    <h4 class="font-bold text-slate-900 text-base theme-text">Visi, Misi & Prinsip W.I.N.D</h4>
                                     <p class="text-slate-600 text-sm">Dokumen resmi Visi, Misi, dan Prinsip "Wealth with Purpose" berformat Times New Roman.</p>
                                 </div>
                                 <button onclick="downloadVisiMisiPDF()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
@@ -557,10 +556,10 @@
                                 </button>
                             </div>
 
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between">
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between transition-colors duration-300 border-slate-200">
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-emerald-700 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-file-shield"></i></div>
-                                    <h4 class="font-bold text-slate-900 text-base">SOP Kepegawaian & Absensi GPS</h4>
+                                    <h4 class="font-bold text-slate-900 text-base theme-text">SOP Kepegawaian & Absensi GPS</h4>
                                     <p class="text-slate-600 text-sm">Standar Operasional Prosedur kehadiran, jam kerja, cuti, dan kedisiplinan karyawan W.I.N.D.</p>
                                 </div>
                                 <button onclick="downloadSOPKepegawaianPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
@@ -568,10 +567,10 @@
                                 </button>
                             </div>
 
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between">
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between transition-colors duration-300 border-slate-200">
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-amber-700 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-receipt"></i></div>
-                                    <h4 class="font-bold text-slate-900 text-base">SOP Klaim & Reimbursement</h4>
+                                    <h4 class="font-bold text-slate-900 text-base theme-text">SOP Klaim & Reimbursement</h4>
                                     <p class="text-slate-600 text-sm">Panduan lengkap batas plafon, pengajuan kuitansi medis, dan tata cara pencairan dana.</p>
                                 </div>
                                 <button onclick="downloadSOPReimbursementPDF()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
@@ -584,20 +583,20 @@
 
                 <!-- VIEW 10: ASET -->
                 <div id="view-assets" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex justify-between items-center border-b pb-6">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-6 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Manajemen Inventaris & Aset Perusahaan</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Manajemen Inventaris & Aset Perusahaan</h3>
                                 <p class="text-sm text-slate-500">Pencatatan fasilitas kantor yang dipinjamkan ke karyawan.</p>
                             </div>
                             <button onclick="openAssetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl transition">
                                 <i class="fa-solid fa-plus mr-2"></i> Catat Peminjaman Aset
                             </button>
                         </div>
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Aset / Barang</th>
                                         <th class="py-4 px-6">Nomor Seri / Kode</th>
                                         <th class="py-4 px-6">Peminjam</th>
@@ -605,7 +604,7 @@
                                         <th class="py-4 px-6 text-center">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody id="assetTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="assetTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -615,10 +614,10 @@
 
                 <!-- VIEW 11: GAJI & SLIP -->
                 <div id="view-payroll" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1)</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1)</h3>
                                 <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi atau Formulir 1721-A1 bukti pemotongan PPh 21 tahunan.</p>
                             </div>
                             <div class="flex items-center gap-3">
@@ -627,10 +626,10 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs">
+                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
                                         <th class="py-4 px-6">Nama & Jabatan Karyawan</th>
                                         <th class="py-4 px-6">Bank & No. Rekening</th>
                                         <th class="py-4 px-6">Total Gaji Bruto</th>
@@ -638,7 +637,7 @@
                                         <th class="py-4 px-6 text-center">Aksi Dokumen (Slip & Form 1721-A1)</th>
                                     </tr>
                                 </thead>
-                                <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -648,9 +647,9 @@
 
                 <!-- VIEW 12: PROFIL -->
                 <div id="view-profiles" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="border-b pb-6">
-                            <h3 class="font-bold text-slate-900 text-xl">Direktori Profil Karyawan & Atasan W.I.N.D Company</h3>
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="border-b pb-6 border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-xl theme-text">Direktori Profil Karyawan & Atasan W.I.N.D Company</h3>
                             <p class="text-sm text-slate-500">Informasi lengkap profil, atasan langsung, dan ekstensi kontak seluruh anggota tim.</p>
                         </div>
                         <div id="employeeProfilesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
@@ -661,15 +660,15 @@
 
                 <!-- VIEW 13: WORKFLOW -->
                 <div id="view-workflow" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="border-b pb-6">
-                            <h3 class="font-bold text-slate-900 text-xl">Multi-Tier Approval Workflow (Persetujuan Bertingkat)</h3>
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
+                        <div class="border-b pb-6 border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-xl theme-text">Multi-Tier Approval Workflow (Persetujuan Bertingkat)</h3>
                             <p class="text-sm text-slate-500">Persetujuan otomatis cuti dan klaim oleh Atasan Divisi sebelum difinalisasi oleh CEO.</p>
                         </div>
-                        <div class="overflow-x-auto border rounded-2xl">
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold">
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan</th>
                                         <th class="py-4 px-6">Jenis Pengajuan</th>
                                         <th class="py-4 px-6">Keterangan / Tanggal</th>
@@ -677,7 +676,7 @@
                                         <th class="py-4 px-6 text-center">Aksi Atasan / CEO</th>
                                     </tr>
                                 </thead>
-                                <tbody id="workflowTableBody" class="divide-y text-slate-700 text-sm">
+                                <tbody id="workflowTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -687,20 +686,20 @@
 
                 <!-- VIEW 14: AUDIT -->
                 <div id="view-audit" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                        <h3 class="font-bold text-slate-900 text-xl">Log Aktivitas Internal (Audit Trail)</h3>
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <h3 class="font-bold text-slate-900 text-xl theme-text">Log Aktivitas Internal (Audit Trail)</h3>
                         <p class="text-sm text-slate-500">Rekaman kronologis seluruh perubahan data karyawan, absensi, dan approval dalam sistem.</p>
-                        <div class="overflow-x-auto border rounded-2xl mt-4">
+                        <div class="overflow-x-auto border rounded-2xl mt-4 border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
-                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs">
+                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
                                         <th class="py-4 px-6">Waktu</th>
                                         <th class="py-4 px-6">Pengguna</th>
                                         <th class="py-4 px-6">Aktivitas</th>
                                         <th class="py-4 px-6 text-right">Detail</th>
                                     </tr>
                                 </thead>
-                                <tbody id="auditTableBody" class="divide-y text-slate-600 text-sm">
+                                <tbody id="auditTableBody" class="divide-y text-slate-600 text-sm divide-slate-200">
                                     <!-- Dimuat dinamis -->
                                 </tbody>
                             </table>
@@ -710,10 +709,10 @@
 
                 <!-- VIEW 15: SETTINGS -->
                 <div id="view-settings" class="hidden space-y-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm">
-                        <div class="border-b pb-6 flex justify-between items-center">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm transition-colors duration-300">
+                        <div class="border-b pb-6 flex justify-between items-center border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg"><i class="fa-solid fa-gear text-indigo-600 mr-2"></i> Pengaturan Perusahaan & Sistem W.I.N.D</h3>
+                                <h3 class="font-bold text-slate-900 text-lg theme-text"><i class="fa-solid fa-gear text-indigo-600 mr-2"></i> Pengaturan Perusahaan & Sistem W.I.N.D</h3>
                                 <p class="text-slate-500">Kelola konfigurasi identitas perusahaan dan parameter payroll.</p>
                             </div>
                             <button onclick="saveSystemSettings()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl transition shadow-sm">
@@ -722,27 +721,27 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-5">
-                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-building text-indigo-600 mr-2"></i> Identitas Perusahaan</h4>
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-building text-indigo-600 mr-2"></i> Identitas Perusahaan</h4>
                                 <div>
                                     <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Nama Resmi Perusahaan</label>
-                                    <input type="text" id="settingCompName" value="W.I.N.D Enterprise Company" class="w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
+                                    <input type="text" id="settingCompName" value="W.I.N.D Enterprise Company" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                 </div>
                                 <div>
                                     <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Alamat Kantor Pusat</label>
-                                    <input type="text" id="settingCompAddress" value="Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan" class="w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
+                                    <input type="text" id="settingCompAddress" value="Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                 </div>
                             </div>
 
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-5">
-                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-calculator text-emerald-600 mr-2"></i> Pajak & Payroll</h4>
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-calculator text-emerald-600 mr-2"></i> Pajak & Payroll</h4>
                                 <div>
                                     <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Standar Potongan (PPh 21 TER)</label>
-                                    <input type="text" disabled value="Tarif Efektif Rata-rata (TER) Aktif" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-100 text-slate-600 font-mono text-base">
+                                    <input type="text" disabled value="Tarif Efektif Rata-rata (TER) Aktif" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-100 text-slate-600 font-mono text-base">
                                 </div>
                                 <div>
                                     <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Tanggal Siklus Payroll Bulanan</label>
-                                    <select id="settingPayrollDate" class="w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
+                                    <select id="settingPayrollDate" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                         <option value="25">Tanggal 25 Setiap Bulan</option>
                                         <option value="28">Tanggal 28 Setiap Bulan</option>
                                     </select>
@@ -751,24 +750,24 @@
                         </div>
 
                         <!-- MODUL CHAT & GATEWAY -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t">
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-4">
-                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
-                                <div class="bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs" id="internalChatContainer">
-                                    <div class="bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal W.I.N.D Pro! Silakan berkoordinasi di sini.</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-200">
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-4 transition-colors duration-300 border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
+                                <div class="theme-input bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs border-slate-200" id="internalChatContainer">
+                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal W.I.N.D Pro! Silakan berkoordinasi di sini.</div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
+                                    <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="theme-input border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
                                     <button onclick="sendInternalChat()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs">Kirim</button>
                                 </div>
                             </div>
 
-                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-5">
-                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-robot text-emerald-600 mr-2"></i> WhatsApp & Email Gateway Simulator</h4>
+                            <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-robot text-emerald-600 mr-2"></i> WhatsApp & Email Gateway Simulator</h4>
                                 <p class="text-xs text-slate-500">Kirimkan notifikasi otomatis slip gaji atau pengumuman via WhatsApp/Email langsung ke nomor terdaftar karyawan.</p>
                                 <div>
                                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Pesan Broadcast Otomatis</label>
-                                    <textarea id="broadcastMsgText" class="w-full border rounded-2xl p-3 bg-white text-xs" rows="3">Halo, Slip Gaji Periode Agustus 2026 telah terbit. Silakan cek portal ESS Anda.</textarea>
+                                    <textarea id="broadcastMsgText" class="theme-input w-full border rounded-2xl p-3 bg-white text-xs" rows="3">Halo, Slip Gaji Periode Agustus 2026 telah terbit. Silakan cek portal ESS Anda.</textarea>
                                 </div>
                                 <button onclick="sendWhatsAppBroadcast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition text-xs shadow-sm">
                                     <i class="fa-brands fa-whatsapp mr-1.5"></i> Kirim Broadcast WhatsApp & Email
@@ -785,27 +784,27 @@
 
     <!-- MODAL APPRAISAL -->
     <div id="appraisalModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm">
-            <h3 class="text-xl font-bold text-slate-900 border-b pb-4"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Tambah Penilaian Kinerja Karyawan</h3>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Tambah Penilaian Kinerja Karyawan</h3>
             <form onsubmit="handleAppraisalSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Karyawan</label>
-                    <input type="text" id="appEmpName" required placeholder="Muhammad Faari Akbar" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="appEmpName" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Periode Evaluasi</label>
-                    <input type="text" id="appPeriod" required value="Agustus 2026" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="appPeriod" required value="Agustus 2026" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Skor KPI (0 - 100)</label>
-                    <input type="number" id="appScore" required min="0" max="100" placeholder="92" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                    <input type="number" id="appScore" required min="0" max="100" placeholder="92" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Umpan Balik / Catatan Atasan</label>
-                    <input type="text" id="appFeedback" required placeholder="Kinerja sangat baik dan konsisten..." class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="appFeedback" required placeholder="Kinerja sangat baik dan konsisten..." class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button type="button" onclick="closeAppraisalModal()" class="bg-slate-100 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeAppraisalModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
                     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan Penilaian</button>
                 </div>
             </form>
@@ -814,16 +813,16 @@
 
     <!-- MODAL VAULT -->
     <div id="vaultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm">
-            <h3 class="text-xl font-bold text-slate-900 border-b pb-4"><i class="fa-solid fa-upload text-indigo-600 mr-2"></i> Unggah Dokumen Digital Vault</h3>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-upload text-indigo-600 mr-2"></i> Unggah Dokumen Digital Vault</h3>
             <form onsubmit="handleVaultSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Karyawan</label>
-                    <input type="text" id="vaultEmpName" required placeholder="Muhammad Faari Akbar" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="vaultEmpName" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Dokumen</label>
-                    <select id="vaultDocType" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <select id="vaultDocType" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                         <option value="KTP & KK">KTP & KK</option>
                         <option value="NPWP">Kartu NPWP</option>
                         <option value="Kontrak Kerja">Kontrak Kerja Resmi</option>
@@ -832,10 +831,10 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">File Dokumen (PDF/Scan)</label>
-                    <input type="file" id="vaultFile" required class="w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
+                    <input type="file" id="vaultFile" required class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
                 </div>
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button type="button" onclick="closeVaultModal()" class="bg-slate-100 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeVaultModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
                     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Unggah Dokumen</button>
                 </div>
             </form>
@@ -844,23 +843,23 @@
 
     <!-- MODAL ASET -->
     <div id="assetModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm">
-            <h3 class="text-xl font-bold text-slate-900 border-b pb-4">Catat Peminjaman Aset Baru</h3>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200">Catat Peminjaman Aset Baru</h3>
             <form onsubmit="handleAssetSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Aset / Barang</label>
-                    <input type="text" id="assetNameInput" required placeholder="Contoh: MacBook Pro M2" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="assetNameInput" required placeholder="Contoh: MacBook Pro M2" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nomor Seri / Kode Inventaris</label>
-                    <input type="text" id="assetSerialInput" required placeholder="SN-MACP-9988" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                    <input type="text" id="assetSerialInput" required placeholder="SN-MACP-9988" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Peminjam (Karyawan)</label>
-                    <input type="text" id="assetOwnerInput" required placeholder="Muhammad Faari Akbar" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="assetOwnerInput" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button type="button" onclick="closeAssetModal()" class="bg-slate-100 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeAssetModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
                     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan Aset</button>
                 </div>
             </form>
@@ -869,12 +868,12 @@
 
     <!-- MODAL REIMBURSE -->
     <div id="reimburseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm">
-            <h3 class="text-xl font-bold text-slate-900 border-b pb-4">Ajukan Klaim Reimbursement / Medis</h3>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200">Ajukan Klaim Reimbursement / Medis</h3>
             <form onsubmit="handleReimburseSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Klaim</label>
-                    <select id="reimType" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <select id="reimType" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                         <option value="Klaim Medis / Berobat">Klaim Medis / Berobat</option>
                         <option value="Biaya Transport Dinas">Biaya Transport Dinas</option>
                         <option value="Klaim Pulsa / Internet">Klaim Pulsa / Internet</option>
@@ -882,18 +881,18 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Keterangan / Keperluan</label>
-                    <input type="text" id="reimDesc" required placeholder="Pembelian obat resep dokter..." class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="reimDesc" required placeholder="Pembelian obat resep dokter..." class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nominal (Rp)</label>
-                    <input type="number" id="reimAmount" required placeholder="500000" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                    <input type="number" id="reimAmount" required placeholder="500000" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Unggah Bukti Kuitansi / Struk</label>
-                    <input type="file" id="reimFile" required class="w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
+                    <input type="file" id="reimFile" required class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
                 </div>
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button type="button" onclick="closeReimburseModal()" class="bg-slate-100 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeReimburseModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
                     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Kirim Pengajuan</button>
                 </div>
             </form>
@@ -902,26 +901,26 @@
 
     <!-- MODAL TAMBAH KARYAWAN -->
     <div id="addEmployeeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm">
-            <h3 id="modalTitleText" class="text-xl font-bold text-slate-900 border-b pb-4"><i class="fa-solid fa-user-plus text-indigo-600 mr-2"></i> Tambah Karyawan & Gaji Baru</h3>
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 id="modalTitleText" class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-user-plus text-indigo-600 mr-2"></i> Tambah Karyawan & Gaji Baru</h3>
             <form onsubmit="handleSaveEmployee(event)" class="space-y-4">
                 <input type="hidden" id="editEmployeeIdx" value="-1">
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Lengkap Karyawan</label>
-                    <input type="text" id="newEmpName" required placeholder="Contoh: Sarah Wijaya" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="newEmpName" required placeholder="Contoh: Sarah Wijaya" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Email Perusahaan</label>
-                    <input type="email" id="newEmpEmail" required placeholder="sarah@windcompany.com" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="email" id="newEmpEmail" required placeholder="sarah@windcompany.com" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jabatan / Divisi</label>
-                    <input type="text" id="newEmpRole" required placeholder="HR Specialist / Finance" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                    <input type="text" id="newEmpRole" required placeholder="HR Specialist / Finance" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Bank</label>
-                        <select id="newEmpBank" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                        <select id="newEmpBank" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                             <option value="BCA">BCA</option>
                             <option value="Mandiri">Mandiri</option>
                             <option value="BRI">BRI</option>
@@ -930,29 +929,29 @@
                     </div>
                     <div>
                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">No. Rekening</label>
-                        <input type="text" id="newEmpAcc" required placeholder="88992211" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                        <input type="text" id="newEmpAcc" required placeholder="88992211" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Gaji Pokok (Rp)</label>
-                        <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Rp 10 Juta" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                        <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Rp 10 Juta" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                     <div>
                         <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Tunjangan (Rp)</label>
-                        <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Rp 3 Juta" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
+                        <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Rp 3 Juta" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Kategori Pajak (PPh 21 TER)</label>
-                    <select id="newEmpPtkp" class="w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-semibold">
+                    <select id="newEmpPtkp" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-semibold">
                         <option value="TK/0">Kategori A (TAR A) - TK/0, TK/1, K/0</option>
                         <option value="K/1">Kategori B (TAR B) - K/1, K/2, TK/2</option>
                         <option value="K/3">Kategori C (TAR C) - K/3</option>
                     </select>
                 </div>
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button type="button" onclick="closeAddEmployeeModal()" class="bg-slate-100 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeAddEmployeeModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
                     <button type="submit" class="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan Data</button>
                 </div>
             </form>
@@ -997,15 +996,54 @@
             const body = document.getElementById('mainBodyTheme');
             const icon = document.getElementById('darkModeIcon');
             const header = document.getElementById('headerThemeContainer');
+            const pageTitle = document.getElementById('pageTitle');
+            const periodText = document.getElementById('periodTextTheme');
+            const darkModeBtn = document.getElementById('darkModeBtnTheme');
+            const notifBtn = document.getElementById('notifBtnTheme');
+
+            const cards = document.querySelectorAll('.theme-card');
+            const subcards = document.querySelectorAll('.theme-subcard');
+            const inputs = document.querySelectorAll('.theme-input');
+            const tableHeads = document.querySelectorAll('.theme-table-head');
+            const texts = document.querySelectorAll('.theme-text');
+            const modals = document.querySelectorAll('.theme-modal');
+            const cancelBtns = document.querySelectorAll('.theme-btn-cancel');
+
             if(isDarkMode) {
                 body.className = "bg-slate-950 font-sans text-slate-100 text-base transition-colors duration-300";
-                header.className = "bg-slate-900 shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-800 no-print";
+                header.className = "bg-slate-900 shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-800 no-print transition-colors duration-300";
+                pageTitle.className = "text-2xl font-bold text-white transition-colors duration-300";
+                periodText.className = "text-base font-semibold text-slate-300 hidden sm:inline transition-colors duration-300";
+                darkModeBtn.className = "w-11 h-11 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 flex items-center justify-center transition text-base";
+                notifBtn.className = "w-11 h-11 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center relative transition text-lg";
                 icon.className = "fa-solid fa-sun";
-                showToast("Mode Gelap diaktifkan", "success");
+
+                cards.forEach(c => c.className = "theme-card bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-800 flex flex-col justify-between space-y-4 transition-colors duration-300 text-slate-100");
+                subcards.forEach(sc => sc.className = "theme-subcard space-y-5 bg-slate-950 p-8 rounded-2xl border border-slate-800 transition-colors duration-300 text-slate-100");
+                inputs.forEach(inp => inp.className = "theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-900 border-slate-700 text-white text-base");
+                tableHeads.forEach(th => th.className = "theme-table-head bg-slate-950 text-slate-300 uppercase border-b border-slate-800 font-bold text-xs");
+                texts.forEach(t => { if(!t.classList.contains('text-indigo-600') && !t.classList.contains('text-emerald-600')) t.classList.add('text-white'); });
+                modals.forEach(m => m.className = "theme-modal bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-100");
+                cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-3 rounded-2xl font-bold");
+
+                showToast("Mode Gelap diaktifkan (Total Dark Theme)", "success");
             } else {
                 body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
-                header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print";
+                header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300";
+                pageTitle.className = "text-2xl font-bold text-slate-900 transition-colors duration-300";
+                periodText.className = "text-base font-semibold text-slate-700 hidden sm:inline transition-colors duration-300";
+                darkModeBtn.className = "w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base";
+                notifBtn.className = "w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg";
                 icon.className = "fa-solid fa-moon";
+
+                cards.forEach(c => c.className = "theme-card bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300 text-slate-800");
+                subcards.forEach(sc => sc.className = "theme-subcard space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100 transition-colors duration-300 text-slate-800");
+                inputs.forEach(inp => inp.className = "theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 border-slate-300 text-slate-900 text-base");
+                tableHeads.forEach(th => th.className = "theme-table-head bg-slate-50 text-slate-600 uppercase border-b border-slate-200 font-bold text-xs");
+                texts.forEach(t => t.classList.remove('text-white'));
+                modals.forEach(m => m.className = "theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-800");
+                cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-100 text-slate-700 hover:bg-slate-200 px-5 py-3 rounded-2xl font-bold");
+
                 showToast("Mode Terang diaktifkan", "success");
             }
         }
@@ -1219,7 +1257,7 @@
             const text = input.value.trim();
             if(!text) return;
             const chatBox = document.getElementById('internalChatContainer');
-            chatBox.innerHTML += `<div class="bg-slate-100 p-3 rounded-xl"><b class="text-slate-900 block">${loggedUserEmail}</b> ${text}</div>`;
+            chatBox.innerHTML += `<div class="${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-800'} p-3 rounded-xl"><b class="${isDarkMode ? 'text-white' : 'text-slate-900'} block">${loggedUserEmail}</b> ${text}</div>`;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
             showToast("Pesan terkirim ke chat internal!", "success");
@@ -1266,12 +1304,12 @@
                     scales: {
                         y: { 
                             beginAtZero: false,
-                            grid: { color: 'rgba(226, 232, 240, 0.8)' },
-                            ticks: { font: { size: 14 } }
+                            grid: { color: isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)' },
+                            ticks: { font: { size: 14 }, color: isDarkMode ? '#94a3b8' : '#64748b' }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { font: { size: 14 } }
+                            ticks: { font: { size: 14 }, color: isDarkMode ? '#94a3b8' : '#64748b' }
                         }
                     }
                 }
@@ -1444,13 +1482,13 @@
                 totalPayrollSum += net;
 
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900 text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-4 px-6 font-mono text-base">${formatRupiah(emp.base)}</td>
-                    <td class="py-4 px-6 font-mono text-base">${formatRupiah(emp.allowance)}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-600 text-base">${formatRupiah(net)}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(emp.base)}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(emp.allowance)}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="editEmployee(${idx})" class="bg-sky-500 hover:bg-sky-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                         <button onclick="deleteEmployee(${idx})" class="bg-rose-500 hover:bg-rose-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm"><i class="fa-solid fa-trash"></i> Hapus</button>
@@ -1499,12 +1537,12 @@
                 const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - pph21;
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900 text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-slate-600">${emp.bank} - ${emp.accNum}</td>
-                    <td class="py-4 px-6 font-mono text-base">${formatRupiah(bruto)}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-600 text-base">${formatRupiah(net)}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(bruto)}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
                             <i class="fa-solid fa-file-pdf mr-1"></i> Slip Gaji
@@ -1560,7 +1598,6 @@
             showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
         }
 
-        // GENERATOR FORMULIR PAJAK TAHUNAN FORM 1721-A1
         function downloadTaxForm1721(idx) {
             const emp = employees[idx];
             const { jsPDF } = window.jspdf;
@@ -1644,22 +1681,22 @@
             container.innerHTML = '';
             employees.forEach(emp => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-50 p-8 rounded-3xl border space-y-4";
+                card.className = isDarkMode ? "theme-subcard bg-slate-950 p-8 rounded-3xl border border-slate-800 space-y-4 text-slate-100" : "theme-subcard bg-slate-50 p-8 rounded-3xl border border-slate-100 space-y-4 text-slate-800";
                 card.innerHTML = `
-                    <div class="flex items-center gap-4 border-b pb-4">
+                    <div class="flex items-center gap-4 border-b pb-4 ${isDarkMode ? 'border-slate-800' : 'border-slate-200'}">
                         <div class="w-14 h-14 rounded-full bg-indigo-900 text-white font-bold flex items-center justify-center text-lg shadow">
                             ${emp.name.split(' ').map(n => n[0]).join('').substring(0,2)}
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-900 text-base">${emp.name}</h4>
-                            <span class="text-sm text-indigo-600 font-bold">${emp.role}</span>
+                            <h4 class="font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}</h4>
+                            <span class="text-sm text-indigo-400 font-bold">${emp.role}</span>
                         </div>
                     </div>
-                    <div class="space-y-2 text-sm text-slate-600 font-mono">
-                        <div class="flex justify-between"><span>Email:</span> <b class="text-slate-900">${emp.email}</b></div>
-                        <div class="flex justify-between"><span>Ekstensi Meja:</span> <b class="text-slate-900">Ext. ${emp.ext || '100'}</b></div>
-                        <div class="flex justify-between"><span>Bank / Rekening:</span> <b class="text-slate-900">${emp.bank} - ${emp.accNum}</b></div>
-                        <div class="flex justify-between border-t pt-3 text-indigo-900"><span>Atasan Langsung:</span> <b class="text-indigo-700 font-bold">${emp.superior || '-'}</b></div>
+                    <div class="space-y-2 text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'} font-mono">
+                        <div class="flex justify-between"><span>Email:</span> <b class="${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.email}</b></div>
+                        <div class="flex justify-between"><span>Ekstensi Meja:</span> <b class="${isDarkMode ? 'text-white' : 'text-slate-900'}">Ext. ${emp.ext || '100'}</b></div>
+                        <div class="flex justify-between"><span>Bank / Rekening:</span> <b class="${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.bank} - ${emp.accNum}</b></div>
+                        <div class="flex justify-between border-t pt-3 ${isDarkMode ? 'border-slate-800 text-indigo-300' : 'border-slate-200 text-indigo-900'}"><span>Atasan Langsung:</span> <b class="text-indigo-400 font-bold">${emp.superior || '-'}</b></div>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1702,13 +1739,13 @@
             body.innerHTML = '';
             reimburseList.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold">${item.type}</td>
-                    <td class="py-4 px-6">${item.desc}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-600">${formatRupiah(item.amount)}</td>
-                    <td class="py-4 px-6 font-mono text-slate-500"><i class="fa-solid fa-paperclip mr-1.5 text-slate-400"></i> ${item.file}</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full">${item.status}</span></td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : ''}">${item.type}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : ''}">${item.desc}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400">${formatRupiah(item.amount)}</td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}"><i class="fa-solid fa-paperclip mr-1.5 text-slate-400"></i> ${item.file}</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full">${item.status}</span></td>
                 `;
                 body.appendChild(tr);
             });
@@ -1740,13 +1777,13 @@
             body.innerHTML = '';
             appraisals.forEach(app => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900">${app.name}</td>
-                    <td class="py-4 px-6">${app.period}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-600 text-base">${app.score} / 100</td>
-                    <td class="py-4 px-6 text-slate-600">${app.feedback}</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-full">${app.grade}</span></td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${app.name}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : ''}">${app.period}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${app.score} / 100</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${app.feedback}</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${app.grade}</span></td>
                 `;
                 body.appendChild(tr);
             });
@@ -1777,12 +1814,12 @@
             body.innerHTML = '';
             vaultDocs.forEach((doc, idx) => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900">${doc.name}</td>
-                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-full">${doc.type}</span></td>
-                    <td class="py-4 px-6 font-mono text-slate-600">${doc.fileName}</td>
-                    <td class="py-4 px-6 text-slate-500">${doc.date}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${doc.name}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 font-bold text-xs rounded-full">${doc.type}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}">${doc.fileName}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}">${doc.date}</td>
                     <td class="py-4 px-6 text-center">
                         <button onclick="downloadVaultDoc(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold">
                             <i class="fa-solid fa-download mr-1"></i> Download
@@ -1828,10 +1865,6 @@
             doc.text(`ARSIP RESMI: ${docItem.type.toUpperCase()} - ${docItem.name.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text(`INFORMASI DOKUMEN:`, 20, 48);
-
             doc.setFont("times", "normal");
             doc.setFontSize(11);
             doc.text(`Nama Karyawan  : ${docItem.name}`, 20, 58);
@@ -1861,14 +1894,14 @@
                 const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - (bpjs + pph21);
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-base">${formatRupiah(bruto)}</td>
-                    <td class="py-4 px-6 font-mono text-rose-600 text-base">-${formatRupiah(bpjs)}</td>
-                    <td class="py-4 px-6 font-mono text-rose-600 text-base">-${formatRupiah(pph21)}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-indigo-600 text-base">${formatRupiah(net)}</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-full">Siap Transfer</span></td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${emp.name}<br><span class="text-xs text-slate-400 font-normal">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : ''}">${formatRupiah(bruto)}</td>
+                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(bpjs)}</td>
+                    <td class="py-4 px-6 font-mono text-rose-400 text-base">-${formatRupiah(pph21)}</td>
+                    <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">Siap Transfer</span></td>
                 `;
                 body.appendChild(tr);
             });
@@ -1886,12 +1919,12 @@
             body.innerHTML = '';
             employees.forEach(emp => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900 text-base">${emp.name}</td>
-                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-xl font-bold text-xs">${emp.role}</span></td>
-                    <td class="py-4 px-6 font-mono text-slate-600 text-base">${emp.email}</td>
-                    <td class="py-4 px-6 font-mono font-bold text-slate-800 text-base">Ext. ${emp.ext || '100'}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-xl font-bold text-xs">${emp.role}</span></td>
+                    <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-300' : 'text-slate-600'} text-base">${emp.email}</td>
+                    <td class="py-4 px-6 font-mono font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'} text-base">Ext. ${emp.ext || '100'}</td>
                 `;
                 body.appendChild(tr);
             });
@@ -2045,12 +2078,12 @@
 
             combinedWorkflows.forEach((item) => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold text-slate-900">${item.name}</td>
-                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-full">${item.type}</span></td>
-                    <td class="py-4 px-6 font-mono text-sm">${item.desc}</td>
-                    <td class="py-4 px-6"><span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full">${item.status}</span></td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${item.name}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 font-bold text-xs rounded-full">${item.type}</span></td>
+                    <td class="py-4 px-6 font-mono text-sm ${isDarkMode ? 'text-slate-300' : ''}">${item.desc}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full">${item.status}</span></td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="approveWorkflowItem('${item.category}', ${item.index})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm">
                             <i class="fa-solid fa-check mr-1"></i> Setujui
@@ -2085,13 +2118,13 @@
             body.innerHTML = '';
             assets.forEach(ast => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50";
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold">${ast.name}</td>
-                    <td class="py-4 px-6 font-mono text-sm">${ast.serial}</td>
-                    <td class="py-4 px-6">${ast.owner}</td>
-                    <td class="py-4 px-6 text-sm">${ast.date}</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full">${ast.status}</span></td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : ''}">${ast.name}</td>
+                    <td class="py-4 px-6 font-mono text-sm ${isDarkMode ? 'text-slate-300' : ''}">${ast.serial}</td>
+                    <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : ''}">${ast.owner}</td>
+                    <td class="py-4 px-6 text-sm ${isDarkMode ? 'text-slate-400' : ''}">${ast.date}</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full">${ast.status}</span></td>
                 `;
                 body.appendChild(tr);
             });
@@ -2120,7 +2153,8 @@
             body.innerHTML = '';
             auditLogs.forEach(log => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td class="py-4 px-6 font-mono">${log.time}</td><td class="py-4 px-6 font-bold">${log.user}</td><td class="py-4 px-6 text-indigo-600 font-semibold">${log.action}</td><td class="py-4 px-6 text-right font-mono">${log.detail}</td>`;
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
+                tr.innerHTML = `<td class="py-4 px-6 font-mono">${log.time}</td><td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : ''}">${log.user}</td><td class="py-4 px-6 text-indigo-400 font-semibold">${log.action}</td><td class="py-4 px-6 text-right font-mono ${isDarkMode ? 'text-slate-300' : ''}">${log.detail}</td>`;
                 body.appendChild(tr);
             });
         }
