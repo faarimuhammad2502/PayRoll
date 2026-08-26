@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>W.I.N.D Enterprise Payroll & HRIS Pro</title>
-    <!-- Favicon Logo di Tab Browser -->
     <link rel="icon" type="image/png" href="wind_logo.png">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome untuk Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></link>
     <!-- jsPDF untuk Export PDF Profesional -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <!-- Chart.js untuk Grafik Analitik Keuangan -->
@@ -49,7 +48,6 @@
     <!-- HALAMAN LOGIN -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-6">
         <div class="bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl max-w-lg w-full p-10 shadow-2xl shadow-indigo-950/60 space-y-8 relative overflow-hidden">
-            
             <div class="absolute -top-24 -right-24 w-56 h-56 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -left-24 w-56 h-56 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -92,7 +90,6 @@
         <!-- SIDEBAR -->
         <aside class="w-72 bg-slate-900 text-slate-300 hidden md:flex flex-col justify-between border-r border-slate-800 no-print">
             <div class="overflow-y-auto flex-1">
-                <!-- LOGO & COMPANY NAME -->
                 <div class="flex items-center gap-3 px-6 py-6 border-b border-slate-800 sticky top-0 bg-slate-900 z-10">
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl overflow-hidden shadow-md border border-slate-700 bg-slate-800 flex-shrink-0">
                         <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
@@ -105,13 +102,11 @@
                     </div>
                 </div>
 
-                <!-- Menu Sidebar -->
                 <nav id="sidebarMenuContainer" class="mt-4 px-4 space-y-4 pb-8">
-                    <!-- Dimuat dinamis via JS -->
+                    <!-- Dimuat dinamis -->
                 </nav>
             </div>
 
-            <!-- User Profile & Tombol Logout -->
             <div class="p-5 border-t border-slate-800 space-y-4 bg-slate-950/60">
                 <div class="flex items-center gap-3">
                     <div id="userAvatar" class="w-12 h-12 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-base shadow-inner">FA</div>
@@ -129,20 +124,16 @@
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col overflow-y-auto relative">
             
-            <!-- TOPBAR -->
             <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print">
                 <h2 id="pageTitle" class="text-2xl font-bold text-slate-900">Beranda & Ringkasan Perusahaan</h2>
                 
-                <!-- Notifikasi & Periode Gaji -->
                 <div class="flex items-center gap-6 relative">
-                    <!-- Lonceng Notifikasi -->
                     <div class="relative">
                         <button onclick="toggleNotificationDropdown()" class="w-12 h-12 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg">
                             <i class="fa-solid fa-bell"></i>
                             <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-xs w-6 h-6 rounded-full flex items-center justify-center shadow-md hidden">0</span>
                         </button>
 
-                        <!-- Dropdown Notifikasi -->
                         <div id="notifDropdown" class="absolute right-0 mt-3 w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-50 p-5 space-y-4">
                             <div class="flex justify-between items-center border-b pb-3">
                                 <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi Sistem</h4>
@@ -158,13 +149,10 @@
                 </div>
             </header>
 
-            <!-- CONTENT BODY -->
             <main class="p-8 space-y-8">
                 
                 <!-- VIEW 1: DASHBOARD -->
                 <div id="view-dashboard" class="space-y-8">
-                    
-                    <!-- PENGUMUMAN CEO -->
                     <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 rounded-3xl shadow-xl border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="space-y-2">
                             <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> Pengumuman Resmi CEO</span>
@@ -207,7 +195,6 @@
                         </div>
                     </div>
 
-                    <!-- GRAFIK ANALITIK KEUANGAN -->
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex justify-between items-center border-b pb-4">
                             <div>
@@ -221,7 +208,6 @@
                         </div>
                     </div>
 
-                    <!-- TABEL MANAJEMEN KARYAWAN & GAJI -->
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
                             <div>
@@ -398,7 +384,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 5: PAYROLL ENGINE & PPH 21 TER -->
+                <!-- VIEW 5: PAYROLL ENGINE -->
                 <div id="view-payroll-engine" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
@@ -431,7 +417,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 6: APPRAISAL / KPI KARYAWAN -->
+                <!-- VIEW 6: APPRAISAL -->
                 <div id="view-appraisal" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
@@ -463,7 +449,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 7: DIGITAL VAULT / DOKUMEN KARYAWAN -->
+                <!-- VIEW 7: DIGITAL VAULT -->
                 <div id="view-vault" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
@@ -1388,7 +1374,7 @@
 
             employees.forEach((emp, idx) => {
                 const bruto = emp.base + emp.allowance;
-                const pph21 = Math.round(bruto * 0.05); // PPh 21 TAR TER Rata-rata 5%
+                const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - pph21;
                 totalPayrollSum += net;
 
@@ -1504,11 +1490,6 @@
 
             doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
             showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
-            
-            // Simulasikan Notifikasi WhatsApp Otomatis
-            setTimeout(() => {
-                showToast(`[WhatsApp Gateway Simulation] Notifikasi slip gaji berhasil dikirim ke nomor WhatsApp ${emp.name}.`, 'success');
-            }, 1000);
         }
 
         function renderAll() {
@@ -1627,7 +1608,6 @@
             addNotification(`Klaim reimbursement baru (${type}) sebesar ${formatRupiah(amount)}.`);
         }
 
-        // APPRAISAL / KPI FUNCTIONS
         function renderAppraisal() {
             const body = document.getElementById('appraisalTableBody');
             if(!body) return;
@@ -1665,7 +1645,6 @@
             logAudit("Performance Appraisal", `Penilaian KPI ${name}: Skor ${score}`);
         }
 
-        // DIGITAL VAULT FUNCTIONS
         function renderVault() {
             const body = document.getElementById('vaultTableBody');
             if(!body) return;
@@ -1707,9 +1686,44 @@
             logAudit("Upload Vault Doc", `${type} - ${name}`);
         }
 
+        // FUNGSI UTAMA UNTUK MENDOWNLOAD FILE DOKUMEN VAULT KE PERANGKAT
         function downloadVaultDoc(idx) {
-            const doc = vaultDocs[idx];
-            showToast(`Mengunduh arsip dokumen ${doc.fileName}...`, 'success');
+            const docItem = vaultDocs[idx];
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("W.I.N.D ENTERPRISE - DIGITAL VAULT", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text(`ARSIP RESMI: ${docItem.type.toUpperCase()} - ${docItem.name.toUpperCase()}`, 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text(`INFORMASI DOKUMEN:`, 20, 48);
+
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            doc.text(`Nama Karyawan  : ${docItem.name}`, 20, 58);
+            doc.text(`Jenis Dokumen  : ${docItem.type}`, 20, 66);
+            doc.text(`Nama File Arsip: ${docItem.fileName}`, 20, 74);
+            doc.text(`Tanggal Unggah : ${docItem.date}`, 20, 82);
+            doc.text(`Status Keamanan: Terenkripsi & Terverifikasi oleh W.I.N.D HRIS Pro`, 20, 90);
+
+            doc.setLineWidth(0.5);
+            doc.line(20, 100, 190, 100);
+
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text("Dokumen ini diterbitkan secara elektronik melalui sistem W.I.N.D Enterprise dan sah tanpa tanda tangan basah.", 20, 112);
+
+            doc.save(docItem.fileName);
+            showToast(`File PDF "${docItem.fileName}" berhasil diunduh ke perangkat Anda!`, "success");
         }
 
         function renderPayrollEngine() {
@@ -1719,7 +1733,7 @@
             employees.forEach(emp => {
                 const bruto = emp.base + emp.allowance;
                 const bpjs = Math.round(bruto * 0.03);
-                const pph21 = Math.round(bruto * 0.05); // Pph 21 TER
+                const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - (bpjs + pph21);
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50";
@@ -1739,11 +1753,6 @@
             showToast('Payroll Run Sukses! Dana gaji, BPJS, dan PPh 21 telah didisburse.', 'success');
             logAudit("Payroll Run PPh 21 TER", "Berhasil transfer massal");
             addNotification("Payroll Run Periode Agustus 2026 berhasil dieksekusi.");
-            
-            // Simulasi notifikasi WhatsApp massal
-            setTimeout(() => {
-                showToast("[WhatsApp Gateway] Notifikasi Slip Gaji & Transfer berhasil dikirim ke seluruh karyawan.", "success");
-            }, 1200);
         }
 
         function renderDirectory() {
@@ -1784,28 +1793,6 @@
             doc.setFont("times", "italic");
             doc.setFontSize(10);
             doc.text("World Intelligence Network Dominant - Visi, Misi & Prinsip Utama", 105, 24, { align: 'center' });
-
-            doc.setTextColor(15, 23, 42);
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("VISI W.I.N.D COMPANY:", 20, 48);
-
-            doc.setFont("times", "italic");
-            doc.setFontSize(11);
-            const visiText = "“Membangun ekosistem global yang mampu memberikan dampak nyata bagi manusia, lingkungan, teknologi, dan masa depan melalui inovasi, keberlanjutan, serta kolaborasi lintas sektor.”";
-            const splitVisi = doc.splitTextToSize(visiText, 170);
-            doc.text(splitVisi, 20, 56);
-
-            let nextY = 56 + (splitVisi.length * 6) + 10;
-
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("PRINSIP UTAMA:", 20, nextY);
-
-            doc.setFont("times", "italic");
-            doc.setFontSize(11);
-            doc.text("“Wealth with Purpose — Kekayaan yang memiliki tujuan.”", 20, nextY + 8);
-
             doc.save("Visi_Misi_WIND_Company.pdf");
             showToast("Dokumen Visi & Misi berhasil di-download!", "success");
         }
