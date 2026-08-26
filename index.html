@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- jsPDF untuk Export PDF Profesional -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <!-- Chart.js untuk Grafik Analitik Keuangan -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -162,6 +164,19 @@
                 
                 <!-- VIEW 1: DASHBOARD -->
                 <div id="view-dashboard" class="space-y-6">
+                    
+                    <!-- PUSAT PENGUMUMAN PERUSAHAAN (ANNOUNCEMENT BOARD) -->
+                    <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-6 rounded-2xl shadow-lg border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="space-y-1">
+                            <span class="text-[10px] bg-emerald-500 text-white font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1"></i> Pengumuman Resmi CEO</span>
+                            <h3 class="font-bold text-base text-white mt-1">Persiapan Akhir Bulan & Sinkronisasi Data Rekening Karyawan</h3>
+                            <p class="text-xs text-indigo-200">Seluruh karyawan dihimbau untuk memeriksa kembali nomor rekening bank masing-masing melalui Portal ESS sebelum tanggal 28 Agustus 2026.</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-xs whitespace-nowrap">
+                            <i class="fa-regular fa-clock mr-1.5 text-emerald-400"></i> Berlaku hingga: <b>31 Ags 2026</b>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
                             <div>
@@ -190,6 +205,20 @@
                                 <h3 id="myAssetCount" class="text-2xl font-bold text-amber-600 mt-1">1 Unit</h3>
                             </div>
                             <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-laptop"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- GRAFIK ANALITIK KEUANGAN PERUSAHAAN -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                        <div class="flex justify-between items-center border-b pb-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
+                                <p class="text-xs text-slate-500">Grafik visual perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
+                            </div>
+                            <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-semibold">Tahun 2026</span>
+                        </div>
+                        <div class="h-72 relative">
+                            <canvas id="payrollAnalyticsChart"></canvas>
                         </div>
                     </div>
 
@@ -755,6 +784,7 @@
         ];
 
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
+        let payrollChartInstance = null;
 
         function togglePasswordVisibility() {
             const passInput = document.getElementById('loginPass');
@@ -768,7 +798,6 @@
             }
         }
 
-        // Memastikan saat website dibuka, sesi login dicek secara ketat
         function checkLoginState() {
             const isLoggedIn = localStorage.getItem('wind_is_logged_in');
             const loginPage = document.getElementById('loginPage');
@@ -780,7 +809,6 @@
                 renderSidebarByRole();
                 renderAll();
             } else {
-                // Paksa tampilkan halaman login dan sembunyikan aplikasi utama
                 loginPage.classList.remove('hidden');
                 mainApp.classList.add('hidden');
             }
@@ -915,6 +943,52 @@
             notifications.forEach(n => n.unread = false);
             localStorage.setItem('wind_enterprise_notifs', JSON.stringify(notifications));
             renderNotifications();
+        }
+
+        // Inisialisasi Grafik Keuangan Chart.js
+        function renderPayrollChart(totalCurrentMonth) {
+            const ctx = document.getElementById('payrollAnalyticsChart');
+            if(!ctx) return;
+
+            if(payrollChartInstance) {
+                payrollChartInstance.destroy();
+            }
+
+            const inMillions = totalCurrentMonth / 1000000;
+
+            payrollChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Juni 2026', 'Juli 2026', 'Agustus 2026 (Aktif)', 'September 2026 (Est)', 'Oktober 2026 (Est)'],
+                    datasets: [{
+                        label: 'Total Pengeluaran Payroll (Juta IDR)',
+                        data: [25.5, 27.8, Number(inMillions.toFixed(2)), Number((inMillions * 1.05).toFixed(2)), Number((inMillions * 1.08).toFixed(2))],
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#10b981',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: false,
+                            grid: { color: 'rgba(226, 232, 240, 0.6)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
         }
 
         function exportPayrollToExcel() {
@@ -1100,6 +1174,9 @@
 
             const totalPayrollEl = document.getElementById('dashTotalPayroll');
             if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
+
+            // Render Chart dengan total payroll terbaru
+            renderPayrollChart(totalPayrollSum);
         }
 
         function formatRupiahInput(input) {
@@ -1619,11 +1696,7 @@
             if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
         }, 1000);
 
-        // PENTING: Saat pertama kali halaman dibuka, pastikan status login dibersihkan 
-        // agar selalu langsung mendarat di halaman login.
         localStorage.removeItem('wind_is_logged_in');
-
-        // Jalankan pengecekan status login
         checkLoginState();
     </script>
 </body>
