@@ -45,7 +45,7 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-2"></div>
 
-    <!-- HALAMAN LOGIN DENGAN TEKSTUR BACKGROUND -->
+    <!-- HALAMAN LOGIN DENGAN TEKSTUR BACKGROUND & TOMBOL LIHAT PASSWORD -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-4">
         <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 rounded-3xl max-w-md w-full p-8 shadow-2xl shadow-indigo-950/50 space-y-6 relative overflow-hidden">
             
@@ -68,7 +68,13 @@
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold uppercase tracking-wider">Kata Sandi (Password)</label>
-                    <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950/60 border border-slate-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition">
+                    <div class="relative">
+                        <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950/60 border border-slate-800 text-white rounded-xl px-4 py-3 pr-10 focus:outline-none focus:border-indigo-500 transition">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition focus:outline-none">
+                            <i id="togglePassIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="text-[10px] text-slate-500 mt-1 block">Default Password: <b>123456</b></span>
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Masuk ke Sistem W.I.N.D <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -754,6 +760,19 @@
 
         let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
 
+        // Fungsi untuk melihat/menyembunyikan password
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('loginPass');
+            const passIcon = document.getElementById('togglePassIcon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                passIcon.className = 'fa-solid fa-eye-slash';
+            } else {
+                passInput.type = 'password';
+                passIcon.className = 'fa-solid fa-eye';
+            }
+        }
+
         function checkLoginState() {
             const isLoggedIn = localStorage.getItem('wind_is_logged_in');
             if (isLoggedIn === 'true') {
@@ -878,14 +897,6 @@
             toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
-        }
-
-        function changeRbacRole(role) {
-            currentRole = role;
-            localStorage.setItem('wind_enterprise_role', role);
-            document.getElementById('rbacRoleSelect').value = role;
-            renderAll();
-            showToast(`Berganti peran sebagai: ${role}`, 'success');
         }
 
         function switchTab(tabId) {
