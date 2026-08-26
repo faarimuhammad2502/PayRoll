@@ -1071,26 +1071,25 @@
             }
         }
 
-        // Fungsi Format Mata Uang Global (IDR, USD, EUR, GBP, SGD)
         function formatCurrency(amountIDR) {
             let converted = amountIDR;
             let locale = 'id-ID';
             let currStyle = { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 };
 
             if (currentCurrency === 'USD') {
-                converted = amountIDR / 16000; // Asumsi kurs $1 = Rp 16.000
+                converted = amountIDR / 16000;
                 locale = 'en-US';
                 currStyle = { style: 'currency', currency: 'USD', minimumFractionDigits: 2 };
             } else if (currentCurrency === 'EUR') {
-                converted = amountIDR / 17300; // Asumsi kurs 1 EUR = Rp 17.300
+                converted = amountIDR / 17300;
                 locale = 'de-DE';
                 currStyle = { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 };
             } else if (currentCurrency === 'GBP') {
-                converted = amountIDR / 20500; // Asumsi kurs 1 GBP = Rp 20.500
+                converted = amountIDR / 20500;
                 locale = 'en-GB';
                 currStyle = { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 };
             } else if (currentCurrency === 'SGD') {
-                converted = amountIDR / 12000; // Asumsi kurs 1 SGD = Rp 12.000
+                converted = amountIDR / 12000;
                 locale = 'en-SG';
                 currStyle = { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 };
             }
@@ -1770,7 +1769,7 @@
             if(clock) clock.innerText = d.toLocaleTimeString('id-ID') + ' WIB';
         }, 1000);
 
-        localStorage.removeItem('wind_is_logged_in');
+        // Inisialisasi pengecekan status login
         checkLoginState();
     </script>
 </body>
