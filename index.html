@@ -164,34 +164,35 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- KARTU STATISTIK DASHBOARD DIJADIKAN RAPI & TIDAK OVERFLOW -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Karyawan</p>
-                                <h3 id="totalEmployeeCount" class="text-3xl font-extrabold text-slate-900 mt-1">1 Orang</h3>
+                            <div class="overflow-hidden">
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider truncate">Total Karyawan</p>
+                                <h3 id="totalEmployeeCount" class="text-2xl xl:text-3xl font-extrabold text-slate-900 mt-1 truncate">1 Orang</h3>
                             </div>
-                            <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-users"></i></div>
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner flex-shrink-0 ml-2"><i class="fa-solid fa-users"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</p>
-                                <h3 id="dashTotalPayroll" class="text-3xl font-extrabold text-emerald-600 mt-1">Rp 29.3 Juta</h3>
+                            <div class="overflow-hidden">
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider truncate">Total Payroll Bulan Ini</p>
+                                <h3 id="dashTotalPayroll" class="text-xl xl:text-2xl font-extrabold text-emerald-600 mt-1 truncate">Rp 29.3 Juta</h3>
                             </div>
-                            <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner flex-shrink-0 ml-2"><i class="fa-solid fa-money-bills"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</p>
-                                <h3 class="text-3xl font-extrabold text-indigo-600 mt-1">Rp 4.5 Juta</h3>
+                            <div class="overflow-hidden">
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider truncate">Plafon Klaim Tersisa</p>
+                                <h3 class="text-xl xl:text-2xl font-extrabold text-indigo-600 mt-1 truncate">Rp 4.5 Juta</h3>
                             </div>
-                            <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-receipt"></i></div>
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner flex-shrink-0 ml-2"><i class="fa-solid fa-receipt"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</p>
-                                <h3 id="myAssetCount" class="text-3xl font-extrabold text-amber-600 mt-1">1 Unit</h3>
+                            <div class="overflow-hidden">
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider truncate">Aset Kantor Dipinjam</p>
+                                <h3 id="myAssetCount" class="text-2xl xl:text-3xl font-extrabold text-amber-600 mt-1 truncate">1 Unit</h3>
                             </div>
-                            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-laptop"></i></div>
+                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner flex-shrink-0 ml-2"><i class="fa-solid fa-laptop"></i></div>
                         </div>
                     </div>
 
@@ -654,7 +655,7 @@
                                         <th class="py-4 px-6">Nama Karyawan</th>
                                         <th class="py-4 px-6">Jenis Pengajuan</th>
                                         <th class="py-4 px-6">Keterangan / Tanggal</th>
-                                        <th class="py-4 px-6">Status</th>
+                                        <th class="py-4 px-6">Status Workflow</th>
                                         <th class="py-4 px-6 text-center">Aksi Atasan / CEO</th>
                                     </tr>
                                 </thead>
@@ -936,8 +937,12 @@
             { name: "MacBook Pro 14 M1", serial: "SN-MBP-4412", owner: "Muhammad Faari Akbar", date: "2024-01-10", status: "Dipinjam Aktif" }
         ];
 
-        let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [];
-        let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [];
+        let leaveRequests = JSON.parse(localStorage.getItem('wind_enterprise_leaves')) || [
+            { id: 1, name: "Muhammad Faari Akbar", type: "Cuti Tahunan", start: "01/09/2026", end: "03/09/2026", reason: "Keperluan keluarga", status: "Menunggu Approval CEO" }
+        ];
+        let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
+            { id: 1, name: "Muhammad Faari Akbar", type: "Klaim Medis / Berobat", desc: "Pembelian obat resep dokter spesialis", amount: 500000, file: "Kuitansi_Medis.pdf", status: "Menunggu Approval HR" }
+        ];
         let appraisals = JSON.parse(localStorage.getItem('wind_enterprise_appraisals')) || [
             { name: "Muhammad Faari Akbar", period: "Agustus 2026", score: 98, feedback: "Kepemimpinan eksekutif dan visi perusahaan yang luar biasa.", grade: "A (Sangat Unggul)" }
         ];
@@ -1560,7 +1565,7 @@
             const reason = document.getElementById('attendanceReason').value;
 
             leaveRequests.unshift({
-                id: Date.now(), name: employees[0].name, type, start, end, reason, status: 'Menunggu Approval'
+                id: Date.now(), name: employees[0].name, type, start, end, reason, status: 'Menunggu Approval CEO'
             });
 
             localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
@@ -1599,7 +1604,7 @@
             const fileInput = document.getElementById('reimFile');
             const fileName = fileInput.files[0] ? fileInput.files[0].name : 'kuitansi.pdf';
 
-            reimburseList.unshift({ id: Date.now(), name: employees[0].name, type, desc, amount, file: fileName, status: 'Menunggu Approval' });
+            reimburseList.unshift({ id: Date.now(), name: employees[0].name, type, desc, amount, file: fileName, status: 'Menunggu Approval HR' });
             localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
             renderReimburse();
             renderWorkflow();
@@ -1686,7 +1691,6 @@
             logAudit("Upload Vault Doc", `${type} - ${name}`);
         }
 
-        // FUNGSI UTAMA UNTUK MENDOWNLOAD FILE DOKUMEN VAULT KE PERANGKAT
         function downloadVaultDoc(idx) {
             const docItem = vaultDocs[idx];
             const { jsPDF } = window.jspdf;
@@ -1781,6 +1785,7 @@
             });
         }
 
+        // KONTEN PDF LENGKAP: VISI & MISI W.I.N.D
         function downloadVisiMisiPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1793,10 +1798,40 @@
             doc.setFont("times", "italic");
             doc.setFontSize(10);
             doc.text("World Intelligence Network Dominant - Visi, Misi & Prinsip Utama", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("1. VISI PERUSAHAAN:", 20, 48);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const visiText = "“Membangun ekosistem global yang mampu memberikan dampak nyata bagi manusia, lingkungan, teknologi, dan masa depan melalui inovasi, keberlanjutan, serta kolaborasi lintas sektor yang unggul.”";
+            const splitVisi = doc.splitTextToSize(visiText, 170);
+            doc.text(splitVisi, 20, 56);
+
+            let nextY = 56 + (splitVisi.length * 6) + 10;
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("2. MISI UTAMA W.I.N.D:", 20, nextY);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const misiText = "• Menghadirkan solusi teknologi enterprise berbasis HRIS dan Payroll yang efisien dan transparan.\n• Mendorong pertumbuhan profesionalitas karyawan melalui budaya kerja berbasis meritokrasi.\n• Menjaga standar integritas dan kepatuhan hukum tertinggi di setiap lini operasional bisnis.";
+            const splitMisi = doc.splitTextToSize(misiText, 170);
+            doc.text(splitMisi, 20, nextY + 8);
+
+            let nextY2 = nextY + 8 + (splitMisi.length * 6) + 10;
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("3. PRINSIP UTAMA:", 20, nextY2);
+            doc.setFont("times", "italic");
+            doc.setFontSize(11);
+            doc.text("“Wealth with Purpose — Kekayaan dan pertumbuhan yang memiliki tujuan mulia bagi sesama.”", 20, nextY2 + 8);
+
             doc.save("Visi_Misi_WIND_Company.pdf");
             showToast("Dokumen Visi & Misi berhasil di-download!", "success");
         }
 
+        // KONTEN PDF LENGKAP: SOP KEPEGAWAIAN
         function downloadSOPKepegawaianPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1809,10 +1844,32 @@
             doc.setFont("times", "italic");
             doc.setFontSize(10);
             doc.text("Standard Operating Procedure - Kepegawaian & Absensi GPS", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("1. KETENTUAN JAM KERJA & ABSENSI GPS:", 20, 48);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const sop1 = "• Jam kerja operasional kantor adalah Senin s.d. Jumat pukul 08:00 hingga 17:00 WIB.\n• Karyawan wajib melakukan absen masuk (Clock-In) melalui aplikasi W.I.N.D HRIS menggunakan verifikasi GPS dalam radius < 100 meter dari kantor pusat.";
+            const splitSop1 = doc.splitTextToSize(sop1, 170);
+            doc.text(splitSop1, 20, 56);
+
+            let yPos = 56 + (splitSop1.length * 6) + 10;
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("2. PROSEDUR CUTI & IZIN:", 20, yPos);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const sop2 = "• Pengajuan cuti tahunan wajib dilakukan minimal 3 hari sebelum tanggal mulai melalui Portal ESS.\n• Cuti tahunan diberikan sebanyak 12 hari dalam satu tahun kalender aktif bagi karyawan tetap.";
+            const splitSop2 = doc.splitTextToSize(sop2, 170);
+            doc.text(splitSop2, 20, yPos + 8);
+
             doc.save("SOP_Kepegawaian_WIND.pdf");
             showToast("SOP Kepegawaian berhasil di-download!", "success");
         }
 
+        // KONTEN PDF LENGKAP: SOP REIMBURSEMENT
         function downloadSOPReimbursementPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1825,34 +1882,84 @@
             doc.setFont("times", "italic");
             doc.setFontSize(10);
             doc.text("Standard Operating Procedure - Klaim & Reimbursement", 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("1. KETENTUAN UMUM KLAIM:", 20, 48);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const r1 = "• Setiap karyawan memiliki plafon klaim medis dan operasional tahunan sesuai kontrak kerja (Standar: Rp 4.500.000).\n• Pengajuan klaim wajib melampirkan kuitansi/struk asli berformat digital (PDF/Scan) yang sah.";
+            const splitR1 = doc.splitTextToSize(r1, 170);
+            doc.text(splitR1, 20, 56);
+
+            let yR = 56 + (splitR1.length * 6) + 10;
+            doc.setFont("times", "bold");
+            doc.setFontSize(12);
+            doc.text("2. ALUR PERSETUJUAN & PENCAIRAN:", 20, yR);
+            doc.setFont("times", "normal");
+            doc.setFontSize(11);
+            const r2 = "• Klaim diverifikasi oleh Divisi HR/Finance terlebih dahulu, kemudian disetujui oleh CEO.\n• Dana reimbursement akan dicairkan bersamaan dengan siklus penggajian bulanan (Payroll Run).";
+            const splitR2 = doc.splitTextToSize(r2, 170);
+            doc.text(splitR2, 20, yR + 8);
+
             doc.save("SOP_Reimbursement_WIND.pdf");
             showToast("SOP Klaim & Reimbursement berhasil di-download!", "success");
         }
 
+        // RENDER WORKFLOW (PERSETUJUAN BERTINGKAT)
         function renderWorkflow() {
             const body = document.getElementById('workflowTableBody');
             if(!body) return;
             body.innerHTML = '';
-            leaveRequests.forEach((req, idx) => {
+            
+            let combinedWorkflows = [];
+            leaveRequests.forEach((req, i) => {
+                combinedWorkflows.push({ type: 'Cuti Karyawan', name: req.name, desc: `${req.type} (${req.start} s.d ${req.end})`, status: req.status, index: i, category: 'leave' });
+            });
+            reimburseList.forEach((reim, i) => {
+                combinedWorkflows.push({ type: 'Klaim Reimburse', name: reim.name, desc: `${reim.type} - ${formatRupiah(reim.amount)}`, status: reim.status, index: i, category: 'reimburse' });
+            });
+
+            if(combinedWorkflows.length === 0) {
+                body.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Tidak ada pengajuan yang memerlukan persetujuan saat ini.</td></tr>`;
+                return;
+            }
+
+            combinedWorkflows.forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50";
                 tr.innerHTML = `
-                    <td class="py-4 px-6 font-bold">${req.name}</td>
-                    <td class="py-4 px-6">Cuti: ${req.type}</td>
-                    <td class="py-4 px-6 font-mono text-sm">${req.start} s.d ${req.end}</td>
-                    <td class="py-4 px-6"><span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full">${req.status}</span></td>
-                    <td class="py-4 px-6 text-center"><button onclick="approveLeave(${idx})" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Setujui</button></td>
+                    <td class="py-4 px-6 font-bold text-slate-900">${item.name}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-full">${item.type}</span></td>
+                    <td class="py-4 px-6 font-mono text-sm">${item.desc}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full">${item.status}</span></td>
+                    <td class="py-4 px-6 text-center space-x-2">
+                        <button onclick="approveWorkflowItem('${item.category}', ${item.index})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm">
+                            <i class="fa-solid fa-check mr-1"></i> Setujui
+                        </button>
+                    </td>
                 `;
                 body.appendChild(tr);
             });
         }
 
-        function approveLeave(idx) {
-            leaveRequests[idx].status = 'Disetujui';
-            localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
+        function approveWorkflowItem(category, idx) {
+            if(category === 'leave') {
+                leaveRequests[idx].status = 'Disetujui (Final oleh CEO)';
+                localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
+                showToast("Pengajuan cuti berhasil disetujui!", "success");
+                addNotification(`Pengajuan cuti ${leaveRequests[idx].name} telah disetujui penuh.`);
+                logAudit("Approval Cuti", `Disetujui untuk ${leaveRequests[idx].name}`);
+            } else if(category === 'reimburse') {
+                reimburseList[idx].status = 'Disetujui & Siap Cair';
+                localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
+                showToast("Klaim reimbursement disetujui!", "success");
+                addNotification(`Klaim reimbursement ${reimburseList[idx].name} telah disetujui.`);
+                logAudit("Approval Reimburse", `Disetujui untuk ${reimburseList[idx].name}`);
+            }
             renderWorkflow();
-            showToast('Cuti disetujui!', 'success');
-            addNotification(`Pengajuan cuti ${leaveRequests[idx].name} telah disetujui.`);
+            renderReimburse();
         }
 
         function renderAssets() {
