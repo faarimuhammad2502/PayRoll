@@ -73,7 +73,7 @@
                             <i id="togglePassIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                    <span class="text-[10px] text-slate-500 mt-1 block">Default Password: <b>123456</b></span>
+                    <span class="text-[10px] text-slate-500 mt-1 block">Default Password: <b>123456</b> (Gunakan email CEO untuk akses Admin penuh)</span>
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Masuk ke Sistem W.I.N.D <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -104,44 +104,9 @@
                     </div>
                 </div>
 
-                <!-- Menu -->
-                <nav class="mt-4 px-4 space-y-1.5 pb-6">
-                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs">
-                        <i class="fa-solid fa-chart-pie w-5 text-indigo-400"></i> Beranda & Ringkasan
-                    </button>
-                    <button onclick="switchTab('ess')" id="nav-ess" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-user-shield w-5 text-emerald-400"></i> Portal Mandiri (ESS)
-                    </button>
-                    <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-location-dot w-5 text-indigo-400"></i> Absensi GPS & Cuti
-                    </button>
-                    <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-receipt w-5 text-emerald-400"></i> Klaim & Reimbursement
-                    </button>
-                    <button onclick="switchTab('payroll-engine')" id="nav-payroll-engine" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-calculator w-5 text-amber-400"></i> Kalkulator & Payroll Run
-                    </button>
-                    <button onclick="switchTab('directory')" id="nav-directory" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-sitemap w-5 text-sky-400"></i> Direktori & Org Chart
-                    </button>
-                    <button onclick="switchTab('documents')" id="nav-documents" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-book-bookmark w-5 text-amber-400"></i> Dokumen & Handbook
-                    </button>
-                    <button onclick="switchTab('assets')" id="nav-assets" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-laptop w-5 text-indigo-400"></i> Inventaris Aset Kantor
-                    </button>
-                    <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400"></i> Gaji & Slip Saya
-                    </button>
-                    <button onclick="switchTab('profiles')" id="nav-profiles" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-id-card-clip w-5 text-sky-400"></i> Profil Karyawan & Atasan
-                    </button>
-                    <button onclick="switchTab('workflow')" id="nav-workflow" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-list-check w-5 text-rose-400"></i> Approval Workflow
-                    </button>
-                    <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
-                        <i class="fa-solid fa-clock-rotate-left w-5 text-slate-400"></i> Log Aktivitas Internal
-                    </button>
+                <!-- Menu (Dinamis Berdasarkan Hak Akses RBAC) -->
+                <nav id="sidebarMenuContainer" class="mt-4 px-4 space-y-1.5 pb-6">
+                    <!-- Dimuat dinamis via JS -->
                 </nav>
             </div>
 
@@ -149,9 +114,9 @@
             <div class="p-4 border-t border-slate-800 space-y-3 bg-slate-950/40">
                 <div class="flex items-center gap-3">
                     <div id="userAvatar" class="w-10 h-10 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner">FA</div>
-                    <div>
-                        <h4 id="userNameLabel" class="text-sm font-semibold text-white">Muhammad Faari Akbar</h4>
-                        <span id="userRoleBadge" class="text-[10px] bg-indigo-600/30 text-indigo-300 font-bold px-2 py-0.5 rounded-full">Founder & CEO</span>
+                    <div class="overflow-hidden">
+                        <h4 id="userNameLabel" class="text-sm font-semibold text-white truncate">Muhammad Faari Akbar</h4>
+                        <span id="userRoleBadge" class="text-[10px] bg-indigo-600/30 text-indigo-300 font-bold px-2 py-0.5 rounded-full inline-block mt-0.5">Founder & CEO</span>
                     </div>
                 </div>
                 <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-semibold py-2 rounded-xl transition flex items-center justify-center gap-2 border border-rose-500/30">
@@ -166,8 +131,29 @@
             <!-- TOPBAR -->
             <header class="bg-white shadow-sm h-16 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print">
                 <h2 id="pageTitle" class="text-xl font-bold text-slate-900">Beranda & Ringkasan Perusahaan</h2>
+                
+                <!-- Notifikasi Lonceng & Periode Gaji -->
                 <div class="flex items-center gap-5 relative">
-                    <span class="text-sm font-medium text-slate-600">W.I.N.D Enterprise | Periode Gaji: <b class="text-indigo-600">Agustus 2026</b></span>
+                    <!-- Lonceng Notifikasi Interaktif -->
+                    <div class="relative">
+                        <button onclick="toggleNotificationDropdown()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center relative transition">
+                            <i class="fa-solid fa-bell text-sm"></i>
+                            <span id="notifBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-[9px] w-5 h-5 rounded-full flex items-center justify-center shadow-md hidden">0</span>
+                        </button>
+
+                        <!-- Dropdown Notifikasi -->
+                        <div id="notifDropdown" class="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl hidden z-50 p-4 space-y-3">
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-bell text-indigo-600 mr-1.5"></i> Notifikasi Sistem</h4>
+                                <button onclick="clearNotifications()" class="text-[10px] text-indigo-600 hover:underline font-semibold">Tandai Dibaca</button>
+                            </div>
+                            <div id="notifListContainer" class="space-y-2 max-h-64 overflow-y-auto text-xs">
+                                <p class="text-slate-400 text-center py-4">Tidak ada notifikasi baru.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="text-sm font-medium text-slate-600 hidden sm:inline">W.I.N.D Enterprise | Periode Gaji: <b class="text-indigo-600">Agustus 2026</b></span>
                 </div>
             </header>
 
@@ -214,9 +200,14 @@
                                 <h3 class="font-bold text-slate-900 text-base flex items-center gap-2"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
                                 <p class="text-xs text-slate-500">Lihat ringkasan gaji, edit data, atau hapus data karyawan langsung dari beranda utama perusahaan.</p>
                             </div>
-                            <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-user-plus mr-1.5"></i> Tambah Karyawan Baru
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <button onclick="exportPayrollToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-file-excel mr-1.5"></i> Export ke Excel (CSV)
+                                </button>
+                                <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-user-plus mr-1.5"></i> Tambah Karyawan Baru
+                                </button>
+                            </div>
                         </div>
                         <div class="overflow-x-auto border rounded-xl">
                             <table class="w-full text-left border-collapse text-xs">
@@ -759,8 +750,11 @@
         let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
             { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi W.I.N.D Enterprise Payroll Pro", detail: "Berhasil" }
         ];
+        let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [
+            { text: "Sistem HRIS berhasil diinisialisasi untuk periode Agustus 2026.", time: "Hari ini", unread: true }
+        ];
 
-        let currentRole = localStorage.getItem('wind_enterprise_role') || 'CEO';
+        let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
 
         function togglePasswordVisibility() {
             const passInput = document.getElementById('loginPass');
@@ -779,6 +773,7 @@
             if (isLoggedIn === 'true') {
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
+                renderSidebarByRole();
                 renderAll();
             } else {
                 document.getElementById('loginPage').classList.remove('hidden');
@@ -788,9 +783,10 @@
 
         function handleLoginSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             localStorage.setItem('wind_is_logged_in', 'true');
             localStorage.setItem('wind_logged_email', email);
+            loggedUserEmail = email;
             showToast("Berhasil Masuk ke Sistem W.I.N.D!", "success");
             checkLoginState();
         }
@@ -799,6 +795,141 @@
             localStorage.removeItem('wind_is_logged_in');
             showToast("Anda telah keluar dari sistem.", "warning");
             checkLoginState();
+        }
+
+        // RBAC: Menyesuaikan menu sidebar berdasarkan hak akses email login
+        function renderSidebarByRole() {
+            const isAdmin = loggedUserEmail === 'ceo@windcompany.com';
+            const navContainer = document.getElementById('sidebarMenuContainer');
+            
+            let menuHTML = '';
+            if (isAdmin) {
+                menuHTML = `
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs">
+                        <i class="fa-solid fa-chart-pie w-5 text-indigo-400"></i> Beranda & Ringkasan
+                    </button>
+                    <button onclick="switchTab('ess')" id="nav-ess" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-user-shield w-5 text-emerald-400"></i> Portal Mandiri (ESS)
+                    </button>
+                    <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-location-dot w-5 text-indigo-400"></i> Absensi GPS & Cuti
+                    </button>
+                    <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-receipt w-5 text-emerald-400"></i> Klaim & Reimbursement
+                    </button>
+                    <button onclick="switchTab('payroll-engine')" id="nav-payroll-engine" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-calculator w-5 text-amber-400"></i> Kalkulator & Payroll Run
+                    </button>
+                    <button onclick="switchTab('directory')" id="nav-directory" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-sitemap w-5 text-sky-400"></i> Direktori & Org Chart
+                    </button>
+                    <button onclick="switchTab('documents')" id="nav-documents" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-book-bookmark w-5 text-amber-400"></i> Dokumen & Handbook
+                    </button>
+                    <button onclick="switchTab('assets')" id="nav-assets" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-laptop w-5 text-indigo-400"></i> Inventaris Aset Kantor
+                    </button>
+                    <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400"></i> Gaji & Slip Saya
+                    </button>
+                    <button onclick="switchTab('profiles')" id="nav-profiles" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-id-card-clip w-5 text-sky-400"></i> Profil Karyawan & Atasan
+                    </button>
+                    <button onclick="switchTab('workflow')" id="nav-workflow" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-list-check w-5 text-rose-400"></i> Approval Workflow
+                    </button>
+                    <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-clock-rotate-left w-5 text-slate-400"></i> Log Aktivitas Internal
+                    </button>
+                `;
+                document.getElementById('userNameLabel').innerText = "Muhammad Faari Akbar";
+                document.getElementById('userRoleBadge').innerText = "Founder & CEO (Admin)";
+            } else {
+                menuHTML = `
+                    <button onclick="switchTab('ess')" id="nav-ess" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-800 text-white rounded-xl font-medium transition shadow-sm text-xs">
+                        <i class="fa-solid fa-user-shield w-5 text-emerald-400"></i> Portal Mandiri (ESS)
+                    </button>
+                    <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-location-dot w-5 text-indigo-400"></i> Absensi GPS & Cuti
+                    </button>
+                    <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-receipt w-5 text-emerald-400"></i> Klaim & Reimbursement
+                    </button>
+                    <button onclick="switchTab('documents')" id="nav-documents" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-book-bookmark w-5 text-amber-400"></i> Dokumen & Handbook
+                    </button>
+                    <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition text-xs">
+                        <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400"></i> Gaji & Slip Saya
+                    </button>
+                `;
+                document.getElementById('userNameLabel').innerText = loggedUserEmail;
+                document.getElementById('userRoleBadge').innerText = "Karyawan (ESS Portal)";
+            }
+            navContainer.innerHTML = menuHTML;
+        }
+
+        // Fitur Lonceng Notifikasi Interaktif
+        function toggleNotificationDropdown() {
+            const dropdown = document.getElementById('notifDropdown');
+            dropdown.classList.toggle('hidden');
+            renderNotifications();
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notifListContainer');
+            const badge = document.getElementById('notifBadge');
+            const unreadCount = notifications.filter(n => n.unread).length;
+
+            if (unreadCount > 0) {
+                badge.innerText = unreadCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (notifications.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 text-center py-4">Tidak ada notifikasi.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            notifications.forEach(n => {
+                const item = document.createElement('div');
+                item.className = `p-2.5 rounded-xl border ${n.unread ? 'bg-indigo-50/60 border-indigo-100 font-semibold' : 'bg-slate-50 border-slate-100 text-slate-600'}`;
+                item.innerHTML = `<p>${n.text}</p><span class="text-[9px] text-slate-400 mt-1 block">${n.time}</span>`;
+                container.appendChild(item);
+            });
+        }
+
+        function addNotification(text) {
+            notifications.unshift({ text, time: "Baru saja", unread: true });
+            localStorage.setItem('wind_enterprise_notifs', JSON.stringify(notifications));
+            renderNotifications();
+        }
+
+        function clearNotifications() {
+            notifications.forEach(n => n.unread = false);
+            localStorage.setItem('wind_enterprise_notifs', JSON.stringify(notifications));
+            renderNotifications();
+        }
+
+        // Fitur Export Laporan Payroll ke Excel (CSV)
+        function exportPayrollToExcel() {
+            let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok,Tunjangan,Take Home Pay\n";
+            employees.forEach(emp => {
+                const bruto = emp.base + emp.allowance;
+                const net = bruto - Math.round(bruto * 0.11);
+                csvContent += `"${emp.name}","${emp.role}","${emp.bank}","${emp.accNum}",${emp.base},${emp.allowance},${net}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Laporan_Payroll_WIND_Agustus_2026.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("Laporan Payroll berhasil diexport ke Excel (CSV)!", "success");
+            logAudit("Export Payroll Excel", "Berhasil unduh laporan CSV");
         }
 
         function openAddEmployeeModal() {
@@ -836,6 +967,7 @@
             document.getElementById('addEmployeeModal').classList.add('hidden'); 
         }
 
+        // Validasi Form Ketat saat Simpan Karyawan
         function handleSaveEmployee(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('editEmployeeIdx').value);
@@ -848,8 +980,13 @@
             const allowanceStr = document.getElementById('newEmpAllowance').value;
             const ptkp = document.getElementById('newEmpPtkp').value;
 
-            if (!name || !email || !role || !accNum) {
-                showToast("Semua kolom wajib diisi dengan benar!", "error");
+            if (!name || !email || !role || !accNum || !baseStr) {
+                showToast("Peringatan: Semua kolom formulir wajib diisi dengan lengkap!", "error");
+                return;
+            }
+
+            if (!email.includes("@")) {
+                showToast("Format alamat email perusahaan tidak valid!", "error");
                 return;
             }
 
@@ -862,6 +999,7 @@
                 employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext });
                 showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
                 logAudit("Tambah Karyawan Baru", `${name} (${role})`);
+                addNotification(`Karyawan baru terdaftar: ${name} (${role})`);
             } else {
                 employees[idx] = { ...employees[idx], name, email, role, bank, accNum, ptkp, base, allowance };
                 showToast(`Data karyawan ${name} berhasil diperbarui!`, 'success');
@@ -1065,6 +1203,7 @@
             renderPayrollEngine();
             renderEmployeeProfiles();
             renderAllEmployeesSlips();
+            renderNotifications();
             document.getElementById('totalEmployeeCount').innerText = employees.length + ' Orang';
         }
 
@@ -1108,6 +1247,7 @@
         function performClockIn() {
             showToast('Absensi GPS Berhasil! Lokasi terdeteksi di Area Kantor Sudirman.', 'success');
             logAudit("Absensi GPS Clock-In", "Berhasil terekam");
+            addNotification("Absensi GPS Clock-In berhasil terekam.");
         }
 
         function submitLeaveForm(e) {
@@ -1125,6 +1265,7 @@
             renderWorkflow();
             showToast('Pengajuan cuti berhasil dikirim!', 'success');
             logAudit("Pengajuan Cuti Online", `${type}`);
+            addNotification(`Pengajuan cuti baru (${type}) dari ${employees[0].name}.`);
         }
 
         function renderReimburse() {
@@ -1162,6 +1303,7 @@
             renderWorkflow();
             closeReimburseModal();
             showToast('Klaim berhasil diajukan!', 'success');
+            addNotification(`Klaim reimbursement baru (${type}) sebesar ${formatRupiah(amount)}.`);
         }
 
         function renderPayrollEngine() {
@@ -1189,6 +1331,7 @@
         function runBulkPayrollDisbursement() {
             showToast('Payroll Run Sukses! Dana gaji telah didisburse.', 'success');
             logAudit("Payroll Run", "Berhasil transfer massal");
+            addNotification("Payroll Run Periode Agustus 2026 berhasil dieksekusi.");
         }
 
         function renderDirectory() {
@@ -1411,6 +1554,7 @@
             localStorage.setItem('wind_enterprise_leaves', JSON.stringify(leaveRequests));
             renderWorkflow();
             showToast('Cuti disetujui!', 'success');
+            addNotification(`Pengajuan cuti ${leaveRequests[idx].name} telah disetujui.`);
         }
 
         function renderAssets() {
@@ -1462,7 +1606,7 @@
         function logAudit(action, detail) {
             const now = new Date();
             const timeStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            auditLogs.unshift({ time: timeStr, user: 'Muhammad Faari Akbar', action, detail });
+            auditLogs.unshift({ time: timeStr, user: loggedUserEmail, action, detail });
             localStorage.setItem('wind_enterprise_audit', JSON.stringify(auditLogs));
             renderAudit();
         }
