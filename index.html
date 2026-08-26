@@ -164,7 +164,7 @@
                         </div>
                     </div>
 
-                    <!-- KARTU STATISTIK DASHBOARD DIUBAH MENJADI TATA LETAK VERTICAL AGAR ANGKA TERLIHAT JELAS TANPA TERPOTONG -->
+                    <!-- KARTU STATISTIK DASHBOARD -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
                             <div class="flex justify-between items-center">
@@ -582,7 +582,7 @@
                                 <h3 class="font-bold text-slate-900 text-xl">Manajemen Inventaris & Aset Perusahaan</h3>
                                 <p class="text-sm text-slate-500">Pencatatan fasilitas kantor yang dipinjamkan ke karyawan.</p>
                             </div>
-                            <button onclick="openAssetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition">
+                            <button onclick="openAssetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl transition">
                                 <i class="fa-solid fa-plus mr-2"></i> Catat Peminjaman Aset
                             </button>
                         </div>
@@ -608,9 +608,14 @@
                 <!-- VIEW 11: GAJI & SLIP -->
                 <div id="view-payroll" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-                        <div class="border-b pb-6">
-                            <h3 class="font-bold text-slate-900 text-xl">Pusat Slip Gaji & Penghasilan Karyawan</h3>
-                            <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi berformat PDF untuk masing-masing karyawan periode Agustus 2026.</p>
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-xl">Pusat Slip Gaji & Penghasilan Karyawan</h3>
+                                <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi berformat PDF untuk masing-masing karyawan periode Agustus 2026.</p>
+                            </div>
+                            <button onclick="downloadAllSlipsPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                <i class="fa-solid fa-file-zipper mr-2"></i> Download Semua Slip (Massal PDF)
+                            </button>
                         </div>
                         <div class="overflow-x-auto border rounded-2xl">
                             <table class="w-full text-left border-collapse text-sm">
@@ -693,7 +698,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 15: SETTINGS -->
+                <!-- VIEW 15: SETTINGS & NEW ENHANCED MODULES -->
                 <div id="view-settings" class="hidden space-y-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm">
                         <div class="border-b pb-6 flex justify-between items-center">
@@ -735,18 +740,32 @@
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 p-8 rounded-3xl border space-y-5">
-                            <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-shield-halved text-amber-600 mr-2"></i> Keamanan Sesi & Pemeliharaan Data</h4>
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                                <div>
-                                    <p class="font-bold text-slate-800 text-base">Reset Cache & Data Sesi Lokal Browser</p>
-                                    <p class="text-xs text-slate-500">Mengembalikan data karyawan dan riwayat ke pengaturan awal.</p>
+                        <!-- MODUL TAMBAHAN BARU: CHAT & GATEWAY -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t">
+                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-4">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
+                                <div class="bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs" id="internalChatContainer">
+                                    <div class="bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal W.I.N.D Pro! Silakan berkoordinasi di sini.</div>
                                 </div>
-                                <button onclick="resetSystemDataCache()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                    <i class="fa-solid fa-triangle-exclamation mr-2"></i> Reset Data Aplikasi
+                                <div class="flex gap-2">
+                                    <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
+                                    <button onclick="sendInternalChat()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs">Kirim</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-8 rounded-3xl border space-y-5">
+                                <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider"><i class="fa-solid fa-robot text-emerald-600 mr-2"></i> WhatsApp & Email Gateway Simulator</h4>
+                                <p class="text-xs text-slate-500">Kirimkan notifikasi otomatis slip gaji atau pengumuman via WhatsApp/Email langsung ke nomor terdaftar karyawan.</p>
+                                <div>
+                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Pesan Broadcast Otomatis</label>
+                                    <textarea id="broadcastMsgText" class="w-full border rounded-2xl p-3 bg-white text-xs" rows="3">Halo, Slip Gaji Periode Agustus 2026 telah terbit. Silakan cek portal ESS Anda.</textarea>
+                                </div>
+                                <button onclick="sendWhatsAppBroadcast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition text-xs shadow-sm">
+                                    <i class="fa-brands fa-whatsapp mr-1.5"></i> Kirim Broadcast WhatsApp & Email
                                 </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -1166,12 +1185,22 @@
             addNotification("Konfigurasi sistem perusahaan diperbarui.");
         }
 
-        function resetSystemDataCache() {
-            if (confirm("Apakah Anda yakin ingin mereset seluruh cache data lokal aplikasi?")) {
-                localStorage.clear();
-                alert("Data berhasil direset. Halaman akan dimuat ulang.");
-                location.reload();
-            }
+        function sendInternalChat() {
+            const input = document.getElementById('chatInputMsg');
+            const text = input.value.trim();
+            if(!text) return;
+            const chatBox = document.getElementById('internalChatContainer');
+            chatBox.innerHTML += `<div class="bg-slate-100 p-3 rounded-xl"><b class="text-slate-900 block">${loggedUserEmail}</b> ${text}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            showToast("Pesan terkirim ke chat internal!", "success");
+        }
+
+        function sendWhatsAppBroadcast() {
+            const msg = document.getElementById('broadcastMsgText').value;
+            showToast("Broadcast WhatsApp & Email berhasil dikirim ke seluruh karyawan!", "success");
+            logAudit("Broadcast WA/Email", "Berhasil mengirim pengumuman massal");
+            addNotification("Broadcast pengumuman sistem berhasil dikirim.");
         }
 
         function renderPayrollChart(totalCurrentMonth) {
@@ -1498,6 +1527,16 @@
 
             doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WIND.pdf`);
             showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
+        }
+
+        function downloadAllSlipsPDF() {
+            employees.forEach((emp, idx) => {
+                setTimeout(() => {
+                    downloadSpecificSlip(idx);
+                }, idx * 400);
+            });
+            showToast("Semua slip gaji berhasil di-download massal!", "success");
+            logAudit("Download Massal Slip Gaji", "Berhasil unduh semua dokumen slip");
         }
 
         function renderAll() {
