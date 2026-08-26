@@ -125,7 +125,7 @@
         <div class="flex-1 flex flex-col overflow-y-auto relative">
             
             <header class="bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300" id="headerThemeContainer">
-                <h2 id="pageTitle" class="text-2xl font-bold text-slate-900 transition-colors duration-300" id="headerTitleTheme">Beranda & Ringkasan Perusahaan</h2>
+                <h2 id="pageTitle" class="text-2xl font-bold text-slate-900 transition-colors duration-300">Beranda & Ringkasan Perusahaan</h2>
                 
                 <div class="flex items-center gap-4 relative">
                     <!-- TOGGLE DARK MODE -->
@@ -140,7 +140,7 @@
                         </button>
 
                         <div id="notifDropdown" class="absolute right-0 mt-3 w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-50 p-5 space-y-4">
-                            <div class="flex justify-between items-center border-b pb-3">
+                            <div class="flex justify-between items-center border-b pb-3 border-slate-200">
                                 <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi Sistem</h4>
                                 <button onclick="clearNotifications()" class="text-xs text-indigo-600 hover:underline font-bold">Tandai Dibaca</button>
                             </div>
@@ -184,7 +184,7 @@
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</span>
                                 <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
                             </div>
-                            <h3 id="dashTotalPayroll" class="text-xl font-black text-emerald-600">Rp 29.3 Juta</h3>
+                            <h3 id="dashTotalPayroll" class="text-xl font-black text-emerald-500">Rp 29.3 Juta</h3>
                         </div>
 
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
@@ -192,7 +192,7 @@
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</span>
                                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-receipt"></i></div>
                             </div>
-                            <h3 class="text-xl font-black text-indigo-600">Rp 4.5 Juta</h3>
+                            <h3 class="text-xl font-black text-indigo-400">Rp 4.5 Juta</h3>
                         </div>
 
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
@@ -200,7 +200,7 @@
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</span>
                                 <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-laptop"></i></div>
                             </div>
-                            <h3 id="myAssetCount" class="text-2xl font-black text-amber-600">1 Unit</h3>
+                            <h3 id="myAssetCount" class="text-2xl font-black text-amber-400">1 Unit</h3>
                         </div>
                     </div>
 
@@ -208,7 +208,7 @@
                         <div class="flex justify-between items-center border-b pb-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll Bulanan</h3>
-                                <p class="text-sm text-slate-500">Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
                             </div>
                             <span class="text-sm bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full font-bold">Tahun 2026</span>
                         </div>
@@ -221,7 +221,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
-                                <p class="text-sm text-slate-500">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
                             </div>
                             <div class="flex items-center gap-3">
                                 <button onclick="exportPayrollToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -258,7 +258,7 @@
                         <div class="flex justify-between items-center border-b pb-6 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Employee Self-Service (ESS) - Profil & Rekening</h3>
-                                <p class="text-sm text-slate-500">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.</p>
                             </div>
                             <button onclick="saveMyEssProfile()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-2xl transition shadow-sm">
                                 <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Perubahan
@@ -269,15 +269,15 @@
                             <div class="theme-subcard space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100 transition-colors duration-300">
                                 <h4 class="font-bold text-slate-800 text-base mb-3 theme-text"><i class="fa-solid fa-user text-indigo-600 mr-2"></i> Informasi Pribadi & Kontak</h4>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nama Lengkap</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Nama Lengkap</label>
                                     <input type="text" id="essName" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-semibold">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Email Perusahaan</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Email Perusahaan</label>
                                     <input type="email" id="essEmail" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nomor Telepon / WhatsApp</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Nomor Telepon / WhatsApp</label>
                                     <input type="text" id="essPhone" value="081234567890" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
                             <div class="theme-subcard space-y-5 bg-slate-50 p-8 rounded-2xl border border-slate-100 transition-colors duration-300">
                                 <h4 class="font-bold text-slate-800 text-base mb-3 theme-text"><i class="fa-solid fa-building-columns text-emerald-600 mr-2"></i> Informasi Bank & Pajak (PTKP PPh 21 TER)</h4>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nama Bank</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Nama Bank</label>
                                     <select id="essBankName" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base">
                                         <option value="BCA">Bank BCA</option>
                                         <option value="Mandiri">Bank Mandiri</option>
@@ -294,11 +294,11 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nomor Rekening</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Nomor Rekening</label>
                                     <input type="text" id="essAccountNum" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-mono">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Kategori Pajak (PPh 21 TER)</label>
+                                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase theme-label">Kategori Pajak (PPh 21 TER)</label>
                                     <select id="essPtkp" class="theme-input w-full border rounded-2xl px-5 py-3.5 bg-white text-base font-bold text-indigo-600">
                                         <option value="TK/0">Kategori A (TAR A) - TK/0, TK/1, K/0</option>
                                         <option value="K/1">Kategori B (TAR B) - K/1, K/2, TK/2</option>
@@ -315,10 +315,10 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                             <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
-                            <p class="text-sm text-slate-500">Sistem mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman.</p>
+                            <p class="text-sm text-slate-500 theme-subtext">Sistem mendeteksi radius lokasi kantor pusat W.I.N.D Sudirman.</p>
                             
                             <div class="theme-subcard bg-slate-50 p-6 rounded-2xl border space-y-3 text-sm font-mono border-slate-200">
-                                <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-600">Dalam Radius Kantor (< 100m)</b></div>
+                                <div class="flex justify-between"><span>Status Lokasi:</span> <b class="text-emerald-500">Dalam Radius Kantor (< 100m)</b></div>
                                 <div class="flex justify-between"><span>Koordinat GPS:</span> <b class="theme-text">-6.2205, 106.8183 (Jakarta)</b></div>
                                 <div class="flex justify-between"><span>Waktu Server:</span> <b class="theme-text" id="liveClock">08:00:00 WIB</b></div>
                             </div>
@@ -336,7 +336,7 @@
                             
                             <form onsubmit="submitLeaveForm(event)" class="space-y-4 text-sm">
                                 <div>
-                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Cuti / Izin</label>
+                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Jenis Cuti / Izin</label>
                                     <select id="attendanceLeaveType" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                         <option value="Cuti Tahunan">Cuti Tahunan (Hak 12 Hari)</option>
                                         <option value="Izin Sakit">Izin Sakit (Medical Leave)</option>
@@ -345,16 +345,16 @@
                                 </div>
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Mulai Tanggal</label>
+                                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Mulai Tanggal</label>
                                         <input type="text" id="attendanceStart" required placeholder="01/09/2026" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                     </div>
                                     <div>
-                                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Sampai Tanggal</label>
+                                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Sampai Tanggal</label>
                                         <input type="text" id="attendanceEnd" required placeholder="03/09/2026" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Keterangan / Alasan</label>
+                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Keterangan / Alasan</label>
                                     <input type="text" id="attendanceReason" required placeholder="Keperluan keluarga..." class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
                                 </div>
                                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl transition text-base">Kirim Pengajuan Cuti</button>
@@ -369,7 +369,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Modul Klaim & Reimbursement Mandiri</h3>
-                                <p class="text-sm text-slate-500">Unggah kuitansi medis atau perjalanan dinas. Plafon tersisa <b class="text-indigo-600">Rp 4.500.000</b>.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Unggah kuitansi medis atau perjalanan dinas. Plafon tersisa <b class="text-indigo-400">Rp 4.500.000</b>.</p>
                             </div>
                             <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                 <i class="fa-solid fa-plus mr-2"></i> Ajukan Klaim Baru
@@ -401,7 +401,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 TAR (TER)</h3>
-                                <p class="text-sm text-slate-500">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
                             </div>
                             <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                 <i class="fa-solid fa-paper-plane mr-2"></i> Eksekusi Payroll Run (Disbursement)
@@ -434,7 +434,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Penilaian Kinerja & KPI Karyawan (Performance Appraisal)</h3>
-                                <p class="text-sm text-slate-500">Evaluasi produktivitas bulanan sebagai dasar kenaikan gaji (*merit increase*) dan bonus.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Evaluasi produktivitas bulanan sebagai dasar kenaikan gaji (*merit increase*) dan bonus.</p>
                             </div>
                             <button onclick="openAppraisalModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                 <i class="fa-solid fa-plus mr-2"></i> Tambah Penilaian Baru
@@ -466,7 +466,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-folder-closed text-indigo-600 mr-2"></i> Brankas Dokumen Digital Karyawan (Employee Vault)</h3>
-                                <p class="text-sm text-slate-500">Penyimpanan aman dokumen penting seperti KTP, NPWP, Ijazah, dan Kontrak Kerja.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Penyimpanan aman dokumen penting seperti KTP, NPWP, Ijazah, dan Kontrak Kerja.</p>
                             </div>
                             <button onclick="openVaultModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                 <i class="fa-solid fa-upload mr-2"></i> Unggah Dokumen Baru
@@ -498,7 +498,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Direktori Kontak Karyawan & Struktur Organisasi</h3>
-                                <p class="text-sm text-slate-500">Cari ekstensi meja, email rekan kerja, atau lihat hierarki divisi perusahaan.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Cari ekstensi meja, email rekan kerja, atau lihat hierarki divisi perusahaan.</p>
                             </div>
                             <div class="flex items-center gap-3 w-full md:w-auto">
                                 <input type="text" id="dirSearchInput" onkeyup="filterDirectory()" placeholder="Cari nama atau jabatan..." class="theme-input border rounded-2xl px-5 py-3 bg-slate-50 text-sm w-full md:w-72">
@@ -542,14 +542,14 @@
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="border-b pb-6 border-slate-200">
                             <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Dokumen, SOP & Company Handbook W.I.N.D</h3>
-                            <p class="text-sm text-slate-500">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, dan Handbook.</p>
+                            <p class="text-sm text-slate-500 theme-subtext">World Intelligence Network Dominant (W.I.N.D) - Unduh Visi & Misi resmi, SOP Kepegawaian, dan Handbook.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-6 flex flex-col justify-between transition-colors duration-300 border-slate-200">
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-indigo-900 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-compass"></i></div>
                                     <h4 class="font-bold text-slate-900 text-base theme-text">Visi, Misi & Prinsip W.I.N.D</h4>
-                                    <p class="text-slate-600 text-sm">Dokumen resmi Visi, Misi, dan Prinsip "Wealth with Purpose" berformat Times New Roman.</p>
+                                    <p class="text-slate-600 text-sm theme-subtext">Dokumen resmi Visi, Misi, dan Prinsip "Wealth with Purpose" berformat Times New Roman.</p>
                                 </div>
                                 <button onclick="downloadVisiMisiPDF()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
                                     <i class="fa-solid fa-file-pdf mr-2"></i> Download Visi & Misi (PDF)
@@ -560,7 +560,7 @@
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-emerald-700 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-file-shield"></i></div>
                                     <h4 class="font-bold text-slate-900 text-base theme-text">SOP Kepegawaian & Absensi GPS</h4>
-                                    <p class="text-slate-600 text-sm">Standar Operasional Prosedur kehadiran, jam kerja, cuti, dan kedisiplinan karyawan W.I.N.D.</p>
+                                    <p class="text-slate-600 text-sm theme-subtext">Standar Operasional Prosedur kehadiran, jam kerja, cuti, dan kedisiplinan karyawan W.I.N.D.</p>
                                 </div>
                                 <button onclick="downloadSOPKepegawaianPDF()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
                                     <i class="fa-solid fa-download mr-2"></i> Download SOP (PDF)
@@ -571,7 +571,7 @@
                                 <div class="space-y-4">
                                     <div class="w-14 h-14 bg-amber-700 text-white rounded-2xl flex items-center justify-center text-xl shadow"><i class="fa-solid fa-receipt"></i></div>
                                     <h4 class="font-bold text-slate-900 text-base theme-text">SOP Klaim & Reimbursement</h4>
-                                    <p class="text-slate-600 text-sm">Panduan lengkap batas plafon, pengajuan kuitansi medis, dan tata cara pencairan dana.</p>
+                                    <p class="text-slate-600 text-sm theme-subtext">Panduan lengkap batas plafon, pengajuan kuitansi medis, dan tata cara pencairan dana.</p>
                                 </div>
                                 <button onclick="downloadSOPReimbursementPDF()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl transition text-center shadow-sm">
                                     <i class="fa-solid fa-download mr-2"></i> Download SOP (PDF)
@@ -587,7 +587,7 @@
                         <div class="flex justify-between items-center border-b pb-6 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Manajemen Inventaris & Aset Perusahaan</h3>
-                                <p class="text-sm text-slate-500">Pencatatan fasilitas kantor yang dipinjamkan ke karyawan.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Pencatatan fasilitas kantor yang dipinjamkan ke karyawan.</p>
                             </div>
                             <button onclick="openAssetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl transition">
                                 <i class="fa-solid fa-plus mr-2"></i> Catat Peminjaman Aset
@@ -618,7 +618,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1)</h3>
-                                <p class="text-sm text-slate-500">Unduh dokumen slip gaji resmi atau Formulir 1721-A1 bukti pemotongan PPh 21 tahunan.</p>
+                                <p class="text-sm text-slate-500 theme-subtext">Unduh dokumen slip gaji resmi atau Formulir 1721-A1 bukti pemotongan PPh 21 tahunan.</p>
                             </div>
                             <div class="flex items-center gap-3">
                                 <button onclick="downloadAllSlipsPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
@@ -650,7 +650,7 @@
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="border-b pb-6 border-slate-200">
                             <h3 class="font-bold text-slate-900 text-xl theme-text">Direktori Profil Karyawan & Atasan W.I.N.D Company</h3>
-                            <p class="text-sm text-slate-500">Informasi lengkap profil, atasan langsung, dan ekstensi kontak seluruh anggota tim.</p>
+                            <p class="text-sm text-slate-500 theme-subtext">Informasi lengkap profil, atasan langsung, dan ekstensi kontak seluruh anggota tim.</p>
                         </div>
                         <div id="employeeProfilesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
                             <!-- Dimuat dinamis -->
@@ -663,7 +663,7 @@
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="border-b pb-6 border-slate-200">
                             <h3 class="font-bold text-slate-900 text-xl theme-text">Multi-Tier Approval Workflow (Persetujuan Bertingkat)</h3>
-                            <p class="text-sm text-slate-500">Persetujuan otomatis cuti dan klaim oleh Atasan Divisi sebelum difinalisasi oleh CEO.</p>
+                            <p class="text-sm text-slate-500 theme-subtext">Persetujuan otomatis cuti dan klaim oleh Atasan Divisi sebelum difinalisasi oleh CEO.</p>
                         </div>
                         <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
@@ -688,7 +688,7 @@
                 <div id="view-audit" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <h3 class="font-bold text-slate-900 text-xl theme-text">Log Aktivitas Internal (Audit Trail)</h3>
-                        <p class="text-sm text-slate-500">Rekaman kronologis seluruh perubahan data karyawan, absensi, dan approval dalam sistem.</p>
+                        <p class="text-sm text-slate-500 theme-subtext">Rekaman kronologis seluruh perubahan data karyawan, absensi, dan approval dalam sistem.</p>
                         <div class="overflow-x-auto border rounded-2xl mt-4 border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
@@ -713,7 +713,7 @@
                         <div class="border-b pb-6 flex justify-between items-center border-slate-200">
                             <div>
                                 <h3 class="font-bold text-slate-900 text-lg theme-text"><i class="fa-solid fa-gear text-indigo-600 mr-2"></i> Pengaturan Perusahaan & Sistem W.I.N.D</h3>
-                                <p class="text-slate-500">Kelola konfigurasi identitas perusahaan dan parameter payroll.</p>
+                                <p class="text-slate-500 theme-subtext">Kelola konfigurasi identitas perusahaan dan parameter payroll.</p>
                             </div>
                             <button onclick="saveSystemSettings()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-2xl transition shadow-sm">
                                 <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Pengaturan
@@ -724,11 +724,11 @@
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-building text-indigo-600 mr-2"></i> Identitas Perusahaan</h4>
                                 <div>
-                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Nama Resmi Perusahaan</label>
+                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs theme-label">Nama Resmi Perusahaan</label>
                                     <input type="text" id="settingCompName" value="W.I.N.D Enterprise Company" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                 </div>
                                 <div>
-                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Alamat Kantor Pusat</label>
+                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs theme-label">Alamat Kantor Pusat</label>
                                     <input type="text" id="settingCompAddress" value="Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                 </div>
                             </div>
@@ -736,11 +736,11 @@
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-calculator text-emerald-600 mr-2"></i> Pajak & Payroll</h4>
                                 <div>
-                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Standar Potongan (PPh 21 TER)</label>
+                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs theme-label">Standar Potongan (PPh 21 TER)</label>
                                     <input type="text" disabled value="Tarif Efektif Rata-rata (TER) Aktif" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-100 text-slate-600 font-mono text-base">
                                 </div>
                                 <div>
-                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs">Tanggal Siklus Payroll Bulanan</label>
+                                    <label class="block text-slate-500 mb-2 font-bold uppercase text-xs theme-label">Tanggal Siklus Payroll Bulanan</label>
                                     <select id="settingPayrollDate" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-white text-base">
                                         <option value="25">Tanggal 25 Setiap Bulan</option>
                                         <option value="28">Tanggal 28 Setiap Bulan</option>
@@ -764,9 +764,9 @@
 
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-5 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-robot text-emerald-600 mr-2"></i> WhatsApp & Email Gateway Simulator</h4>
-                                <p class="text-xs text-slate-500">Kirimkan notifikasi otomatis slip gaji atau pengumuman via WhatsApp/Email langsung ke nomor terdaftar karyawan.</p>
+                                <p class="text-xs text-slate-500 theme-subtext">Kirimkan notifikasi otomatis slip gaji atau pengumuman via WhatsApp/Email langsung ke nomor terdaftar karyawan.</p>
                                 <div>
-                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Pesan Broadcast Otomatis</label>
+                                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Pesan Broadcast Otomatis</label>
                                     <textarea id="broadcastMsgText" class="theme-input w-full border rounded-2xl p-3 bg-white text-xs" rows="3">Halo, Slip Gaji Periode Agustus 2026 telah terbit. Silakan cek portal ESS Anda.</textarea>
                                 </div>
                                 <button onclick="sendWhatsAppBroadcast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition text-xs shadow-sm">
@@ -788,19 +788,19 @@
             <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-star text-amber-500 mr-2"></i> Tambah Penilaian Kinerja Karyawan</h3>
             <form onsubmit="handleAppraisalSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Karyawan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Karyawan</label>
                     <input type="text" id="appEmpName" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Periode Evaluasi</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Periode Evaluasi</label>
                     <input type="text" id="appPeriod" required value="Agustus 2026" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Skor KPI (0 - 100)</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Skor KPI (0 - 100)</label>
                     <input type="number" id="appScore" required min="0" max="100" placeholder="92" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Umpan Balik / Catatan Atasan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Umpan Balik / Catatan Atasan</label>
                     <input type="text" id="appFeedback" required placeholder="Kinerja sangat baik dan konsisten..." class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
@@ -817,11 +817,11 @@
             <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-upload text-indigo-600 mr-2"></i> Unggah Dokumen Digital Vault</h3>
             <form onsubmit="handleVaultSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Karyawan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Karyawan</label>
                     <input type="text" id="vaultEmpName" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Dokumen</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Jenis Dokumen</label>
                     <select id="vaultDocType" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                         <option value="KTP & KK">KTP & KK</option>
                         <option value="NPWP">Kartu NPWP</option>
@@ -830,7 +830,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">File Dokumen (PDF/Scan)</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">File Dokumen (PDF/Scan)</label>
                     <input type="file" id="vaultFile" required class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
@@ -847,15 +847,15 @@
             <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200">Catat Peminjaman Aset Baru</h3>
             <form onsubmit="handleAssetSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Aset / Barang</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Aset / Barang</label>
                     <input type="text" id="assetNameInput" required placeholder="Contoh: MacBook Pro M2" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nomor Seri / Kode Inventaris</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nomor Seri / Kode Inventaris</label>
                     <input type="text" id="assetSerialInput" required placeholder="SN-MACP-9988" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Peminjam (Karyawan)</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Peminjam (Karyawan)</label>
                     <input type="text" id="assetOwnerInput" required placeholder="Muhammad Faari Akbar" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
@@ -872,7 +872,7 @@
             <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200">Ajukan Klaim Reimbursement / Medis</h3>
             <form onsubmit="handleReimburseSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jenis Klaim</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Jenis Klaim</label>
                     <select id="reimType" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                         <option value="Klaim Medis / Berobat">Klaim Medis / Berobat</option>
                         <option value="Biaya Transport Dinas">Biaya Transport Dinas</option>
@@ -880,15 +880,15 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Keterangan / Keperluan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Keterangan / Keperluan</label>
                     <input type="text" id="reimDesc" required placeholder="Pembelian obat resep dokter..." class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nominal (Rp)</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nominal (Rp)</label>
                     <input type="number" id="reimAmount" required placeholder="500000" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Unggah Bukti Kuitansi / Struk</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Unggah Bukti Kuitansi / Struk</label>
                     <input type="file" id="reimFile" required class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 text-sm">
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
@@ -906,20 +906,20 @@
             <form onsubmit="handleSaveEmployee(event)" class="space-y-4">
                 <input type="hidden" id="editEmployeeIdx" value="-1">
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Lengkap Karyawan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Lengkap Karyawan</label>
                     <input type="text" id="newEmpName" required placeholder="Contoh: Sarah Wijaya" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Email Perusahaan</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Email Perusahaan</label>
                     <input type="email" id="newEmpEmail" required placeholder="sarah@windcompany.com" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Jabatan / Divisi</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Jabatan / Divisi</label>
                     <input type="text" id="newEmpRole" required placeholder="HR Specialist / Finance" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Nama Bank</label>
+                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Bank</label>
                         <select id="newEmpBank" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
                             <option value="BCA">BCA</option>
                             <option value="Mandiri">Mandiri</option>
@@ -928,22 +928,22 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">No. Rekening</label>
+                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">No. Rekening</label>
                         <input type="text" id="newEmpAcc" required placeholder="88992211" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Gaji Pokok (Rp)</label>
+                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Gaji Pokok (Rp)</label>
                         <input type="text" id="newEmpBase" required oninput="formatRupiahInput(this)" placeholder="Rp 10 Juta" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                     <div>
-                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Tunjangan (Rp)</label>
+                        <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Tunjangan (Rp)</label>
                         <input type="text" id="newEmpAllowance" required oninput="formatRupiahInput(this)" placeholder="Rp 3 Juta" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-mono">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs">Kategori Pajak (PPh 21 TER)</label>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Kategori Pajak (PPh 21 TER)</label>
                     <select id="newEmpPtkp" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base font-semibold">
                         <option value="TK/0">Kategori A (TAR A) - TK/0, TK/1, K/0</option>
                         <option value="K/1">Kategori B (TAR B) - K/1, K/2, TK/2</option>
@@ -1006,6 +1006,8 @@
             const inputs = document.querySelectorAll('.theme-input');
             const tableHeads = document.querySelectorAll('.theme-table-head');
             const texts = document.querySelectorAll('.theme-text');
+            const subtexts = document.querySelectorAll('.theme-subtext');
+            const labels = document.querySelectorAll('.theme-label');
             const modals = document.querySelectorAll('.theme-modal');
             const cancelBtns = document.querySelectorAll('.theme-btn-cancel');
 
@@ -1022,11 +1024,13 @@
                 subcards.forEach(sc => sc.className = "theme-subcard space-y-5 bg-slate-950 p-8 rounded-2xl border border-slate-800 transition-colors duration-300 text-slate-100");
                 inputs.forEach(inp => inp.className = "theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-900 border-slate-700 text-white text-base");
                 tableHeads.forEach(th => th.className = "theme-table-head bg-slate-950 text-slate-300 uppercase border-b border-slate-800 font-bold text-xs");
-                texts.forEach(t => { if(!t.classList.contains('text-indigo-600') && !t.classList.contains('text-emerald-600')) t.classList.add('text-white'); });
+                texts.forEach(t => { if(!t.classList.contains('text-indigo-600') && !t.classList.contains('text-emerald-600') && !t.classList.contains('text-amber-500')) t.classList.add('text-white'); });
+                subtexts.forEach(st => st.className = "text-sm text-slate-300 theme-subtext");
+                labels.forEach(l => l.className = "block text-xs font-bold text-slate-300 mb-2 uppercase theme-label");
                 modals.forEach(m => m.className = "theme-modal bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-100");
                 cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-3 rounded-2xl font-bold");
 
-                showToast("Mode Gelap diaktifkan (Total Dark Theme)", "success");
+                showToast("Mode Gelap diaktifkan (Teks & Kontras Optimal)", "success");
             } else {
                 body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
                 header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300";
@@ -1041,6 +1045,8 @@
                 inputs.forEach(inp => inp.className = "theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 border-slate-300 text-slate-900 text-base");
                 tableHeads.forEach(th => th.className = "theme-table-head bg-slate-50 text-slate-600 uppercase border-b border-slate-200 font-bold text-xs");
                 texts.forEach(t => t.classList.remove('text-white'));
+                subtexts.forEach(st => st.className = "text-sm text-slate-500 theme-subtext");
+                labels.forEach(l => l.className = "block text-xs font-bold text-slate-500 mb-2 uppercase theme-label");
                 modals.forEach(m => m.className = "theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-800");
                 cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-100 text-slate-700 hover:bg-slate-200 px-5 py-3 rounded-2xl font-bold");
 
@@ -1227,7 +1233,7 @@
             container.innerHTML = '';
             notifications.forEach(n => {
                 const item = document.createElement('div');
-                item.className = `p-3.5 rounded-2xl border ${n.unread ? 'bg-indigo-50/80 border-indigo-200 font-bold' : 'bg-slate-50 border-slate-200 text-slate-700'}`;
+                item.className = `p-3.5 rounded-2xl border ${n.unread ? 'bg-indigo-50/85 border-indigo-200 font-bold text-slate-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`;
                 item.innerHTML = `<p>${n.text}</p><span class="text-xs text-slate-400 mt-1.5 block">${n.time}</span>`;
                 container.appendChild(item);
             });
