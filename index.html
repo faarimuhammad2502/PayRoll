@@ -128,6 +128,20 @@
                 <h2 id="pageTitle" class="text-2xl font-bold text-slate-900 transition-colors duration-300">Beranda & Ringkasan Perusahaan</h2>
                 
                 <div class="flex items-center gap-4 relative">
+                    <!-- FITUR BARU: PILIHAN PERIODE BULAN & ARSIP -->
+                    <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-2xl border border-slate-200 text-sm">
+                        <i class="fa-solid fa-calendar-days text-indigo-600"></i>
+                        <span class="text-xs font-bold text-slate-500 uppercase">Periode:</span>
+                        <select id="globalPeriodSelector" onchange="changePayrollPeriod(this.value)" class="bg-transparent font-bold text-indigo-600 focus:outline-none cursor-pointer">
+                            <option value="Agustus 2026">Agustus 2026 (Aktif)</option>
+                            <option value="Juli 2026">Juli 2026 (Arsip)</option>
+                            <option value="Juni 2026">Juni 2026 (Arsip)</option>
+                        </select>
+                        <button onclick="archiveCurrentMonthData()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition ml-2" title="Simpan data bulan ini ke arsip sistem">
+                            <i class="fa-solid fa-box-archive mr-1"></i> Arsipkan Bulan Ini
+                        </button>
+                    </div>
+
                     <!-- TOGGLE DARK MODE -->
                     <button onclick="toggleDarkModeTheme()" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base" title="Ubah Mode Terang / Gelap" id="darkModeBtnTheme">
                         <i id="darkModeIcon" class="fa-solid fa-moon"></i>
@@ -149,8 +163,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <span class="text-base font-semibold text-slate-700 hidden sm:inline transition-colors duration-300" id="periodTextTheme">W.I.N.D Enterprise | Periode: <b class="text-indigo-600">Agustus 2026</b></span>
                 </div>
             </header>
 
@@ -165,7 +177,7 @@
                             <p class="text-sm text-indigo-200">Seluruh karyawan dihimbau untuk memeriksa nomor rekening bank masing-masing melalui Portal ESS sebelum tanggal 28 Agustus 2026.</p>
                         </div>
                         <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-sm whitespace-nowrap">
-                            <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> Berlaku hingga: <b>31 Ags 2026</b>
+                            <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> Periode Aktif: <b id="dashboardActivePeriodLabel">Agustus 2026</b>
                         </div>
                     </div>
 
@@ -310,7 +322,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ATTENDANCE (DENGAN TAMBAHAN FITUR 5: AI FACIAL RECOGNITION SIMULATOR) -->
+                <!-- VIEW 3: ATTENDANCE -->
                 <div id="view-attendance" class="hidden space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
@@ -328,7 +340,7 @@
                             </button>
                         </div>
 
-                        <!-- MODUL TAMBAHAN FITUR 5: AI FACIAL RECOGNITION ATTENDANCE -->
+                        <!-- MODUL AI FACIAL RECOGNITION -->
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                             <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-camera-retro text-indigo-600"></i> Absensi Wajah AI (*Facial Recognition*)</h3>
                             <p class="text-sm text-slate-500 theme-subtext">Validasi wajah biometrik anti-joki untuk presisi kehadiran tingkat lanjut.</p>
@@ -379,18 +391,23 @@
                     </div>
                 </div>
 
-                <!-- VIEW 4: REIMBURSE (DENGAN TAMBAHAN FITUR 2: PINJAMAN & KASBON KARYAWAN) -->
+                <!-- VIEW 4: REIMBURSE & KASBON (DENGAN TOMBOL SAMPAH PENGHAPUS DATA) -->
                 <div id="view-reimburse" class="hidden space-y-8">
-                    <!-- MODUL TAMBAHAN FITUR 2: PINJAMAN & KASBON KARYAWAN -->
+                    <!-- MODUL KASBON DENGAN TOMBOL HAPUS -->
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Pengajuan Kasbon & Pinjaman Karyawan (*Employee Loan*)</h3>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Pengajuan Kasbon & Pinjaman Karyawan</h3>
                                 <p class="text-sm text-slate-500 theme-subtext">Ajukan pinjaman darurat yang cicilannya dipotong otomatis dari Take Home Pay bulanan.</p>
                             </div>
-                            <button onclick="openLoanModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-plus mr-2"></i> Ajukan Pinjaman Baru
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <button onclick="clearAllLoans()" class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold px-4 py-3 rounded-2xl transition shadow-sm border border-rose-500/30">
+                                    <i class="fa-solid fa-trash-can mr-1.5"></i> Hapus Semua Kasbon
+                                </button>
+                                <button onclick="openLoanModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-plus mr-2"></i> Ajukan Pinjaman Baru
+                                </button>
+                            </div>
                         </div>
                         <div class="overflow-x-auto border rounded-2xl border-slate-200">
                             <table class="w-full text-left border-collapse text-sm">
@@ -400,7 +417,7 @@
                                         <th class="py-4 px-6">Keperluan Pinjaman</th>
                                         <th class="py-4 px-6">Total Pinjaman</th>
                                         <th class="py-4 px-6">Cicilan / Bulan</th>
-                                        <th class="py-4 px-6 text-center">Status Pinjaman</th>
+                                        <th class="py-4 px-6 text-center">Status & Aksi Sampah</th>
                                     </tr>
                                 </thead>
                                 <tbody id="loanTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
@@ -416,9 +433,14 @@
                                 <h3 class="font-bold text-slate-900 text-xl theme-text">Modul Klaim & Reimbursement Mandiri</h3>
                                 <p class="text-sm text-slate-500 theme-subtext">Unggah kuitansi medis atau perjalanan dinas. Plafon tersisa <b class="text-indigo-400">Rp 4.500.000</b>.</p>
                             </div>
-                            <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-plus mr-2"></i> Ajukan Klaim Baru
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <button onclick="clearAllReimbursements()" class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold px-4 py-3 rounded-2xl transition shadow-sm border border-rose-500/30">
+                                    <i class="fa-solid fa-trash-can mr-1.5"></i> Hapus Riwayat Klaim
+                                </button>
+                                <button onclick="openReimburseModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-plus mr-2"></i> Ajukan Klaim Baru
+                                </button>
+                            </div>
                         </div>
 
                         <div class="overflow-x-auto border rounded-2xl border-slate-200">
@@ -429,7 +451,7 @@
                                         <th class="py-4 px-6">Keterangan</th>
                                         <th class="py-4 px-6">Nominal</th>
                                         <th class="py-4 px-6">Bukti Lampiran</th>
-                                        <th class="py-4 px-6 text-center">Status Verifikasi</th>
+                                        <th class="py-4 px-6 text-center">Status & Aksi Sampah</th>
                                     </tr>
                                 </thead>
                                 <tbody id="reimburseTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
@@ -440,7 +462,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 5: PAYROLL ENGINE (DENGAN TAMBAHAN FITUR 3: MULTI-CURRENCY) -->
+                <!-- VIEW 5: PAYROLL ENGINE -->
                 <div id="view-payroll-engine" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
@@ -449,7 +471,6 @@
                                 <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
                             </div>
                             <div class="flex items-center gap-3">
-                                <!-- MODUL TAMBAHAN FITUR 3: PILIHAN MATA UANG (MULTI-CURRENCY) -->
                                 <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-4 py-3 rounded-2xl text-xs border border-indigo-200">
                                     <option value="IDR">IDR (Rp - Rupiah)</option>
                                     <option value="USD">USD ($ - Dolar)</option>
@@ -665,7 +686,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 11: GAJI & SLIP (DENGAN TAMBAHAN FITUR 4: E-BUPOT DJP ONLINE) -->
+                <!-- VIEW 11: GAJI & SLIP -->
                 <div id="view-payroll" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
@@ -835,7 +856,7 @@
         </div>
     </div>
 
-    <!-- MODAL LOAN (TAMBAHAN FITUR 2: PINJAMAN / KASBON) -->
+    <!-- MODAL LOAN -->
     <div id="loanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
             <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-hand-holding-dollar text-emerald-600 mr-2"></i> Ajukan Kasbon / Pinjaman Karyawan</h3>
@@ -1057,7 +1078,6 @@
         let reimburseList = JSON.parse(localStorage.getItem('wind_enterprise_reimburse')) || [
             { id: 1, name: "Muhammad Faari Akbar", type: "Klaim Medis / Berobat", desc: "Pembelian obat resep dokter spesialis", amount: 500000, file: "Kuitansi_Medis.pdf", status: "Menunggu Approval HR" }
         ];
-        // DATA TAMBAHAN FITUR 2: KASBON / PINJAMAN KARYAWAN
         let loanList = JSON.parse(localStorage.getItem('wind_enterprise_loans')) || [
             { id: 1, name: "Muhammad Faari Akbar", reason: "Renovasi darurat rumah", amount: 3000000, installment: 1000000, status: "Disetujui & Cicilan Aktif" }
         ];
@@ -1074,6 +1094,13 @@
             { text: "Modul Enterprise Appraisal & Digital Vault berhasil diaktifkan.", time: "Hari ini", unread: true }
         ];
 
+        // FITUR BARU: PENYIMPANAN ARSIP BULANAN DI LOCALSTORAGE
+        let archivedMonthData = JSON.parse(localStorage.getItem('wind_archived_months')) || {
+            "Juli 2026": { totalPayroll: 27800000, employeeCount: 2, status: "Arsip Tertutup" },
+            "Juni 2026": { totalPayroll: 25500000, employeeCount: 2, status: "Arsip Tertutup" }
+        };
+        let currentActivePeriod = "Agustus 2026";
+
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
         let isDarkMode = false;
@@ -1084,7 +1111,6 @@
             const icon = document.getElementById('darkModeIcon');
             const header = document.getElementById('headerThemeContainer');
             const pageTitle = document.getElementById('pageTitle');
-            const periodText = document.getElementById('periodTextTheme');
             const darkModeBtn = document.getElementById('darkModeBtnTheme');
             const notifBtn = document.getElementById('notifBtnTheme');
 
@@ -1102,7 +1128,6 @@
                 body.className = "bg-slate-950 font-sans text-slate-100 text-base transition-colors duration-300";
                 header.className = "bg-slate-900 shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-800 no-print transition-colors duration-300";
                 pageTitle.className = "text-2xl font-bold text-white transition-colors duration-300";
-                periodText.className = "text-base font-semibold text-slate-300 hidden sm:inline transition-colors duration-300";
                 darkModeBtn.className = "w-11 h-11 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 flex items-center justify-center transition text-base";
                 notifBtn.className = "w-11 h-11 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center relative transition text-lg";
                 icon.className = "fa-solid fa-sun";
@@ -1122,7 +1147,6 @@
                 body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
                 header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300";
                 pageTitle.className = "text-2xl font-bold text-slate-900 transition-colors duration-300";
-                periodText.className = "text-base font-semibold text-slate-700 hidden sm:inline transition-colors duration-300";
                 darkModeBtn.className = "w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition text-base";
                 notifBtn.className = "w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg";
                 icon.className = "fa-solid fa-moon";
@@ -1140,6 +1164,80 @@
                 showToast("Mode Terang diaktifkan", "success");
             }
             renderAll();
+        }
+
+        // FITUR BARU: MENGGANTI PERIODE BULAN & MELIHAT REKAP ARSIP
+        function changePayrollPeriod(periodVal) {
+            currentActivePeriod = periodVal;
+            document.getElementById('dashboardActivePeriodLabel').innerText = periodVal;
+            if(periodVal !== "Agustus 2026") {
+                const archived = archivedMonthData[periodVal];
+                if(archived) {
+                    showToast(`Memuat Arsip Rekap Bulan ${periodVal} (Total Payroll: ${formatRupiah(archived.totalPayroll)})`, "success");
+                } else {
+                    showToast(`Arsip untuk bulan ${periodVal} belum diarsipkan.`, "warning");
+                }
+            } else {
+                showToast("Kembali ke Periode Aktif Agustus 2026", "success");
+            }
+            renderAll();
+        }
+
+        function archiveCurrentMonthData() {
+            let totalSum = 0;
+            employees.forEach(emp => {
+                const bruto = emp.base + emp.allowance;
+                totalSum += (bruto - Math.round(bruto * 0.05));
+            });
+
+            archivedMonthData[currentActivePeriod] = {
+                totalPayroll: totalSum,
+                employeeCount: employees.length,
+                status: "Terkunci & Diarsipkan"
+            };
+            localStorage.setItem('wind_archived_months', JSON.stringify(archivedMonthData));
+            showToast(`Data Periode ${currentActivePeriod} berhasil diarsipkan ke sistem!`, "success");
+            logAudit("Arsip Bulan Sistem", `Periode ${currentActivePeriod} disimpan`);
+            addNotification(`Arsip finansial periode ${currentActivePeriod} berhasil dikunci.`);
+        }
+
+        // FITUR BARU: TOMBOL SAMPAH PENGHAPUS KASBON & KLAIM
+        function deleteLoanItem(idx) {
+            if(confirm("Apakah Anda yakin ingin menghapus data kasbon/pinjaman ini?")) {
+                loanList.splice(idx, 1);
+                localStorage.setItem('wind_enterprise_loans', JSON.stringify(loanList));
+                renderLoans();
+                renderPayrollEngine();
+                showToast("Data kasbon berhasil dihapus!", "warning");
+            }
+        }
+
+        function clearAllLoans() {
+            if(confirm("Hapus seluruh riwayat kasbon karyawan?")) {
+                loanList = [];
+                localStorage.removeItem('wind_enterprise_loans');
+                renderLoans();
+                renderPayrollEngine();
+                showToast("Semua riwayat kasbon berhasil dibersihkan!", "warning");
+            }
+        }
+
+        function deleteReimburseItem(idx) {
+            if(confirm("Apakah Anda yakin ingin menghapus riwayat klaim ini?")) {
+                reimburseList.splice(idx, 1);
+                localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
+                renderReimburse();
+                showToast("Riwayat klaim berhasil dihapus!", "warning");
+            }
+        }
+
+        function clearAllReimbursements() {
+            if(confirm("Hapus seluruh riwayat klaim reimbursement?")) {
+                reimburseList = [];
+                localStorage.removeItem('wind_enterprise_reimburse');
+                renderReimburse();
+                showToast("Semua riwayat klaim berhasil dibersihkan!", "warning");
+            }
         }
 
         function togglePasswordVisibility() {
@@ -1420,12 +1518,12 @@
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Laporan_Payroll_WIND_Agustus_2026.csv");
+            link.setAttribute("download", `Laporan_Payroll_WIND_${currentActivePeriod.replace(/\s+/g, '_')}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             showToast("Laporan Payroll berhasil diexport ke Excel (CSV)!", "success");
-            logAudit("Export Payroll Excel", "Berhasil unduh laporan CSV");
+            logAudit("Export Payroll Excel", `Berhasil unduh laporan CSV (${currentActivePeriod})`);
         }
 
         function openAddEmployeeModal() {
@@ -1519,13 +1617,12 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
         }
 
-        // FUNGSI KONVERSI MATA UANG (FITUR 3)
         function formatCurrencyDynamic(num, currencyCode) {
             if(currencyCode === 'USD') {
-                const converted = num / 16000; // Asumsi kurs $1 = Rp 16.000
+                const converted = num / 16000;
                 return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(converted);
             } else if(currencyCode === 'SGD') {
-                const converted = num / 12000; // Asumsi kurs S$1 = Rp 12.000
+                const converted = num / 12000;
                 return new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 }).format(converted);
             }
             return formatRupiah(num);
@@ -1603,6 +1700,11 @@
                 body.appendChild(tr);
             });
 
+            // Jika sedang melihat rekap arsip bulan lalu, sesuaikan total jika ada di arsip
+            if(currentActivePeriod !== "Agustus 2026" && archivedMonthData[currentActivePeriod]) {
+                totalPayrollSum = archivedMonthData[currentActivePeriod].totalPayroll;
+            }
+
             const totalPayrollEl = document.getElementById('dashTotalPayroll');
             if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
 
@@ -1677,7 +1779,7 @@
             doc.text("W.I.N.D ENTERPRISE COMPANY", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`SLIP GAJI RESMI: ${emp.name.toUpperCase()} - PERIODE AGUSTUS 2026`, 105, 24, { align: 'center' });
+            doc.text(`SLIP GAJI RESMI: ${emp.name.toUpperCase()} - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
             
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -1719,7 +1821,7 @@
             doc.text("BUKTI PEMOTONGAN PPH PASAL 21 (FORM 1721-A1)", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text("W.I.N.D ENTERPRISE COMPANY - TAHUN PAJAK 2026", 105, 24, { align: 'center' });
+            doc.text(`W.I.N.D ENTERPRISE COMPANY - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -1748,7 +1850,6 @@
             showToast(`Formulir Pajak 1721-A1 ${emp.name} berhasil diunduh!`, 'success');
         }
 
-        // FUNGSI TAMBAHAN FITUR 4: GENERATOR e-BUPOT DJP ONLINE
         function downloadEBupotDJP(idx) {
             const emp = employees[idx];
             const { jsPDF } = window.jspdf;
@@ -1761,13 +1862,13 @@
             doc.text("BUKTI PEMOTONGAN ELEKTRONIK (e-BUPOT PPh 21)", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text("DIREKTORAT JENDERAL PAJAK REPUBLIK INDONESIA - W.I.N.D ENTERPRISE", 105, 24, { align: 'center' });
+            doc.text(`DIREKTORAT JENDERAL PAJAK - ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
             doc.setFontSize(11);
             doc.text(`Nomor e-Bupot  : BUPOT-2026-${Math.floor(100000 + Math.random() * 900000)}`, 20, 46);
-            doc.text(`Masa / Tahun   : Agustus 2026 / 2026`, 20, 54);
+            doc.text(`Masa Pajak     : ${currentActivePeriod}`, 20, 54);
             doc.text(`Nama Pegawai   : ${emp.name}`, 20, 62);
             doc.text(`Jabatan        : ${emp.role}`, 20, 70);
             doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 78);
@@ -1863,7 +1964,6 @@
             addNotification("Absensi GPS Clock-In berhasil terekam.");
         }
 
-        // FUNGSI TAMBAHAN FITUR 5: SIMULASI AI FACIAL RECOGNITION
         function triggerAiFaceRecognition() {
             const box = document.getElementById('faceScanBox');
             box.innerHTML = `<i class="fa-solid fa-spinner text-indigo-400 text-3xl mb-2 animate-spin"></i><span class="text-xs font-mono text-indigo-300">Memindai Biometrik Wajah...</span>`;
@@ -1903,7 +2003,7 @@
             const body = document.getElementById('reimburseTableBody');
             if(!body) return;
             body.innerHTML = '';
-            reimburseList.forEach(item => {
+            reimburseList.forEach((item, idx) => {
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
@@ -1911,18 +2011,22 @@
                     <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}">${item.desc}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400">${formatRupiah(item.amount)}</td>
                     <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}"><i class="fa-solid fa-paperclip mr-1.5 text-slate-400"></i> ${item.file}</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full">${item.status}</span></td>
+                    <td class="py-4 px-6 text-center flex items-center justify-center gap-2">
+                        <span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full">${item.status}</span>
+                        <button onclick="deleteReimburseItem(${idx})" class="w-8 h-8 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white transition flex items-center justify-center" title="Hapus Riwayat Klaim">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </td>
                 `;
                 body.appendChild(tr);
             });
         }
 
-        // FUNGSI TAMBAHAN FITUR 2: RENDER KASBON & PINJAMAN
         function renderLoans() {
             const body = document.getElementById('loanTableBody');
             if(!body) return;
             body.innerHTML = '';
-            loanList.forEach(loan => {
+            loanList.forEach((loan, idx) => {
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
@@ -1930,7 +2034,12 @@
                     <td class="py-4 px-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}">${loan.reason}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400">${formatRupiah(loan.amount)}</td>
                     <td class="py-4 px-6 font-mono text-rose-400">-${formatRupiah(loan.installment)} / bln</td>
-                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${loan.status}</span></td>
+                    <td class="py-4 px-6 text-center flex items-center justify-center gap-2">
+                        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${loan.status}</span>
+                        <button onclick="deleteLoanItem(${idx})" class="w-8 h-8 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white transition flex items-center justify-center" title="Hapus Data Kasbon">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </td>
                 `;
                 body.appendChild(tr);
             });
@@ -2100,7 +2209,6 @@
                 const bpjs = Math.round(bruto * 0.03);
                 const pph21 = Math.round(bruto * 0.05);
                 
-                // Cek apakah karyawan memiliki kasbon aktif (Fitur 2)
                 let activeLoanDeduction = 0;
                 loanList.forEach(l => {
                     if(l.name.toLowerCase() === emp.name.toLowerCase()) {
@@ -2126,9 +2234,9 @@
         }
 
         function runBulkPayrollDisbursement() {
-            showToast('Payroll Run Sukses! Dana gaji, BPJS, cicilan kasbon, & PPh 21 telah didisburse.', 'success');
-            logAudit("Payroll Run PPh 21 TER", "Berhasil transfer massal multi-potongan");
-            addNotification("Payroll Run Periode Agustus 2026 berhasil dieksekusi.");
+            showToast(`Payroll Run Sukses untuk periode ${currentActivePeriod}!`, 'success');
+            logAudit("Payroll Run PPh 21 TER", `Disburse periode ${currentActivePeriod}`);
+            addNotification(`Payroll Run Periode ${currentActivePeriod} berhasil dieksekusi.`);
         }
 
         function renderDirectory() {
