@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINDROLL Enterprise Payroll & HRIS Pro Max</title>
+    <title>WINDROLL Enterprise Payroll & HRIS Pro Max - Next Level</title>
     <link rel="icon" type="image/png" href="wind_logo.png">
     
     <!-- Tailwind CSS CDN -->
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></link>
     <!-- jsPDF untuk Export PDF Profesional -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-    <!-- Chart.js untuk Grafik Analitik Keuangan -->
+    <!-- Chart.js untuk Grafik Analitik & Forecasting -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -64,25 +64,25 @@
                     <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
                 </div>
                 <h1 class="text-2xl font-bold text-white tracking-tight">WINDROLL<span class="text-emerald-400">.</span> Pro Max</h1>
-                <p class="text-sm text-slate-400" data-i18n="loginSub">Enterprise HRIS & Global Payroll Portal</p>
+                <p class="text-sm text-slate-400">Next-Level Enterprise HRIS & Global Payroll Portal</p>
             </div>
 
             <form onsubmit="handleLoginSubmit(event)" class="space-y-5 text-sm relative z-10">
                 <div>
-                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs" data-i18n="loginEmail">Email Perusahaan</label>
+                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs">Email Perusahaan</label>
                     <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-indigo-500 transition text-base">
                 </div>
                 <div>
-                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs" data-i18n="loginPass">Kata Sandi (Password)</label>
+                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs">Kata Sandi (Password)</label>
                     <div class="relative">
                         <input type="password" id="loginPass" required value="123456" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 pr-12 focus:outline-none focus:border-indigo-500 transition text-base">
                         <button type="button" onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition focus:outline-none text-lg">
                             <i id="togglePassIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                    <span class="text-xs text-slate-400 mt-2 block" data-i18n="loginDefault">Default Password: <b>123456</b> (Gunakan email CEO untuk akses Admin penuh)</span>
+                    <span class="text-xs text-slate-400 mt-2 block">Default Password: <b>123456</b> (Gunakan email CEO untuk akses Admin penuh)</span>
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-indigo-600/30 text-base" data-i18n="loginBtn">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-indigo-600/30 text-base">
                     Masuk ke Sistem WINDROLL <i class="fa-solid fa-arrow-right ml-2"></i>
                 </button>
             </form>
@@ -106,7 +106,7 @@
                         <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
                             WINDROLL<span class="text-emerald-400 font-black">.</span>
                         </h1>
-                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase" data-i18n="proEdition">Pro Max Edition</span>
+                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Pro Max Next-Level</span>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <button onclick="handleLogout()" class="w-full bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 border border-rose-500/30">
-                    <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logoutBtn">Keluar (Logout)</span>
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
                 </button>
             </div>
         </aside>
@@ -146,13 +146,13 @@
                     <!-- PILIHAN PERIODE BULAN & ARSIP -->
                     <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-2xl border border-slate-200 text-sm" id="periodSelectorContainer">
                         <i class="fa-solid fa-calendar-days text-indigo-600"></i>
-                        <span class="text-xs font-bold text-slate-500 uppercase" data-i18n="periodLabel">Periode:</span>
+                        <span class="text-xs font-bold text-slate-500 uppercase">Periode:</span>
                         <select id="globalPeriodSelector" onchange="changePayrollPeriod(this.value)" class="bg-transparent font-bold text-indigo-600 focus:outline-none cursor-pointer">
                             <option value="Agustus 2026">Agustus 2026 (Aktif)</option>
                             <option value="Juli 2026">Juli 2026 (Arsip)</option>
                             <option value="Juni 2026">Juni 2026 (Arsip)</option>
                         </select>
-                        <button onclick="archiveCurrentMonthData()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition ml-1" title="Simpan data bulan ini ke arsip sistem" data-i18n="archiveBtn">
+                        <button onclick="archiveCurrentMonthData()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition ml-1" title="Simpan data bulan ini ke arsip sistem">
                             <i class="fa-solid fa-box-archive mr-1"></i> Arsipkan
                         </button>
                     </div>
@@ -162,7 +162,7 @@
                         <i id="darkModeIcon" class="fa-solid fa-moon"></i>
                     </button>
 
-                    <!-- TOMBOL NOTIFIKASI DENGAN AUTO-CLOSE DI LUAR KLIK -->
+                    <!-- TOMBOL NOTIFIKASI -->
                     <div class="relative" id="notifDropdownWrapper">
                         <button onclick="toggleNotificationDropdown(event)" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center relative transition text-lg" id="notifBtnTheme">
                             <i class="fa-solid fa-bell"></i>
@@ -172,7 +172,7 @@
                         <div id="notifDropdown" class="absolute right-0 mt-3 w-80 md:w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-50 p-5 space-y-4">
                             <div class="flex justify-between items-center border-b pb-3 border-slate-200">
                                 <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi & Smart Reminders</h4>
-                                <button onclick="clearNotifications()" class="text-xs text-indigo-600 hover:underline font-bold" data-i18n="markRead">Tandai Dibaca</button>
+                                <button onclick="clearNotifications()" class="text-xs text-indigo-600 hover:underline font-bold">Tandai Dibaca</button>
                             </div>
                             <div id="notifListContainer" class="space-y-3 max-h-72 overflow-y-auto text-sm">
                                 <p class="text-slate-400 text-center py-4">Tidak ada notifikasi baru.</p>
@@ -188,12 +188,12 @@
                 <div id="view-dashboard" class="space-y-8">
                     <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 rounded-3xl shadow-xl border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="space-y-2">
-                            <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> <span data-i18n="ceoAnnounce">Pengumuman Resmi CEO</span></span>
-                            <h3 class="font-bold text-xl text-white" data-i18n="announceTitle">Sistem Pro Max Aktif: Fitur Pajak e-SPT, Lembur & Multi-Currency</h3>
-                            <p class="text-sm text-indigo-200" data-i18n="announceDesc">Semua modul tingkat lanjut telah terintegrasi untuk mendukung ekspensi global dan kepatuhan pajak otomatis.</p>
+                            <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> Pengumuman Resmi CEO</span>
+                            <h3 class="font-bold text-xl text-white">Sistem Pro Max Next-Level Aktif: WhatsApp Gateway, Shift Rostering & Forecasting</h3>
+                            <p class="text-sm text-indigo-200">Seluruh fitur tambahan tingkat lanjut telah terintegrasi untuk otomatisasi penuh operasional perusahaan.</p>
                         </div>
                         <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-sm whitespace-nowrap">
-                            <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> <span data-i18n="activePeriodLabel">Periode Aktif:</span> <b id="dashboardActivePeriodLabel">Agustus 2026</b>
+                            <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> Periode Aktif: <b id="dashboardActivePeriodLabel">Agustus 2026</b>
                         </div>
                     </div>
 
@@ -201,7 +201,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" data-i18n="statTotalEmp">Total Karyawan</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Karyawan</span>
                                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-users"></i></div>
                             </div>
                             <h3 id="totalEmployeeCount" class="text-2xl font-black text-slate-900 theme-text">1 Orang</h3>
@@ -209,7 +209,7 @@
 
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" data-i18n="statTotalPayroll">Total Payroll Bulan Ini</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Payroll Bulan Ini</span>
                                 <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-money-bills"></i></div>
                             </div>
                             <h3 id="dashTotalPayroll" class="text-xl font-black text-emerald-500">Rp 29.3 Juta</h3>
@@ -217,7 +217,7 @@
 
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" data-i18n="statClaim">Plafon Klaim Tersisa</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Plafon Klaim Tersisa</span>
                                 <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-receipt"></i></div>
                             </div>
                             <h3 class="text-xl font-black text-indigo-400">Rp 4.5 Juta</h3>
@@ -225,38 +225,55 @@
 
                         <div class="theme-card bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4 transition-colors duration-300">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" data-i18n="statAsset">Aset Kantor Dipinjam</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aset Kantor Dipinjam</span>
                                 <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-laptop"></i></div>
                             </div>
                             <h3 id="myAssetCount" class="text-2xl font-black text-amber-400">1 Unit</h3>
                         </div>
                     </div>
 
-                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
-                        <div class="flex justify-between items-center border-b pb-4 border-slate-200">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> <span data-i18n="analyticsTitle">Analitik Tren Pengeluaran Payroll Bulanan</span></h3>
-                                <p class="text-sm text-slate-500 theme-subtext" data-i18n="analyticsSub">Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.</p>
+                    <!-- GRAFIK ANALITIK & FORECASTING HEADCOUNT -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                            <div class="flex justify-between items-center border-b pb-4 border-slate-200">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-line text-indigo-600"></i> Analitik Tren Pengeluaran Payroll</h3>
+                                    <p class="text-sm text-slate-500 theme-subtext">Perbandingan total pengeluaran gaji semester kedua 2026.</p>
+                                </div>
                             </div>
-                            <span class="text-sm bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full font-bold">Tahun 2026</span>
+                            <div class="h-72 relative">
+                                <canvas id="payrollAnalyticsChart"></canvas>
+                            </div>
                         </div>
-                        <div class="h-80 relative">
-                            <canvas id="payrollAnalyticsChart"></canvas>
+
+                        <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                            <div class="flex justify-between items-center border-b pb-4 border-slate-200">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-chart-pie text-emerald-600"></i> Prediksi Headcount & Payroll Forecasting</h3>
+                                    <p class="text-sm text-slate-500 theme-subtext">Proyeksi pertumbuhan anggaran 3 tahun ke depan (2026 - 2028).</p>
+                                </div>
+                            </div>
+                            <div class="h-72 relative">
+                                <canvas id="forecastChart"></canvas>
+                            </div>
                         </div>
                     </div>
 
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-users-gear text-indigo-600"></i> <span data-i18n="empSummaryTitle">Ringkasan & Daftar Karyawan</span></h3>
-                                <p class="text-sm text-slate-500 theme-subtext" data-i18n="empSummarySub">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-users-gear text-indigo-600"></i> Ringkasan & Daftar Karyawan</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
                             </div>
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <button onclick="bulkExtendContracts()" class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-4 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-file-signature mr-2"></i> Perpanjang Kontrak Massal
+                                </button>
                                 <button onclick="exportPayrollToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                    <i class="fa-solid fa-file-excel mr-2"></i> <span data-i18n="exportExcel">Export ke Excel (CSV)</span>
+                                    <i class="fa-solid fa-file-excel mr-2"></i> Export ke Excel (CSV)
                                 </button>
                                 <button onclick="openAddEmployeeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
-                                    <i class="fa-solid fa-user-plus mr-2"></i> <span data-i18n="addEmpBtn">Tambah Karyawan Baru</span>
+                                    <i class="fa-solid fa-user-plus mr-2"></i> Tambah Karyawan Baru
                                 </button>
                             </div>
                         </div>
@@ -264,12 +281,12 @@
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
                                     <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
-                                        <th class="py-4 px-6" data-i18n="thName">Nama & Jabatan</th>
-                                        <th class="py-4 px-6" data-i18n="thBank">Bank & Rekening</th>
-                                        <th class="py-4 px-6" data-i18n="thBase">Gaji Pokok</th>
-                                        <th class="py-4 px-6" data-i18n="thAllow">Tunjangan</th>
-                                        <th class="py-4 px-6 font-bold text-indigo-600" data-i18n="thNet">Take Home Pay</th>
-                                        <th class="py-4 px-6 text-center" data-i18n="thAction">Aksi (Edit & Hapus)</th>
+                                        <th class="py-4 px-6">Nama & Jabatan</th>
+                                        <th class="py-4 px-6">Bank & Rekening</th>
+                                        <th class="py-4 px-6">Masa Kontrak</th>
+                                        <th class="py-4 px-6">Gaji Pokok</th>
+                                        <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay</th>
+                                        <th class="py-4 px-6 text-center">Aksi (Edit & Hapus)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dashEmployeeTableBody" class="divide-y text-slate-700 divide-slate-200">
@@ -285,11 +302,11 @@
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex justify-between items-center border-b pb-6 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl theme-text" data-i18n="essTitle">Employee Self-Service (ESS) - Profil & Rekening</h3>
-                                <p class="text-sm text-slate-500 theme-subtext" data-i18n="essSub">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.</p>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Employee Self-Service (ESS) - Profil & Rekening</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.</p>
                             </div>
                             <button onclick="saveMyEssProfile()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-2xl transition shadow-sm">
-                                <i class="fa-solid fa-floppy-disk mr-2"></i> <span data-i18n="saveChange">Simpan Perubahan</span>
+                                <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Perubahan
                             </button>
                         </div>
 
@@ -347,8 +364,37 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ATTENDANCE & OVERTIME -->
+                <!-- VIEW 3: ATTENDANCE, SHIFT & OVERTIME -->
                 <div id="view-attendance" class="hidden space-y-8">
+                    
+                    <!-- MODUL MANAJEMEN SHIFT & ROSTERING -->
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-4 border-slate-200">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-calendar-week text-indigo-600"></i> Manajemen Shift Kerja & Rostering Karyawan</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Atur jadwal shift mingguan staf (Pagi, Siang, Malam, atau Remote).</p>
+                            </div>
+                            <button onclick="openShiftModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3 rounded-2xl transition shadow-sm">
+                                <i class="fa-solid fa-plus mr-2"></i> Tetapkan Shift Baru
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
+                                        <th class="py-4 px-6">Nama Karyawan</th>
+                                        <th class="py-4 px-6">Jadwal Shift</th>
+                                        <th class="py-4 px-6">Jam Kerja</th>
+                                        <th class="py-4 px-6 text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="shiftTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                             <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-location-dot text-indigo-600"></i> Absensi Kehadiran GPS (Geofencing)</h3>
@@ -801,7 +847,38 @@
                     </div>
                 </div>
 
-                <!-- VIEW 14: AUDIT -->
+                <!-- VIEW 14: NOTIFICATION GATEWAY LOGS -->
+                <div id="view-gateway" class="hidden space-y-8">
+                    <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
+                        <div class="flex justify-between items-center border-b pb-4 border-slate-200">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-tower-broadcast text-indigo-600 mr-2"></i> WhatsApp & Email Gateway Log Center</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Riwayat pengiriman otomatis slip gaji dan notifikasi sistem via API WhatsApp & SMTP.</p>
+                            </div>
+                            <button onclick="resendAllFailedGateways()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-3 rounded-2xl transition shadow-sm">
+                                <i class="fa-solid fa-rotate mr-1.5"></i> Resend Semua Gagal
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border rounded-2xl border-slate-200">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
+                                        <th class="py-4 px-6">Waktu Kirim</th>
+                                        <th class="py-4 px-6">Penerima</th>
+                                        <th class="py-4 px-6">Media (WA / Email)</th>
+                                        <th class="py-4 px-6">Status API</th>
+                                        <th class="py-4 px-6 text-center">Aksi Resend</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gatewayTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
+                                    <!-- Dimuat dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 15: AUDIT -->
                 <div id="view-audit" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <h3 class="font-bold text-slate-900 text-xl theme-text">Log Aktivitas Internal (Audit Trail)</h3>
@@ -824,7 +901,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 15: SETTINGS -->
+                <!-- VIEW 16: SETTINGS -->
                 <div id="view-settings" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 text-sm transition-colors duration-300">
                         <div class="border-b pb-6 flex justify-between items-center border-slate-200">
@@ -871,7 +948,7 @@
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-4 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
                                 <div class="theme-input bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs border-slate-200" id="internalChatContainer">
-                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal WINDROLL Pro Max!</div>
+                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal WINDROLL Pro Max Next-Level!</div>
                                 </div>
                                 <div class="flex gap-2">
                                     <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="theme-input border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
@@ -896,6 +973,32 @@
                 </div>
 
             </main>
+        </div>
+    </div>
+
+    <!-- MODAL SHIFT -->
+    <div id="shiftModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="theme-modal bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300">
+            <h3 class="text-xl font-bold text-slate-900 border-b pb-4 theme-text border-slate-200"><i class="fa-solid fa-calendar-week text-indigo-600 mr-2"></i> Tetapkan Shift Kerja Karyawan</h3>
+            <form onsubmit="handleShiftSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Nama Karyawan</label>
+                    <input type="text" id="shiftEmpName" required placeholder="Sarah Wijaya" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1.5 font-bold uppercase text-xs theme-label">Pilihan Shift</label>
+                    <select id="shiftTypeVal" class="theme-input w-full border rounded-2xl px-4 py-3.5 bg-slate-50 text-base">
+                        <option value="Shift Pagi (08:00 - 17:00 WIB)">Shift Pagi (08:00 - 17:00 WIB)</option>
+                        <option value="Shift Siang (14:00 - 22:00 WIB)">Shift Siang (14:00 - 22:00 WIB)</option>
+                        <option value="Shift Malam (22:00 - 06:00 WIB)">Shift Malam (22:00 - 06:00 WIB)</option>
+                        <option value="Remote / WFH Full">Remote / WFH Full</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeShiftModal()" class="theme-btn-cancel bg-slate-100 text-slate-700 px-5 py-3 rounded-2xl font-bold">Batal</button>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold">Simpan Shift</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1131,8 +1234,16 @@
         let vaultDocs = JSON.parse(localStorage.getItem('wind_enterprise_vault')) || [
             { name: "Muhammad Faari Akbar", type: "Kontrak Kerja", fileName: "Kontrak_Kerja_CEO_WINDROLL.pdf", date: "2026-01-01" }
         ];
+        let shiftRoster = JSON.parse(localStorage.getItem('wind_enterprise_shifts')) || [
+            { name: "Muhammad Faari Akbar", shift: "Shift Pagi (08:00 - 17:00 WIB)", status: "Aktif" },
+            { name: "Sarah Wijaya", shift: "Remote / WFH Full", status: "Aktif" }
+        ];
+        let gatewayLogs = JSON.parse(localStorage.getItem('wind_enterprise_gateway')) || [
+            { time: "27-08-2026 07:00", recipient: "ceo@windcompany.com", media: "WhatsApp API & SMTP", status: "Terkirim Sukses" },
+            { time: "27-08-2026 07:00", recipient: "sarah@windcompany.com", media: "WhatsApp API", status: "Terkirim Sukses" }
+        ];
         let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
-            { time: "27-08-2026 06:00", user: "Muhammad Faari Akbar", action: "Inisialisasi WINDROLL Pro Max Suite", detail: "Berhasil" }
+            { time: "27-08-2026 07:00", user: "Muhammad Faari Akbar", action: "Inisialisasi WINDROLL Next-Level Suite", detail: "Berhasil" }
         ];
         let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [];
 
@@ -1143,99 +1254,26 @@
         let currentActivePeriod = "Agustus 2026";
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
+        let forecastChartInstance = null;
         let essHistoryChartInstance = null;
         let isDarkMode = false;
-        let currentLang = 'ID'; // ID or EN
+        let currentLang = 'ID';
 
-        // KAMUS TRANSLASI MULTI-LANGUAGE
         const dict = {
             'ID': {
-                loginSub: "Enterprise HRIS & Global Payroll Portal",
-                loginEmail: "Email Perusahaan",
-                loginPass: "Kata Sandi (Password)",
-                loginDefault: "Default Password: <b>123456</b> (Gunakan email CEO untuk akses Admin penuh)",
-                loginBtn: "Masuk ke Sistem WINDROLL",
-                proEdition: "Pro Max Edition",
-                logoutBtn: "Keluar (Logout)",
-                periodLabel: "Periode:",
-                archiveBtn: "Arsipkan",
-                markRead: "Tandai Dibaca",
-                ceoAnnounce: "Pengumuman Resmi CEO",
-                announceTitle: "Sistem Pro Max Aktif: Fitur Pajak e-SPT, Lembur & Multi-Currency",
-                announceDesc: "Semua modul tingkat lanjut telah terintegrasi untuk mendukung ekspensi global dan kepatuhan pajak otomatis.",
-                activePeriodLabel: "Periode Aktif:",
-                statTotalEmp: "Total Karyawan",
-                statTotalPayroll: "Total Payroll Bulan Ini",
-                statClaim: "Plafon Klaim Tersisa",
-                statAsset: "Aset Kantor Dipinjam",
-                analyticsTitle: "Analitik Tren Pengeluaran Payroll Bulanan",
-                analyticsSub: "Grafik perbandingan total pengeluaran gaji perusahaan semester kedua tahun 2026.",
-                empSummaryTitle: "Ringkasan & Daftar Karyawan",
-                empSummarySub: "Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.",
-                exportExcel: "Export ke Excel (CSV)",
-                addEmpBtn: "Tambah Karyawan Baru",
-                thName: "Nama & Jabatan",
-                thBank: "Bank & Rekening",
-                thBase: "Gaji Pokok",
-                thAllow: "Tunjangan",
-                thNet: "Take Home Pay",
-                thAction: "Aksi (Edit & Hapus)",
-                essTitle: "Employee Self-Service (ESS) - Profil & Rekening",
-                essSub: "Perbarui informasi pribadi, nomor rekening bank untuk transfer gaji, dan status pajak.",
-                saveChange: "Simpan Perubahan"
+                proEdition: "Pro Max Next-Level",
+                logoutBtn: "Keluar (Logout)"
             },
             'EN': {
-                loginSub: "Enterprise HRIS & Global Payroll Portal",
-                loginEmail: "Company Email",
-                loginPass: "Password",
-                loginDefault: "Default Password: <b>123456</b> (Use CEO email for full admin access)",
-                loginBtn: "Sign In to WINDROLL System",
-                proEdition: "Pro Max Edition",
-                logoutBtn: "Sign Out (Logout)",
-                periodLabel: "Period:",
-                archiveBtn: "Archive",
-                markRead: "Mark as Read",
-                ceoAnnounce: "Official CEO Announcement",
-                announceTitle: "Pro Max System Active: e-SPT Tax, Overtime & Multi-Currency",
-                announceDesc: "All advanced modules are integrated to support global expansion and automated tax compliance.",
-                activePeriodLabel: "Active Period:",
-                statTotalEmp: "Total Employees",
-                statTotalPayroll: "Total Monthly Payroll",
-                statClaim: "Remaining Claim Limit",
-                statAsset: "Borrowed Office Assets",
-                analyticsTitle: "Monthly Payroll Expenditure Trend Analytics",
-                analyticsSub: "Comparison chart of company salary expenditures for the second semester of 2026.",
-                empSummaryTitle: "Employee Summary & Directory",
-                empSummarySub: "Manage employee data, salaries, and export reports directly from the company homepage.",
-                exportExcel: "Export to Excel (CSV)",
-                addEmpBtn: "Add New Employee",
-                thName: "Name & Title",
-                thBank: "Bank & Account",
-                thBase: "Base Salary",
-                thAllow: "Allowance",
-                thNet: "Take Home Pay",
-                thAction: "Actions (Edit & Delete)",
-                essTitle: "Employee Self-Service (ESS) - Profile & Bank",
-                essSub: "Update personal information, bank account numbers for salary transfer, and tax status.",
-                saveChange: "Save Changes"
+                proEdition: "Pro Max Next-Level",
+                logoutBtn: "Sign Out (Logout)"
             }
         };
 
         function toggleLanguage() {
             currentLang = currentLang === 'ID' ? 'EN' : 'ID';
             document.getElementById('langLabel').innerText = currentLang === 'ID' ? 'ID / EN' : 'EN / ID';
-            applyTranslations();
             showToast(`Bahasa diubah ke ${currentLang === 'ID' ? 'Bahasa Indonesia' : 'English'}`, "success");
-        }
-
-        function applyTranslations() {
-            const t = dict[currentLang];
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(t[key]) {
-                    el.innerHTML = t[key];
-                }
-            });
         }
 
         // INISIALISASI KANVAS TANDA TANGAN DIGITAL
@@ -1268,7 +1306,6 @@
             canvas.addEventListener('mouseup', () => isDrawing = false);
             canvas.addEventListener('mouseout', () => isDrawing = false);
 
-            // Touch support
             canvas.addEventListener('touchstart', (e) => {
                 isDrawing = true;
                 const rect = canvas.getBoundingClientRect();
@@ -1305,7 +1342,6 @@
             showToast("Tanda tangan dibersihkan.", "warning");
         }
 
-        // SMART EXPIRY REMINDERS DENGAN AKSI PERPANJANG OTOMATIS
         function checkSmartReminders() {
             notifications = [];
             employees.forEach(emp => {
@@ -1317,10 +1353,7 @@
                     });
                 }
             });
-            if(loanList.length > 0) {
-                notifications.push({ text: `Cicilan kasbon bulanan aktif untuk ${loanList.length} karyawan akan dipotong otomatis.`, time: "Smart Reminder", unread: true });
-            }
-            notifications.unshift({ text: "Sistem WINDROLL Pro Max berhasil memuat modul e-SPT, Lembur & Multi-Currency.", time: "Hari ini", unread: true });
+            notifications.unshift({ text: "Sistem WINDROLL Pro Max Next-Level berhasil mengintegrasikan Shift Rostering & Forecasting.", time: "Hari ini", unread: true });
             renderNotifications();
         }
 
@@ -1334,6 +1367,21 @@
             showToast(`Kontrak kerja ${empName} berhasil diperpanjang hingga 15 September 2027!`, "success");
             logAudit("Perpanjangan Kontrak", `${empName} diperpanjang 1 tahun`);
             checkSmartReminders();
+            renderAll();
+        }
+
+        // TANDA TANGAN KONTRAK MASSAL (BULK CONTRACT E-SIGNING)
+        function bulkExtendContracts() {
+            if(confirm("Apakah Anda ingin memperpanjang kontrak seluruh karyawan secara massal selama 1 tahun ke depan dengan satu klik tanda tangan digital CEO?")) {
+                employees.forEach(e => {
+                    e.contractExpiry = "2027-09-15";
+                });
+                localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+                showToast("Berhasil! Seluruh kontrak karyawan telah diperpanjang massal 1 tahun.", "success");
+                logAudit("Bulk Contract E-Signing", "Memperbarui kontrak massal seluruh staf");
+                addNotification("Kontrak seluruh karyawan diperpanjang massal oleh CEO.");
+                renderAll();
+            }
         }
 
         function toggleDarkModeTheme() {
@@ -1508,7 +1556,7 @@
             localStorage.setItem('wind_is_logged_in', 'true');
             localStorage.setItem('wind_logged_email', email);
             loggedUserEmail = email;
-            showToast("Berhasil Masuk ke Sistem WINDROLL Pro Max!", "success");
+            showToast("Berhasil Masuk ke Sistem WINDROLL Pro Max Next-Level!", "success");
             checkLoginState();
         }
 
@@ -1533,13 +1581,13 @@
                                 <i class="fa-solid fa-chart-pie w-5 text-indigo-400 text-base"></i> Beranda & Ringkasan
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-emerald-400 text-base"></i> Absensi, Lembur & Cuti
+                                <i class="fa-solid fa-calendar-week w-5 text-emerald-400 text-base"></i> Shift, Absen & Cuti
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-sky-400 text-base"></i> Klaim & Reimbursement
                             </button>
                             <button onclick="switchTab('payroll-engine')" id="nav-payroll-engine" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-calculator w-5 text-amber-400 text-base"></i> Kalkulator, PPh 21 & Multi-Currency
+                                <i class="fa-solid fa-calculator w-5 text-amber-400 text-base"></i> PPh 21 TER & Multi-Currency
                             </button>
                         </div>
                     </div>
@@ -1584,6 +1632,9 @@
                             <button onclick="switchTab('workflow')" id="nav-workflow" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-list-check w-5 text-rose-400 text-base"></i> Approval Workflow
                             </button>
+                            <button onclick="switchTab('gateway')" id="nav-gateway" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
+                                <i class="fa-solid fa-tower-broadcast w-5 text-emerald-400 text-base"></i> WA & Email Gateway Log
+                            </button>
                             <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-clock-rotate-left w-5 text-slate-400 text-base"></i> Log Aktivitas Internal
                             </button>
@@ -1604,7 +1655,7 @@
                                 <i class="fa-solid fa-user-shield w-5 text-emerald-400 text-base"></i> Portal Mandiri (ESS)
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-indigo-400 text-base"></i> Absensi & Lembur
+                                <i class="fa-solid fa-calendar-week w-5 text-indigo-400 text-base"></i> Shift, Absen & Lembur
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-emerald-400 text-base"></i> Klaim & Reimbursement
@@ -1700,18 +1751,55 @@
 
         function sendWhatsAppBroadcast() {
             showToast("Broadcast WhatsApp & Email berhasil dikirim ke seluruh karyawan!", "success");
+            gatewayLogs.unshift({ time: "Baru saja", recipient: "Seluruh Karyawan (Broadcast)", media: "WhatsApp API & SMTP", status: "Terkirim Sukses" });
+            localStorage.setItem('wind_enterprise_gateway', JSON.stringify(gatewayLogs));
+            renderGatewayLogs();
             logAudit("Broadcast WA/Email", "Berhasil mengirim pengumuman massal");
             addNotification("Broadcast pengumuman sistem berhasil dikirim.");
         }
 
-        // RENDER GRAFIK ANALITIK DENGAN PENYESUAIAN WARNA MODE GELAP YANG PRESISI
+        function renderGatewayLogs() {
+            const body = document.getElementById('gatewayTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            gatewayLogs.forEach((log, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
+                tr.innerHTML = `
+                    <td class="py-4 px-6 font-mono">${log.time}</td>
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : ''}">${log.recipient}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-xl font-bold text-xs">${log.media}</span></td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full font-bold text-xs">${log.status}</span></td>
+                    <td class="py-4 px-6 text-center">
+                        <button onclick="resendSingleGateway(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-sm">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Resend
+                        </button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function resendSingleGateway(idx) {
+            gatewayLogs[idx].status = "Terkirim Sukses (Resent)";
+            localStorage.setItem('wind_enterprise_gateway', JSON.stringify(gatewayLogs));
+            renderGatewayLogs();
+            showToast(`Notifikasi ke ${gatewayLogs[idx].recipient} berhasil dikirim ulang!`, "success");
+        }
+
+        function resendAllFailedGateways() {
+            gatewayLogs.forEach(l => l.status = "Terkirim Sukses");
+            localStorage.setItem('wind_enterprise_gateway', JSON.stringify(gatewayLogs));
+            renderGatewayLogs();
+            showToast("Semua antrean notifikasi berhasil dikirim ulang!", "success");
+        }
+
+        // RENDER GRAFIK ANALITIK & FORECASTING
         function renderPayrollChart(totalCurrentMonth) {
             const ctx = document.getElementById('payrollAnalyticsChart');
             if(!ctx) return;
 
-            if(payrollChartInstance) {
-                payrollChartInstance.destroy();
-            }
+            if(payrollChartInstance) payrollChartInstance.destroy();
 
             const inMillions = totalCurrentMonth / 1000000;
             const gridColor = isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)';
@@ -1736,32 +1824,52 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: { 
-                            beginAtZero: false,
-                            grid: { color: gridColor },
-                            ticks: { font: { size: 14 }, color: textColor }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { font: { size: 14 }, color: textColor }
-                        }
+                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
                     }
                 }
             });
         }
 
-        // RENDER GRAFIK RIWAYAT KOMPARATIF GAJI DI ESS
+        function renderForecastChart() {
+            const ctx = document.getElementById('forecastChart');
+            if(!ctx) return;
+
+            if(forecastChartInstance) forecastChartInstance.destroy();
+
+            const gridColor = isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)';
+            const textColor = isDarkMode ? '#94a3b8' : '#64748b';
+
+            forecastChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2026 (Tahun Ini)', '2027 (Proyeksi)', '2028 (Proyeksi)'],
+                    datasets: [{
+                        label: 'Estimasi Anggaran Payroll Tahunan (Juta IDR)',
+                        data: [350, 480, 650],
+                        backgroundColor: ['#4f46e5', '#10b981', '#f59e0b'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
+                    }
+                }
+            });
+        }
+
         function renderEssHistoryChart() {
             const ctx = document.getElementById('essHistoryChart');
             if(!ctx) return;
 
-            if(essHistoryChartInstance) {
-                essHistoryChartInstance.destroy();
-            }
+            if(essHistoryChartInstance) essHistoryChartInstance.destroy();
 
             const gridColor = isDarkMode ? 'rgba(51, 65, 85, 0.6)' : 'rgba(226, 232, 240, 0.8)';
             const textColor = isDarkMode ? '#94a3b8' : '#64748b';
@@ -1782,27 +1890,21 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: textColor }
-                        }
+                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
                     }
                 }
             });
         }
 
         function exportPayrollToExcel() {
-            let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok,Tunjangan,Take Home Pay\n";
+            let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Kontrak Berakhir,Gaji Pokok,Tunjangan,Take Home Pay\n";
             employees.forEach(emp => {
                 let totalOvertimePay = 0;
                 overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
                 const bruto = emp.base + emp.allowance + totalOvertimePay;
                 const net = bruto - Math.round(bruto * 0.05);
-                csvContent += `"${emp.name}","${emp.role}","${emp.bank}","${emp.accNum}",${emp.base},${emp.allowance},${net}\n`;
+                csvContent += `"${emp.name}","${emp.role}","${emp.bank}","${emp.accNum}","${emp.contractExpiry}",${emp.base},${emp.allowance},${net}\n`;
             });
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
@@ -1874,6 +1976,7 @@
 
             if (idx === -1) {
                 employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext, leaveBalance: 12, contractExpiry: "2027-01-01" });
+                shiftRoster.push({ name, shift: "Shift Pagi (08:00 - 17:00 WIB)", status: "Aktif" });
                 showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
                 logAudit("Tambah Karyawan Baru", `${name} (${role})`);
                 addNotification(`Karyawan baru terdaftar: ${name} (${role})`);
@@ -1884,6 +1987,7 @@
             }
 
             localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+            localStorage.setItem('wind_enterprise_shifts', JSON.stringify(shiftRoster));
             renderAll();
             closeAddEmployeeModal();
         }
@@ -1907,19 +2011,10 @@
         }
 
         function formatCurrencyDynamic(num, currencyCode) {
-            if(currencyCode === 'USD') {
-                const converted = num / 16000;
-                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(converted);
-            } else if(currencyCode === 'SGD') {
-                const converted = num / 12000;
-                return new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 }).format(converted);
-            } else if(currencyCode === 'EUR') {
-                const converted = num / 17500;
-                return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(converted);
-            } else if(currencyCode === 'JPY') {
-                const converted = num / 110;
-                return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(converted);
-            }
+            if(currencyCode === 'USD') return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(num / 16000);
+            if(currencyCode === 'SGD') return new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 }).format(num / 12000);
+            if(currencyCode === 'EUR') return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(num / 17500);
+            if(currencyCode === 'JPY') return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(num / 110);
             return formatRupiah(num);
         }
 
@@ -1933,7 +2028,7 @@
         }
 
         function switchTab(tabId) {
-            ['dashboard', 'ess', 'attendance', 'reimburse', 'payroll-engine', 'appraisal', 'vault', 'directory', 'documents', 'assets', 'payroll', 'profiles', 'workflow', 'audit', 'settings'].forEach(id => {
+            ['dashboard', 'ess', 'attendance', 'reimburse', 'payroll-engine', 'appraisal', 'vault', 'directory', 'documents', 'assets', 'payroll', 'profiles', 'workflow', 'gateway', 'audit', 'settings'].forEach(id => {
                 const el = document.getElementById('view-' + id);
                 if(el) el.classList.add('hidden');
                 
@@ -1950,7 +2045,7 @@
             const titles = {
                 'dashboard': 'Beranda & Ringkasan WINDROLL Company',
                 'ess': 'Portal Mandiri Karyawan (ESS)',
-                'attendance': 'Absensi GPS, Lembur & Pengajuan Cuti',
+                'attendance': 'Manajemen Shift, Absensi GPS & Cuti',
                 'reimburse': 'Modul Klaim & Reimbursement Mandiri',
                 'payroll-engine': 'Enterprise Payroll Run, PPh 21 TER & Multi-Currency',
                 'appraisal': 'Penilaian Kinerja & KPI Karyawan',
@@ -1961,11 +2056,15 @@
                 'payroll': 'Pusat Slip Gaji, e-SPT & QR Code Validasi',
                 'profiles': 'Direktori Profil Karyawan & Atasan',
                 'workflow': 'Persetujuan Bertingkat (Approval Workflow)',
+                'gateway': 'WhatsApp & Email Gateway Log Center',
                 'audit': 'Log Aktivitas Internal (Audit Trail)',
                 'settings': 'Pengaturan Sistem & Perusahaan'
             };
             document.getElementById('pageTitle').innerText = titles[tabId];
 
+            if(tabId === 'dashboard') {
+                setTimeout(() => { renderPayrollChart(29300000); renderForecastChart(); }, 100);
+            }
             if(tabId === 'ess') {
                 setTimeout(() => renderEssHistoryChart(), 100);
             }
@@ -1993,8 +2092,8 @@
                 tr.innerHTML = `
                     <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
                     <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
+                    <td class="py-4 px-6 font-mono text-xs"><span class="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 font-bold rounded-full">${emp.contractExpiry}</span></td>
                     <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(emp.base)}</td>
-                    <td class="py-4 px-6 font-mono text-base ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}">${formatRupiah(emp.allowance)}</td>
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="editEmployee(${idx})" class="bg-sky-500 hover:bg-sky-600 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
@@ -2012,6 +2111,7 @@
             if(totalPayrollEl) totalPayrollEl.innerText = formatRupiah(totalPayrollSum);
 
             renderPayrollChart(totalPayrollSum);
+            renderForecastChart();
         }
 
         function formatRupiahInput(input) {
@@ -2037,6 +2137,39 @@
                 renderAll();
                 showToast(`Karyawan ${emp.name} berhasil dihapus!`, 'warning');
             }
+        }
+
+        function renderShiftRoster() {
+            const body = document.getElementById('shiftTableBody');
+            if(!body) return;
+            body.innerHTML = '';
+            shiftRoster.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
+                tr.innerHTML = `
+                    <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}">${s.name}</td>
+                    <td class="py-4 px-6"><span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-xl font-bold text-xs">${s.shift}</span></td>
+                    <td class="py-4 px-6 font-mono text-sm">Senin - Jumat</td>
+                    <td class="py-4 px-6 text-center"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">${s.status}</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function openShiftModal() { document.getElementById('shiftModal').classList.remove('hidden'); document.getElementById('shiftModal').classList.add('flex'); }
+        function closeShiftModal() { document.getElementById('shiftModal').classList.remove('flex'); document.getElementById('shiftModal').classList.add('hidden'); }
+
+        function handleShiftSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('shiftEmpName').value;
+            const shift = document.getElementById('shiftTypeVal').value;
+
+            shiftRoster.push({ name, shift, status: 'Aktif' });
+            localStorage.setItem('wind_enterprise_shifts', JSON.stringify(shiftRoster));
+            renderShiftRoster();
+            closeShiftModal();
+            showToast(`Shift kerja untuk ${name} berhasil ditetapkan!`, 'success');
+            logAudit("Rostering Shift", `${name} diset ke ${shift}`);
         }
 
         function renderAllEmployeesSlips() {
@@ -2126,7 +2259,7 @@
             doc.setFont("times", "italic");
             doc.setFontSize(9);
             doc.text("Dokumen ini dilengkapi QR Code Tanda Tangan Elektronik resmi", 20, 155);
-            doc.text("WINDROLL HRIS Pro Max dan sah tanpa tanda tangan basah.", 20, 161);
+            doc.text("WINDROLL HRIS Pro Max Next-Level dan sah tanpa tanda tangan basah.", 20, 161);
 
             doc.save(`Slip_Gaji_QR_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
             showToast(`Slip gaji QR resmi ${emp.name} berhasil di-download!`, 'success');
@@ -2279,6 +2412,8 @@
             renderVault();
             renderEmployeeProfiles();
             renderAllEmployeesSlips();
+            renderShiftRoster();
+            renderGatewayLogs();
             renderNotifications();
             document.getElementById('totalEmployeeCount').innerText = employees.length + ' Orang';
             const leaveEl = document.getElementById('leaveBalanceCount');
