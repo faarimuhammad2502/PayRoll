@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <!-- HALAMAN LOGIN -->
+    <!-- HALAMAN LOGIN & MFA SIMULATOR -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-6">
         <div class="bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl max-w-lg w-full p-10 shadow-2xl shadow-indigo-950/60 space-y-8 relative overflow-hidden">
             <div class="absolute -top-24 -right-24 w-56 h-56 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -86,7 +86,8 @@
                 <p class="text-sm text-slate-400">Next-Level Enterprise HRIS & Global Payroll Portal</p>
             </div>
 
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-5 text-sm relative z-10">
+            <!-- STEP 1: FORM LOGIN -->
+            <form id="loginFormStep" onsubmit="handleLoginStep1(event)" class="space-y-5 text-sm relative z-10">
                 <div>
                     <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs">Email Perusahaan</label>
                     <input type="email" id="loginEmail" required value="ceo@windcompany.com" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-indigo-500 transition text-base">
@@ -99,12 +100,32 @@
                             <i id="togglePassIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                    <span class="text-xs text-slate-400 mt-2 block">Default Password: <b>123456</b> (Gunakan email CEO untuk akses Admin penuh)</span>
+                    <span class="text-xs text-slate-400 mt-2 block">Default Password: <b>123456</b> (Dilindungi MFA Keamanan Tinggi)</span>
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-indigo-600/30 text-base">
-                    Masuk ke Sistem WINDROLL <i class="fa-solid fa-arrow-right ml-2"></i>
+                    Lanjutkan ke Verifikasi MFA <i class="fa-solid fa-shield-halved ml-2"></i>
                 </button>
             </form>
+
+            <!-- STEP 2: MFA OTP SIMULATOR (HIDDEN MULA-MULA) -->
+            <form id="mfaFormStep" onsubmit="handleMfaSubmit(event)" class="space-y-5 text-sm relative z-10 hidden">
+                <div class="bg-indigo-950/50 border border-indigo-500/30 p-4 rounded-2xl text-center space-y-2">
+                    <i class="fa-solid fa-shield-keyhole text-3xl text-indigo-400"></i>
+                    <h4 class="font-bold text-white text-base">Verifikasi Keamanan Multi-Factor (MFA)</h4>
+                    <p class="text-xs text-indigo-200">Masukkan 6-digit kode OTP simulasi yang telah dikirim ke perangkat Anda. (Kode Demo: <b>888999</b>)</p>
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-2 font-bold uppercase tracking-wider text-xs text-center">Kode OTP 6-Digit</label>
+                    <input type="text" id="mfaOtpInput" required maxlength="6" value="888999" class="w-full bg-slate-950/80 border border-slate-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-indigo-500 transition text-center tracking-widest text-xl font-mono">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="backToLoginStep()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-4 rounded-xl transition text-sm">Kembali</button>
+                    <button type="submit" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-emerald-600/30 text-base">
+                        Verifikasi & Masuk <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </form>
+
             <div class="text-center pt-3 border-t border-slate-800 text-xs text-slate-500 relative z-10">
                 &copy; 2026 WINDROLL Company. All Rights Reserved.
             </div>
@@ -208,7 +229,7 @@
                     <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 rounded-3xl shadow-xl border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="space-y-2">
                             <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> Pengumuman Resmi CEO</span>
-                            <h3 class="font-bold text-xl text-white">Sistem Pro Max Next-Level Aktif: WhatsApp Gateway, Shift Rostering & Forecasting</h3>
+                            <h3 class="font-bold text-xl text-white">Sistem Pro Max Next-Level Aktif: MFA Keamanan, Live Sound & Bulk Actions</h3>
                             <p class="text-sm text-indigo-200">Seluruh fitur tambahan tingkat lanjut telah terintegrasi untuk otomatisasi penuh operasional perusahaan.</p>
                         </div>
                         <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-sm whitespace-nowrap">
@@ -285,6 +306,10 @@
                                 <p class="text-sm text-slate-500 theme-subtext">Kelola data karyawan, gaji, dan ekspor laporan langsung dari beranda perusahaan.</p>
                             </div>
                             <div class="flex items-center gap-3 flex-wrap">
+                                <!-- TOMBOL BULK ACTIONS (AKSI MASSAL) -->
+                                <button onclick="bulkDeleteSelectedEmployees()" class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-sm font-bold px-4 py-3 rounded-2xl transition shadow-sm whitespace-nowrap border border-rose-500/30">
+                                    <i class="fa-solid fa-trash-can mr-2"></i> Hapus Terpilih
+                                </button>
                                 <button onclick="bulkExtendContracts()" class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-4 py-3 rounded-2xl transition shadow-sm whitespace-nowrap">
                                     <i class="fa-solid fa-file-signature mr-2"></i> Perpanjang Kontrak Massal
                                 </button>
@@ -300,6 +325,7 @@
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
                                     <tr class="bg-slate-50 text-slate-600 uppercase border-b font-bold text-xs theme-table-head">
+                                        <th class="py-4 px-4 text-center"><input type="checkbox" id="selectAllEmp" onclick="toggleSelectAllEmployees(this)" class="cursor-pointer"></th>
                                         <th class="py-4 px-6">Nama & Jabatan</th>
                                         <th class="py-4 px-6">Bank & Rekening</th>
                                         <th class="py-4 px-6">Masa Kontrak</th>
@@ -1278,6 +1304,43 @@
         let isDarkMode = false;
         let currentLang = 'ID';
 
+        // AUDIO FEEDBACK SYNTHESIZER (WEB AUDIO API)
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Nada D5 lembut
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // Naik ke A5
+                gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch(e) { console.log('Audio Context tidak diizinkan browser sebelum interaksi.'); }
+        }
+
+        // AUTO-LOCK SESSION (INACTIVITY TIMEOUT - 5 MENIT)
+        let inactivityTimer;
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            const isLoggedIn = localStorage.getItem('wind_is_logged_in');
+            if(isLoggedIn === 'true') {
+                inactivityTimer = setTimeout(() => {
+                    handleLogout();
+                    showToast("Sesi terkunci otomatis karena tidak ada aktivitas selama 5 menit.", "warning");
+                }, 5 * 60 * 1000); // 5 Menit
+            }
+        }
+        window.onload = function() {
+            ['mousemove', 'keydown', 'click', 'scroll'].forEach(evt => {
+                window.addEventListener(evt, resetInactivityTimer);
+            });
+            resetInactivityTimer();
+        };
+
         // CUSTOM ENTERPRISE CONFIRMATION MODAL HELPER
         let confirmCallback = null;
 
@@ -1306,14 +1369,8 @@
         }
 
         const dict = {
-            'ID': {
-                proEdition: "Pro Max Next-Level",
-                logoutBtn: "Keluar (Logout)"
-            },
-            'EN': {
-                proEdition: "Pro Max Next-Level",
-                logoutBtn: "Sign Out (Logout)"
-            }
+            'ID': { proEdition: "Pro Max Next-Level", logoutBtn: "Keluar (Logout)" },
+            'EN': { proEdition: "Pro Max Next-Level", logoutBtn: "Sign Out (Logout)" }
         };
 
         function toggleLanguage() {
@@ -1399,7 +1456,7 @@
                     });
                 }
             });
-            notifications.unshift({ text: "Sistem WINDROLL Pro Max Next-Level berhasil mengintegrasikan Shift Rostering & Forecasting.", time: "Hari ini", unread: true });
+            notifications.unshift({ text: "Sistem WINDROLL Pro Max Next-Level berhasil mengintegrasikan MFA, Live Audio & Bulk Actions.", time: "Hari ini", unread: true });
             renderNotifications();
         }
 
@@ -1416,7 +1473,6 @@
             renderAll();
         }
 
-        // TANDA TANGAN KONTRAK MASSAL (BULK CONTRACT E-SIGNING)
         function bulkExtendContracts() {
             showCustomConfirm("Perpanjang Kontrak Massal", "Apakah Anda ingin memperpanjang kontrak seluruh karyawan secara massal selama 1 tahun ke depan dengan satu klik tanda tangan digital CEO?", function() {
                 employees.forEach(e => {
@@ -1427,6 +1483,34 @@
                 logAudit("Bulk Contract E-Signing", "Memperbarui kontrak massal seluruh staf");
                 addNotification("Kontrak seluruh karyawan diperpanjang massal oleh CEO.");
                 renderAll();
+            });
+        }
+
+        // BULK ACTIONS (HAPUS KARYAWAN TERPILIH)
+        function toggleSelectAllEmployees(masterCheckbox) {
+            const checkboxes = document.querySelectorAll('.emp-row-checkbox');
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        }
+
+        function bulkDeleteSelectedEmployees() {
+            const checkboxes = document.querySelectorAll('.emp-row-checkbox:checked');
+            if(checkboxes.length === 0) {
+                showToast("Pilih setidaknya satu karyawan pada tabel untuk dihapus massal.", "warning");
+                return;
+            }
+            showCustomConfirm("Hapus Karyawan Terpilih", `Apakah Anda yakin ingin menghapus ${checkboxes.length} karyawan yang dipilih?`, function() {
+                const indicesToDelete = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-index'))).sort((a,b) => b-a);
+                
+                indicesToDelete.forEach(idx => {
+                    if(employees.length > 1) {
+                        employees.splice(idx, 1);
+                    }
+                });
+
+                localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
+                renderAll();
+                showToast("Karyawan terpilih berhasil dihapus massal!", "warning");
+                logAudit("Bulk Delete Employees", `Menghapus ${indicesToDelete.length} staf`);
             });
         }
 
@@ -1596,13 +1680,38 @@
             }
         }
 
-        function handleLoginSubmit(e) {
+        // STEP 1 LOGIN -> PINDAH KE MFA
+        function handleLoginStep1(e) {
             e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            if(pass !== "123456") {
+                showToast("Kata sandi salah! Gunakan default: 123456", "error");
+                return;
+            }
+            document.getElementById('loginFormStep').classList.add('hidden');
+            document.getElementById('mfaFormStep').classList.remove('hidden');
+            showToast("Kode OTP verifikasi MFA telah dikirim.", "success");
+        }
+
+        function backToLoginStep() {
+            document.getElementById('mfaFormStep').classList.add('hidden');
+            document.getElementById('loginFormStep').classList.remove('hidden');
+        }
+
+        // STEP 2 MFA SUBMIT -> MASUK APLIKASI
+        function handleMfaSubmit(e) {
+            e.preventDefault();
+            const otp = document.getElementById('mfaOtpInput').value.trim();
+            if(otp !== "888999") {
+                showToast("Kode OTP MFA salah! Gunakan: 888999", "error");
+                return;
+            }
             const email = document.getElementById('loginEmail').value.trim();
             localStorage.setItem('wind_is_logged_in', 'true');
             localStorage.setItem('wind_logged_email', email);
             loggedUserEmail = email;
-            showToast("Berhasil Masuk ke Sistem WINDROLL Pro Max Next-Level!", "success");
+            showToast("Autentikasi MFA Berhasil! Masuk ke sistem...", "success");
             checkLoginState();
         }
 
@@ -1769,6 +1878,7 @@
             notifications.unshift({ text, time: "Baru saja", unread: true });
             localStorage.setItem('wind_enterprise_notifs', JSON.stringify(notifications));
             renderNotifications();
+            playNotificationSound(); // PUTAR SUARA NOTIFIKASI
         }
 
         function clearNotifications() {
@@ -2136,6 +2246,7 @@
                 const tr = document.createElement('tr');
                 tr.className = isDarkMode ? "hover:bg-slate-800/60 transition text-slate-200 border-b border-slate-800" : "hover:bg-slate-50 transition text-slate-700";
                 tr.innerHTML = `
+                    <td class="py-4 px-4 text-center"><input type="checkbox" class="emp-row-checkbox cursor-pointer" data-index="${idx}"></td>
                     <td class="py-4 px-6 font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-base">${emp.name}<br><span class="text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} font-normal">${emp.role}</span></td>
                     <td class="py-4 px-6 font-mono ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}">${emp.bank} - ${emp.accNum}</td>
                     <td class="py-4 px-6 font-mono text-xs"><span class="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 font-bold rounded-full">${emp.contractExpiry}</span></td>
@@ -2271,21 +2382,21 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFillColor(15, 23, 42);
-            doc.rect(0, 0, 210, 32, 'F');
+            doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(16);
             doc.text("WINDROLL ENTERPRISE COMPANY", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`SLIP GAJI RESMI + QR VALIDATION: ${emp.name.toUpperCase()} - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
+            doc.text(`SLIP GAJI RESMI + KOP KORPORAT: ${emp.name.toUpperCase()} - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 26, { align: 'center' });
             
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
             doc.setFontSize(11);
-            doc.text(`Jabatan / Divisi : ${emp.role}`, 20, 48);
-            doc.text(`Bank & Rekening : ${emp.bank} - ${emp.accNum}`, 20, 56);
-            doc.text(`Kategori Pajak  : ${emp.ptkp}`, 20, 64);
+            doc.text(`Jabatan / Divisi : ${emp.role}`, 20, 50);
+            doc.text(`Bank & Rekening : ${emp.bank} - ${emp.accNum}`, 20, 58);
+            doc.text(`Kategori Pajak  : ${emp.ptkp}`, 20, 66);
 
             let totalOvertimePay = 0;
             overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
@@ -2294,18 +2405,18 @@
             const net = bruto - pph21;
 
             doc.setFont("times", "bold");
-            doc.text("RINCIAN PENGHASILAN & LEMBUR:", 20, 80);
+            doc.text("RINCIAN PENGHASILAN & LEMBUR:", 20, 82);
             doc.setFont("times", "normal");
-            doc.text(`1. Gaji Pokok                : ${formatRupiah(emp.base)}`, 20, 90);
-            doc.text(`2. Tunjangan Tetap           : ${formatRupiah(emp.allowance)}`, 20, 98);
-            doc.text(`3. Insentif Lembur           : ${formatRupiah(totalOvertimePay)}`, 20, 106);
-            doc.text(`4. PPh 21 TER (TAR Efektif)  : -${formatRupiah(pph21)}`, 20, 114);
+            doc.text(`1. Gaji Pokok                : ${formatRupiah(emp.base)}`, 20, 92);
+            doc.text(`2. Tunjangan Tetap           : ${formatRupiah(emp.allowance)}`, 20, 100);
+            doc.text(`3. Insentif Lembur           : ${formatRupiah(totalOvertimePay)}`, 20, 108);
+            doc.text(`4. PPh 21 TER (TAR Efektif)  : -${formatRupiah(pph21)}`, 20, 116);
             
             doc.setLineWidth(0.5);
-            doc.line(20, 122, 190, 122);
+            doc.line(20, 124, 190, 124);
             doc.setFont("times", "bold");
             doc.setFontSize(12);
-            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 134);
+            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 136);
 
             doc.setDrawColor(79, 70, 229);
             doc.setFillColor(240, 243, 255);
@@ -2319,7 +2430,7 @@
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "italic");
             doc.setFontSize(9);
-            doc.text("Dokumen ini dilengkapi QR Code Tanda Tangan Elektronik resmi", 20, 155);
+            doc.text("Dokumen korporat ini dilengkapi QR Code Tanda Tangan Elektronik resmi", 20, 155);
             doc.text("WINDROLL HRIS Pro Max Next-Level dan sah tanpa tanda tangan basah.", 20, 161);
 
             doc.save(`Slip_Gaji_QR_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
@@ -2337,7 +2448,7 @@
             doc.text("WINDROLL ENTERPRISE - REKAP e-SPT TAHUNAN PPh 21", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`LAPORAN PAJAK MASAL UNTUK DJP ONLINE - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
+            doc.text(`LAPORAN KORPORAT MASAL UNTUK DJP ONLINE - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -2372,7 +2483,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFillColor(15, 23, 42);
-            doc.rect(0, 0, 210, 32, 'F');
+            doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(15);
@@ -2384,25 +2495,25 @@
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
             doc.setFontSize(11);
-            doc.text(`Nama Karyawan  : ${emp.name}`, 20, 46);
-            doc.text(`Jabatan        : ${emp.role}`, 20, 54);
-            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 62);
-            doc.text(`NPWP / Rekening: ${emp.bank} - ${emp.accNum}`, 20, 70);
+            doc.text(`Nama Karyawan  : ${emp.name}`, 20, 48);
+            doc.text(`Jabatan        : ${emp.role}`, 20, 56);
+            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 64);
+            doc.text(`NPWP / Rekening: ${emp.bank} - ${emp.accNum}`, 20, 72);
 
             const annualBruto = (emp.base + emp.allowance) * 12;
             const annualTax = Math.round(annualBruto * 0.05);
 
             doc.setFont("times", "bold");
-            doc.text("PERHITUNGAN PAJAK PENGHASILAN TAHUNAN:", 20, 86);
+            doc.text("PERHITUNGAN PAJAK PENGHASILAN TAHUNAN:", 20, 88);
             doc.setFont("times", "normal");
-            doc.text(`1. Total Penghasilan Bruto Setahun : ${formatRupiah(annualBruto)}`, 20, 96);
-            doc.text(`2. Penghasilan Tidak Kena Pajak    : Rp 54.000.000`, 20, 104);
-            doc.text(`3. PPh Pasal 21 Terutang Setahun   : ${formatRupiah(annualTax)}`, 20, 112);
+            doc.text(`1. Total Penghasilan Bruto Setahun : ${formatRupiah(annualBruto)}`, 20, 98);
+            doc.text(`2. Penghasilan Tidak Kena Pajak    : Rp 54.000.000`, 20, 106);
+            doc.text(`3. PPh Pasal 21 Terutang Setahun   : ${formatRupiah(annualTax)}`, 20, 114);
 
             doc.setLineWidth(0.5);
-            doc.line(20, 122, 190, 122);
+            doc.line(20, 124, 190, 124);
             doc.setFont("times", "bold");
-            doc.text(`Status Pelunasan : LUNAS / DIPOTONG LANGSUNG OLEH PERUSAHAAN`, 20, 134);
+            doc.text(`Status Pelunasan : LUNAS / DIPOTONG LANGSUNG OLEH PERUSAHAAN`, 20, 136);
 
             doc.save(`Form_1721_A1_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
             showToast(`Formulir Pajak 1721-A1 ${emp.name} berhasil diunduh!`, 'success');
@@ -2413,38 +2524,38 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFillColor(30, 41, 59);
-            doc.rect(0, 0, 210, 32, 'F');
+            doc.rect(0, 0, 210, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFont("times", "bold");
             doc.setFontSize(15);
             doc.text("BUKTI PEMOTONGAN ELEKTRONIK (e-BUPOT PPh 21)", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`DIREKTORAT JENDERAL PAJAK - ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
+            doc.text(`WINDROLL ENTERPRISE - DIREKTORAT JENDERAL PAJAK - ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
             doc.setFontSize(11);
-            doc.text(`Nomor e-Bupot  : BUPOT-2026-${Math.floor(100000 + Math.random() * 900000)}`, 20, 46);
-            doc.text(`Masa Pajak     : ${currentActivePeriod}`, 20, 54);
-            doc.text(`Nama Pegawai   : ${emp.name}`, 20, 62);
-            doc.text(`Jabatan        : ${emp.role}`, 20, 70);
-            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 78);
+            doc.text(`Nomor e-Bupot  : BUPOT-2026-${Math.floor(100000 + Math.random() * 900000)}`, 20, 48);
+            doc.text(`Masa Pajak     : ${currentActivePeriod}`, 20, 56);
+            doc.text(`Nama Pegawai   : ${emp.name}`, 20, 64);
+            doc.text(`Jabatan        : ${emp.role}`, 20, 72);
+            doc.text(`Status PTKP    : ${emp.ptkp}`, 20, 80);
 
             const bruto = emp.base + emp.allowance;
             const tax = Math.round(bruto * 0.05);
 
             doc.setFont("times", "bold");
-            doc.text("RINCIAN PAJAK PENGHASILAN PASAL 21:", 20, 94);
+            doc.text("RINCIAN PAJAK PENGHASILAN PASAL 21:", 20, 96);
             doc.setFont("times", "normal");
-            doc.text(`1. Penghasilan Bruto Bulan Ini : ${formatRupiah(bruto)}`, 20, 104);
-            doc.text(`2. Tarif Efektif Rata-rata (TER) : 5%`, 20, 112);
-            doc.text(`3. PPh Pasal 21 Dipotong       : ${formatRupiah(tax)}`, 20, 120);
+            doc.text(`1. Penghasilan Bruto Bulan Ini : ${formatRupiah(bruto)}`, 20, 106);
+            doc.text(`2. Tarif Efektif Rata-rata (TER) : 5%`, 20, 114);
+            doc.text(`3. PPh Pasal 21 Dipotong       : ${formatRupiah(tax)}`, 20, 122);
 
             doc.setLineWidth(0.5);
-            doc.line(20, 130, 190, 130);
+            doc.line(20, 132, 190, 132);
             doc.setFont("times", "bold");
-            doc.text("VALIDASI QR CODE DJP ONLINE: [TERVERIFIKASI RESMI]", 20, 142);
+            doc.text("VALIDASI QR CODE DJP ONLINE: [TERVERIFIKASI RESMI]", 20, 144);
 
             doc.save(`e-Bupot_PPh21_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
             showToast(`Dokumen e-Bupot DJP Online ${emp.name} berhasil diunduh!`, 'success');
