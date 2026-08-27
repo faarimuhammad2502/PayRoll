@@ -53,6 +53,25 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] space-y-3"></div>
 
+    <!-- CUSTOM ENTERPRISE CONFIRMATION MODAL -->
+    <div id="customConfirmModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md hidden items-center justify-center z-[150] p-4 transition-all duration-300">
+        <div class="theme-modal bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 border border-slate-200">
+            <div class="flex items-center gap-4">
+                <div id="confirmModalIconBg" class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                    <i id="confirmModalIcon" class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <h3 id="confirmModalTitle" class="text-lg font-bold text-slate-900 theme-text">Konfirmasi Tindakan</h3>
+                    <p id="confirmModalDesc" class="text-slate-500 text-xs theme-subtext mt-1">Apakah Anda yakin ingin melanjutkan proses ini?</p>
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                <button type="button" id="confirmModalCancelBtn" onclick="closeCustomConfirm(false)" class="theme-btn-cancel bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-3 rounded-2xl font-bold transition">Batal</button>
+                <button type="button" id="confirmModalYesBtn" class="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-2xl font-bold transition shadow-lg shadow-rose-600/30">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- HALAMAN LOGIN -->
     <div id="loginPage" class="fixed inset-0 login-bg-texture flex items-center justify-center z-50 p-6">
         <div class="bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl max-w-lg w-full p-10 shadow-2xl shadow-indigo-950/60 space-y-8 relative overflow-hidden">
@@ -1259,6 +1278,33 @@
         let isDarkMode = false;
         let currentLang = 'ID';
 
+        // CUSTOM ENTERPRISE CONFIRMATION MODAL HELPER
+        let confirmCallback = null;
+
+        function showCustomConfirm(title, desc, onYesCallback) {
+            document.getElementById('confirmModalTitle').innerText = title;
+            document.getElementById('confirmModalDesc').innerText = desc;
+            const modal = document.getElementById('customConfirmModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            confirmCallback = onYesCallback;
+            
+            const yesBtn = document.getElementById('confirmModalYesBtn');
+            yesBtn.onclick = function() {
+                closeCustomConfirm(true);
+            };
+        }
+
+        function closeCustomConfirm(isConfirmed) {
+            const modal = document.getElementById('customConfirmModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            if(isConfirmed && typeof confirmCallback === 'function') {
+                confirmCallback();
+            }
+            confirmCallback = null;
+        }
+
         const dict = {
             'ID': {
                 proEdition: "Pro Max Next-Level",
@@ -1372,7 +1418,7 @@
 
         // TANDA TANGAN KONTRAK MASSAL (BULK CONTRACT E-SIGNING)
         function bulkExtendContracts() {
-            if(confirm("Apakah Anda ingin memperpanjang kontrak seluruh karyawan secara massal selama 1 tahun ke depan dengan satu klik tanda tangan digital CEO?")) {
+            showCustomConfirm("Perpanjang Kontrak Massal", "Apakah Anda ingin memperpanjang kontrak seluruh karyawan secara massal selama 1 tahun ke depan dengan satu klik tanda tangan digital CEO?", function() {
                 employees.forEach(e => {
                     e.contractExpiry = "2027-09-15";
                 });
@@ -1381,7 +1427,7 @@
                 logAudit("Bulk Contract E-Signing", "Memperbarui kontrak massal seluruh staf");
                 addNotification("Kontrak seluruh karyawan diperpanjang massal oleh CEO.");
                 renderAll();
-            }
+            });
         }
 
         function toggleDarkModeTheme() {
@@ -1483,41 +1529,41 @@
         }
 
         function deleteLoanItem(idx) {
-            if(confirm("Apakah Anda yakin ingin menghapus data kasbon/pinjaman ini?")) {
+            showCustomConfirm("Hapus Data Kasbon", "Apakah Anda yakin ingin menghapus data kasbon/pinjaman ini?", function() {
                 loanList.splice(idx, 1);
                 localStorage.setItem('wind_enterprise_loans', JSON.stringify(loanList));
                 renderLoans();
                 renderPayrollEngine();
                 showToast("Data kasbon berhasil dihapus!", "warning");
-            }
+            });
         }
 
         function clearAllLoans() {
-            if(confirm("Hapus seluruh riwayat kasbon karyawan?")) {
+            showCustomConfirm("Bersihkan Semua Kasbon", "Hapus seluruh riwayat kasbon karyawan?", function() {
                 loanList = [];
                 localStorage.removeItem('wind_enterprise_loans');
                 renderLoans();
                 renderPayrollEngine();
                 showToast("Semua riwayat kasbon berhasil dibersihkan!", "warning");
-            }
+            });
         }
 
         function deleteReimburseItem(idx) {
-            if(confirm("Apakah Anda yakin ingin menghapus riwayat klaim ini?")) {
+            showCustomConfirm("Hapus Riwayat Klaim", "Apakah Anda yakin ingin menghapus riwayat klaim ini?", function() {
                 reimburseList.splice(idx, 1);
                 localStorage.setItem('wind_enterprise_reimburse', JSON.stringify(reimburseList));
                 renderReimburse();
                 showToast("Riwayat klaim berhasil dihapus!", "warning");
-            }
+            });
         }
 
         function clearAllReimbursements() {
-            if(confirm("Hapus seluruh riwayat klaim reimbursement?")) {
+            showCustomConfirm("Bersihkan Riwayat Klaim", "Hapus seluruh riwayat klaim reimbursement?", function() {
                 reimburseList = [];
                 localStorage.removeItem('wind_enterprise_reimburse');
                 renderReimburse();
                 showToast("Semua riwayat klaim berhasil dibersihkan!", "warning");
-            }
+            });
         }
 
         function togglePasswordVisibility() {
@@ -2127,16 +2173,16 @@
 
         function deleteEmployee(idx) {
             if (employees.length <= 1) {
-                alert("Perusahaan minimal harus memiliki 1 karyawan utama.");
+                showToast("Perusahaan minimal harus memiliki 1 karyawan utama.", "error");
                 return;
             }
             const emp = employees[idx];
-            if (confirm(`Apakah Anda yakin ingin menghapus ${emp.name}?`)) {
+            showCustomConfirm("Hapus Karyawan", `Apakah Anda yakin ingin menghapus ${emp.name}?`, function() {
                 employees.splice(idx, 1);
                 localStorage.setItem('wind_enterprise_employees', JSON.stringify(employees));
                 renderAll();
                 showToast(`Karyawan ${emp.name} berhasil dihapus!`, 'warning');
-            }
+            });
         }
 
         function renderShiftRoster() {
@@ -2162,13 +2208,13 @@
         }
 
         function deleteShiftItem(idx) {
-            if(confirm("Apakah Anda yakin ingin menghapus jadwal shift karyawan ini?")) {
+            showCustomConfirm("Hapus Shift Kerja", "Apakah Anda yakin ingin menghapus jadwal shift karyawan ini?", function() {
                 shiftRoster.splice(idx, 1);
                 localStorage.setItem('wind_enterprise_shifts', JSON.stringify(shiftRoster));
                 renderShiftRoster();
                 showToast("Jadwal shift berhasil dihapus!", "warning");
                 logAudit("Hapus Shift Kerja", "Menghapus data penjadwalan shift");
-            }
+            });
         }
 
         function openShiftModal() { document.getElementById('shiftModal').classList.remove('hidden'); document.getElementById('shiftModal').classList.add('flex'); }
