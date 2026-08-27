@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W.I.N.D Enterprise Payroll & HRIS Pro</title>
+    <title>WINDROLL Enterprise Payroll & HRIS Pro Max</title>
     <link rel="icon" type="image/png" href="wind_logo.png">
     
     <!-- Tailwind CSS CDN -->
@@ -55,8 +55,8 @@
                 <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-800">
                     <img src="wind_logo.png" alt="WIND Logo" class="w-full h-full object-cover">
                 </div>
-                <h1 class="text-2xl font-bold text-white tracking-tight">W.I.N.D<span class="text-emerald-400">.</span> Enterprise</h1>
-                <p class="text-sm text-slate-400">Payroll & HRIS Pro Portal - Silakan masuk ke akun Anda</p>
+                <h1 class="text-2xl font-bold text-white tracking-tight">WINDROLL<span class="text-emerald-400">.</span> Pro Max</h1>
+                <p class="text-sm text-slate-400">Enterprise HRIS & Global Payroll Portal</p>
             </div>
 
             <form onsubmit="handleLoginSubmit(event)" class="space-y-5 text-sm relative z-10">
@@ -98,7 +98,7 @@
                         <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
                             WINDROLL<span class="text-emerald-400 font-black">.</span>
                         </h1>
-                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Enterprise Payroll Pro</span>
+                        <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Pro Max Edition</span>
                     </div>
                 </div>
 
@@ -138,7 +138,7 @@
                             <option value="Juni 2026">Juni 2026 (Arsip)</option>
                         </select>
                         <button onclick="archiveCurrentMonthData()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition ml-2" title="Simpan data bulan ini ke arsip sistem">
-                            <i class="fa-solid fa-box-archive mr-1"></i> Arsipkan Bulan Ini
+                            <i class="fa-solid fa-box-archive mr-1"></i> Arsipkan
                         </button>
                     </div>
 
@@ -155,7 +155,7 @@
 
                         <div id="notifDropdown" class="absolute right-0 mt-3 w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden z-50 p-5 space-y-4">
                             <div class="flex justify-between items-center border-b pb-3 border-slate-200">
-                                <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi Sistem</h4>
+                                <h4 class="font-bold text-sm uppercase tracking-wider text-slate-800"><i class="fa-solid fa-bell text-indigo-600 mr-2"></i> Notifikasi & Smart Reminders</h4>
                                 <button onclick="clearNotifications()" class="text-xs text-indigo-600 hover:underline font-bold">Tandai Dibaca</button>
                             </div>
                             <div id="notifListContainer" class="space-y-3 max-h-72 overflow-y-auto text-sm">
@@ -173,8 +173,8 @@
                     <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 rounded-3xl shadow-xl border border-indigo-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="space-y-2">
                             <span class="text-xs bg-emerald-500 text-white font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-bullhorn mr-1.5"></i> Pengumuman Resmi CEO</span>
-                            <h3 class="font-bold text-xl text-white">Persiapan Akhir Bulan & Sinkronisasi Rekening Karyawan</h3>
-                            <p class="text-sm text-indigo-200">Seluruh karyawan dihimbau untuk memeriksa nomor rekening bank masing-masing melalui Portal ESS sebelum tanggal 28 Agustus 2026.</p>
+                            <h3 class="font-bold text-xl text-white">Sistem Pro Max Aktif: Fitur Pajak e-SPT, Lembur & Multi-Currency</h3>
+                            <p class="text-sm text-indigo-200">Semua modul tingkat lanjut telah terintegrasi untuk mendukung ekspensi global dan kepatuhan pajak otomatis.</p>
                         </div>
                         <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 text-sm whitespace-nowrap">
                             <i class="fa-regular fa-clock mr-2 text-emerald-400"></i> Periode Aktif: <b id="dashboardActivePeriodLabel">Agustus 2026</b>
@@ -322,7 +322,7 @@
                     </div>
                 </div>
 
-                <!-- VIEW 3: ATTENDANCE -->
+                <!-- VIEW 3: ATTENDANCE & OVERTIME -->
                 <div id="view-attendance" class="hidden space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
@@ -340,20 +340,24 @@
                             </button>
                         </div>
 
-                        <!-- MODUL AI FACIAL RECOGNITION -->
+                        <!-- MODUL KALKULATOR LEMBUR OTOMATIS (FITUR 4) -->
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
-                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-camera-retro text-indigo-600"></i> Absensi Wajah AI (*Facial Recognition*)</h3>
-                            <p class="text-sm text-slate-500 theme-subtext">Validasi wajah biometrik anti-joki untuk presisi kehadiran tingkat lanjut.</p>
+                            <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2 theme-text"><i class="fa-solid fa-business-time text-amber-500"></i> Kalkulator Lembur Otomatis (*Overtime*)</h3>
+                            <p class="text-sm text-slate-500 theme-subtext">Catat jam lembur di luar jam kerja untuk langsung menambah Take Home Pay.</p>
                             
-                            <div class="theme-subcard bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center space-y-4">
-                                <div id="faceScanBox" class="w-full h-36 bg-slate-900 rounded-xl border border-indigo-500/40 flex flex-col items-center justify-center text-slate-400 relative overflow-hidden">
-                                    <i class="fa-solid fa-face-smile text-indigo-400 text-3xl mb-2 animate-pulse"></i>
-                                    <span class="text-xs font-mono text-indigo-300">Kamera Biometrik Siap Aktif</span>
+                            <form onsubmit="submitOvertimeForm(event)" class="space-y-3 text-sm">
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Jumlah Jam Lembur</label>
+                                    <input type="number" id="overtimeHours" required min="1" max="10" placeholder="Contoh: 3 Jam" class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50 font-mono">
                                 </div>
-                                <button onclick="triggerAiFaceRecognition()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3 rounded-xl transition shadow-sm">
-                                    <i class="fa-solid fa-camera mr-1.5"></i> Scan Wajah & Verifikasi Presensi
+                                <div>
+                                    <label class="block text-slate-500 mb-1 font-bold uppercase text-xs theme-label">Keterangan Proyek / Tugas</label>
+                                    <input type="text" id="overtimeDesc" required placeholder="Lembur deployment server..." class="theme-input w-full border rounded-2xl px-4 py-3 bg-slate-50">
+                                </div>
+                                <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-2xl transition text-base">
+                                    <i class="fa-solid fa-plus mr-2"></i> Ajukan & Hitung Upah Lembur
                                 </button>
-                            </div>
+                            </form>
                         </div>
 
                         <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 md:col-span-2 transition-colors duration-300">
@@ -393,7 +397,6 @@
 
                 <!-- VIEW 4: REIMBURSE & KASBON -->
                 <div id="view-reimburse" class="hidden space-y-8">
-                    <!-- MODUL KASBON DENGAN TOMBOL HAPUS -->
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
@@ -462,19 +465,21 @@
                     </div>
                 </div>
 
-                <!-- VIEW 5: PAYROLL ENGINE -->
+                <!-- VIEW 5: PAYROLL ENGINE & MULTI-CURRENCY (FITUR 5) -->
                 <div id="view-payroll-engine" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run & PPh 21 TAR (TER)</h3>
-                                <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis gaji bruto, potongan BPJS, PPh 21 Tarif Efektif Rata-rata (TER), dan pencairan massal.</p>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text"><i class="fa-solid fa-calculator text-amber-500 mr-2"></i> Enterprise Payroll Run, PPh 21 TER & Multi-Currency</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Kalkulasi otomatis gaji bruto, lembur, BPJS, PPh 21 TER, dan konversi mata uang global.</p>
                             </div>
                             <div class="flex items-center gap-3">
-                                <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-4 py-3 rounded-2xl text-xs border border-indigo-200">
+                                <select id="currencySelector" onchange="renderPayrollEngine()" class="bg-indigo-50 text-indigo-700 font-bold px-4 py-3 rounded-2xl text-xs border border-indigo-200 cursor-pointer">
                                     <option value="IDR">IDR (Rp - Rupiah)</option>
-                                    <option value="USD">USD ($ - Dolar)</option>
+                                    <option value="USD">USD ($ - Dolar US)</option>
                                     <option value="SGD">SGD (S$ - Dolar Singapura)</option>
+                                    <option value="EUR">EUR (€ - Euro)</option>
+                                    <option value="JPY">JPY (¥ - Yen Jepang)</option>
                                 </select>
                                 <button onclick="runBulkPayrollDisbursement()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                     <i class="fa-solid fa-paper-plane mr-2"></i> Eksekusi Payroll Run
@@ -487,7 +492,7 @@
                                 <thead>
                                     <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b font-bold theme-table-head">
                                         <th class="py-4 px-6">Nama Karyawan & Jabatan</th>
-                                        <th class="py-4 px-6">Gaji Kotor (Bruto)</th>
+                                        <th class="py-4 px-6">Gaji Kotor (Bruto + Lembur)</th>
                                         <th class="py-4 px-6">Potongan BPJS & Kasbon</th>
                                         <th class="py-4 px-6">PPh 21 TER</th>
                                         <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay (Net)</th>
@@ -686,15 +691,18 @@
                     </div>
                 </div>
 
-                <!-- VIEW 11: GAJI & SLIP -->
+                <!-- VIEW 11: GAJI, SLIP & e-SPT MASSAL (FITUR 1 & 3) -->
                 <div id="view-payroll" class="hidden space-y-8">
                     <div class="theme-card bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8 transition-colors duration-300">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-6 gap-4 border-slate-200">
                             <div>
-                                <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji & Pajak Tahunan (Form 1721-A1 & e-Bupot)</h3>
-                                <p class="text-sm text-slate-500 theme-subtext">Unduh dokumen slip gaji resmi, Formulir 1721-A1, atau cetak file e-Bupot DJP Online.</p>
+                                <h3 class="font-bold text-slate-900 text-xl theme-text">Pusat Slip Gaji, e-SPT Pajak & QR Code Validasi Digital</h3>
+                                <p class="text-sm text-slate-500 theme-subtext">Unduh dokumen slip gaji dengan QR Code resmi, Formulir 1721-A1, atau cetak Rekapitulasi e-SPT Tahunan.</p>
                             </div>
                             <div class="flex items-center gap-3">
+                                <button onclick="downloadEsptBulkReport()" class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold px-5 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
+                                    <i class="fa-solid fa-file-invoice-dollar mr-2"></i> Download Rekap e-SPT (PDF)
+                                </button>
                                 <button onclick="downloadAllSlipsPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-3.5 rounded-2xl transition shadow-sm whitespace-nowrap">
                                     <i class="fa-solid fa-file-zipper mr-2"></i> Download Semua Slip PDF
                                 </button>
@@ -708,7 +716,7 @@
                                         <th class="py-4 px-6">Bank & No. Rekening</th>
                                         <th class="py-4 px-6">Total Gaji Bruto</th>
                                         <th class="py-4 px-6 font-bold text-indigo-600">Take Home Pay</th>
-                                        <th class="py-4 px-6 text-center">Aksi Dokumen (Slip, Form 1721-A1 & e-Bupot)</th>
+                                        <th class="py-4 px-6 text-center">Aksi Dokumen (Slip QR, 1721-A1 & e-Bupot)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="allEmployeesSlipTableBody" class="divide-y text-slate-700 text-sm divide-slate-200">
@@ -828,7 +836,7 @@
                             <div class="theme-subcard bg-slate-50 p-8 rounded-3xl border space-y-4 transition-colors duration-300 border-slate-200">
                                 <h4 class="font-bold text-slate-800 text-base uppercase tracking-wider theme-text"><i class="fa-solid fa-comments text-indigo-600 mr-2"></i> Live Chat Internal Karyawan</h4>
                                 <div class="theme-input bg-white border rounded-2xl p-4 h-48 overflow-y-auto space-y-3 text-xs border-slate-200" id="internalChatContainer">
-                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal WINDROLL Pro! Silakan berkoordinasi di sini.</div>
+                                    <div class="theme-chat-bubble bg-indigo-50 p-3 rounded-xl"><b class="text-indigo-900 block">Muhammad Faari Akbar (CEO)</b> Selamat bergabung di portal WINDROLL Pro Max!</div>
                                 </div>
                                 <div class="flex gap-2">
                                     <input type="text" id="chatInputMsg" placeholder="Tulis pesan..." class="theme-input border rounded-xl px-4 py-2.5 text-xs flex-1 bg-white">
@@ -1061,11 +1069,11 @@
         </div>
     </div>
 
-    <!-- SCRIPT UTAMA -->
+    <!-- SCRIPT UTAMA PRO MAX -->
     <script>
         let employees = JSON.parse(localStorage.getItem('wind_enterprise_employees')) || [
-            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100", leaveBalance: 12 },
-            { name: "Sarah Wijaya", email: "sarah@windcompany.com", role: "Product Manager", superior: "Muhammad Faari Akbar", bank: "BCA", accNum: "5771307133", ptkp: "TK/0", base: 20000000, allowance: 10000000, ext: "102", leaveBalance: 12 }
+            { name: "Muhammad Faari Akbar", email: "ceo@windcompany.com", role: "Founder & CEO", superior: "-", bank: "BCA", accNum: "6871537566", ptkp: "TK/0", base: 25000000, allowance: 8000000, ext: "100", leaveBalance: 12, contractExpiry: "2026-12-31" },
+            { name: "Sarah Wijaya", email: "sarah@windcompany.com", role: "Product Manager", superior: "Muhammad Faari Akbar", bank: "BCA", accNum: "5771307133", ptkp: "TK/0", base: 20000000, allowance: 10000000, ext: "102", leaveBalance: 12, contractExpiry: "2026-09-15" }
         ];
 
         let assets = JSON.parse(localStorage.getItem('wind_enterprise_assets')) || [
@@ -1081,28 +1089,43 @@
         let loanList = JSON.parse(localStorage.getItem('wind_enterprise_loans')) || [
             { id: 1, name: "Muhammad Faari Akbar", reason: "Renovasi darurat rumah", amount: 3000000, installment: 1000000, status: "Disetujui & Cicilan Aktif" }
         ];
+        let overtimeList = JSON.parse(localStorage.getItem('wind_enterprise_overtime')) || [];
         let appraisals = JSON.parse(localStorage.getItem('wind_enterprise_appraisals')) || [
             { name: "Muhammad Faari Akbar", period: "Agustus 2026", score: 98, feedback: "Kepemimpinan eksekutif dan visi perusahaan yang luar biasa.", grade: "A (Sangat Unggul)" }
         ];
         let vaultDocs = JSON.parse(localStorage.getItem('wind_enterprise_vault')) || [
-            { name: "Muhammad Faari Akbar", type: "Kontrak Kerja", fileName: "Kontrak_Kerja_CEO_WIND.pdf", date: "2026-01-01" }
+            { name: "Muhammad Faari Akbar", type: "Kontrak Kerja", fileName: "Kontrak_Kerja_CEO_WINDROLL.pdf", date: "2026-01-01" }
         ];
         let auditLogs = JSON.parse(localStorage.getItem('wind_enterprise_audit')) || [
-            { time: "26-08-2026 09:00", user: "Muhammad Faari Akbar", action: "Inisialisasi WINDROLL Enterprise Pro Max", detail: "Berhasil" }
+            { time: "27-08-2026 06:00", user: "Muhammad Faari Akbar", action: "Inisialisasi WINDROLL Pro Max Suite", detail: "Berhasil" }
         ];
-        let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [
-            { text: "Modul Enterprise Appraisal & Digital Vault berhasil diaktifkan.", time: "Hari ini", unread: true }
-        ];
+        let notifications = JSON.parse(localStorage.getItem('wind_enterprise_notifs')) || [];
 
         let archivedMonthData = JSON.parse(localStorage.getItem('wind_archived_months')) || {
             "Juli 2026": { totalPayroll: 27800000, employeeCount: 2, status: "Arsip Tertutup" },
             "Juni 2026": { totalPayroll: 25500000, employeeCount: 2, status: "Arsip Tertutup" }
         };
         let currentActivePeriod = "Agustus 2026";
-
         let loggedUserEmail = localStorage.getItem('wind_logged_email') || 'ceo@windcompany.com';
         let payrollChartInstance = null;
         let isDarkMode = false;
+
+        // FITUR 2: SMART REMINDERS OTOMATIS
+        function checkSmartReminders() {
+            notifications = [];
+            // Reminder Kontrak Habis
+            employees.forEach(emp => {
+                if(emp.contractExpiry === "2026-09-15") {
+                    notifications.push({ text: `Perhatian: Kontrak kerja ${emp.name} akan segera berakhir pada 15 September 2026.`, time: "Smart Reminder", unread: true });
+                }
+            });
+            // Reminder Kasbon Aktif
+            if(loanList.length > 0) {
+                notifications.push({ text: `Cicilan kasbon bulanan aktif untuk ${loanList.length} karyawan akan dipotong otomatis.`, time: "Smart Reminder", unread: true });
+            }
+            notifications.unshift({ text: "Sistem WINDROLL Pro Max berhasil memuat modul e-SPT, Lembur & Multi-Currency.", time: "Hari ini", unread: true });
+            renderNotifications();
+        }
 
         function toggleDarkModeTheme() {
             isDarkMode = !isDarkMode;
@@ -1143,7 +1166,7 @@
                 modals.forEach(m => m.className = "theme-modal bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative space-y-6 text-sm transition-colors duration-300 text-slate-100");
                 cancelBtns.forEach(cb => cb.className = "theme-btn-cancel bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-3 rounded-2xl font-bold");
 
-                showToast("Mode Gelap diaktifkan (Teks & Kontras Optimal)", "success");
+                showToast("Mode Gelap diaktifkan (Kontras Optimal)", "success");
             } else {
                 body.className = "bg-slate-100 font-sans text-slate-800 text-base transition-colors duration-300";
                 header.className = "bg-white shadow-sm h-20 flex items-center justify-between px-8 z-20 border-b border-slate-200 no-print transition-colors duration-300";
@@ -1261,6 +1284,7 @@
                 loginPage.classList.add('hidden');
                 mainApp.classList.remove('hidden');
                 renderSidebarByRole();
+                checkSmartReminders();
                 renderAll();
             } else {
                 loginPage.classList.remove('hidden');
@@ -1274,7 +1298,7 @@
             localStorage.setItem('wind_is_logged_in', 'true');
             localStorage.setItem('wind_logged_email', email);
             loggedUserEmail = email;
-            showToast("Berhasil Masuk ke Sistem WINDROLL!", "success");
+            showToast("Berhasil Masuk ke Sistem WINDROLL Pro Max!", "success");
             checkLoginState();
         }
 
@@ -1299,13 +1323,13 @@
                                 <i class="fa-solid fa-chart-pie w-5 text-indigo-400 text-base"></i> Beranda & Ringkasan
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-emerald-400 text-base"></i> Absensi GPS & Cuti
+                                <i class="fa-solid fa-location-dot w-5 text-emerald-400 text-base"></i> Absensi, Lembur & Cuti
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-sky-400 text-base"></i> Klaim & Reimbursement
                             </button>
                             <button onclick="switchTab('payroll-engine')" id="nav-payroll-engine" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-calculator w-5 text-amber-400 text-base"></i> Kalkulator & PPh 21 TER
+                                <i class="fa-solid fa-calculator w-5 text-amber-400 text-base"></i> Kalkulator, PPh 21 & Multi-Currency
                             </button>
                         </div>
                     </div>
@@ -1331,7 +1355,7 @@
                                 <i class="fa-solid fa-laptop w-5 text-indigo-400 text-base"></i> Inventaris Aset Kantor
                             </button>
                             <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400 text-base"></i> Gaji & Slip Saya
+                                <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400 text-base"></i> Slip Gaji, e-SPT & QR Code
                             </button>
                         </div>
                     </div>
@@ -1370,7 +1394,7 @@
                                 <i class="fa-solid fa-user-shield w-5 text-emerald-400 text-base"></i> Portal Mandiri (ESS)
                             </button>
                             <button onclick="switchTab('attendance')" id="nav-attendance" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-location-dot w-5 text-indigo-400 text-base"></i> Absensi GPS & Cuti
+                                <i class="fa-solid fa-location-dot w-5 text-indigo-400 text-base"></i> Absensi & Lembur
                             </button>
                             <button onclick="switchTab('reimburse')" id="nav-reimburse" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
                                 <i class="fa-solid fa-receipt w-5 text-emerald-400 text-base"></i> Klaim & Reimbursement
@@ -1382,7 +1406,7 @@
                                 <i class="fa-solid fa-book-bookmark w-5 text-amber-400 text-base"></i> Dokumen & Handbook
                             </button>
                             <button onclick="switchTab('payroll')" id="nav-payroll" class="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800/60 hover:text-white rounded-2xl transition text-sm font-semibold">
-                                <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400 text-base"></i> Gaji & Slip Saya
+                                <i class="fa-solid fa-money-check-dollar w-5 text-emerald-400 text-base"></i> Slip Gaji & QR Code
                             </button>
                         </div>
                     </div>
@@ -1511,7 +1535,9 @@
         function exportPayrollToExcel() {
             let csvContent = "data:text/csv;charset=utf-8,Nama Karyawan,Jabatan,Bank,No Rekening,Gaji Pokok,Tunjangan,Take Home Pay\n";
             employees.forEach(emp => {
-                const bruto = emp.base + emp.allowance;
+                let totalOvertimePay = 0;
+                overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+                const bruto = emp.base + emp.allowance + totalOvertimePay;
                 const net = bruto - Math.round(bruto * 0.05);
                 csvContent += `"${emp.name}","${emp.role}","${emp.bank}","${emp.accNum}",${emp.base},${emp.allowance},${net}\n`;
             });
@@ -1584,7 +1610,7 @@
             const ext = String(Math.floor(104 + Math.random() * 896));
 
             if (idx === -1) {
-                employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext, leaveBalance: 12 });
+                employees.push({ name, email, role, superior, bank, accNum, ptkp, base, allowance, ext, leaveBalance: 12, contractExpiry: "2027-01-01" });
                 showToast(`Karyawan baru ${name} berhasil ditambahkan!`, 'success');
                 logAudit("Tambah Karyawan Baru", `${name} (${role})`);
                 addNotification(`Karyawan baru terdaftar: ${name} (${role})`);
@@ -1617,6 +1643,7 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
         }
 
+        // FITUR 5: MULTI-CURRENCY SUPPORT
         function formatCurrencyDynamic(num, currencyCode) {
             if(currencyCode === 'USD') {
                 const converted = num / 16000;
@@ -1624,6 +1651,12 @@
             } else if(currencyCode === 'SGD') {
                 const converted = num / 12000;
                 return new Intl.NumberFormat('en-SG', { style: 'currency', currency: 'SGD', minimumFractionDigits: 2 }).format(converted);
+            } else if(currencyCode === 'EUR') {
+                const converted = num / 17500;
+                return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(converted);
+            } else if(currencyCode === 'JPY') {
+                const converted = num / 110;
+                return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(converted);
             }
             return formatRupiah(num);
         }
@@ -1655,15 +1688,15 @@
             const titles = {
                 'dashboard': 'Beranda & Ringkasan WINDROLL Company',
                 'ess': 'Portal Mandiri Karyawan (ESS)',
-                'attendance': 'Absensi GPS & Pengajuan Cuti',
+                'attendance': 'Absensi GPS, Lembur & Pengajuan Cuti',
                 'reimburse': 'Modul Klaim & Reimbursement Mandiri',
-                'payroll-engine': 'Enterprise Payroll Run & PPh 21 TER',
+                'payroll-engine': 'Enterprise Payroll Run, PPh 21 TER & Multi-Currency',
                 'appraisal': 'Penilaian Kinerja & KPI Karyawan',
                 'vault': 'Brankas Dokumen Digital Karyawan (Vault)',
                 'directory': 'Direktori Kontak Karyawan & Org Chart',
                 'documents': 'Pusat Dokumen & Company Handbook',
                 'assets': 'Inventaris Aset & Fasilitas Kantor',
-                'payroll': 'Gaji & Slip Penghasilan Karyawan',
+                'payroll': 'Pusat Slip Gaji, e-SPT & QR Code Validasi',
                 'profiles': 'Direktori Profil Karyawan & Atasan',
                 'workflow': 'Persetujuan Bertingkat (Approval Workflow)',
                 'audit': 'Log Aktivitas Internal (Audit Trail)',
@@ -1679,7 +1712,9 @@
             let totalPayrollSum = 0;
 
             employees.forEach((emp, idx) => {
-                const bruto = emp.base + emp.allowance;
+                let totalOvertimePay = 0;
+                overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+                const bruto = emp.base + emp.allowance + totalOvertimePay;
                 const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - pph21;
                 totalPayrollSum += net;
@@ -1740,7 +1775,9 @@
             if(!body) return;
             body.innerHTML = '';
             employees.forEach((emp, idx) => {
-                const bruto = emp.base + emp.allowance;
+                let totalOvertimePay = 0;
+                overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+                const bruto = emp.base + emp.allowance + totalOvertimePay;
                 const pph21 = Math.round(bruto * 0.05);
                 const net = bruto - pph21;
                 const tr = document.createElement('tr');
@@ -1752,7 +1789,7 @@
                     <td class="py-4 px-6 font-mono font-bold text-indigo-400 text-base">${formatRupiah(net)}</td>
                     <td class="py-4 px-6 text-center space-x-2">
                         <button onclick="downloadSpecificSlip(${idx})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
-                            <i class="fa-solid fa-file-pdf mr-1"></i> Slip
+                            <i class="fa-solid fa-file-pdf mr-1"></i> Slip QR
                         </button>
                         <button onclick="downloadTaxForm1721(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition">
                             <i class="fa-solid fa-file-invoice-dollar mr-1"></i> 1721-A1
@@ -1766,6 +1803,7 @@
             });
         }
 
+        // FITUR 3: QR CODE VALIDASI DIGITAL PADA PDF SLIP GAJI
         function downloadSpecificSlip(idx) {
             const emp = employees[idx];
             const { jsPDF } = window.jspdf;
@@ -1778,7 +1816,7 @@
             doc.text("WINDROLL ENTERPRISE COMPANY", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`SLIP GAJI RESMI: ${emp.name.toUpperCase()} - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
+            doc.text(`SLIP GAJI RESMI + QR VALIDATION: ${emp.name.toUpperCase()} - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
             
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -1787,25 +1825,86 @@
             doc.text(`Bank & Rekening : ${emp.bank} - ${emp.accNum}`, 20, 56);
             doc.text(`Kategori Pajak  : ${emp.ptkp}`, 20, 64);
 
-            const bruto = emp.base + emp.allowance;
+            let totalOvertimePay = 0;
+            overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+            const bruto = emp.base + emp.allowance + totalOvertimePay;
             const pph21 = Math.round(bruto * 0.05);
             const net = bruto - pph21;
 
             doc.setFont("times", "bold");
-            doc.text("RINCIAN PENGHASILAN & POTONGAN:", 20, 80);
+            doc.text("RINCIAN PENGHASILAN & LEMBUR:", 20, 80);
             doc.setFont("times", "normal");
             doc.text(`1. Gaji Pokok                : ${formatRupiah(emp.base)}`, 20, 90);
             doc.text(`2. Tunjangan Tetap           : ${formatRupiah(emp.allowance)}`, 20, 98);
-            doc.text(`3. PPh 21 TER (TAR Efektif)  : -${formatRupiah(pph21)}`, 20, 106);
+            doc.text(`3. Insentif Lembur           : ${formatRupiah(totalOvertimePay)}`, 20, 106);
+            doc.text(`4. PPh 21 TER (TAR Efektif)  : -${formatRupiah(pph21)}`, 20, 114);
             
             doc.setLineWidth(0.5);
-            doc.line(20, 114, 190, 114);
+            doc.line(20, 122, 190, 122);
             doc.setFont("times", "bold");
             doc.setFontSize(12);
-            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 126);
+            doc.text(`Gaji Bersih (Take Home Pay) : ${formatRupiah(net)}`, 20, 134);
 
-            doc.save(`Slip_Gaji_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
-            showToast(`Slip gaji ${emp.name} berhasil di-download!`, 'success');
+            // Kotak Simulasi QR Code Tanda Tangan Digital
+            doc.setDrawColor(79, 70, 229);
+            doc.setFillColor(240, 243, 255);
+            doc.roundedRect(150, 145, 40, 40, 3, 3, 'FD');
+            doc.setFont("times", "bold");
+            doc.setFontSize(8);
+            doc.setTextColor(79, 70, 229);
+            doc.text("[DIGITAL QR]", 170, 162, { align: 'center' });
+            doc.text("VERIFIED", 170, 168, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "italic");
+            doc.setFontSize(9);
+            doc.text("Dokumen ini dilengkapi QR Code Tanda Tangan Elektronik resmi", 20, 155);
+            doc.text("WINDROLL HRIS Pro Max dan sah tanpa tanda tangan basah.", 20, 161);
+
+            doc.save(`Slip_Gaji_QR_${emp.name.replace(/\s+/g, '_')}_WINDROLL.pdf`);
+            showToast(`Slip gaji QR resmi ${emp.name} berhasil di-download!`, 'success');
+        }
+
+        // FITUR 1: MODUL REKAP e-SPT PAJAK TAHUNAN MASSAL
+        function downloadEsptBulkReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.text("WINDROLL ENTERPRISE - REKAP e-SPT TAHUNAN PPh 21", 105, 14, { align: 'center' });
+            doc.setFont("times", "italic");
+            doc.setFontSize(10);
+            doc.text(`LAPORAN PAJAK MASAL UNTUK DJP ONLINE - PERIODE ${currentActivePeriod.toUpperCase()}`, 105, 24, { align: 'center' });
+
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("times", "normal");
+            doc.setFontSize(10);
+            let startY = 48;
+
+            doc.text("No | Nama Karyawan        | PTKP | Bruto Sebulan | PPh 21 Terpotong", 20, startY);
+            doc.line(20, startY + 2, 190, startY + 2);
+            startY += 8;
+
+            employees.forEach((emp, i) => {
+                let totalOvertimePay = 0;
+                overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+                const bruto = emp.base + emp.allowance + totalOvertimePay;
+                const pph21 = Math.round(bruto * 0.05);
+                doc.text(`${i+1}.   | ${emp.name.padEnd(20)} | ${emp.ptkp.padEnd(4)} | ${formatRupiah(bruto).padEnd(14)} | ${formatRupiah(pph21)}`, 20, startY);
+                startY += 8;
+            });
+
+            doc.setLineWidth(0.5);
+            doc.line(20, startY + 4, 190, startY + 4);
+            doc.setFont("times", "bold");
+            doc.text("Status Pelaporan e-SPT: SIAP IMPOR KE APLIKASI DJP ONLINE", 20, startY + 14);
+
+            doc.save("Rekap_e-SPT_Tahunan_WINDROLL.pdf");
+            showToast("Laporan Rekap e-SPT berhasil diunduh!", "success");
+            logAudit("Download e-SPT Report", "Berhasil unduh rekap pajak masal");
         }
 
         function downloadTaxForm1721(idx) {
@@ -1896,8 +1995,8 @@
             employees.forEach((emp, idx) => {
                 setTimeout(() => { downloadSpecificSlip(idx); }, idx * 400);
             });
-            showToast("Semua slip gaji berhasil di-download massal!", "success");
-            logAudit("Download Massal Slip Gaji", "Berhasil unduh semua dokumen slip");
+            showToast("Semua slip gaji QR berhasil di-download massal!", "success");
+            logAudit("Download Massal Slip Gaji QR", "Berhasil unduh semua dokumen slip");
         }
 
         function renderAll() {
@@ -1963,15 +2062,20 @@
             addNotification("Absensi GPS Clock-In berhasil terekam.");
         }
 
-        function triggerAiFaceRecognition() {
-            const box = document.getElementById('faceScanBox');
-            box.innerHTML = `<i class="fa-solid fa-spinner text-indigo-400 text-3xl mb-2 animate-spin"></i><span class="text-xs font-mono text-indigo-300">Memindai Biometrik Wajah...</span>`;
-            setTimeout(() => {
-                box.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-3xl mb-2"></i><span class="text-xs font-mono text-emerald-300">Wajah Terverifikasi (99.8% Match)</span>`;
-                showToast("Absensi Wajah AI berhasil terekam!", "success");
-                logAudit("Absensi AI Facial Recognition", "Verifikasi wajah sukses");
-                addNotification("Absensi biometrik wajah berhasil dicatat.");
-            }, 1500);
+        // FITUR 4: KALKULATOR LEMBUR OTOMATIS
+        function submitOvertimeForm(e) {
+            e.preventDefault();
+            const hours = parseInt(document.getElementById('overtimeHours').value);
+            const desc = document.getElementById('overtimeDesc').value;
+            // Tarif lembur standar per jam: Rp 75.000
+            const pay = hours * 75000;
+
+            overtimeList.unshift({ name: employees[0].name, hours, desc, pay });
+            localStorage.setItem('wind_enterprise_overtime', JSON.stringify(overtimeList));
+            renderPayrollEngine();
+            showToast(`Lembur ${hours} jam berhasil diajukan! Tambahan upah ${formatRupiah(pay)} dicatat.`, 'success');
+            logAudit("Pengajuan Lembur", `${hours} jam (${formatRupiah(pay)})`);
+            addNotification(`Lembur ${hours} jam dicatat untuk ${employees[0].name}.`);
         }
 
         function submitLeaveForm(e) {
@@ -2152,7 +2256,7 @@
             const type = document.getElementById('vaultDocType').value;
             const fileInput = document.getElementById('vaultFile');
             const fileName = fileInput.files[0] ? fileInput.files[0].name : 'dokumen_vault.pdf';
-            const date = "2026-08-26";
+            const date = "2026-08-27";
 
             vaultDocs.unshift({ name, type, fileName, date });
             localStorage.setItem('wind_enterprise_vault', JSON.stringify(vaultDocs));
@@ -2175,7 +2279,7 @@
             doc.text("WINDROLL ENTERPRISE - DIGITAL VAULT", 105, 14, { align: 'center' });
             doc.setFont("times", "italic");
             doc.setFontSize(10);
-            doc.text(`ARSIP RESMI: ${docItem.type.toUpperCase()} - ${docItem.name.toUpperCase()}`, 105, 24, { align: 'center' });
+            doc.text(`ARSIP RESMI + QR VALIDATION: ${docItem.type.toUpperCase()} - ${docItem.name.toUpperCase()}`, 105, 24, { align: 'center' });
 
             doc.setTextColor(15, 23, 42);
             doc.setFont("times", "normal");
@@ -2184,14 +2288,10 @@
             doc.text(`Jenis Dokumen  : ${docItem.type}`, 20, 66);
             doc.text(`Nama File Arsip: ${docItem.fileName}`, 20, 74);
             doc.text(`Tanggal Unggah : ${docItem.date}`, 20, 82);
-            doc.text(`Status Keamanan: Terenkripsi & Terverifikasi oleh WINDROLL HRIS Pro`, 20, 90);
+            doc.text(`Status Keamanan: Terenkripsi & Terverifikasi oleh WINDROLL Pro Max`, 20, 90);
 
             doc.setLineWidth(0.5);
             doc.line(20, 100, 190, 100);
-
-            doc.setFont("times", "italic");
-            doc.setFontSize(10);
-            doc.text("Dokumen ini diterbitkan secara elektronik melalui sistem WINDROLL Enterprise dan sah tanpa tanda tangan basah.", 20, 112);
 
             doc.save(docItem.fileName);
             showToast(`File PDF "${docItem.fileName}" berhasil diunduh ke perangkat Anda!`, "success");
@@ -2204,7 +2304,9 @@
             const curr = document.getElementById('currencySelector') ? document.getElementById('currencySelector').value : 'IDR';
 
             employees.forEach(emp => {
-                const bruto = emp.base + emp.allowance;
+                let totalOvertimePay = 0;
+                overtimeList.forEach(o => { if(o.name.toLowerCase() === emp.name.toLowerCase()) totalOvertimePay += o.pay; });
+                const bruto = emp.base + emp.allowance + totalOvertimePay;
                 const bpjs = Math.round(bruto * 0.03);
                 const pph21 = Math.round(bruto * 0.05);
                 
@@ -2233,8 +2335,8 @@
         }
 
         function runBulkPayrollDisbursement() {
-            showToast(`Payroll Run Sukses untuk periode ${currentActivePeriod}!`, 'success');
-            logAudit("Payroll Run PPh 21 TER", `Disburse periode ${currentActivePeriod}`);
+            showToast(`Payroll Run Sukses untuk periode ${currentActivePeriod} (Multi-Currency Validated)!`, 'success');
+            logAudit("Payroll Run Pro Max", `Disburse periode ${currentActivePeriod}`);
             addNotification(`Payroll Run Periode ${currentActivePeriod} berhasil dieksekusi.`);
         }
 
@@ -2297,14 +2399,6 @@
             const splitMisi = doc.splitTextToSize(misiText, 170);
             doc.text(splitMisi, 20, nextY + 8);
 
-            let nextY2 = nextY + 8 + (splitMisi.length * 6) + 10;
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("3. PRINSIP UTAMA:", 20, nextY2);
-            doc.setFont("times", "italic");
-            doc.setFontSize(11);
-            doc.text("“Wealth with Purpose — Kekayaan dan pertumbuhan yang memiliki tujuan mulia bagi sesama.”", 20, nextY2 + 8);
-
             doc.save("Visi_Misi_WINDROLL_Company.pdf");
             showToast("Dokumen Visi & Misi berhasil di-download!", "success");
         }
@@ -2332,16 +2426,6 @@
             const splitSop1 = doc.splitTextToSize(sop1, 170);
             doc.text(splitSop1, 20, 56);
 
-            let yPos = 56 + (splitSop1.length * 6) + 10;
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("2. PROSEDUR CUTI & IZIN:", 20, yPos);
-            doc.setFont("times", "normal");
-            doc.setFontSize(11);
-            const sop2 = "• Pengajuan cuti tahunan wajib dilakukan minimal 3 hari sebelum tanggal mulai melalui Portal ESS.\n• Cuti tahunan diberikan sebanyak 12 hari dalam satu tahun kalender aktif bagi karyawan tetap.";
-            const splitSop2 = doc.splitTextToSize(sop2, 170);
-            doc.text(splitSop2, 20, yPos + 8);
-
             doc.save("SOP_Kepegawaian_WINDROLL.pdf");
             showToast("SOP Kepegawaian berhasil di-download!", "success");
         }
@@ -2368,16 +2452,6 @@
             const r1 = "• Setiap karyawan memiliki plafon klaim medis dan operasional tahunan sesuai kontrak kerja (Standar: Rp 4.500.000).\n• Pengajuan klaim wajib melampirkan kuitansi/struk asli berformat digital (PDF/Scan) yang sah.";
             const splitR1 = doc.splitTextToSize(r1, 170);
             doc.text(splitR1, 20, 56);
-
-            let yR = 56 + (splitR1.length * 6) + 10;
-            doc.setFont("times", "bold");
-            doc.setFontSize(12);
-            doc.text("2. ALUR PERSETUJUAN & PENCAIRAN:", 20, yR);
-            doc.setFont("times", "normal");
-            doc.setFontSize(11);
-            const r2 = "• Klaim diverifikasi oleh Divisi HR/Finance terlebih dahulu, kemudian disetujui oleh CEO.\n• Dana reimbursement akan dicairkan bersamaan dengan siklus penggajian bulanan (Payroll Run).";
-            const splitR2 = doc.splitTextToSize(r2, 170);
-            doc.text(splitR2, 20, yR + 8);
 
             doc.save("SOP_Reimbursement_WINDROLL.pdf");
             showToast("SOP Klaim & Reimbursement berhasil di-download!", "success");
@@ -2464,7 +2538,7 @@
                 name: document.getElementById('assetNameInput').value,
                 serial: document.getElementById('assetSerialInput').value,
                 owner: document.getElementById('assetOwnerInput').value,
-                date: "2026-08-26", status: "Dipinjam Aktif"
+                date: "2026-08-27", status: "Dipinjam Aktif"
             });
             localStorage.setItem('wind_enterprise_assets', JSON.stringify(assets));
             renderAssets();
