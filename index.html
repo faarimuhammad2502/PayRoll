@@ -17,6 +17,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -48,8 +49,6 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #F8F9FA;
-            color: #1E293B;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -58,10 +57,17 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
         .nav-item-active {
             background-color: #E2ECE5;
             color: #173823;
+            font-weight: 600;
+        }
+        .dark .nav-item-active {
+            background-color: #1A3828;
+            color: #A7F3D0;
             font-weight: 600;
         }
 
@@ -70,11 +76,21 @@
             color: #935B07;
             border: 1px solid #FDE4BF;
         }
+        .dark .badge-amber {
+            background-color: rgba(120, 53, 15, 0.25);
+            color: #FCD34D;
+            border: 1px solid rgba(217, 119, 6, 0.35);
+        }
 
         .badge-green {
             background-color: #EDF7EE;
             color: #1E6637;
             border: 1px solid #D2EBD5;
+        }
+        .dark .badge-green {
+            background-color: rgba(6, 78, 59, 0.3);
+            color: #6EE7B7;
+            border: 1px solid rgba(16, 185, 129, 0.35);
         }
 
         .badge-blue {
@@ -82,11 +98,21 @@
             color: #1D4ED8;
             border: 1px solid #DBEAFE;
         }
+        .dark .badge-blue {
+            background-color: rgba(30, 58, 138, 0.3);
+            color: #93C5FD;
+            border: 1px solid rgba(59, 130, 246, 0.35);
+        }
 
         .badge-purple {
             background-color: #FAF5FF;
             color: #6B21A8;
             border: 1px solid #E9D5FF;
+        }
+        .dark .badge-purple {
+            background-color: rgba(88, 28, 135, 0.3);
+            color: #D8B4FE;
+            border: 1px solid rgba(168, 85, 247, 0.35);
         }
 
         /* Print styling for Slip Gaji */
@@ -104,6 +130,8 @@
                 width: 100%;
                 border: none;
                 box-shadow: none;
+                background: white !important;
+                color: black !important;
             }
             .no-print {
                 display: none !important;
@@ -111,10 +139,10 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex text-[13px] bg-[#F8F9FA]">
+<body class="min-h-screen flex text-[13px] bg-[#F8F9FA] dark:bg-[#0B1118] text-[#1E293B] dark:text-[#E2E8F0] transition-colors duration-200">
 
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="w-[270px] bg-[#FAFAFA] border-r border-[#ECECEC] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
+    <aside id="sidebar" class="w-[270px] bg-[#FAFAFA] dark:bg-[#0F172A] border-r border-[#ECECEC] dark:border-[#1E293B] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
         <div class="flex flex-col flex-1 overflow-y-auto">
             <!-- Brand Logo with MFA Monogram -->
             <div class="px-6 pt-6 pb-4 flex items-center gap-2.5">
@@ -122,20 +150,20 @@
                     MFA
                 </div>
                 <div class="flex items-baseline gap-1.5">
-                    <span class="text-xl font-extrabold tracking-tight text-gray-900">mfa</span>
-                    <span class="text-[10px] font-bold tracking-widest text-mfa-600 uppercase">PAYROLL</span>
+                    <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">mfa</span>
+                    <span class="text-[10px] font-bold tracking-widest text-mfa-600 dark:text-emerald-400 uppercase">PAYROLL</span>
                 </div>
             </div>
 
-            <!-- Workspace Selector Card (Multi-Perusahaan Ready) -->
+            <!-- Workspace Selector Card -->
             <div class="px-4 py-2">
-                <div onclick="switchView('pengaturan')" class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white shadow-xs hover:border-gray-300 transition cursor-pointer">
+                <div onclick="switchView('pengaturan')" class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 dark:border-[#1E2E40] bg-white dark:bg-[#15202E] shadow-xs hover:border-gray-300 dark:hover:border-gray-600 transition cursor-pointer">
                     <div class="flex items-center gap-2.5 min-w-0">
-                        <div class="w-7 h-7 rounded-lg bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xs font-bold shrink-0" id="sidebarOrgLogo">
+                        <div class="w-7 h-7 rounded-lg bg-mfa-50 dark:bg-emerald-950/60 border border-mfa-200 dark:border-emerald-800 text-mfa-800 dark:text-emerald-300 flex items-center justify-center text-xs font-bold shrink-0" id="sidebarOrgLogo">
                             MFA
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs font-semibold text-gray-900 truncate leading-tight" id="sidebarOrgName">MFA Studio</p>
+                            <p class="text-xs font-semibold text-gray-900 dark:text-white truncate leading-tight" id="sidebarOrgName">MFA Studio</p>
                             <p class="text-[11px] text-gray-400 truncate leading-tight">Tools Payroll Perusahaan</p>
                         </div>
                     </div>
@@ -147,48 +175,48 @@
             <nav class="px-3 pt-3 space-y-5">
                 <!-- Section MENU UTAMA -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Menu Utama</p>
+                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Menu Utama</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500"></i>
+                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Ringkasan</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
                                 <div class="flex items-center gap-3">
-                                    <i data-lucide="users" class="w-4 h-4 text-gray-500"></i>
+                                    <i data-lucide="users" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                     <span>Karyawan</span>
                                 </div>
-                                <span class="bg-gray-200/80 text-gray-700 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarKaryawanCount">0</span>
+                                <span class="bg-gray-200/80 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarKaryawanCount">0</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
+                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="calendar" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Kehadiran & Lembur</span>
                             </button>
                         </li>
                         <li>
                             <!-- Active Default Menu: Penggajian -->
                             <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left">
-                                <i data-lucide="wallet" class="w-4 h-4 text-[#173823]"></i>
+                                <i data-lucide="wallet" class="w-4 h-4 text-[#173823] dark:text-emerald-300"></i>
                                 <span>Penggajian</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
                                 <div class="flex items-center gap-3">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500"></i>
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                     <span>Persetujuan</span>
                                 </div>
-                                <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarApprovalCount">0</span>
+                                <span class="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarApprovalCount">0</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="line-chart" class="w-4 h-4 text-gray-500"></i>
+                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="line-chart" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Laporan</span>
                             </button>
                         </li>
@@ -197,45 +225,54 @@
 
                 <!-- Section STANDAR BNSP & 10 RUMUS PAYROLL -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">10 Rumus Payroll Resmi UU</p>
+                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">10 Rumus Payroll Resmi UU</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
                                 <div class="flex items-center gap-3">
-                                    <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600"></i>
-                                    <span class="font-semibold text-gray-800">10 Rumus Payroll UU</span>
+                                    <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600 dark:text-emerald-400"></i>
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">10 Rumus Payroll UU</span>
                                 </div>
-                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">BNSP</span>
+                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">BNSP</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="openKompensasiModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="file-badge-2" class="w-4 h-4 text-purple-600"></i>
+                            <button onclick="openKompensasiModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="file-badge-2" class="w-4 h-4 text-purple-600 dark:text-purple-400"></i>
                                 <span>Kompensasi PKWT (Kontrak)</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="openThrModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="gift" class="w-4 h-4 text-amber-600"></i>
+                            <button onclick="openThrModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="gift" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
                                 <span>Kalkulator THR</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="openPesangonModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="briefcase" class="w-4 h-4 text-blue-600"></i>
+                            <button onclick="openPesangonModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
                                 <span>Pesangon, UPMK & UPH</span>
                             </button>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Section WORKSPACE -->
+                <!-- Section INTEGRASI & WORKSPACE -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Workspace & Tools</p>
+                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Integrasi & Pengaturan</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
-                                <i data-lucide="sliders" class="w-4 h-4 text-gray-500"></i>
+                            <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="sheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                                    <span>Google Sheets Sync</span>
+                                </div>
+                                <span class="bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">BARU</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                                <i data-lucide="sliders" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Profil Perusahaan & Rumus</span>
                             </button>
                         </li>
@@ -247,32 +284,32 @@
         <!-- Sidebar Bottom Support & User Card -->
         <div class="p-4 space-y-3">
             <!-- Assistance Box -->
-            <div class="p-3.5 rounded-2xl bg-[#F4F5F4] border border-[#E9EAE8] space-y-2">
-                <div class="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 text-xs">
-                    <i data-lucide="calculator" class="w-3.5 h-3.5 text-mfa-700"></i>
+            <div class="p-3.5 rounded-2xl bg-[#F4F5F4] dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] space-y-2">
+                <div class="w-6 h-6 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 text-xs">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5 text-mfa-700 dark:text-emerald-400"></i>
                 </div>
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-900">Simulasi Pajak PPh 21</h4>
-                    <p class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Tarif Efektif Rata-Rata (TER) PP 58/2023.</p>
+                    <h4 class="text-xs font-semibold text-gray-900 dark:text-white">Simulasi Pajak PPh 21</h4>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">Tarif Efektif Rata-Rata (TER) PP 58/2023.</p>
                 </div>
-                <button onclick="openTaxSimulatorModal()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 hover:underline">
+                <button onclick="openTaxSimulatorModal()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 dark:text-emerald-400 hover:underline">
                     Buka Kalkulator
                     <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
                 </button>
             </div>
 
             <!-- Profile Info Bar: Muhammad Faari Akbar -->
-            <div class="pt-2 border-t border-gray-200/80 flex items-center justify-between">
+            <div class="pt-2 border-t border-gray-200/80 dark:border-gray-800 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs font-bold">
                         MFA
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-gray-900 leading-tight">Muhammad Faari Akbar</p>
+                        <p class="text-xs font-semibold text-gray-900 dark:text-white leading-tight">Muhammad Faari Akbar</p>
                         <p class="text-[11px] text-gray-400 leading-tight">Administrator</p>
                     </div>
                 </div>
-                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi tersimpan')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-200/50 transition">
+                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi tersimpan')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800 transition">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -283,46 +320,48 @@
     <div class="flex-1 lg:ml-[270px] flex flex-col min-w-0">
 
         <!-- TOP BAR -->
-        <header class="h-14 bg-white/70 backdrop-blur-md border-b border-gray-200 px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
+        <header class="h-14 bg-white/70 dark:bg-[#0F172A]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#1E293B] px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
             <div class="flex items-center gap-3">
-                <button onclick="toggleSidebar()" class="lg:hidden p-1.5 text-gray-600 hover:bg-gray-100 rounded-lg">
+                <button onclick="toggleSidebar()" class="lg:hidden p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
                 <!-- Breadcrumbs -->
-                <nav class="flex items-center gap-2 text-xs text-gray-500">
+                <nav class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                     <span id="topbarCompany">MFA Studio</span>
                     <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
-                    <span class="text-gray-900 font-medium" id="topbarBreadcrumb">Penggajian</span>
+                    <span class="text-gray-900 dark:text-white font-medium" id="topbarBreadcrumb">Penggajian</span>
                 </nav>
             </div>
 
             <!-- Top Right Utilities -->
             <div class="flex items-center gap-3">
-                <div class="flex items-center gap-1.5 text-xs text-gray-500 hidden md:flex">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-                    <span>10 Rumus Payroll Sesuai UU</span>
-                </div>
+                <!-- Theme Toggle Button (Light/Dark Mode) -->
+                <button onclick="toggleTheme()" class="p-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Ganti Mode Gelap / Terang" id="themeToggleBtn">
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+                </button>
+
+                <!-- Google Sheets Shortcut Button -->
+                <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1.5 rounded-xl transition" title="Sinkronisasi Google Sheets">
+                    <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+                    <span class="hidden sm:inline">Google Sheets</span>
+                </button>
 
                 <!-- Template Data Loader -->
-                <button onclick="loadSampleData()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 bg-mfa-50 hover:bg-mfa-100 border border-mfa-200 px-2.5 py-1 rounded-lg transition" title="Muat Data Contoh Karyawan">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mfa-600"></i>
+                <button onclick="loadSampleData()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 dark:text-emerald-300 bg-mfa-50 dark:bg-gray-800 hover:bg-mfa-100 dark:hover:bg-gray-700 border border-mfa-200 dark:border-gray-700 px-2.5 py-1.5 rounded-xl transition" title="Muat Data Contoh Karyawan">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mfa-600 dark:text-emerald-400"></i>
                     <span class="hidden sm:inline">Muat Contoh</span>
                 </button>
 
-                <button onclick="clearAllDataConfirm()" class="inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 hover:bg-rose-50 px-2 py-1 rounded-lg transition" title="Kosongkan Semua Data">
+                <button onclick="clearAllDataConfirm()" class="inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 px-2 py-1.5 rounded-xl transition" title="Kosongkan Semua Data">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                     <span class="hidden sm:inline">Kosongkan</span>
                 </button>
 
-                <button class="relative text-gray-500 hover:text-gray-800 transition p-1" title="Notifikasi" onclick="showToast('Semua rumus payroll terintegrasi.')">
+                <button class="relative text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition p-1" title="Notifikasi" onclick="showToast('Semua rumus payroll terintegrasi.')">
                     <i data-lucide="bell" class="w-4 h-4"></i>
                     <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                 </button>
-
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-700">
-                    <span>ID</span>
-                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400"></i>
-                </div>
             </div>
         </header>
 
@@ -335,10 +374,10 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="bg-[#1B3B2B] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-md">STANDAR BNSP &amp; UU KETENAGAKERJAAN</span>
-                            <span class="text-xs text-gray-500 font-medium">Berdasarkan Dokumen Handbook RUMUS PAYROLL #BelajarHR</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Berdasarkan Dokumen Handbook RUMUS PAYROLL #BelajarHR</span>
                         </div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 mt-1">10 Rumus Payroll yang Wajib HR Ketahui</h1>
-                        <p class="text-xs text-gray-500 mt-0.5">Panduan perhitungan hak-hak karyawan resmi sesuai perundang-undangan Republik Indonesia.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-1">10 Rumus Payroll yang Wajib HR Ketahui</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Panduan perhitungan hak-hak karyawan resmi sesuai perundang-undangan Republik Indonesia.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="openKompensasiModal()" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
@@ -357,7 +396,7 @@
                 </div>
 
                 <!-- Tabel 10 Rumus Payroll Lengkap -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl shadow-2xs overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
@@ -370,20 +409,20 @@
                                     <th class="px-4 py-4 text-center w-24">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                            <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300">
                                 <!-- 01: THR -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">01</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                                             <span>THR (Tunjangan Hari Raya)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         (Masa Kerja &divide; 12) &times; 1 Bulan Upah
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Upah = Gaji Pokok + Tunjangan Tetap.<br>
                                         <span class="text-[11px] text-gray-500">Masa kerja dalam bulan. Maksimal 1x upah (bisa lebih jika diatur dalam PP/PKB).</span>
                                     </td>
@@ -391,69 +430,69 @@
                                         <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 3 ayat (1) Permenaker 6/2016</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="openThrModal()" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                        <button onclick="openThrModal()" class="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 rounded-lg font-semibold text-[11px]">Hitung</button>
                                     </td>
                                 </tr>
 
                                 <!-- 02: Tarif Upah Lembur -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">02</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                             <span>Tarif Upah Lembur (TUL)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         (1 &divide; 173) &times; Upah Sebulan
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         TUL dijadikan acuan angka lembur per jam. Dikalikan jam lembur total dan bobot pengali hari kerja/libur.
                                     </td>
                                     <td class="px-5 py-4">
                                         <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 32 ayat (2) PP 35/2021</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px]">Input</button>
+                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 rounded-lg font-semibold text-[11px]">Input</button>
                                     </td>
                                 </tr>
 
                                 <!-- 03: Uang Kompensasi PKWT -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">03</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-purple-500"></span>
                                             <span>Uang Kompensasi PKWT</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         (Masa Kerja &divide; 12) &times; 1 Bulan Upah
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Wajib dibayarkan saat kontrak karyawan berakhir. Minimal bekerja 1 bulan secara terus-menerus.
                                     </td>
                                     <td class="px-5 py-4">
                                         <span class="badge-purple px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 16 ayat (1) PP 35/2021</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="openKompensasiModal()" class="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                        <button onclick="openKompensasiModal()" class="px-2.5 py-1 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 rounded-lg font-semibold text-[11px]">Hitung</button>
                                     </td>
                                 </tr>
 
                                 <!-- 04: Upah Harian (5 HK) -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">04</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                                             <span>Upah Harian (5 Hari Kerja)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         (1 &divide; 21) &times; 1 Bulan Upah
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Dipakai untuk potongan Unpaid Leave (UL) / Alpha &amp; Uang Penggantian Hak (UPH) jadwal 5 hari/minggu.
                                     </td>
                                     <td class="px-5 py-4">
@@ -465,18 +504,18 @@
                                 </tr>
 
                                 <!-- 05: Upah Harian (6 HK) -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">05</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                                             <span>Upah Harian (6 Hari Kerja)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         (1 &divide; 25) &times; 1 Bulan Upah
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Dipakai untuk potongan UL / Alpha &amp; UPH pada jadwal 6 hari kerja per minggu.
                                     </td>
                                     <td class="px-5 py-4">
@@ -488,18 +527,18 @@
                                 </tr>
 
                                 <!-- 06: JHT -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">06</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                             <span>Jaminan Hari Tua (JHT)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         Pekerja: 2% &bull; Perusahaan: 3,7%
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Perlindungan hari tua. Contoh gaji Rp5.000.000: Pekerja Rp100.000, Perusahaan Rp185.000.
                                     </td>
                                     <td class="px-5 py-4">
@@ -511,18 +550,18 @@
                                 </tr>
 
                                 <!-- 07: JKM -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">07</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                             <span>Jaminan Kematian (JKM)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         Perusahaan: 0,3% dari Upah
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Hanya dibayar oleh Perusahaan (Pekerja 0%). Contoh gaji Rp5.000.000 = Rp15.000/bln.
                                     </td>
                                     <td class="px-5 py-4">
@@ -534,41 +573,41 @@
                                 </tr>
 
                                 <!-- 08 & 09: JKK -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">08-09</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                             <span>Jaminan Kecelakaan Kerja (JKK)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         0,24% s.d 1,74% (100% Perusahaan)
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Sangat Rendah 0,24% (kantoran), Rendah 0,54%, Sedang 0,89%, Tinggi 1,27%, Sangat Tinggi 1,74%.
                                     </td>
                                     <td class="px-5 py-4">
                                         <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">PP 44/2015</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="switchView('pengaturan')" class="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-semibold text-[11px]">Setting</button>
+                                        <button onclick="switchView('pengaturan')" class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-800 dark:text-gray-200 rounded-lg font-semibold text-[11px]">Setting</button>
                                     </td>
                                 </tr>
 
                                 <!-- 10: Jaminan Pensiun -->
-                                <tr class="hover:bg-gray-50/80 transition">
+                                <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 transition">
                                     <td class="px-5 py-4 font-bold text-center text-gray-400">10</td>
-                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                    <td class="px-5 py-4 font-bold text-gray-900 dark:text-white">
                                         <div class="flex items-center gap-2">
                                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                             <span>Jaminan Pensiun (JP)</span>
                                         </div>
                                     </td>
-                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 dark:text-emerald-300 bg-gray-50/50 dark:bg-gray-900/40">
                                         Pekerja: 1% &bull; Perusahaan: 2%
                                     </td>
-                                    <td class="px-5 py-4 text-gray-600">
+                                    <td class="px-5 py-4 text-gray-600 dark:text-gray-400">
                                         Plafon batas upah tertinggi Rp10.042.300/bln. Contoh gaji Rp5.000.000: Pekerja Rp50.000, Kantor Rp100.000.
                                     </td>
                                     <td class="px-5 py-4">
@@ -589,12 +628,12 @@
                 <!-- Page Title & Header Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Penggajian</h1>
-                        <p class="text-xs text-gray-500 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Penggajian</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 text-xs font-semibold shadow-2xs transition">
-                            <i data-lucide="download" class="w-4 h-4 text-gray-500"></i>
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-semibold shadow-2xs transition">
+                            <i data-lucide="download" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                             <span>Ekspor laporan</span>
                         </button>
                         <button onclick="openApprovalModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
@@ -607,56 +646,56 @@
                 <!-- 4 Metric Cards (Dynamic Calculation) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Total Gaji Bersih -->
-                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-gray-500 mb-2">
-                            <span class="text-xs text-gray-500 font-medium">Total gaji bersih</span>
-                            <i data-lucide="wallet" class="w-4 h-4 text-gray-400"></i>
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Total gaji bersih</span>
+                            <i data-lucide="wallet" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalGaji">Rp0</h2>
-                            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600" id="metricGajiSub">
+                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalGaji">Rp0</h2>
+                            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600 dark:text-emerald-400" id="metricGajiSub">
                                 <span>Periode Oktober 2026</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Karyawan dalam payroll -->
-                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-gray-500 mb-2">
-                            <span class="text-xs text-gray-500 font-medium">Karyawan dalam payroll</span>
-                            <i data-lucide="users" class="w-4 h-4 text-gray-400"></i>
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Karyawan dalam payroll</span>
+                            <i data-lucide="users" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalKaryawan">0</h2>
-                            <div class="mt-2 text-xs text-gray-500 font-medium" id="metricKaryawanSub">
-                                <span class="text-gray-700" id="metricSiapCount">0 siap</span> · <span class="text-amber-700 font-semibold" id="metricTinjauCount">0 perlu ditinjau</span>
+                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalKaryawan">0</h2>
+                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium" id="metricKaryawanSub">
+                                <span class="text-gray-700 dark:text-gray-300" id="metricSiapCount">0 siap</span> · <span class="text-amber-700 dark:text-amber-400 font-semibold" id="metricTinjauCount">0 perlu ditinjau</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Total tunjangan -->
-                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-gray-500 mb-2">
-                            <span class="text-xs text-gray-500 font-medium">Total tunjangan & lembur</span>
-                            <i data-lucide="plus-circle" class="w-4 h-4 text-gray-400"></i>
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Total tunjangan & lembur</span>
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalTunjangan">Rp0</h2>
-                            <div class="mt-2 text-xs text-gray-500 font-medium">
+                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalTunjangan">Rp0</h2>
+                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
                                 Transportasi, makan & TUL (1/173)
                             </div>
                         </div>
                     </div>
 
                     <!-- Total potongan -->
-                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-gray-500 mb-2">
-                            <span class="text-xs text-gray-500 font-medium">Total potongan</span>
-                            <i data-lucide="minus-circle" class="w-4 h-4 text-gray-400"></i>
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Total potongan</span>
+                            <i data-lucide="minus-circle" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalPotongan">Rp0</h2>
-                            <div class="mt-2 text-xs text-gray-500 font-medium">
+                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalPotongan">Rp0</h2>
+                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
                                 PPh 21 TER, BPJS & Alpha (UL)
                             </div>
                         </div>
@@ -664,28 +703,28 @@
                 </div>
 
                 <!-- Payroll Period & Stepper Card -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-4">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 dark:border-gray-800 gap-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 shrink-0">
                                 <i data-lucide="calendar" class="w-5 h-5"></i>
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-gray-400 tracking-wider uppercase leading-none">Periode Payroll</p>
                                 <div class="flex items-center gap-2 mt-1">
-                                    <span class="text-sm font-bold text-gray-900" id="periodTitle">Oktober 2026</span>
+                                    <span class="text-sm font-bold text-gray-900 dark:text-white" id="periodTitle">Oktober 2026</span>
                                     <span class="badge-amber text-[11px] font-semibold px-2.5 py-0.5 rounded-full ml-1" id="payrollStatusBadge">Dalam tinjauan</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-6 text-xs text-gray-500">
+                        <div class="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400">
                             <div>
                                 <span>01–31 Oktober 2026</span>
                             </div>
-                            <div class="h-3 w-px bg-gray-200"></div>
+                            <div class="h-3 w-px bg-gray-200 dark:bg-gray-700"></div>
                             <div>
-                                Tanggal pembayaran <span class="font-bold text-gray-900 ml-1">27 Okt 2026</span>
+                                Tanggal pembayaran <span class="font-bold text-gray-900 dark:text-white ml-1">27 Okt 2026</span>
                             </div>
                         </div>
                     </div>
@@ -697,8 +736,8 @@
                                 <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-gray-900">Data & kehadiran</p>
-                                <p class="text-[11px] text-gray-500">Tersinkronisasi UU</p>
+                                <p class="text-xs font-bold text-gray-900 dark:text-white">Data & kehadiran</p>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Tersinkronisasi UU</p>
                             </div>
                         </div>
 
@@ -707,27 +746,27 @@
                                 2
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-gray-900">Tinjau payroll</p>
-                                <p class="text-[11px] font-semibold text-gray-800" id="stepperTinjauText">0 data perlu ditinjau</p>
+                                <p class="text-xs font-bold text-gray-900 dark:text-white">Tinjau payroll</p>
+                                <p class="text-[11px] font-semibold text-gray-800 dark:text-gray-200" id="stepperTinjauText">0 data perlu ditinjau</p>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-3 opacity-60">
-                            <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
+                            <div class="w-6 h-6 rounded-full border border-gray-300 dark:border-gray-600 text-gray-400 bg-white dark:bg-gray-800 flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
                                 3
                             </div>
                             <div>
-                                <p class="text-xs font-semibold text-gray-700">Persetujuan</p>
+                                <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Persetujuan</p>
                                 <p class="text-[11px] text-gray-400">Menunggu pengajuan</p>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-3 opacity-60">
-                            <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
+                            <div class="w-6 h-6 rounded-full border border-gray-300 dark:border-gray-600 text-gray-400 bg-white dark:bg-gray-800 flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
                                 4
                             </div>
                             <div>
-                                <p class="text-xs font-semibold text-gray-700">Pembayaran</p>
+                                <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pembayaran</p>
                                 <p class="text-[11px] text-gray-400">27 Oktober 2026</p>
                             </div>
                         </div>
@@ -735,16 +774,16 @@
                 </div>
 
                 <!-- Table Container (Daftar Penggajian) -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
-                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl shadow-2xs overflow-hidden">
+                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 dark:border-gray-800">
                         <div class="flex items-center gap-2.5">
-                            <h3 class="text-sm font-bold text-gray-900">Daftar penggajian</h3>
-                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-medium" id="headerCountBadge">0 karyawan</span>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">Daftar penggajian</h3>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full font-medium" id="headerCountBadge">0 karyawan</span>
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition" title="Kalkulasi Ulang">
-                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-500"></i>
+                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-medium text-gray-700 dark:text-gray-200 transition" title="Kalkulasi Ulang">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
                                 <span>Hitung Ulang</span>
                             </button>
                             <button onclick="openEmployeeModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold transition">
@@ -755,15 +794,15 @@
                     </div>
 
                     <!-- Filters & Search Toolbar -->
-                    <div class="px-6 py-3.5 bg-gray-50/50 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div class="flex items-center gap-1 bg-[#EEF0EE] p-1 rounded-xl text-xs font-medium">
-                            <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-xs font-semibold transition">
-                                Semua <span class="ml-1 text-gray-500 font-normal" id="badgeSemua">0</span>
+                    <div class="px-6 py-3.5 bg-gray-50/50 dark:bg-[#0E1724] border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-center gap-1 bg-[#EEF0EE] dark:bg-gray-800 p-1 rounded-xl text-xs font-medium">
+                            <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition">
+                                Semua <span class="ml-1 text-gray-500 dark:text-gray-400 font-normal" id="badgeSemua">0</span>
                             </button>
-                            <button onclick="setFilter('siap')" id="tabSiap" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
+                            <button onclick="setFilter('siap')" id="tabSiap" class="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
                                 Siap diproses <span class="ml-1 text-gray-400 font-normal" id="badgeSiap">0</span>
                             </button>
-                            <button onclick="setFilter('tinjau')" id="tabTinjau" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
+                            <button onclick="setFilter('tinjau')" id="tabTinjau" class="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
                                 Perlu ditinjau <span class="ml-1 text-gray-400 font-normal" id="badgeTinjau">0</span>
                             </button>
                         </div>
@@ -771,7 +810,7 @@
                         <div class="flex items-center gap-2">
                             <div class="relative w-full sm:w-64">
                                 <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari nama, NIK, atau jabatan" class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 bg-white text-xs focus:outline-none focus:border-mfa-600 transition placeholder:text-gray-400">
+                                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari nama, NIK, atau jabatan" class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#15202E] text-gray-900 dark:text-white text-xs focus:outline-none focus:border-mfa-600 transition placeholder:text-gray-400">
                             </div>
                         </div>
                     </div>
@@ -780,27 +819,25 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                <tr class="text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
                                     <th class="w-10 px-6 py-3.5">
                                         <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
                                     </th>
-                                    <th class="px-3 py-3.5 font-semibold text-gray-500">Karyawan</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Pokok</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Tunjangan & Lembur</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Potongan (Pajak+BPJS+UL)</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Bersih (THP)</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Status</th>
+                                    <th class="px-3 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Karyawan</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Gaji Pokok</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Tunjangan & Lembur</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Potongan (Pajak+BPJS+UL)</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Gaji Bersih (THP)</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500 dark:text-gray-400">Status</th>
                                     <th class="w-20 px-6 py-3.5 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="payrollTableBody" class="divide-y divide-gray-100 text-gray-700">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="payrollTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300"></tbody>
                         </table>
                     </div>
 
-                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 bg-white">
-                        <div class="text-xs text-gray-500" id="paginationInfo">
+                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
+                        <div class="text-xs text-gray-500 dark:text-gray-400" id="paginationInfo">
                             Menampilkan 0 dari 0 karyawan
                         </div>
                         <div class="flex items-center gap-1 text-xs" id="paginationControls"></div>
@@ -808,12 +845,12 @@
                 </div>
 
                 <!-- Bottom Attention Callout -->
-                <div class="flex items-center justify-between text-xs text-gray-500 py-1">
+                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 py-1">
                     <div class="flex items-center gap-2">
-                        <i data-lucide="info" class="w-4 h-4 text-emerald-600"></i>
+                        <i data-lucide="info" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                         <span>10 Rumus Payroll resmi terintegrasi (THR, TUL 1/173, Unpaid Leave, BPJS TK &amp; Pensiun).</span>
                     </div>
-                    <button onclick="switchView('bnsp')" class="inline-flex items-center gap-1 font-semibold text-mfa-800 hover:underline transition">
+                    <button onclick="switchView('bnsp')" class="inline-flex items-center gap-1 font-semibold text-mfa-800 dark:text-emerald-400 hover:underline transition">
                         Buka 10 rumus payroll UU
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </button>
@@ -823,128 +860,128 @@
             <!-- ================= VIEW: RINGKASAN (DASHBOARD) ================= -->
             <section id="view-ringkasan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Ringkasan Payroll & HR Perusahaan</h1>
-                    <p class="text-xs text-gray-500 mt-1">Ikhtisar metrik penggajian, komposisi pajak PPh 21, dan distribusi biaya tenaga kerja.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ringkasan Payroll & HR Perusahaan</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Ikhtisar metrik penggajian, komposisi pajak PPh 21, dan distribusi biaya tenaga kerja.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                    <div class="bg-white dark:bg-[#15202E] p-5 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
                             <i data-lucide="file-badge-2" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Kompensasi PKWT</h3>
-                            <p class="text-xs text-gray-500 mt-1">Uang kompensasi akhir kontrak (PP 35/2021).</p>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">Kompensasi PKWT</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Uang kompensasi akhir kontrak (PP 35/2021).</p>
                         </div>
-                        <button onclick="openKompensasiModal()" class="text-xs font-semibold text-purple-700 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openKompensasiModal()" class="text-xs font-semibold text-purple-700 dark:text-purple-300 hover:underline inline-flex items-center gap-1">
                             Hitung Kompensasi <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
-                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                    <div class="bg-white dark:bg-[#15202E] p-5 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
                             <i data-lucide="gift" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Kalkulator THR</h3>
-                            <p class="text-xs text-gray-500 mt-1">Hitung THR prorata / penuh (Permenaker 6/2016).</p>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">Kalkulator THR</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Hitung THR prorata / penuh (Permenaker 6/2016).</p>
                         </div>
-                        <button onclick="openThrModal()" class="text-xs font-semibold text-amber-700 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openThrModal()" class="text-xs font-semibold text-amber-700 dark:text-amber-300 hover:underline inline-flex items-center gap-1">
                             Hitung THR <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
-                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                    <div class="bg-white dark:bg-[#15202E] p-5 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
                             <i data-lucide="briefcase" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Pesangon PHK</h3>
-                            <p class="text-xs text-gray-500 mt-1">Hitung UP, UPMK, & UPH (PP 35/2021).</p>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">Pesangon PHK</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Hitung UP, UPMK, & UPH (PP 35/2021).</p>
                         </div>
-                        <button onclick="openPesangonModal()" class="text-xs font-semibold text-blue-700 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openPesangonModal()" class="text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline inline-flex items-center gap-1">
                             Hitung Pesangon <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
-                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-                            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                    <div class="bg-white dark:bg-[#15202E] p-5 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                            <i data-lucide="sheet" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Simulasi BPJS TK</h3>
-                            <p class="text-xs text-gray-500 mt-1">JHT (2%+3.7%), JKM, JKK & JP.</p>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">Google Sheets</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Impor & ekspor spreadsheet otomatis.</p>
                         </div>
-                        <button onclick="switchView('pengaturan')" class="text-xs font-semibold text-emerald-700 hover:underline inline-flex items-center gap-1">
-                            Lihat Tarif <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        <button onclick="openSheetsModal()" class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline inline-flex items-center gap-1">
+                            Buka Sync <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Breakdown Overview Cards -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
-                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="pie-chart" class="w-4 h-4 text-mfa-700"></i>
+                    <div class="bg-white dark:bg-[#15202E] p-6 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="w-4 h-4 text-mfa-700 dark:text-emerald-400"></i>
                             Komposisi Komponen Gaji
                         </h3>
                         <div class="space-y-3 text-xs">
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Gaji Pokok Karyawan</span>
-                                <span class="font-bold text-gray-900" id="dashGajiPokok">Rp0</span>
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+                                <span class="text-gray-600 dark:text-gray-400">Gaji Pokok Karyawan</span>
+                                <span class="font-bold text-gray-900 dark:text-white" id="dashGajiPokok">Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Tunjangan Transport & Makan</span>
-                                <span class="font-bold text-gray-900" id="dashTunjanganTetap">Rp0</span>
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+                                <span class="text-gray-600 dark:text-gray-400">Tunjangan Transport & Makan</span>
+                                <span class="font-bold text-gray-900 dark:text-white" id="dashTunjanganTetap">Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Upah Lembur (TUL 1/173 PP 35/2021)</span>
-                                <span class="font-bold text-gray-900" id="dashLembur">Rp0</span>
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+                                <span class="text-gray-600 dark:text-gray-400">Upah Lembur (TUL 1/173 PP 35/2021)</span>
+                                <span class="font-bold text-gray-900 dark:text-white" id="dashLembur">Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800 text-rose-600 dark:text-rose-400">
                                 <span>Potongan Mangkir/Alpha (PP 36/2021)</span>
                                 <span class="font-bold" id="dashPotonganAlpha">- Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800 text-rose-600 dark:text-rose-400">
                                 <span>Iuran BPJS Ketenagakerjaan (3%)</span>
                                 <span class="font-bold" id="dashBpjsTk">- Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800 text-rose-600 dark:text-rose-400">
                                 <span>Iuran BPJS Kesehatan (1%)</span>
                                 <span class="font-bold" id="dashBpjsKes">- Rp0</span>
                             </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                            <div class="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800 text-rose-600 dark:text-rose-400">
                                 <span>Potongan PPh 21 (TER PP 58/2023)</span>
                                 <span class="font-bold" id="dashPph21">- Rp0</span>
                             </div>
-                            <div class="flex justify-between pt-2 text-sm font-extrabold text-mfa-900">
+                            <div class="flex justify-between pt-2 text-sm font-extrabold text-mfa-900 dark:text-emerald-300">
                                 <span>Total Take Home Pay (Dibayarkan)</span>
                                 <span id="dashTotalThp">Rp0</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
-                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="shield" class="w-4 h-4 text-mfa-700"></i>
+                    <div class="bg-white dark:bg-[#15202E] p-6 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4 text-mfa-700 dark:text-emerald-400"></i>
                             Kepatuhan Regulasi Ketenagakerjaan
                         </h3>
-                        <div class="space-y-3 text-xs text-gray-600 leading-relaxed">
-                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">Uang Kompensasi PKWT (PP 35/2021)</p>
-                                <p class="text-[11px] text-gray-500">Masa kerja &divide; 12 &times; 1 bulan upah. Wajib dibayarkan saat masa kontrak PKWT berakhir.</p>
+                        <div class="space-y-3 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                            <div class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900 dark:text-white">Uang Kompensasi PKWT (PP 35/2021)</p>
+                                <p class="text-[11px]">Masa kerja &divide; 12 &times; 1 bulan upah. Wajib dibayarkan saat masa kontrak PKWT berakhir.</p>
                             </div>
-                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">Tarif Upah Lembur (PP 35/2021 Pasal 31–32)</p>
-                                <p class="text-[11px] text-gray-500">TUL = 1/173 &times; Upah Sebulan. Hari kerja: 1.5&times; lalu 2&times;. Hari libur: 8 jam 2&times;, jam ke-9 3&times;, jam 10–11 4&times;.</p>
+                            <div class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900 dark:text-white">Tarif Upah Lembur (PP 35/2021 Pasal 31–32)</p>
+                                <p class="text-[11px]">TUL = 1/173 &times; Upah Sebulan. Hari kerja: 1.5&times; lalu 2&times;. Hari libur: 8 jam 2&times;, jam ke-9 3&times;, jam 10–11 4&times;.</p>
                             </div>
-                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">Potongan Upah Harian (PP 36/2021)</p>
-                                <p class="text-[11px] text-gray-500">Perusahaan 5 hari kerja: Upah &divide; 21. Perusahaan 6 hari kerja: Upah &divide; 25.</p>
+                            <div class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900 dark:text-white">Potongan Upah Harian (PP 36/2021)</p>
+                                <p class="text-[11px]">Perusahaan 5 hari kerja: Upah &divide; 21. Perusahaan 6 hari kerja: Upah &divide; 25.</p>
                             </div>
-                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">Pesangon PHK (PP 35/2021 Pasal 40)</p>
-                                <p class="text-[11px] text-gray-500">Uang Pesangon (1–9 bln) + UPMK (2–10 bln) + UPH 15% dari (Pesangon + UPMK) &amp; sisa cuti.</p>
+                            <div class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900 dark:text-white">Pesangon PHK (PP 35/2021 Pasal 40)</p>
+                                <p class="text-[11px]">Uang Pesangon (1–9 bln) + UPMK (2–10 bln) + UPH 15% dari (Pesangon + UPMK) &amp; sisa cuti.</p>
                             </div>
                         </div>
                     </div>
@@ -955,8 +992,8 @@
             <section id="view-karyawan" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Master Data Karyawan</h1>
-                        <p class="text-xs text-gray-500 mt-1">Kelola data identitas, masa kerja, jabatan, dan komponen gaji pokok karyawan.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Master Data Karyawan</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola data identitas, masa kerja, jabatan, dan komponen gaji pokok karyawan.</p>
                     </div>
                     <button onclick="openEmployeeModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
                         <i data-lucide="plus" class="w-4 h-4"></i>
@@ -964,11 +1001,11 @@
                     </button>
                 </div>
 
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl shadow-2xs overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                <tr class="text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
                                     <th class="px-6 py-3.5">NIK & Karyawan</th>
                                     <th class="px-4 py-3.5">Masa Kerja</th>
                                     <th class="px-4 py-3.5">Departemen & Posisi</th>
@@ -978,7 +1015,7 @@
                                     <th class="px-6 py-3.5 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="karyawanMasterTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
+                            <tbody id="karyawanMasterTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300"></tbody>
                         </table>
                     </div>
                 </div>
@@ -988,8 +1025,8 @@
             <section id="view-kehadiran" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Absensi, Unpaid Leave & Lembur (PP 35 & 36/2021)</h1>
-                        <p class="text-xs text-gray-500 mt-1">Lembur hari biasa (1.5x lalu 2x), lembur hari libur (2x lalu 3x lalu 4x), dan potongan mangkir berdasarkan hari kerja.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Absensi, Unpaid Leave & Lembur (PP 35 & 36/2021)</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Lembur hari biasa (1.5x lalu 2x), lembur hari libur (2x lalu 3x lalu 4x), dan potongan mangkir berdasarkan hari kerja.</p>
                     </div>
                     <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil disinkronkan!')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
                         <i data-lucide="save" class="w-4 h-4"></i>
@@ -997,21 +1034,21 @@
                     </button>
                 </div>
 
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl shadow-2xs overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                <tr class="text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
                                     <th class="px-6 py-3.5">Karyawan</th>
                                     <th class="px-4 py-3.5">TUL / Jam (1/173)</th>
                                     <th class="px-4 py-3.5">Hadir (Hari)</th>
                                     <th class="px-4 py-3.5">Alpha (Mangkir)</th>
                                     <th class="px-4 py-3.5">Lembur Kerja (Jam)</th>
                                     <th class="px-4 py-3.5">Lembur Libur (Jam)</th>
-                                    <th class="px-4 py-3.5 font-bold text-gray-900">Total Upah Lembur</th>
+                                    <th class="px-4 py-3.5 font-bold text-gray-900 dark:text-white">Total Upah Lembur</th>
                                 </tr>
                             </thead>
-                            <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
+                            <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300"></tbody>
                         </table>
                     </div>
                 </div>
@@ -1020,38 +1057,38 @@
             <!-- ================= VIEW: PERSETUJUAN (APPROVAL) ================= -->
             <section id="view-persetujuan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Alur Persetujuan Payroll Perusahaan</h1>
-                    <p class="text-xs text-gray-500 mt-1">Multi-level approval: HR Staff &rarr; Finance Manager &rarr; Direktur Utama.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Alur Persetujuan Payroll Perusahaan</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Multi-level approval: HR Staff &rarr; Finance Manager &rarr; Direktur Utama.</p>
                 </div>
 
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
-                    <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                         <div>
-                            <h3 class="text-base font-bold text-gray-900">Pengajuan Payroll Periode Oktober 2026</h3>
-                            <p class="text-xs text-gray-500 mt-0.5" id="approvalSubtext">Total nilai pembayaran: Rp0 untuk 0 karyawan</p>
+                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Pengajuan Payroll Periode Oktober 2026</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5" id="approvalSubtext">Total nilai pembayaran: Rp0 untuk 0 karyawan</p>
                         </div>
                         <span class="badge-amber px-3 py-1 rounded-full text-xs font-bold" id="approvalStateBadge">Draft / Siap Diajukan</span>
                     </div>
 
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
-                            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                                 <i data-lucide="check" class="w-4 h-4"></i>
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-gray-900">1. Penyusunan oleh HR Admin (Muhammad Faari Akbar)</h4>
-                                <p class="text-[11px] text-gray-500">Semua data gaji, absensi, potongan BPJS, lembur BNSP, dan PPh 21 TER dihitung otomatis.</p>
-                                <span class="text-[10px] text-emerald-700 font-semibold mt-1 inline-block">✓ Selesai & Terverifikasi</span>
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white">1. Penyusunan oleh HR Admin (Muhammad Faari Akbar)</h4>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Semua data gaji, absensi, potongan BPJS, lembur BNSP, dan PPh 21 TER dihitung otomatis.</p>
+                                <span class="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold mt-1 inline-block">✓ Selesai & Terverifikasi</span>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-4">
-                            <div class="w-8 h-8 rounded-full bg-mfa-50 text-mfa-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step2Icon">
+                            <div class="w-8 h-8 rounded-full bg-mfa-50 dark:bg-gray-800 text-mfa-800 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step2Icon">
                                 2
                             </div>
                             <div class="flex-1">
-                                <h4 class="text-xs font-bold text-gray-900">2. Review & Verifikasi Budget Finance Manager</h4>
-                                <p class="text-[11px] text-gray-500">Pemeriksaan alokasi dana kas perusahaan dan rekening penggajian.</p>
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white">2. Review & Verifikasi Budget Finance Manager</h4>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Pemeriksaan alokasi dana kas perusahaan dan rekening penggajian.</p>
                                 <div class="mt-2 flex gap-2">
                                     <button onclick="approveStep(2)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Setujui Tahap Finance</button>
                                 </div>
@@ -1059,12 +1096,12 @@
                         </div>
 
                         <div class="flex items-start gap-4">
-                            <div class="w-8 h-8 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step3Icon">
+                            <div class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 text-gray-400 bg-white dark:bg-gray-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step3Icon">
                                 3
                             </div>
                             <div class="flex-1">
-                                <h4 class="text-xs font-bold text-gray-900">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur Utama)</h4>
-                                <p class="text-[11px] text-gray-500">Otorisasi final untuk proses pencairan dana gaji ke rekening karyawan.</p>
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur Utama)</h4>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Otorisasi final untuk proses pencairan dana gaji ke rekening karyawan.</p>
                                 <div class="mt-2 flex gap-2">
                                     <button onclick="approveStep(3)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Otorisasi Pencairan</button>
                                 </div>
@@ -1078,21 +1115,27 @@
             <section id="view-laporan" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Laporan Rekapitulasi & SPT PPh 21 Masa</h1>
-                        <p class="text-xs text-gray-500 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Laporan Rekapitulasi & SPT PPh 21 Masa</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
                     </div>
-                    <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
-                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                        <span>Download Format CSV / Excel</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openSheetsModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
+                            <i data-lucide="sheet" class="w-4 h-4"></i>
+                            <span>Buka di Google Sheets</span>
+                        </button>
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                            <span>Download Format CSV / Excel</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
-                    <h3 class="text-sm font-bold text-gray-900">Rekapitulasi Formulir Pemotongan Pajak PPh 21 Masa (PP 58/2023)</h3>
+                <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">Rekapitulasi Formulir Pemotongan Pajak PPh 21 Masa (PP 58/2023)</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                <tr class="text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
                                     <th class="px-4 py-3">Nama Karyawan</th>
                                     <th class="px-4 py-3">NPWP</th>
                                     <th class="px-4 py-3">Kategori TER</th>
@@ -1103,7 +1146,7 @@
                                     <th class="px-4 py-3">BPJS Kes Kantor</th>
                                 </tr>
                             </thead>
-                            <tbody id="laporanTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
+                            <tbody id="laporanTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300"></tbody>
                         </table>
                     </div>
                 </div>
@@ -1112,32 +1155,32 @@
             <!-- ================= VIEW: PENGATURAN PERUSAHAAN & RUMUS ================= -->
             <section id="view-pengaturan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Profil Perusahaan & Parameter Rumus</h1>
-                    <p class="text-xs text-gray-500 mt-1">Kustomisasi nama perusahaan, skema hari kerja (5 atau 6 hari), dan tingkat risiko JKK BPJS.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Profil Perusahaan & Parameter Rumus</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kustomisasi nama perusahaan, skema hari kerja (5 atau 6 hari), dan tingkat risiko JKK BPJS.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Pengaturan Profil Perusahaan -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
-                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="building-2" class="w-4 h-4 text-mfa-800"></i>
+                    <div class="bg-white dark:bg-[#15202E] p-6 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="building-2" class="w-4 h-4 text-mfa-800 dark:text-emerald-400"></i>
                             Identitas Perusahaan (B2B Tools)
                         </h3>
                         <div class="space-y-3 text-xs">
                             <div>
-                                <label class="block text-gray-700 font-semibold mb-1">Nama Perusahaan / Organisasi</label>
-                                <input type="text" id="settingCompanyName" value="MFA Studio" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-900">
+                                <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Nama Perusahaan / Organisasi</label>
+                                <input type="text" id="settingCompanyName" value="MFA Studio" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs font-bold">
                             </div>
                             <div>
-                                <label class="block text-gray-700 font-semibold mb-1">Skema Hari Kerja (Dasar Potongan Alpha PP 36/2021)</label>
-                                <select id="settingWorkDays" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold">
+                                <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Skema Hari Kerja (Dasar Potongan Alpha PP 36/2021)</label>
+                                <select id="settingWorkDays" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs font-semibold">
                                     <option value="5" selected>5 Hari Kerja per Minggu (Potongan Alpha = Upah &divide; 21)</option>
                                     <option value="6">6 Hari Kerja per Minggu (Potongan Alpha = Upah &divide; 25)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 font-semibold mb-1">Tingkat Risiko Kerja JKK (PP 44/2015)</label>
-                                <select id="settingJkkRisk" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold">
+                                <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Tingkat Risiko Kerja JKK (PP 44/2015)</label>
+                                <select id="settingJkkRisk" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs font-semibold">
                                     <option value="0.0024" selected>Sangat Rendah (0,24% - Kantor/Jasa)</option>
                                     <option value="0.0054">Rendah (0,54% - Perdagangan/Logistik)</option>
                                     <option value="0.0089">Sedang (0,89% - Manufaktur Ringan)</option>
@@ -1146,8 +1189,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-700 font-semibold mb-1">NPWP Perusahaan</label>
-                                <input type="text" id="settingCompanyNpwp" value="01.234.567.8-012.000" class="w-full p-2.5 rounded-xl border border-gray-200 text-xs">
+                                <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">NPWP Perusahaan</label>
+                                <input type="text" id="settingCompanyNpwp" value="01.234.567.8-012.000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs">
                             </div>
                             <div class="pt-2">
                                 <button onclick="saveCompanySettings()" class="px-4 py-2 bg-[#1B3B2B] text-white rounded-xl text-xs font-semibold">Simpan Pengaturan</button>
@@ -1156,31 +1199,31 @@
                     </div>
 
                     <!-- Parameter BPJS & Pajak -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
-                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="scale" class="w-4 h-4 text-mfa-800"></i>
+                    <div class="bg-white dark:bg-[#15202E] p-6 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="scale" class="w-4 h-4 text-mfa-800 dark:text-emerald-400"></i>
                             Parameter Hukum & Batas Upah
                         </h3>
                         <div class="space-y-3 text-xs">
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Plafon Upah Maks BPJS Kesehatan</span>
                                 <span class="font-bold">Rp12.000.000 (Maks Iuran Rp120.000)</span>
                             </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Plafon Upah Maks Jaminan Pensiun (JP)</span>
                                 <span class="font-bold">Rp10.042.300 (Maks Iuran Rp100.423)</span>
                             </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Pengali Lembur Standar (PP 35/2021)</span>
                                 <span class="font-bold">1 / 173 per Jam (TUL)</span>
                             </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Tarif Efektif PPh 21 Bulanan</span>
-                                <span class="font-bold text-emerald-700">PP 58 Tahun 2023 (TER A, B, C)</span>
+                                <span class="font-bold text-emerald-700 dark:text-emerald-400">PP 58 Tahun 2023 (TER A, B, C)</span>
                             </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Uang Kompensasi PKWT</span>
-                                <span class="font-bold text-purple-700">Pasal 16 PP 35/2021</span>
+                                <span class="font-bold text-purple-700 dark:text-purple-400">Pasal 16 PP 35/2021</span>
                             </div>
                         </div>
                     </div>
@@ -1190,49 +1233,105 @@
         </main>
     </div>
 
-    <!-- ================= MODALS SPESIAL BNSP & RUMUS ================= -->
+    <!-- ================= MODALS SPESIAL ================= -->
 
-    <!-- 1. MODAL KALKULATOR UANG KOMPENSASI PKWT (PP 35/2021 PASAL 16) -->
-    <div id="kompensasiModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+    <!-- 0. MODAL GOOGLE SHEETS SYNC (INTEGRASI FITUR BARU) -->
+    <div id="sheetsModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                        <i data-lucide="sheet" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Integrasi Google Sheets</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Sinkronisasi Data Absensi &amp; Rekapitulasi Payroll</p>
+                    </div>
+                </div>
+                <button onclick="closeSheetsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <!-- Info Benefit -->
+                <div class="p-3 bg-emerald-50/70 dark:bg-emerald-950/40 rounded-xl border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300 text-[11px] space-y-1">
+                    <p class="font-bold">Keuntungan Integrasi Google Sheets untuk Perusahaan:</p>
+                    <p class="text-emerald-700 dark:text-emerald-400">1. HR &amp; Finance dapat mengisi absensi/lembur bersama di Google Sheets, lalu disinkronkan ke web dengan 1-klik.</p>
+                    <p class="text-emerald-700 dark:text-emerald-400">2. Hasil akhir penggajian &amp; bukti potong PPh 21 dapat diekspor langsung kembali ke Google Drive perusahaan.</p>
+                </div>
+
+                <!-- Input URL Google Sheets Publish / CSV -->
+                <div class="space-y-1.5">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold">Tautkan Link Google Sheets (File &rarr; Bagikan / Publikasikan CSV)</label>
+                    <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
+                    <p class="text-[10px] text-gray-400">Atau gunakan tombol di bawah untuk mengunduh template spreadsheet resmi.</p>
+                </div>
+
+                <!-- Opsi Aksi Cepat -->
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button onclick="downloadSheetTemplate()" class="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 hover:bg-gray-100 text-left font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Unduh Template Sheet</span>
+                    </button>
+                    <button onclick="openInGoogleSheets()" class="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 hover:bg-gray-100 text-left font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                        <i data-lucide="external-link" class="w-4 h-4 text-blue-600"></i>
+                        <span>Buka Google Sheets</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                <button onclick="closeSheetsModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
+                <button onclick="syncFromGoogleSheets()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold inline-flex items-center gap-1.5">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    <span>Tarik Data Sheet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. MODAL KALKULATOR UANG KOMPENSASI PKWT -->
+    <div id="kompensasiModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
                         <i data-lucide="file-badge-2" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900">Uang Kompensasi PKWT</h3>
-                        <p class="text-[11px] text-gray-500">Pasal 16 ayat (1) PP 35 Tahun 2021</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Uang Kompensasi PKWT</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Pasal 16 ayat (1) PP 35 Tahun 2021</p>
                     </div>
                 </div>
-                <button onclick="closeKompensasiModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closeKompensasiModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Upah Sebulan (Pokok + Tunjangan Tetap)</label>
-                    <input type="number" id="kompGaji" value="10000000" oninput="calculateKompensasi()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Upah Sebulan (Pokok + Tunjangan Tetap)</label>
+                    <input type="number" id="kompGaji" value="10000000" oninput="calculateKompensasi()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Masa Kerja Kontrak (Bulan Penuh)</label>
-                    <input type="number" id="kompMasaKerja" value="6" min="1" max="120" oninput="calculateKompensasi()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Masa Kerja Kontrak (Bulan Penuh)</label>
+                    <input type="number" id="kompMasaKerja" value="6" min="1" max="120" oninput="calculateKompensasi()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     <p class="text-[11px] text-gray-400 mt-1">Diberikan saat masa kontrak PKWT telah berakhir.</p>
                 </div>
 
-                <div class="p-4 bg-purple-50/80 rounded-xl space-y-2 border border-purple-200/60">
+                <div class="p-4 bg-purple-50/80 dark:bg-purple-950/40 rounded-xl space-y-2 border border-purple-200/60 dark:border-purple-800/60">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Dasar Perhitungan:</span>
-                        <span class="font-bold text-gray-900">(Masa Kerja &divide; 12) &times; Upah</span>
+                        <span class="text-gray-600 dark:text-gray-400">Dasar Perhitungan:</span>
+                        <span class="font-bold text-gray-900 dark:text-white">(Masa Kerja &divide; 12) &times; Upah</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Rumus:</span>
-                        <span class="font-mono text-xs text-purple-900 font-semibold" id="kompRumusText">(6 &divide; 12) &times; Rp10.000.000</span>
+                        <span class="text-gray-600 dark:text-gray-400">Rumus:</span>
+                        <span class="font-mono text-xs text-purple-900 dark:text-purple-300 font-semibold" id="kompRumusText">(6 &divide; 12) &times; Rp10.000.000</span>
                     </div>
-                    <div class="flex justify-between items-center pt-2 border-t border-purple-200/60">
-                        <span class="font-bold text-purple-950">Hak Kompensasi PKWT:</span>
-                        <span class="font-extrabold text-base text-purple-800" id="kompNominalResult">Rp5.000.000</span>
+                    <div class="flex justify-between items-center pt-2 border-t border-purple-200/60 dark:border-purple-800/60">
+                        <span class="font-bold text-purple-950 dark:text-purple-200">Hak Kompensasi PKWT:</span>
+                        <span class="font-extrabold text-base text-purple-800 dark:text-purple-400" id="kompNominalResult">Rp5.000.000</span>
                     </div>
                 </div>
             </div>
@@ -1243,47 +1342,46 @@
         </div>
     </div>
 
-    <!-- 2. MODAL KALKULATOR THR (PERMENAKER 6/2016) -->
+    <!-- 2. MODAL KALKULATOR THR -->
     <div id="thrModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                    <div class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
                         <i data-lucide="gift" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900">Kalkulator THR Keagamaan</h3>
-                        <p class="text-[11px] text-gray-500">Permenaker No. 6 Tahun 2016 Pasal 3</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Kalkulator THR Keagamaan</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Permenaker No. 6 Tahun 2016 Pasal 3</p>
                     </div>
                 </div>
-                <button onclick="closeThrModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closeThrModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Gaji Sebulan (Gaji Pokok + Tunjangan Tetap)</label>
-                    <input type="number" id="thrGaji" value="12000000" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Gaji Sebulan (Gaji Pokok + Tunjangan Tetap)</label>
+                    <input type="number" id="thrGaji" value="12000000" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Masa Kerja (Bulan)</label>
-                    <input type="number" id="thrMasaKerja" value="6" min="1" max="600" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
-                    <p class="text-[11px] text-gray-400 mt-1">Minimal masa kerja 1 bulan untuk mendapatkan THR.</p>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Masa Kerja (Bulan)</label>
+                    <input type="number" id="thrMasaKerja" value="6" min="1" max="600" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 </div>
 
-                <div class="p-4 bg-amber-50/80 rounded-xl space-y-2 border border-amber-200/60">
+                <div class="p-4 bg-amber-50/80 dark:bg-amber-950/40 rounded-xl space-y-2 border border-amber-200/60 dark:border-amber-800/60">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Ketentuan Hak THR:</span>
-                        <span class="font-bold text-gray-900" id="thrStatusText">Prorata (Masa kerja &lt; 12 bulan)</span>
+                        <span class="text-gray-600 dark:text-gray-400">Ketentuan Hak THR:</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="thrStatusText">Prorata</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Rumus:</span>
-                        <span class="font-mono text-xs text-amber-900 font-semibold" id="thrRumusText">(6 &divide; 12) &times; Rp12.000.000</span>
+                        <span class="text-gray-600 dark:text-gray-400">Rumus:</span>
+                        <span class="font-mono text-xs text-amber-900 dark:text-amber-300 font-semibold" id="thrRumusText">(6 &divide; 12) &times; Rp12.000.000</span>
                     </div>
-                    <div class="flex justify-between items-center pt-2 border-t border-amber-200/60">
-                        <span class="font-bold text-gray-900">Total Nominal THR:</span>
-                        <span class="font-extrabold text-base text-amber-800" id="thrNominalResult">Rp6.000.000</span>
+                    <div class="flex justify-between items-center pt-2 border-t border-amber-200/60 dark:border-amber-800/60">
+                        <span class="font-bold text-gray-900 dark:text-white">Total Nominal THR:</span>
+                        <span class="font-extrabold text-base text-amber-800 dark:text-amber-400" id="thrNominalResult">Rp6.000.000</span>
                     </div>
                 </div>
             </div>
@@ -1294,20 +1392,20 @@
         </div>
     </div>
 
-    <!-- 3. MODAL KALKULATOR PESANGON, UPMK & UPH (PP 35/2021) -->
+    <!-- 3. MODAL KALKULATOR PESANGON, UPMK & UPH -->
     <div id="pesangonModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 max-h-[92vh] overflow-y-auto">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
                         <i data-lucide="calculator" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900">Kalkulator Pesangon PHK (PP 35/2021)</h3>
-                        <p class="text-[11px] text-gray-500">Pasal 40: Uang Pesangon (UP) + UPMK + UPH 15%</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Kalkulator Pesangon PHK (PP 35/2021)</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Pasal 40: Uang Pesangon (UP) + UPMK + UPH 15%</p>
                     </div>
                 </div>
-                <button onclick="closePesangonModal()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="closePesangonModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1315,19 +1413,19 @@
             <div class="space-y-3 text-xs">
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Upah Sebulan (Pokok + Tetap)</label>
-                        <input type="number" id="pesangonGaji" value="10000000" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Upah Sebulan (Pokok + Tetap)</label>
+                        <input type="number" id="pesangonGaji" value="10000000" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Masa Kerja (Tahun Penuh)</label>
-                        <input type="number" id="pesangonTahun" value="4" min="0" max="40" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Masa Kerja (Tahun Penuh)</label>
+                        <input type="number" id="pesangonTahun" value="4" min="0" max="40" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Alasan Pemutusan Hubungan Kerja (PHK)</label>
-                        <select id="pesangonFaktor" onchange="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Alasan Pemutusan Hubungan Kerja (PHK)</label>
+                        <select id="pesangonFaktor" onchange="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                             <option value="1.0">Standar (1.0x Pesangon)</option>
                             <option value="0.5">Efisiensi Rugi / Tutup (0.5x Pesangon)</option>
                             <option value="1.75">Pensiun Normal (1.75x Pesangon)</option>
@@ -1335,28 +1433,28 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Sisa Cuti Belum Diambil (Hari)</label>
-                        <input type="number" id="pesangonSisaCuti" value="5" min="0" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Sisa Cuti Belum Diambil (Hari)</label>
+                        <input type="number" id="pesangonSisaCuti" value="5" min="0" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
                 <!-- Hasil Kalkulasi Rinci -->
-                <div class="p-4 bg-gray-50 rounded-xl space-y-2.5 border border-gray-200">
+                <div class="p-4 bg-gray-50 dark:bg-gray-900/60 rounded-xl space-y-2.5 border border-gray-200 dark:border-gray-800">
                     <div class="flex justify-between">
-                        <span class="text-gray-600">1. Uang Pesangon (UP) <span id="pesangonUpFaktor" class="text-gray-400">(5 bulan &times; faktor)</span>:</span>
-                        <span class="font-bold text-gray-900" id="pesangonUpNominal">Rp50.000.000</span>
+                        <span class="text-gray-600 dark:text-gray-400">1. Uang Pesangon (UP) <span id="pesangonUpFaktor" class="text-gray-400"></span>:</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="pesangonUpNominal">Rp0</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">2. Uang Penghargaan Masa Kerja (UPMK) <span id="pesangonUpmkFaktor" class="text-gray-400">(2 bulan)</span>:</span>
-                        <span class="font-bold text-gray-900" id="pesangonUpmkNominal">Rp20.000.000</span>
+                        <span class="text-gray-600 dark:text-gray-400">2. UPMK <span id="pesangonUpmkFaktor" class="text-gray-400"></span>:</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="pesangonUpmkNominal">Rp0</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">3. Uang Penggantian Hak (UPH) 15% dari (UP+UPMK) &amp; Cuti:</span>
-                        <span class="font-bold text-gray-900" id="pesangonUphNominal">Rp12.880.952</span>
+                        <span class="text-gray-600 dark:text-gray-400">3. UPH 15% &amp; Cuti:</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="pesangonUphNominal">Rp0</span>
                     </div>
-                    <div class="flex justify-between items-center pt-2.5 border-t border-gray-200 text-sm">
-                        <span class="font-bold text-blue-900">Total Kompensasi PHK Diterima:</span>
-                        <span class="font-extrabold text-blue-800 text-base" id="pesangonTotalNominal">Rp82.880.952</span>
+                    <div class="flex justify-between items-center pt-2.5 border-t border-gray-200 dark:border-gray-800 text-sm">
+                        <span class="font-bold text-blue-900 dark:text-blue-300">Total Kompensasi PHK:</span>
+                        <span class="font-extrabold text-blue-800 dark:text-blue-400 text-base" id="pesangonTotalNominal">Rp0</span>
                     </div>
                 </div>
             </div>
@@ -1369,10 +1467,10 @@
 
     <!-- 4. MODAL TAMBAH / EDIT KARYAWAN -->
     <div id="employeeModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                <h3 class="text-base font-bold text-gray-900" id="empModalTitle">Tambah Karyawan Baru</h3>
-                <button onclick="closeEmployeeModal()" class="text-gray-400 hover:text-gray-600">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white" id="empModalTitle">Tambah Karyawan Baru</h3>
+                <button onclick="closeEmployeeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1382,19 +1480,19 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">NIK / ID Karyawan</label>
-                        <input type="text" id="empNik" required placeholder="Contoh: MFA-001" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">NIK / ID Karyawan</label>
+                        <input type="text" id="empNik" required placeholder="Contoh: MFA-001" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label>
-                        <input type="text" id="empName" required placeholder="Nama karyawan" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Nama Lengkap</label>
+                        <input type="text" id="empName" required placeholder="Nama karyawan" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Departemen</label>
-                        <select id="empDept" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Departemen</label>
+                        <select id="empDept" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                             <option value="Engineering">Engineering / IT</option>
                             <option value="Design">Product & Design</option>
                             <option value="Finance">Finance & Accounting</option>
@@ -1403,26 +1501,26 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Jabatan / Posisi</label>
-                        <input type="text" id="empRole" required placeholder="Contoh: Software Engineer" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Jabatan / Posisi</label>
+                        <input type="text" id="empRole" required placeholder="Contoh: Software Engineer" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Gaji Pokok (Rp)</label>
-                        <input type="number" id="empPokok" required min="0" placeholder="10000000" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Gaji Pokok (Rp)</label>
+                        <input type="number" id="empPokok" required min="0" placeholder="10000000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Tunjangan Tetap (Rp)</label>
-                        <input type="number" id="empTunjangan" required min="0" placeholder="1500000" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Tunjangan Tetap (Rp)</label>
+                        <input type="number" id="empTunjangan" required min="0" placeholder="1500000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Status PTKP (Kategori TER)</label>
-                        <select id="empPtkp" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Status PTKP (Kategori TER)</label>
+                        <select id="empPtkp" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                             <option value="TK/0">TK/0 - Tidak Kawin, 0 Tanggungan (TER A)</option>
                             <option value="TK/1">TK/1 - Tidak Kawin, 1 Tanggungan (TER A)</option>
                             <option value="K/0">K/0 - Kawin, 0 Tanggungan (TER A)</option>
@@ -1432,96 +1530,94 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Lama Masa Kerja (Bulan)</label>
-                        <input type="number" id="empMasaKerja" required min="0" value="12" placeholder="12" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Lama Masa Kerja (Bulan)</label>
+                        <input type="number" id="empMasaKerja" required min="0" value="12" placeholder="12" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
-                <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100">
-                    <button type="button" onclick="closeEmployeeModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold">Batal</button>
+                <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100 dark:border-gray-800">
+                    <button type="button" onclick="closeEmployeeModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Batal</button>
                     <button type="submit" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white font-semibold">Simpan Data Karyawan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 5. MODAL SLIP GAJI LENGKAP STANDAR BNSP -->
+    <!-- 5. MODAL SLIP GAJI LENGKAP -->
     <div id="slipModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div id="slipModalContent" class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-gray-100 max-h-[92vh] overflow-y-auto">
-            <!-- Modal Header -->
-            <div class="flex items-start justify-between pb-4 border-b border-gray-100">
+        <div id="slipModalContent" class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
+            <div class="flex items-start justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-3">
                     <div id="modalAvatar" class="w-10 h-10 rounded-full bg-[#1B3B2B] text-white font-bold flex items-center justify-center text-sm">
                         MFA
                     </div>
                     <div>
-                        <h3 id="modalName" class="text-sm font-bold text-gray-900">-</h3>
-                        <p id="modalSub" class="text-xs text-gray-500">-</p>
+                        <h3 id="modalName" class="text-sm font-bold text-gray-900 dark:text-white">-</h3>
+                        <p id="modalSub" class="text-xs text-gray-500 dark:text-gray-400">-</p>
                     </div>
                 </div>
-                <button onclick="closeSlipModal()" class="text-gray-400 hover:text-gray-600 p-1 no-print">
+                <button onclick="closeSlipModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 no-print">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
 
-            <!-- Breakdown Detail -->
             <div class="space-y-4 text-xs">
-                <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60">
                     <div>
-                        <span class="text-gray-500 block text-[11px]">Perusahaan & Periode</span>
-                        <span class="font-bold text-gray-900" id="slipModalCompanyHeader">MFA Studio · Oktober 2026</span>
+                        <span class="text-gray-500 dark:text-gray-400 block text-[11px]">Perusahaan & Periode</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="slipModalCompanyHeader">MFA Studio · Oktober 2026</span>
                     </div>
                     <span class="badge-green px-2.5 py-0.5 rounded-full font-bold text-[11px]">Sah & Terverifikasi</span>
                 </div>
 
-                <!-- Komponen Penerimaan -->
+                <!-- Penerimaan -->
                 <div>
-                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-emerald-800">A. Penerimaan (Penghasilan Bruto)</h4>
+                    <h4 class="font-bold uppercase tracking-wider text-[11px] mb-2 text-emerald-800 dark:text-emerald-400">A. Penerimaan (Penghasilan Bruto)</h4>
                     <div class="space-y-1.5 pl-2 border-l-2 border-emerald-500">
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span>Gaji Pokok</span>
-                            <span id="modalGajiPokok" class="font-semibold text-gray-900">Rp0</span>
+                            <span id="modalGajiPokok" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span>Tunjangan Tetap (Makan & Transport)</span>
-                            <span id="modalTunjangan" class="font-semibold text-gray-900">Rp0</span>
+                            <span id="modalTunjangan" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
-                            <span>Upah Lembur Hari Biasa (TUL 1/173 &times; 1.5x, 2x)</span>
-                            <span id="modalLemburBiasa" class="font-semibold text-gray-900">Rp0</span>
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
+                            <span>Upah Lembur Hari Biasa (TUL 1/173)</span>
+                            <span id="modalLemburBiasa" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
-                            <span>Upah Lembur Hari Libur Resmi (2x, 3x, 4x)</span>
-                            <span id="modalLemburLibur" class="font-semibold text-gray-900">Rp0</span>
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
+                            <span>Upah Lembur Hari Libur Resmi</span>
+                            <span id="modalLemburLibur" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 font-bold text-gray-800 pt-1 border-t border-gray-100">
+                        <div class="flex justify-between py-0.5 font-bold text-gray-800 dark:text-gray-200 pt-1 border-t border-gray-100 dark:border-gray-800">
                             <span>Total Penghasilan Bruto</span>
                             <span id="modalTotalBruto">Rp0</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Komponen Potongan -->
+                <!-- Potongan -->
                 <div>
-                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-rose-800">B. Potongan Resmi</h4>
+                    <h4 class="font-bold uppercase tracking-wider text-[11px] mb-2 text-rose-800 dark:text-rose-400">B. Potongan Resmi</h4>
                     <div class="space-y-1.5 pl-2 border-l-2 border-rose-500">
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span>Potongan Unpaid Leave / Alpha (PP 36/2021)</span>
-                            <span id="modalPotonganAlpha" class="font-semibold text-rose-600">- Rp0</span>
+                            <span id="modalPotonganAlpha" class="font-semibold text-rose-600 dark:text-rose-400">- Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span>BPJS Kesehatan (1% Pekerja - Maks Rp120.000)</span>
-                            <span id="modalBpjsKes" class="font-semibold text-rose-600">- Rp0</span>
+                            <span id="modalBpjsKes" class="font-semibold text-rose-600 dark:text-rose-400">- Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span>BPJS TK (JHT 2% + JP 1% Pekerja)</span>
-                            <span id="modalBpjsTk" class="font-semibold text-rose-600">- Rp0</span>
+                            <span id="modalBpjsTk" class="font-semibold text-rose-600 dark:text-rose-400">- Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 text-gray-600">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span id="modalPphLabel">PPh 21 (TER PP 58/2023)</span>
-                            <span id="modalPph21" class="font-semibold text-rose-600">- Rp0</span>
+                            <span id="modalPph21" class="font-semibold text-rose-600 dark:text-rose-400">- Rp0</span>
                         </div>
-                        <div class="flex justify-between py-0.5 font-bold text-rose-700 pt-1 border-t border-gray-100">
+                        <div class="flex justify-between py-0.5 font-bold text-rose-700 dark:text-rose-400 pt-1 border-t border-gray-100 dark:border-gray-800">
                             <span>Total Potongan</span>
                             <span id="modalTotalPotongan">- Rp0</span>
                         </div>
@@ -1529,18 +1625,18 @@
                 </div>
 
                 <!-- Take Home Pay Highlight -->
-                <div class="p-4 rounded-xl bg-mfa-50 border border-mfa-200 flex justify-between items-center text-sm">
+                <div class="p-4 rounded-xl bg-mfa-50 dark:bg-emerald-950/40 border border-mfa-200 dark:border-emerald-800/60 flex justify-between items-center text-sm">
                     <div>
-                        <span class="font-bold text-gray-900 block">Take Home Pay (Gaji Bersih)</span>
-                        <span class="text-[11px] text-gray-500">Hak Bersih Diterima Karyawan</span>
+                        <span class="font-bold text-gray-900 dark:text-white block">Take Home Pay (Gaji Bersih)</span>
+                        <span class="text-[11px] text-gray-500 dark:text-gray-400">Hak Bersih Diterima Karyawan</span>
                     </div>
-                    <span id="modalGajiBersih" class="font-extrabold text-[#1B3B2B] text-lg">Rp0</span>
+                    <span id="modalGajiBersih" class="font-extrabold text-[#1B3B2B] dark:text-emerald-300 text-lg">Rp0</span>
                 </div>
             </div>
 
-            <!-- Modal Actions -->
+            <!-- Actions -->
             <div class="flex justify-end gap-2.5 pt-2 no-print">
-                <button onclick="closeSlipModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
+                <button onclick="closeSlipModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
                 <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold inline-flex items-center gap-1.5">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                     <span>Cetak Slip Gaji</span>
@@ -1551,34 +1647,34 @@
 
     <!-- 6. MODAL SIMULATOR PPH 21 TER -->
     <div id="taxSimulatorModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                <h3 class="text-base font-bold text-gray-900">Kalkulator Cepat PPh 21 TER</h3>
-                <button onclick="closeTaxSimulatorModal()" class="text-gray-400 hover:text-gray-600">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white">Kalkulator Cepat PPh 21 TER</h3>
+                <button onclick="closeTaxSimulatorModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Penghasilan Bruto Sebulan (Rp)</label>
-                    <input type="number" id="simBruto" value="12000000" oninput="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Penghasilan Bruto Sebulan (Rp)</label>
+                    <input type="number" id="simBruto" value="12000000" oninput="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Status PTKP</label>
-                    <select id="simPtkp" onchange="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Status PTKP</label>
+                    <select id="simPtkp" onchange="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                         <option value="TER_A">TK/0, TK/1, K/0 (Kategori TER A)</option>
                         <option value="TER_B">TK/2, TK/3, K/1, K/2 (Kategori TER B)</option>
                         <option value="TER_C">K/3 (Kategori TER C)</option>
                     </select>
                 </div>
 
-                <div class="p-4 bg-gray-50 rounded-xl space-y-2 border border-gray-200">
+                <div class="p-4 bg-gray-50 dark:bg-gray-900/60 rounded-xl space-y-2 border border-gray-200 dark:border-gray-800">
                     <div class="flex justify-between">
-                        <span class="text-gray-500">Tarif Efektif (TER):</span>
-                        <span class="font-bold text-gray-900" id="simTarif">4.0%</span>
+                        <span class="text-gray-500 dark:text-gray-400">Tarif Efektif (TER):</span>
+                        <span class="font-bold text-gray-900 dark:text-white" id="simTarif">4.0%</span>
                     </div>
-                    <div class="flex justify-between text-rose-600">
+                    <div class="flex justify-between text-rose-600 dark:text-rose-400">
                         <span class="font-medium">PPh 21 Terutang Sebulan:</span>
                         <span class="font-extrabold text-sm" id="simHasil">Rp480.000</span>
                     </div>
@@ -1593,19 +1689,19 @@
 
     <!-- 7. MODAL AJUKAN PERSETUJUAN -->
     <div id="approvalModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100">
-            <div class="w-12 h-12 rounded-2xl bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xl">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100 dark:border-[#1E2E40]">
+            <div class="w-12 h-12 rounded-2xl bg-mfa-50 dark:bg-gray-800 border border-mfa-200 dark:border-gray-700 text-mfa-800 dark:text-emerald-400 flex items-center justify-center text-xl">
                 <i data-lucide="send" class="w-6 h-6"></i>
             </div>
             <div>
-                <h3 class="text-base font-bold text-gray-900">Ajukan Persetujuan Payroll</h3>
-                <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white">Ajukan Persetujuan Payroll</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
                     Anda akan mengajukan payroll terverifikasi 10 Rumus UU Ketenagakerjaan untuk disetujui Direktur.
                 </p>
             </div>
 
             <div class="flex justify-end gap-2.5 pt-2">
-                <button onclick="closeApprovalModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-semibold">Batal</button>
+                <button onclick="closeApprovalModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Batal</button>
                 <button onclick="submitApprovalConfirm()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold">Ajukan Sekarang</button>
             </div>
         </div>
@@ -1614,14 +1710,34 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
-    <!-- JAVASCRIPT PAYROLL ENGINE (10 RUMUS RESMI UU) -->
+    <!-- JAVASCRIPT PAYROLL ENGINE (10 RUMUS RESMI UU & THEME SWITCHER) -->
     <script>
+        // Theme Manager (Dark Mode)
+        let isDarkMode = localStorage.getItem('mfa_theme') === 'dark';
+
+        function applyTheme() {
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            localStorage.setItem('mfa_theme', isDarkMode ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            applyTheme();
+            showToast(isDarkMode ? "Mode Gelap (Dark Mode) diaktifkan" : "Mode Terang (Light Mode) diaktifkan");
+        }
+
         // Storage Keys
         let companySettings = JSON.parse(localStorage.getItem('mfa_company_settings')) || {
             name: "MFA Studio",
-            workDays: 5, // 5 hari kerja (÷21) atau 6 hari kerja (÷25)
-            jkkRiskRate: 0.0024, // 0.24% risiko sangat rendah
-            npwp: "01.234.567.8-012.000"
+            workDays: 5,
+            jkkRiskRate: 0.0024,
+            npwp: "01.234.567.8-012.000",
+            sheetsUrl: ""
         };
 
         let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
@@ -1717,8 +1833,7 @@
                 }
             }
 
-            // 3. Lembur Hari Libur Resmi / Istirahat Mingguan:
-            // 8 jam pertama = 8 x 2x; jam ke-9 = 3x; jam ke-10 & 11 = 4x
+            // 3. Lembur Hari Libur Resmi: 8 jam pertama = 8 x 2x; jam ke-9 = 3x; jam ke-10 & 11 = 4x
             let lemburLiburNominal = 0;
             if (att.lemburLibur > 0) {
                 const jamLibur = att.lemburLibur;
@@ -1734,13 +1849,12 @@
 
             const totalLembur = lemburBiasaNominal + lemburLiburNominal;
 
-            // 4. Rumus 04 & 05: Potongan Unpaid Leave / Alpha (PP 36/2021 Pasal 17 & 21)
-            // 5 hari kerja = Upah / 21; 6 hari kerja = Upah / 25
+            // 4. Rumus 04 & 05: Potongan Unpaid Leave / Alpha (PP 36/2021)
             const pembagiHari = companySettings.workDays === 6 ? 25 : 21;
             const upahHarian = upahBulanan / pembagiHari;
             const potonganAlpha = (att.alpha || 0) * upahHarian;
 
-            // 5. Total Penghasilan Bruto (Setelah Lembur)
+            // 5. Total Penghasilan Bruto
             const totalBruto = Math.max(0, emp.pokok + emp.tunjangan + totalLembur);
 
             // 6. BPJS Kesehatan (1% Karyawan, Maks Upah Rp12.000.000)
@@ -1859,7 +1973,7 @@
             document.getElementById('thrModal').classList.remove('flex');
         }
 
-        // ================= RUMUS PESANGON, UPMK & UPH (PP 35/2021 PASAL 40) =================
+        // ================= RUMUS PESANGON, UPMK & UPH (PP 35/2021) =================
         function calculatePesangon() {
             const upah = parseFloat(document.getElementById('pesangonGaji').value) || 0;
             const tahun = parseFloat(document.getElementById('pesangonTahun').value) || 0;
@@ -1920,6 +2034,112 @@
             document.getElementById('pesangonModal').classList.remove('flex');
         }
 
+        // ================= GOOGLE SHEETS INTEGRATION MODAL & ACTIONS =================
+        function openSheetsModal() {
+            document.getElementById('sheetsUrlInput').value = companySettings.sheetsUrl || '';
+            document.getElementById('sheetsModal').classList.remove('hidden');
+            document.getElementById('sheetsModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeSheetsModal() {
+            document.getElementById('sheetsModal').classList.add('hidden');
+            document.getElementById('sheetsModal').classList.remove('flex');
+        }
+
+        function downloadSheetTemplate() {
+            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan Tetap,PTKP,Masa Kerja (Bulan),Hari Hadir,Alpha,Lembur Biasa (Jam),Lembur Libur (Jam)\n";
+            csv += "MFA-001,Ayu Wulandari,Product Designer,Design,12000000,1500000,TK/0,14,22,0,4,0\n";
+            csv += "MFA-002,Bima Saputra,Software Engineer,Engineering,15000000,2000000,K/1,26,22,0,6,8\n";
+            csv += "MFA-003,Citra Maharani,Finance Analyst,Finance,10000000,1000000,TK/1,9,22,0,0,0\n";
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Template_Google_Sheets_Payroll_${companySettings.name.replace(/\\s+/g, '_')}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Template Google Sheets Payroll berhasil diunduh! Siap di-import ke Google Drive.");
+        }
+
+        function openInGoogleSheets() {
+            window.open('https://sheets.new', '_blank');
+            showToast("Membuka Google Sheets baru. Anda dapat meng-import file template CSV.");
+        }
+
+        function syncFromGoogleSheets() {
+            const url = document.getElementById('sheetsUrlInput').value.trim();
+            if (!url) {
+                alert("Silakan masukkan URL Google Sheets yang telah dipublikasikan ke CSV, atau unduh template CSV untuk pengisian.");
+                return;
+            }
+            companySettings.sheetsUrl = url;
+            saveToStorage();
+
+            showToast("Menghubungkan ke Google Sheets...");
+            fetch(url)
+                .then(res => res.text())
+                .then(csvText => {
+                    parseSheetsCsv(csvText);
+                    closeSheetsModal();
+                    showToast("Sinkronisasi Google Sheets berhasil! Data karyawan dan absensi diperbarui.");
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Gagal membaca Google Sheets. Pastikan dokumen telah disetel 'Publikasikan ke Web' (Publish to Web) format CSV pada menu File -> Share di Google Sheets.");
+                });
+        }
+
+        function parseSheetsCsv(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length <= 1) return;
+
+            const newEmployees = [];
+            for (let i = 1; i < lines.length; i++) {
+                const parts = lines[i].split(',').map(p => p.replace(/"/g, '').trim());
+                if (parts.length >= 7 && parts[0] && parts[1]) {
+                    const id = parts[0];
+                    const name = parts[1];
+                    const role = parts[2] || 'Staff';
+                    const dept = parts[3] || 'General';
+                    const pokok = parseFloat(parts[4]) || 0;
+                    const tunjangan = parseFloat(parts[5]) || 0;
+                    const ptkp = parts[6] || 'TK/0';
+                    const masaKerja = parseInt(parts[7]) || 12;
+
+                    newEmployees.push({
+                        id,
+                        name,
+                        role,
+                        dept,
+                        avatar: name.substring(0, 2).toUpperCase(),
+                        pokok,
+                        tunjangan,
+                        ptkp,
+                        masaKerja,
+                        status: "siap"
+                    });
+
+                    // Attendance sync if available
+                    if (parts.length >= 12) {
+                        attendance[id] = {
+                            hadir: parseInt(parts[8]) || 22,
+                            alpha: parseInt(parts[9]) || 0,
+                            lemburBiasa: parseFloat(parts[10]) || 0,
+                            lemburLibur: parseFloat(parts[11]) || 0
+                        };
+                    }
+                }
+            }
+
+            if (newEmployees.length > 0) {
+                employees = newEmployees;
+                saveToStorage();
+                renderAll();
+            }
+        }
+
         // ================= RENDER UTAMA SEMUA TAB =================
         function renderAll() {
             renderPayrollTable();
@@ -1949,11 +2169,11 @@
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="8" class="text-center py-12 text-gray-400">
-                            <div class="w-12 h-12 rounded-2xl bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-400 flex items-center justify-center mx-auto mb-3">
                                 <i data-lucide="inbox" class="w-6 h-6"></i>
                             </div>
-                            <p class="font-bold text-gray-700 text-sm">Belum ada data payroll</p>
-                            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Klik tombol <b>+ Tambah Karyawan</b> atau <b>Muat Contoh</b> untuk mulai menguji kalkulasi otomatis.</p>
+                            <p class="font-bold text-gray-700 dark:text-gray-200 text-sm">Belum ada data payroll</p>
+                            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Klik tombol <b>+ Tambah Karyawan</b>, <b>Google Sheets</b>, atau <b>Muat Contoh</b> untuk mulai.</p>
                         </td>
                     </tr>
                 `;
@@ -1973,33 +2193,33 @@
                     : `<span class="badge-amber px-2.5 py-0.5 rounded-full font-medium inline-block">Perlu ditinjau</span>`;
 
                 const tr = document.createElement('tr');
-                tr.className = `hover:bg-gray-50/70 transition border-b border-gray-100 ${isSelected ? 'bg-mfa-50/40' : ''}`;
+                tr.className = `hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800 ${isSelected ? 'bg-mfa-50/40 dark:bg-emerald-950/20' : ''}`;
                 tr.innerHTML = `
                     <td class="px-6 py-4">
                         <input type="checkbox" onchange="toggleSelectRow('${emp.id}')" ${isSelected ? 'checked' : ''} class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
                     </td>
                     <td class="px-3 py-4">
                         <div class="flex items-center gap-3 cursor-pointer" onclick="openSlipModal('${emp.id}')">
-                            <div class="w-8 h-8 rounded-full bg-mfa-100 text-mfa-900 flex items-center justify-center font-bold text-xs shrink-0 border border-mfa-200">
+                            <div class="w-8 h-8 rounded-full bg-mfa-100 dark:bg-emerald-950 text-mfa-900 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shrink-0 border border-mfa-200 dark:border-emerald-800">
                                 ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
                             </div>
                             <div>
-                                <p class="font-semibold text-gray-900 leading-tight hover:text-mfa-800 transition">${emp.name}</p>
+                                <p class="font-semibold text-gray-900 dark:text-white leading-tight hover:text-mfa-800 dark:hover:text-emerald-400 transition">${emp.name}</p>
                                 <p class="text-[11px] text-gray-400 leading-tight mt-0.5">${emp.id} · ${emp.role}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.pokok)}</td>
-                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.tunjangan + calc.totalLembur)}</td>
-                    <td class="px-4 py-4 font-normal text-rose-600">- ${formatRupiah(calc.totalPotongan)}</td>
-                    <td class="px-4 py-4 font-bold text-gray-900">${formatRupiah(calc.gajiBersih)}</td>
+                    <td class="px-4 py-4 font-normal text-gray-700 dark:text-gray-300">${formatRupiah(emp.pokok)}</td>
+                    <td class="px-4 py-4 font-normal text-gray-700 dark:text-gray-300">${formatRupiah(emp.tunjangan + calc.totalLembur)}</td>
+                    <td class="px-4 py-4 font-normal text-rose-600 dark:text-rose-400">- ${formatRupiah(calc.totalPotongan)}</td>
+                    <td class="px-4 py-4 font-bold text-gray-900 dark:text-white">${formatRupiah(calc.gajiBersih)}</td>
                     <td class="px-4 py-4">${statusBadge}</td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex items-center justify-end gap-1">
-                            <button onclick="openSlipModal('${emp.id}')" class="text-mfa-800 hover:bg-mfa-50 p-1.5 rounded-lg transition" title="Lihat Slip Gaji">
+                            <button onclick="openSlipModal('${emp.id}')" class="text-mfa-800 dark:text-emerald-400 hover:bg-mfa-50 dark:hover:bg-gray-800 p-1.5 rounded-lg transition" title="Lihat Slip Gaji">
                                 <i data-lucide="receipt" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="editEmployee('${emp.id}')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg transition" title="Edit Karyawan">
+                            <button onclick="editEmployee('${emp.id}')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-lg transition" title="Edit Karyawan">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -2079,7 +2299,7 @@
 
             employees.forEach(emp => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-gray-50/70 transition border-b border-gray-100";
+                tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
                     <td class="px-6 py-3.5">
                         <div class="flex items-center gap-2.5">
@@ -2087,25 +2307,25 @@
                                 ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
                             </div>
                             <div>
-                                <p class="font-bold text-gray-900">${emp.name}</p>
+                                <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
                                 <p class="text-[11px] text-gray-400">${emp.id}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-4 py-3.5 text-gray-700">
+                    <td class="px-4 py-3.5 text-gray-700 dark:text-gray-300">
                         <span class="font-semibold">${emp.masaKerja || 12} Bulan</span>
                     </td>
                     <td class="px-4 py-3.5">
-                        <p class="font-medium text-gray-800">${emp.role}</p>
+                        <p class="font-medium text-gray-800 dark:text-gray-200">${emp.role}</p>
                         <p class="text-[11px] text-gray-400">${emp.dept}</p>
                     </td>
-                    <td class="px-4 py-3.5 font-semibold text-gray-900">${formatRupiah(emp.pokok)}</td>
-                    <td class="px-4 py-3.5 text-gray-600">${formatRupiah(emp.tunjangan)}</td>
+                    <td class="px-4 py-3.5 font-semibold text-gray-900 dark:text-white">${formatRupiah(emp.pokok)}</td>
+                    <td class="px-4 py-3.5 text-gray-600 dark:text-gray-300">${formatRupiah(emp.tunjangan)}</td>
                     <td class="px-4 py-3.5">
                         <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${emp.ptkp}</span>
                     </td>
                     <td class="px-6 py-3.5 text-right">
-                        <button onclick="editEmployee('${emp.id}')" class="text-gray-500 hover:text-gray-900 mr-2"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        <button onclick="editEmployee('${emp.id}')" class="text-gray-500 hover:text-gray-900 dark:hover:text-white mr-2"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
                         <button onclick="deleteEmployee('${emp.id}')" class="text-rose-500 hover:text-rose-700"><i data-lucide="trash" class="w-4 h-4"></i></button>
                     </td>
                 `;
@@ -2127,26 +2347,26 @@
                 const calc = calculatePayrollForEmployee(emp);
 
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-gray-50/70 transition border-b border-gray-100";
+                tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
                     <td class="px-6 py-3.5">
-                        <p class="font-bold text-gray-900">${emp.name}</p>
+                        <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
                         <p class="text-[11px] text-gray-400">${emp.id}</p>
                     </td>
-                    <td class="px-4 py-3.5 text-gray-600 font-mono">${formatRupiah(calc.upahPerJam)}</td>
+                    <td class="px-4 py-3.5 text-gray-600 dark:text-gray-300 font-mono">${formatRupiah(calc.upahPerJam)}</td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.hadir}" onchange="updateAttendance('${emp.id}', 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold">
+                        <input type="number" min="0" max="31" value="${att.hadir}" onchange="updateAttendance('${emp.id}', 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.alpha || 0}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 font-bold">
+                        <input type="number" min="0" max="31" value="${att.alpha || 0}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 dark:text-rose-400 font-bold bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="100" value="${att.lemburBiasa || 0}" onchange="updateAttendance('${emp.id}', 'lemburBiasa', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700" title="Hari Kerja: 1.5x jam 1, 2x sisa jam">
+                        <input type="number" min="0" max="100" value="${att.lemburBiasa || 0}" onchange="updateAttendance('${emp.id}', 'lemburBiasa', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="100" value="${att.lemburLibur || 0}" onchange="updateAttendance('${emp.id}', 'lemburLibur', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-purple-700" title="Hari Libur: 2x 8 jam, 3x jam 9, 4x jam 10-11">
+                        <input type="number" min="0" max="100" value="${att.lemburLibur || 0}" onchange="updateAttendance('${emp.id}', 'lemburLibur', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-purple-700 dark:text-purple-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
-                    <td class="px-4 py-3.5 font-bold text-emerald-800">${formatRupiah(calc.totalLembur)}</td>
+                    <td class="px-4 py-3.5 font-bold text-emerald-800 dark:text-emerald-300">${formatRupiah(calc.totalLembur)}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -2164,16 +2384,16 @@
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-gray-100";
+                tr.className = "border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
-                    <td class="px-4 py-3 font-semibold text-gray-900">${emp.name}</td>
-                    <td class="px-4 py-3 text-gray-500 font-mono">08.123.456.7-012.000</td>
+                    <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">${emp.name}</td>
+                    <td class="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono">08.123.456.7-012.000</td>
                     <td class="px-4 py-3 font-bold">${calc.terCat} (${emp.ptkp})</td>
-                    <td class="px-4 py-3 font-bold text-gray-900">${formatRupiah(calc.totalBruto)}</td>
-                    <td class="px-4 py-3 font-semibold text-mfa-800">${(calc.terRate * 100).toFixed(2)}%</td>
-                    <td class="px-4 py-3 font-bold text-rose-600">${formatRupiah(calc.pph21)}</td>
-                    <td class="px-4 py-3 text-gray-600">${formatRupiah(calc.bpjsTkPerusahaan)}</td>
-                    <td class="px-4 py-3 text-gray-600">${formatRupiah(calc.bpjsKesPerusahaan)}</td>
+                    <td class="px-4 py-3 font-bold text-gray-900 dark:text-white">${formatRupiah(calc.totalBruto)}</td>
+                    <td class="px-4 py-3 font-semibold text-mfa-800 dark:text-emerald-400">${(calc.terRate * 100).toFixed(2)}%</td>
+                    <td class="px-4 py-3 font-bold text-rose-600 dark:text-rose-400">${formatRupiah(calc.pph21)}</td>
+                    <td class="px-4 py-3 text-gray-600 dark:text-gray-300">${formatRupiah(calc.bpjsTkPerusahaan)}</td>
+                    <td class="px-4 py-3 text-gray-600 dark:text-gray-300">${formatRupiah(calc.bpjsKesPerusahaan)}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -2422,12 +2642,12 @@
         function approveStep(step) {
             if (step === 2) {
                 document.getElementById('step2Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
-                document.getElementById('step2Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
-                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-mfa-100 text-mfa-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                document.getElementById('step2Icon').className = "w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-mfa-100 dark:bg-emerald-950 text-mfa-800 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
                 showToast("Tahap Finance Manager disetujui!");
             } else if (step === 3) {
                 document.getElementById('step3Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
-                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
                 document.getElementById('approvalStateBadge').innerText = "Disetujui Sepenuhnya (Siap Bayar)";
                 document.getElementById('approvalStateBadge').className = "badge-green px-3 py-1 rounded-full text-xs font-bold";
                 showToast("Payroll disetujui Direktur Utama!");
@@ -2469,7 +2689,7 @@
                     if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left";
                 } else {
                     if (el) el.classList.add('hidden');
-                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left";
+                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left";
                 }
             });
 
@@ -2501,9 +2721,9 @@
             tabs.forEach(t => {
                 const el = document.getElementById('tab' + t);
                 if (t.toLowerCase() === filterType) {
-                    el.className = "px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-xs font-semibold transition";
+                    el.className = "px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition";
                 } else {
-                    el.className = "px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition";
+                    el.className = "px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition";
                 }
             });
             renderPayrollTable();
@@ -2542,9 +2762,9 @@
         function showToast(msg) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = "bg-gray-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 pointer-events-auto animate-in slide-in-from-bottom-2 duration-200 border border-gray-800";
+            toast.className = "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 pointer-events-auto animate-in slide-in-from-bottom-2 duration-200 border border-gray-800 dark:border-gray-200";
             toast.innerHTML = `
-                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
                 <span>${msg}</span>
             `;
             container.appendChild(toast);
@@ -2558,6 +2778,7 @@
 
         // Inisialisasi awal
         document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
             applyCompanyBranding();
             renderAll();
         });
