@@ -634,7 +634,11 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Penggajian</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="sendPayrollToGoogleSheets()" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-xs transition" title="Kirim & perbarui data payroll ke Google Sheets secara otomatis">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>Kirim ke Google Sheets</span>
+                        </button>
                         <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-xs font-semibold shadow-2xs transition" title="Unduh Laporan Excel .xlsx otomatis rapi dengan formula & kolom pas">
                             <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                             <span>Ekspor Excel (.xlsx)</span>
@@ -1125,10 +1129,14 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Laporan Rekapitulasi & SPT PPh 21 Masa</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="sendPayrollToGoogleSheets()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-xs transition" title="Kirim & perbarui data payroll ke Google Sheets otomatis">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>Kirim ke Google Sheets</span>
+                        </button>
+                        <button onclick="openSheetsModal('receive')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
                             <i data-lucide="sheet" class="w-4 h-4"></i>
-                            <span>Buka di Google Sheets</span>
+                            <span>Tarik dari Google Sheets</span>
                         </button>
                         <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition" title="Unduh Excel .xlsx rapi dengan formula">
                             <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-300"></i>
@@ -1246,17 +1254,17 @@
 
     <!-- ================= MODALS SPESIAL ================= -->
 
-    <!-- 0. MODAL GOOGLE SHEETS & EXCEL SYNC (INTEGRASI FITUR SPREADSHEET RAPI) -->
+    <!-- 0. MODAL GOOGLE SHEETS & EXCEL SYNC (2-ARAH: KIRIM OTOMATIS & TARIK DATA) -->
     <div id="sheetsModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
                     <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold shadow-2xs">
                         <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Integrasi Excel &amp; Google Sheets</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Template Terstandarisasi, Rapi Otomatis &amp; Sinkronisasi 2-Arah</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Sinkronisasi 2-Arah Google Sheets</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Kirim Data Otomatis ke Spreadsheet &bull; Tarik Data &bull; Unduh Template Rapi</p>
                     </div>
                 </div>
                 <button onclick="closeSheetsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
@@ -1264,23 +1272,84 @@
                 </button>
             </div>
 
-            <div class="space-y-4 text-xs">
+            <!-- Tab Switcher -->
+            <div class="flex border-b border-gray-200 dark:border-gray-800 gap-6 text-xs font-bold">
+                <button id="tabBtnSend" onclick="switchSheetsTab('send')" class="pb-2.5 border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 transition">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>1. Kirim ke Google Sheet (Otomatis Terisi)</span>
+                </button>
+                <button id="tabBtnReceive" onclick="switchSheetsTab('receive')" class="pb-2.5 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1.5 transition">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    <span>2. Tarik Data &amp; Template Excel</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: KIRIM OTOMATIS DARI WEB KE GOOGLE SHEETS -->
+            <div id="tabContentSend" class="space-y-4 text-xs">
+                <!-- Highlight Card -->
+                <div class="p-3.5 bg-emerald-50/80 dark:bg-emerald-950/40 rounded-xl border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300 space-y-1.5">
+                    <div class="flex items-center gap-1.5 font-bold text-emerald-950 dark:text-emerald-200">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                        <span>Input di Web &rarr; Google Sheet Langsung Terisi &amp; Terapikan Otomatis!</span>
+                    </div>
+                    <p class="text-emerald-800 dark:text-emerald-400 text-[11px] leading-relaxed">
+                        Saat Anda menekan tombol <strong>"Kirim Data ke Google Sheets"</strong>, seluruh rincian nama karyawan, jabatan, gaji pokok, lembur PP 35, potongan PPh 21 TER, BPJS, dan gaji bersih (THP) <strong>akan langsung terkirim dan otomatis mengisi tabel Google Sheet Anda</strong> dengan styling hijau rapi!
+                    </p>
+                </div>
+
+                <!-- Input Webhook URL -->
+                <div class="space-y-1.5">
+                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">URL Webhook Google Apps Script:</label>
+                    <div class="flex gap-2">
+                        <input type="url" id="sheetsWebhookUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
+                        <button onclick="sendPayrollToGoogleSheets()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold flex items-center gap-1.5 shrink-0 shadow-xs">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>Kirim Sekarang</span>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-gray-400">URL tersimpan di browser Anda sehingga berikutnya cukup 1-klik untuk update spreadsheet.</p>
+                </div>
+
+                <!-- Panduan 3 Langkah -->
+                <div class="p-4 bg-gray-50 dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-gray-900 dark:text-white text-xs flex items-center gap-1.5">
+                            <i data-lucide="code-2" class="w-4 h-4 text-emerald-600"></i>
+                            Panduan Pasang di Google Sheets (1 Menit, Resmi &amp; Gratis):
+                        </span>
+                        <button onclick="copyAppsScriptCode()" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-800 px-2.5 py-1 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Salin Kode Script (1-Klik)</span>
+                        </button>
+                    </div>
+
+                    <ol class="list-decimal list-inside space-y-1.5 text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed pl-1">
+                        <li>Buka spreadsheet Anda di Google Sheets, klik menu <strong class="text-gray-900 dark:text-white">Ekstensi (Extensions) &rarr; Apps Script</strong>.</li>
+                        <li>Hapus kode bawaan yang ada di editor, lalu <strong>Paste (Tempel)</strong> kode yang baru disalin dari tombol hijau di atas.</li>
+                        <li>Klik tombol biru <strong class="text-gray-900 dark:text-white">Deploy (Terapkan) &rarr; New deployment (Penerapan baru)</strong> di kanan atas.</li>
+                        <li>Pilih jenis <strong class="text-gray-900 dark:text-white">Web app</strong>, ubah <em>Who has access (Yang memiliki akses)</em> menjadi <strong class="text-emerald-700 dark:text-emerald-400 font-bold">Anyone (Siapa saja)</strong>.</li>
+                        <li>Klik <strong>Deploy</strong> &rarr; Izinkan Akses &rarr; Salin <strong>Web App URL</strong> yang berakhiran <code>/exec</code> ke kolom di atas. Selesai!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- TAB 2: TARIK DATA DARI SPREADSHEET & TEMPLATE -->
+            <div id="tabContentReceive" class="space-y-4 text-xs hidden">
                 <!-- Info Benefit -->
                 <div class="p-3 bg-emerald-50/80 dark:bg-emerald-950/40 rounded-xl border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300 text-[11px] space-y-1">
                     <div class="flex items-center gap-1.5 font-bold text-emerald-950 dark:text-emerald-200">
                         <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                        <span>Format Langsung Rapi &amp; Siap Pakai di Microsoft Excel &amp; Google Sheets</span>
+                        <span>Format Langsung Rapi di Microsoft Excel &amp; Google Sheets</span>
                     </div>
                     <p class="text-emerald-800 dark:text-emerald-400">
-                        Template Excel (.xlsx) dibuat dengan <strong>lebar kolom pas otomatis</strong> (tidak terpotong / ###), <strong>format mata uang Rupiah</strong>, serta dilengkapi <strong>3 Sheet terpisah</strong>: Master Karyawan, Absensi &amp; Lembur, dan Kamus Rumus Legalitas Ketenagakerjaan RI.
+                        Template Excel (.xlsx) dibuat dengan <strong>lebar kolom pas otomatis</strong>, <strong>format mata uang Rupiah</strong>, dan <strong>3 Sheet terpisah</strong> (Master Karyawan, Absensi &amp; Lembur, Kamus Rumus).
                     </p>
                 </div>
 
                 <!-- Step 1: Download Templates -->
                 <div class="space-y-2">
-                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Langkah 1: Unduh Template Spreadsheet Resmi</label>
+                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Unduh Template Spreadsheet Siap Pakai:</label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <!-- Primary Excel Template -->
                         <button onclick="downloadExcelTemplate()" class="p-3 rounded-xl border-2 border-emerald-500/50 bg-emerald-50/40 dark:bg-emerald-950/30 hover:bg-emerald-100/60 dark:hover:bg-emerald-900/40 text-left transition group">
                             <div class="flex items-center justify-between mb-1">
                                 <div class="flex items-center gap-2">
@@ -1292,7 +1361,6 @@
                             <p class="text-[10px] text-gray-600 dark:text-gray-400">Multi-sheet (Master + Absensi + Kamus Rumus PP 35/58). Dibuka di Excel langsung rapi!</p>
                         </button>
 
-                        <!-- Secondary CSV Template -->
                         <button onclick="downloadSheetTemplate()" class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-700/60 text-left transition">
                             <div class="flex items-center gap-2 mb-1">
                                 <i data-lucide="sheet" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
@@ -1305,9 +1373,8 @@
 
                 <!-- Step 2: Upload Excel or CSV -->
                 <div class="space-y-2 pt-1">
-                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Langkah 2: Masukkan Data ke Sistem MFA Payroll</label>
+                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Masukkan Data ke Web MFA Payroll:</label>
                     
-                    <!-- Direct Excel Upload Dropzone -->
                     <div class="border-2 border-dashed border-emerald-300 dark:border-emerald-800 hover:border-emerald-500 dark:hover:border-emerald-600 rounded-xl p-3.5 text-center bg-emerald-50/20 dark:bg-emerald-950/20 hover:bg-emerald-50/40 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
                         <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)">
                         <div class="flex flex-col items-center justify-center gap-1.5">
@@ -1321,11 +1388,12 @@
 
                     <!-- Sync URL Google Sheets -->
                     <div class="space-y-1.5 pt-2">
-                        <label class="block text-gray-600 dark:text-gray-400 font-semibold text-[11px]">Atau Tautkan Link Google Sheets (Publikasikan ke Web &rarr; CSV):</label>
+                        <label class="block text-gray-600 dark:text-gray-400 font-semibold text-[11px]">Atau Tautkan Link Google Sheets (Siapa saja yang memiliki link):</label>
                         <div class="flex gap-2">
-                            <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
-                            <button onclick="openInGoogleSheets()" class="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-xs font-semibold shrink-0" title="Buka Google Sheets Baru">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
+                            <button onclick="syncFromGoogleSheets()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shrink-0">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                                <span>Tarik Data</span>
                             </button>
                         </div>
                     </div>
@@ -1334,9 +1402,9 @@
 
             <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
                 <button onclick="closeSheetsModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-semibold">Tutup</button>
-                <button onclick="syncFromGoogleSheets()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs">
-                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-                    <span>Tarik Data Sheet URL</span>
+                <button onclick="openInGoogleSheets()" class="px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 text-xs font-semibold inline-flex items-center gap-1.5">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Buka Google Sheets Baru</span>
                 </button>
             </div>
         </div>
@@ -1788,7 +1856,8 @@
             workDays: 5,
             jkkRiskRate: 0.0024,
             npwp: "01.234.567.8-012.000",
-            sheetsUrl: ""
+            sheetsUrl: "",
+            sheetsWebhookUrl: ""
         };
 
         let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
@@ -2099,8 +2168,11 @@
         }
 
         // ================= GOOGLE SHEETS INTEGRATION MODAL & ACTIONS =================
-        function openSheetsModal() {
+        function openSheetsModal(tab = 'send') {
             document.getElementById('sheetsUrlInput').value = companySettings.sheetsUrl || '';
+            const webhookInput = document.getElementById('sheetsWebhookUrlInput');
+            if (webhookInput) webhookInput.value = companySettings.sheetsWebhookUrl || '';
+            switchSheetsTab(tab);
             document.getElementById('sheetsModal').classList.remove('hidden');
             document.getElementById('sheetsModal').classList.add('flex');
             lucide.createIcons();
@@ -2109,6 +2181,205 @@
         function closeSheetsModal() {
             document.getElementById('sheetsModal').classList.add('hidden');
             document.getElementById('sheetsModal').classList.remove('flex');
+        }
+
+        function switchSheetsTab(tab) {
+            const btnSend = document.getElementById('tabBtnSend');
+            const btnReceive = document.getElementById('tabBtnReceive');
+            const contentSend = document.getElementById('tabContentSend');
+            const contentReceive = document.getElementById('tabContentReceive');
+
+            if (!btnSend || !btnReceive || !contentSend || !contentReceive) return;
+
+            if (tab === 'send') {
+                btnSend.className = "pb-2.5 border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 transition";
+                btnReceive.className = "pb-2.5 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1.5 transition";
+                contentSend.classList.remove('hidden');
+                contentReceive.classList.add('hidden');
+            } else {
+                btnReceive.className = "pb-2.5 border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 transition";
+                btnSend.className = "pb-2.5 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1.5 transition";
+                contentReceive.classList.remove('hidden');
+                contentSend.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function copyAppsScriptCode() {
+            const scriptCode = `// GOOGLE APPS SCRIPT WEBHOOK UNTUK MFA PAYROLL
+// Tempel kode ini di Extensions -> Apps Script pada Google Sheets Anda
+function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    
+    // Sheet Rekap Payroll
+    var sheet = ss.getSheetByName("Rekap Payroll") || ss.insertSheet("Rekap Payroll");
+    sheet.clear();
+    
+    sheet.appendRow(["LAPORAN PENGGAJIAN & HRIS - MFA PAYROLL"]);
+    sheet.appendRow(["Perusahaan: " + (data.company || "MFA Studio") + " | Terakhir Disinkronkan: " + new Date().toLocaleString("id-ID")]);
+    sheet.appendRow([]);
+    
+    var headers = [
+      "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", 
+      "Gaji Pokok", "Tunjangan Tetap", "Lembur Biasa", "Lembur Libur", 
+      "Total Lembur", "Pot. Alpha", "Gaji Bruto", "BPJS Kes", 
+      "BPJS TK", "PPh 21 (TER)", "Total Potongan", "Gaji Bersih (THP)"
+    ];
+    sheet.appendRow(headers);
+    
+    var headerRange = sheet.getRange(4, 1, 1, headers.length);
+    headerRange.setFontWeight("bold").setBackground("#1B3B2B").setFontColor("#FFFFFF");
+    
+    var employees = data.employees || [];
+    var rows = [];
+    var totPokok = 0, totTunjangan = 0, totLembur = 0, totAlpha = 0, totBruto = 0;
+    var totBpjsKes = 0, totBpjsTk = 0, totPph21 = 0, totPot = 0, totThp = 0;
+    
+    for (var i = 0; i < employees.length; i++) {
+      var emp = employees[i];
+      var c = emp.calc || {};
+      totPokok += (emp.pokok || 0);
+      totTunjangan += (emp.tunjangan || 0);
+      totLembur += (c.totalLembur || 0);
+      totAlpha += (c.potonganAlpha || 0);
+      totBruto += (c.totalBruto || 0);
+      totBpjsKes += (c.bpjsKesKaryawan || 0);
+      totBpjsTk += (c.bpjsTkKaryawan || 0);
+      totPph21 += (c.pph21 || 0);
+      totPot += (c.totalPotongan || 0);
+      totThp += (c.gajiBersih || 0);
+      
+      rows.push([
+        i + 1,
+        emp.id,
+        emp.name,
+        emp.role,
+        emp.dept,
+        emp.pokok,
+        emp.tunjangan,
+        c.lemburBiasaNominal || 0,
+        c.lemburLiburNominal || 0,
+        c.totalLembur || 0,
+        c.potonganAlpha || 0,
+        c.totalBruto || 0,
+        c.bpjsKesKaryawan || 0,
+        c.bpjsTkKaryawan || 0,
+        c.pph21 || 0,
+        c.totalPotongan || 0,
+        c.gajiBersih || 0
+      ]);
+    }
+    
+    if (rows.length > 0) {
+      sheet.getRange(5, 1, rows.length, headers.length).setValues(rows);
+      sheet.getRange(5, 6, rows.length, 12).setNumberFormat('"Rp "#,##0');
+      
+      var totalRow = [
+        "", "TOTAL", employees.length + " Karyawan", "", "",
+        totPokok, totTunjangan, "", "", totLembur, totAlpha, totBruto,
+        totBpjsKes, totBpjsTk, totPph21, totPot, totThp
+      ];
+      sheet.appendRow(totalRow);
+      var lastRow = sheet.getLastRow();
+      sheet.getRange(lastRow, 1, 1, headers.length).setFontWeight("bold").setBackground("#F2F7F4");
+      sheet.getRange(lastRow, 6, 1, 12).setNumberFormat('"Rp "#,##0');
+    }
+    
+    for (var col = 1; col <= headers.length; col++) {
+      sheet.autoResizeColumn(col);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", count: employees.length }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(scriptCode).then(() => {
+                    showToast("Kode Google Apps Script berhasil disalin ke clipboard!");
+                }).catch(() => {
+                    prompt("Salin kode script berikut:", scriptCode);
+                });
+            } else {
+                prompt("Salin kode script berikut:", scriptCode);
+            }
+        }
+
+        function sendPayrollToGoogleSheets() {
+            const webhookInput = document.getElementById('sheetsWebhookUrlInput');
+            let webhookUrl = (webhookInput ? webhookInput.value.trim() : '') || companySettings.sheetsWebhookUrl || '';
+
+            if (!webhookUrl) {
+                openSheetsModal('send');
+                alert("Silakan masukkan URL Web App Google Apps Script Anda terlebih dahulu.\n\nIkuti 5 langkah panduan cepat di layar untuk membuat Web App gratis (hanya 1 menit).");
+                return;
+            }
+
+            if (employees.length === 0) {
+                alert("Belum ada data karyawan untuk dikirim ke Google Sheets. Silakan input karyawan atau klik 'Muat Contoh'.");
+                return;
+            }
+
+            companySettings.sheetsWebhookUrl = webhookUrl;
+            saveToStorage();
+
+            showToast("Mengirim & mengisi spreadsheet Google Sheets Anda...");
+
+            const payload = {
+                action: "sync_payroll",
+                company: companySettings.name,
+                timestamp: new Date().toISOString(),
+                employees: employees.map(emp => {
+                    const calc = calculatePayrollForEmployee(emp);
+                    const terCat = getTerCategory(emp.ptkp);
+                    const terRate = getTerRate(terCat, calc.totalBruto);
+                    return {
+                        id: emp.id,
+                        name: emp.name,
+                        role: emp.role,
+                        dept: emp.dept,
+                        pokok: emp.pokok,
+                        tunjangan: emp.tunjangan,
+                        ptkp: emp.ptkp,
+                        terCat: terCat.replace('_', ' '),
+                        terRate: (terRate * 100).toFixed(2) + '%',
+                        masaKerja: emp.masaKerja || 12,
+                        statusKontrak: emp.statusKontrak || 'Tetap',
+                        npwp: emp.npwp || '-',
+                        calc: {
+                            lemburBiasaNominal: calc.lemburBiasaNominal,
+                            lemburLiburNominal: calc.lemburLiburNominal,
+                            totalLembur: calc.totalLembur,
+                            potonganAlpha: calc.potonganAlpha,
+                            totalBruto: calc.totalBruto,
+                            bpjsKesKaryawan: calc.bpjsKesKaryawan,
+                            bpjsTkKaryawan: calc.bpjsTkKaryawan,
+                            pph21: calc.pph21,
+                            totalPotongan: calc.totalPotongan,
+                            gajiBersih: calc.gajiBersih
+                        }
+                    };
+                })
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload),
+                mode: "no-cors"
+            })
+            .then(() => {
+                closeSheetsModal();
+                showToast(`Sukses! ${employees.length} data payroll berhasil dikirim ke Google Sheets! Buka spreadsheet Anda untuk melihat hasilnya.`);
+            })
+            .catch(err => {
+                console.error("Gagal mengirim ke Google Sheets:", err);
+                alert("Gagal mengirim ke Google Sheets. Pastikan URL Web App sudah benar dan di-deploy dengan izin 'Anyone' (Siapa saja).");
+            });
         }
 
         // ================= TEMPLATE SPREADSHEET (EXCEL .XLSX & CSV) =================
