@@ -1793,6 +1793,19 @@
 
         let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
         let attendance = JSON.parse(localStorage.getItem('mfa_payroll_attendance')) || {};
+
+        // Auto-sanitize corrupt rows from previous raw HTML web fetches
+        function isCorruptEmp(e) {
+            if (!e || typeof e !== 'object') return true;
+            const str = `${e.id || ''} ${e.name || ''} ${e.role || ''} ${e.dept || ''}`;
+            return str.includes('prototype') || str.includes('function(') || str.includes('typeof') || 
+                   str.includes('Object.define') || str.includes('var ') || str.includes('JSON.string') ||
+                   str.includes('===') || str.includes('{') || str.includes('}');
+        }
+        if (Array.isArray(employees) && employees.some(isCorruptEmp)) {
+            employees = employees.filter(e => !isCorruptEmp(e));
+            localStorage.setItem('mfa_payroll_employees', JSON.stringify(employees));
+        }
         let currentFilter = 'semua';
         let searchQuery = '';
         let currentPage = 1;
@@ -2347,66 +2360,145 @@
             event.target.value = ''; // Reset input agar bisa dipilih kembali
         }
 
+        function formatGoogleSheetsExportUrl(rawUrl) {
+            let url = rawUrl.trim();
+            const sheetIdMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+            if (sheetIdMatch && sheetIdMatch[1]) {
+                const sheetId = sheetIdMatch[1];
+                const gidMatch = url.match(/[?&#]gid=([0-9]+)/);
+                const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
+                return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
+            }
+            return url;
+        }
+
+        function showSheetsAccessAlert() {
+            alert("Gagal membaca Google Sheets.\n\nPastikan spreadsheet Anda disetel akses 'Siapa saja yang memiliki link' (Anyone with link):\n1. Di Google Sheets, klik menu 'Bagikan' (Share) di pojok kanan atas.\n2. Di bagian 'Akses umum', ubah dari 'Dibatasi' ke 'Siapa saja yang memiliki link' (Viewer).\n3. Atau cukup download file sebagai .xlsx dari Google Sheets lalu upload langsung ke web.");
+        }
+
         function syncFromGoogleSheets() {
-            const url = document.getElementById('sheetsUrlInput').value.trim();
-            if (!url) {
-                alert("Silakan masukkan URL Google Sheets yang telah dipublikasikan ke CSV, atau unduh template Excel/CSV untuk pengisian.");
+            const rawUrl = document.getElementById('sheetsUrlInput').value.trim();
+            if (!rawUrl) {
+                alert("Silakan masukkan URL Google Sheets yang ingin disinkronkan.");
                 return;
             }
-            companySettings.sheetsUrl = url;
+            companySettings.sheetsUrl = rawUrl;
             saveToStorage();
 
+            const fetchUrl = formatGoogleSheetsExportUrl(rawUrl);
             showToast("Menghubungkan ke Google Sheets...");
-            fetch(url)
-                .then(res => res.text())
+
+            fetch(fetchUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error("HTTP_ERROR_" + res.status);
+                    return res.text();
+                })
                 .then(csvText => {
                     parseSheetsCsv(csvText);
-                    closeSheetsModal();
-                    showToast("Sinkronisasi Google Sheets berhasil! Data karyawan dan absensi diperbarui.");
                 })
                 .catch(err => {
-                    console.error(err);
-                    alert("Gagal membaca Google Sheets. Pastikan dokumen telah disetel 'Publikasikan ke Web' (Publish to Web) format CSV pada menu File -> Share di Google Sheets.");
+                    console.warn("Direct export CSV failed, trying gviz endpoint...", err);
+                    const sheetIdMatch = rawUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+                    if (sheetIdMatch && sheetIdMatch[1]) {
+                        const gidMatch = rawUrl.match(/[?&#]gid=([0-9]+)/);
+                        const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
+                        const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetIdMatch[1]}/gviz/tq?tqx=out:csv${gidParam}`;
+                        fetch(gvizUrl)
+                            .then(res => {
+                                if (!res.ok) throw new Error("GVIZ_FAILED");
+                                return res.text();
+                            })
+                            .then(csvText => parseSheetsCsv(csvText))
+                            .catch(() => showSheetsAccessAlert());
+                    } else {
+                        showSheetsAccessAlert();
+                    }
                 });
         }
 
         function parseSheetsCsv(text) {
-            const lines = text.trim().split('\n');
-            if (lines.length <= 1) return;
+            if (!text || typeof text !== 'string') return;
+
+            // Pastikan bukan halaman HTML / Javascript Google Docs
+            const lower = text.trim().toLowerCase();
+            if (lower.startsWith('<!doctype') || lower.startsWith('<html') || lower.includes('<script') || lower.includes('accounts.google.com') || lower.includes('servicelogin')) {
+                showSheetsAccessAlert();
+                return;
+            }
+
+            let rows = [];
+            if (typeof XLSX !== 'undefined') {
+                try {
+                    const wb = XLSX.read(text, { type: 'string' });
+                    const firstSheet = wb.Sheets[wb.SheetNames[0]];
+                    rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                } catch (e) {
+                    console.warn("XLSX parse error on CSV, falling back to manual split:", e);
+                }
+            }
+
+            if (rows.length === 0) {
+                const lines = text.trim().split('\n');
+                rows = lines.map(line => line.split(',').map(p => p.replace(/^"|"$/g, '').trim()));
+            }
+
+            // Cari baris header
+            let headerIndex = -1;
+            for (let i = 0; i < Math.min(10, rows.length); i++) {
+                const row = rows[i] || [];
+                if (row.some(c => typeof c === 'string' && (c.toLowerCase().includes('id') || c.toLowerCase().includes('nama')))) {
+                    headerIndex = i;
+                    break;
+                }
+            }
+
+            if (headerIndex === -1 && rows.length > 0) headerIndex = 0;
 
             const newEmployees = [];
-            for (let i = 1; i < lines.length; i++) {
-                const parts = lines[i].split(',').map(p => p.replace(/"/g, '').trim());
-                if (parts.length >= 7 && parts[0] && parts[1]) {
-                    const id = parts[0];
-                    const name = parts[1];
-                    const role = parts[2] || 'Staff';
-                    const dept = parts[3] || 'General';
-                    const pokok = parseFloat(parts[4]) || 0;
-                    const tunjangan = parseFloat(parts[5]) || 0;
-                    const ptkp = parts[6] || 'TK/0';
-                    const masaKerja = parseInt(parts[7]) || 12;
+            for (let i = headerIndex + 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row || !row[0] || !row[1]) continue;
 
-                    newEmployees.push({
-                        id,
-                        name,
-                        role,
-                        dept,
-                        avatar: name.substring(0, 2).toUpperCase(),
-                        pokok,
-                        tunjangan,
-                        ptkp,
-                        masaKerja,
-                        status: "siap"
-                    });
+                const id = String(row[0]).trim();
+                const name = String(row[1]).trim();
 
-                    // Attendance sync if available
-                    if (parts.length >= 12) {
+                // Validasi ketat: abaikan jika mengandung kode javascript/html
+                if (id.includes('function') || id.includes('var ') || id.includes('{') || id.includes('prototype') || id.includes('typeof')) continue;
+                if (name.includes('function') || name.includes('var ') || name.includes('{') || name.includes('prototype') || name.includes('typeof')) continue;
+
+                const role = row[2] ? String(row[2]).trim() : 'Staff';
+                const dept = row[3] ? String(row[3]).trim() : 'General';
+                const pokok = parseFloat(String(row[4] || '0').replace(/[^0-9.-]+/g, '')) || 0;
+                const tunjangan = parseFloat(String(row[5] || '0').replace(/[^0-9.-]+/g, '')) || 0;
+                const ptkp = row[6] ? String(row[6]).trim().toUpperCase() : 'TK/0';
+                const masaKerja = parseInt(String(row[7] || '12').replace(/[^0-9]+/g, '')) || 12;
+                const statusKontrak = row[8] ? String(row[8]).trim() : 'Tetap';
+                const npwp = row[9] ? String(row[9]).trim() : '';
+
+                newEmployees.push({
+                    id,
+                    name,
+                    role,
+                    dept,
+                    avatar: name.substring(0, 2).toUpperCase(),
+                    pokok,
+                    tunjangan,
+                    ptkp,
+                    masaKerja,
+                    statusKontrak,
+                    npwp,
+                    status: "siap"
+                });
+
+                // Attendance jika tersedia di sheet yang sama
+                if (row.length >= 10) {
+                    const hadir = parseInt(String(row[8] || '').replace(/[^0-9]+/g, ''));
+                    if (!isNaN(hadir)) {
                         attendance[id] = {
-                            hadir: parseInt(parts[8]) || 22,
-                            alpha: parseInt(parts[9]) || 0,
-                            lemburBiasa: parseFloat(parts[10]) || 0,
-                            lemburLibur: parseFloat(parts[11]) || 0
+                            hadir: hadir,
+                            alpha: parseInt(String(row[9] || '0').replace(/[^0-9]+/g, '')) || 0,
+                            lemburBiasa: parseFloat(String(row[10] || '0').replace(/[^0-9.]+/g, '')) || 0,
+                            lemburLibur: parseFloat(String(row[11] || '0').replace(/[^0-9.]+/g, '')) || 0
                         };
                     }
                 }
@@ -2416,6 +2508,10 @@
                 employees = newEmployees;
                 saveToStorage();
                 renderAll();
+                closeSheetsModal();
+                showToast(`Sinkronisasi Google Sheets berhasil! ${newEmployees.length} data karyawan dimuat.`);
+            } else {
+                alert("Tidak ditemukan data karyawan yang valid di file/sheet ini. Pastikan menggunakan format template resmi.");
             }
         }
 
