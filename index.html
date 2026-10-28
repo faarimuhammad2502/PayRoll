@@ -83,6 +83,12 @@
             border: 1px solid #DBEAFE;
         }
 
+        .badge-purple {
+            background-color: #FAF5FF;
+            color: #6B21A8;
+            border: 1px solid #E9D5FF;
+        }
+
         /* Print styling for Slip Gaji */
         @media print {
             body * {
@@ -108,7 +114,7 @@
 <body class="min-h-screen flex text-[13px] bg-[#F8F9FA]">
 
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="w-[260px] bg-[#FAFAFA] border-r border-[#ECECEC] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
+    <aside id="sidebar" class="w-[265px] bg-[#FAFAFA] border-r border-[#ECECEC] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
         <div class="flex flex-col flex-1 overflow-y-auto">
             <!-- Brand Logo with MFA Monogram -->
             <div class="px-6 pt-6 pb-4 flex items-center gap-2.5">
@@ -121,16 +127,16 @@
                 </div>
             </div>
 
-            <!-- Workspace Selector Card -->
+            <!-- Workspace Selector Card (Multi-Perusahaan Ready) -->
             <div class="px-4 py-2">
-                <div class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white shadow-xs hover:border-gray-300 transition cursor-pointer">
+                <div onclick="switchView('pengaturan')" class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white shadow-xs hover:border-gray-300 transition cursor-pointer">
                     <div class="flex items-center gap-2.5 min-w-0">
-                        <div class="w-7 h-7 rounded-lg bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xs font-bold shrink-0">
+                        <div class="w-7 h-7 rounded-lg bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xs font-bold shrink-0" id="sidebarOrgLogo">
                             MFA
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs font-semibold text-gray-900 truncate leading-tight">MFA Studio</p>
-                            <p class="text-[11px] text-gray-400 truncate leading-tight">Workspace Muhammad Faari Akbar</p>
+                            <p class="text-xs font-semibold text-gray-900 truncate leading-tight" id="sidebarOrgName">MFA Studio</p>
+                            <p class="text-[11px] text-gray-400 truncate leading-tight">Tools Payroll Perusahaan</p>
                         </div>
                     </div>
                     <i data-lucide="chevrons-up-down" class="w-4 h-4 text-gray-400 shrink-0"></i>
@@ -161,7 +167,7 @@
                         <li>
                             <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
-                                <span>Kehadiran</span>
+                                <span>Kehadiran & Lembur</span>
                             </button>
                         </li>
                         <li>
@@ -189,14 +195,42 @@
                     </ul>
                 </div>
 
+                <!-- Section STANDAR BNSP & KALKULATOR KHUSUS -->
+                <div>
+                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Standar BNSP & Regulasi</p>
+                    <ul class="space-y-1">
+                        <li>
+                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600"></i>
+                                    <span class="font-semibold text-gray-800">Rumus Payroll BNSP</span>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">RESMI</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="openThrModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                                <i data-lucide="gift" class="w-4 h-4 text-amber-600"></i>
+                                <span>Kalkulator THR</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="openPesangonModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-blue-600"></i>
+                                <span>Kalkulator Pesangon PHK</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
                 <!-- Section WORKSPACE -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Workspace</p>
+                    <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Workspace & Tools</p>
                     <ul class="space-y-1">
                         <li>
                             <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="sliders" class="w-4 h-4 text-gray-500"></i>
-                                <span>Pengaturan & Rumus</span>
+                                <span>Profil Perusahaan & Rumus</span>
                             </button>
                         </li>
                     </ul>
@@ -212,11 +246,11 @@
                     <i data-lucide="calculator" class="w-3.5 h-3.5 text-mfa-700"></i>
                 </div>
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-900">Kalkulator Pajak PPh 21</h4>
-                    <p class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Sesuai PP 58/2023 (TER A, B, C) & BPJS.</p>
+                    <h4 class="text-xs font-semibold text-gray-900">Simulasi Pajak PPh 21</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Tarif Efektif Rata-Rata (TER) PP 58/2023.</p>
                 </div>
                 <button onclick="openTaxSimulatorModal()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 hover:underline">
-                    Simulasi PPh 21
+                    Buka Kalkulator
                     <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
                 </button>
             </div>
@@ -232,7 +266,7 @@
                         <p class="text-[11px] text-gray-400 leading-tight">Administrator</p>
                     </div>
                 </div>
-                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi diamankan')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-200/50 transition">
+                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi tersimpan')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-200/50 transition">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -240,7 +274,7 @@
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 lg:ml-[260px] flex flex-col min-w-0">
+    <div class="flex-1 lg:ml-[265px] flex flex-col min-w-0">
 
         <!-- TOP BAR -->
         <header class="h-14 bg-white/70 backdrop-blur-md border-b border-gray-200 px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
@@ -250,31 +284,31 @@
                 </button>
                 <!-- Breadcrumbs -->
                 <nav class="flex items-center gap-2 text-xs text-gray-500">
-                    <span>MFA Workspace</span>
+                    <span id="topbarCompany">MFA Studio</span>
                     <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
                     <span class="text-gray-900 font-medium" id="topbarBreadcrumb">Penggajian</span>
                 </nav>
             </div>
 
             <!-- Top Right Utilities -->
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-1.5 text-xs text-gray-500">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 text-xs text-gray-500 hidden md:flex">
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-                    <span class="hidden sm:inline">Data tersimpan aman (Lokal)</span>
+                    <span>Standar Kemenaker & BNSP</span>
                 </div>
 
-                <!-- Template Data Loader (Convenience for testing) -->
-                <button onclick="loadSampleData()" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 bg-mfa-50 hover:bg-mfa-100 border border-mfa-200 px-2.5 py-1 rounded-lg transition" title="Muat Data Contoh Karyawan">
+                <!-- Template Data Loader -->
+                <button onclick="loadSampleData()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 bg-mfa-50 hover:bg-mfa-100 border border-mfa-200 px-2.5 py-1 rounded-lg transition" title="Muat Data Contoh Karyawan">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mfa-600"></i>
-                    <span>Muat Contoh Data</span>
+                    <span class="hidden sm:inline">Muat Contoh</span>
                 </button>
 
-                <button onclick="clearAllDataConfirm()" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 hover:bg-rose-50 px-2 py-1 rounded-lg transition" title="Reset Semua Data Jadi Kosong">
+                <button onclick="clearAllDataConfirm()" class="inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 hover:bg-rose-50 px-2 py-1 rounded-lg transition" title="Kosongkan Semua Data">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                    <span>Kosongkan</span>
+                    <span class="hidden sm:inline">Kosongkan</span>
                 </button>
 
-                <button class="relative text-gray-500 hover:text-gray-800 transition p-1" title="Notifikasi" onclick="showToast('Semua sistem payroll aktif dan sinkron.')">
+                <button class="relative text-gray-500 hover:text-gray-800 transition p-1" title="Notifikasi" onclick="showToast('Semua rumus payroll BNSP & PPh 21 aktif.')">
                     <i data-lucide="bell" class="w-4 h-4"></i>
                     <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                 </button>
@@ -289,7 +323,248 @@
         <!-- MAIN SCROLLABLE CONTAINER -->
         <main class="p-6 sm:p-8 space-y-6 max-w-7xl w-full mx-auto">
 
-            <!-- ================= VIEW 1: PENGGAJIAN (CORE VIEW) ================= -->
+            <!-- ================= VIEW: RUMUS PAYROLL BNSP & KEMENAKER ================= -->
+            <section id="view-bnsp" class="space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#1B3B2B] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-md">STANDAR BNSP & KEMENAKER</span>
+                            <span class="text-xs text-gray-500 font-medium">Biar proses penggajian tetap akurat</span>
+                        </div>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900 mt-1">Tabel Rumus Payroll yang Wajib HR Ketahui</h1>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openThrModal()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
+                            <i data-lucide="gift" class="w-4 h-4"></i>
+                            <span>Hitung THR</span>
+                        </button>
+                        <button onclick="openPesangonModal()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
+                            <i data-lucide="calculator" class="w-4 h-4"></i>
+                            <span>Hitung Pesangon</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabel Rumus BNSP Lengkap Sesuai Dokumen Gambar -->
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="bg-[#1B3B2B] text-white font-bold">
+                                    <th class="px-5 py-4 w-44">Komponen</th>
+                                    <th class="px-5 py-4 w-72">Rumus Resmi</th>
+                                    <th class="px-5 py-4">Catatan & Penerapan</th>
+                                    <th class="px-5 py-4 w-52">Dasar Hukum</th>
+                                    <th class="px-4 py-4 text-center w-24">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                                <!-- 1. THR -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                            <span>THR (Tunjangan Hari Raya)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        (Masa kerja ÷ 12) × 1 bulan upah
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Upah = gaji pokok + tunjangan tetap.<br>
+                                        <span class="text-[11px] text-gray-500">Masa kerja ≥ 12 bulan dapat 1 bulan upah penuh; &lt; 12 bulan dihitung prorata.</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">Permenaker 6/2016 Pasal 3 ayat (1)</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="openThrModal()" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 2. Lembur Upah per Jam -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                            <span>Lembur (Upah per jam)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        1/173 × upah sebulan
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Menentukan standar tarif dasar upah per jam lembur karyawan.
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 31</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px]">Input</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 3. Lembur Hari Kerja -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                            <span>Lembur (Hari kerja)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        1 jam × 1,5 × upah/jam + Sisa jam × 2 × upah/jam
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Diterapkan pada hari kerja biasa di luar jam kerja reguler.
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 31–32</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px]">Input</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 4. Lembur Hari Libur -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                            <span>Lembur (Hari Libur Resmi / Istirahat)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        8 jam × 2 × upah/jam,<br>
+                                        Jam 9 = 3×, Jam 10–11 = 4×
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Khusus hari libur resmi nasional & hari istirahat mingguan.
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 31–32</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px]">Input</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 5. Upah Harian 5 Hari Kerja -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                            <span>Upah Harian (5 hari kerja)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        Upah bulanan ÷ 21
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Dipakai untuk potongan UL (Unpaid Leave / Alpha / Mangkir).
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-amber px-2.5 py-1 rounded-lg font-semibold inline-block">PP 36/2021 Pasal 21</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <span class="text-xs text-gray-400">Otomatis</span>
+                                    </td>
+                                </tr>
+
+                                <!-- 6. Upah Harian 6 Hari Kerja -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                            <span>Upah Harian (6 hari kerja)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        Upah bulanan ÷ 25
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Dipakai untuk potongan UL pada skema 6 hari kerja per minggu.
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-amber px-2.5 py-1 rounded-lg font-semibold inline-block">PP 36/2021 Pasal 21</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <span class="text-xs text-gray-400">Otomatis</span>
+                                    </td>
+                                </tr>
+
+                                <!-- 7. Pesangon PHK -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                            <span>Pesangon (PHK)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        Upah 1 bulan × faktor masa kerja
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        1–9 bulan gaji sesuai tabel masa kerja (&lt;1 th = 1 bln s.d ≥8 th = 9 bln).
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 40</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="openPesangonModal()" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 8. UPMK -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                            <span>UPMK (Penghargaan Masa Kerja)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        Upah 1 bulan × faktor masa kerja
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        2–10 bulan upah sesuai masa kerja (mulai masa kerja 3 tahun ke atas).
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 40</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="openPesangonModal()" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 9. UPH -->
+                                <tr class="hover:bg-gray-50/80 transition">
+                                    <td class="px-5 py-4 font-bold text-gray-900">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                            <span>UPH (Penggantian Hak)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4 font-mono font-bold text-mfa-900 bg-gray-50/50">
+                                        15% × (UP + UPMK) + sisa cuti + biaya lain
+                                    </td>
+                                    <td class="px-5 py-4 text-gray-600">
+                                        Termasuk penggantian sisa cuti tahunan & ongkos pulang karyawan.
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">PP 35/2021 Pasal 40 ayat (3)</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <button onclick="openPesangonModal()" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: PENGGAJIAN (CORE VIEW) ================= -->
             <section id="view-penggajian" class="space-y-6">
                 <!-- Page Title & Header Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -348,7 +623,7 @@
                         <div>
                             <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalTunjangan">Rp0</h2>
                             <div class="mt-2 text-xs text-gray-500 font-medium">
-                                Transportasi, makan, lembur & lainnya
+                                Transportasi, makan & lembur BNSP
                             </div>
                         </div>
                     </div>
@@ -362,7 +637,7 @@
                         <div>
                             <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalPotongan">Rp0</h2>
                             <div class="mt-2 text-xs text-gray-500 font-medium">
-                                PPh 21, BPJS Kes & TK
+                                PPh 21 TER, BPJS & Alpha (UL)
                             </div>
                         </div>
                     </div>
@@ -370,7 +645,6 @@
 
                 <!-- Payroll Period & Stepper Card -->
                 <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
-                    <!-- Top Row -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
@@ -396,20 +670,18 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Row: Stepper -->
+                    <!-- Stepper -->
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-2 relative">
-                        <!-- Step 1 -->
                         <div class="flex items-start gap-3">
                             <div class="w-6 h-6 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
                                 <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             </div>
                             <div>
                                 <p class="text-xs font-bold text-gray-900">Data & kehadiran</p>
-                                <p class="text-[11px] text-gray-500">Tersinkronisasi</p>
+                                <p class="text-[11px] text-gray-500">Tersinkronisasi BNSP</p>
                             </div>
                         </div>
 
-                        <!-- Step 2 -->
                         <div class="flex items-start gap-3">
                             <div class="w-6 h-6 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
                                 2
@@ -420,8 +692,7 @@
                             </div>
                         </div>
 
-                        <!-- Step 3 -->
-                        <div class="flex items-start gap-3 opacity-60" id="step3Container">
+                        <div class="flex items-start gap-3 opacity-60">
                             <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
                                 3
                             </div>
@@ -431,8 +702,7 @@
                             </div>
                         </div>
 
-                        <!-- Step 4 -->
-                        <div class="flex items-start gap-3 opacity-60" id="step4Container">
+                        <div class="flex items-start gap-3 opacity-60">
                             <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
                                 4
                             </div>
@@ -446,15 +716,14 @@
 
                 <!-- Table Container (Daftar Penggajian) -->
                 <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
-                    <!-- Card Header -->
                     <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100">
                         <div class="flex items-center gap-2.5">
                             <h3 class="text-sm font-bold text-gray-900">Daftar penggajian</h3>
                             <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-medium" id="headerCountBadge">0 karyawan</span>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition" title="Kalkulasi Ulang Pajak & BPJS">
+                        <div class="flex items-center gap-2">
+                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition" title="Kalkulasi Ulang">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-500"></i>
                                 <span>Hitung Ulang</span>
                             </button>
@@ -467,7 +736,6 @@
 
                     <!-- Filters & Search Toolbar -->
                     <div class="px-6 py-3.5 bg-gray-50/50 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <!-- Filter Tabs -->
                         <div class="flex items-center gap-1 bg-[#EEF0EE] p-1 rounded-xl text-xs font-medium">
                             <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-xs font-semibold transition">
                                 Semua <span class="ml-1 text-gray-500 font-normal" id="badgeSemua">0</span>
@@ -480,7 +748,6 @@
                             </button>
                         </div>
 
-                        <!-- Search -->
                         <div class="flex items-center gap-2">
                             <div class="relative w-full sm:w-64">
                                 <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
@@ -499,8 +766,8 @@
                                     </th>
                                     <th class="px-3 py-3.5 font-semibold text-gray-500">Karyawan</th>
                                     <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Pokok</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Tunjangan</th>
-                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Potongan (Pph+BPJS)</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Tunjangan & Lembur</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Potongan (Pajak+BPJS+UL)</th>
                                     <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Bersih (THP)</th>
                                     <th class="px-4 py-3.5 font-semibold text-gray-500">Status</th>
                                     <th class="w-20 px-6 py-3.5 text-right">Aksi</th>
@@ -512,38 +779,34 @@
                         </table>
                     </div>
 
-                    <!-- Empty State / Pagination Footer -->
                     <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 bg-white">
                         <div class="text-xs text-gray-500" id="paginationInfo">
                             Menampilkan 0 dari 0 karyawan
                         </div>
-                        <div class="flex items-center gap-1 text-xs" id="paginationControls">
-                            <!-- Pagination buttons -->
-                        </div>
+                        <div class="flex items-center gap-1 text-xs" id="paginationControls"></div>
                     </div>
                 </div>
 
                 <!-- Bottom Attention Callout -->
                 <div class="flex items-center justify-between text-xs text-gray-500 py-1">
                     <div class="flex items-center gap-2">
-                        <i data-lucide="info" class="w-4 h-4 text-gray-400"></i>
-                        <span id="bottomAttentionText">Sistem menghitung PPh 21 tarif TER PP 58/2023 & batas upah BPJS secara otomatis.</span>
+                        <i data-lucide="info" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Perhitungan lembur resmi PP 35/2021 & potongan unpaid leave PP 36/2021 terintegrasi otomatis.</span>
                     </div>
-                    <button onclick="switchView('laporan')" class="inline-flex items-center gap-1 font-medium text-gray-700 hover:text-gray-900 transition">
-                        Lihat rekapitulasi laporan
+                    <button onclick="switchView('bnsp')" class="inline-flex items-center gap-1 font-semibold text-mfa-800 hover:underline transition">
+                        Buka tabel rumus BNSP
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </button>
                 </div>
             </section>
 
-            <!-- ================= VIEW 2: RINGKASAN (DASHBOARD) ================= -->
+            <!-- ================= VIEW: RINGKASAN (DASHBOARD) ================= -->
             <section id="view-ringkasan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Ringkasan Payroll & HR</h1>
-                    <p class="text-xs text-gray-500 mt-1">Ikhtisar metrik penggajian, komposisi pajak PPh 21, dan distribusi departemen.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Ringkasan Payroll & HR Perusahaan</h1>
+                    <p class="text-xs text-gray-500 mt-1">Ikhtisar metrik penggajian, komposisi pajak PPh 21, dan distribusi biaya tenaga kerja.</p>
                 </div>
 
-                <!-- Quick Action Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
                         <div class="w-9 h-9 rounded-xl bg-mfa-50 text-mfa-800 flex items-center justify-center font-bold">
@@ -551,7 +814,7 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-gray-900">Tambah Karyawan Baru</h3>
-                            <p class="text-xs text-gray-500 mt-1">Daftarkan NIK, gaji pokok, tunjangan, dan status pajak PTKP.</p>
+                            <p class="text-xs text-gray-500 mt-1">Daftarkan NIK, gaji pokok, tunjangan, dan tanggal masuk kerja.</p>
                         </div>
                         <button onclick="openEmployeeModal()" class="text-xs font-semibold text-mfa-800 hover:underline inline-flex items-center gap-1">
                             Mulai pendaftaran <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
@@ -559,35 +822,34 @@
                     </div>
 
                     <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
-                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                            <i data-lucide="gift" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Kalkulator Pajak TER PPh 21</h3>
-                            <p class="text-xs text-gray-500 mt-1">Simulasikan perhitungan pajak berdasarkan TER A, B, atau C.</p>
+                            <h3 class="text-sm font-bold text-gray-900">Kalkulator THR (Permenaker 6/2016)</h3>
+                            <p class="text-xs text-gray-500 mt-1">Hitung hak Tunjangan Hari Raya prorata atau penuh karyawan.</p>
                         </div>
-                        <button onclick="openTaxSimulatorModal()" class="text-xs font-semibold text-blue-700 hover:underline inline-flex items-center gap-1">
-                            Buka simulasi <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        <button onclick="openThrModal()" class="text-xs font-semibold text-amber-700 hover:underline inline-flex items-center gap-1">
+                            Hitung THR <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
                     <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-                            <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-gray-900">Unduh Laporan Payroll</h3>
-                            <p class="text-xs text-gray-500 mt-1">Ekspor rekapitulasi gaji bulanan siap cetak atau format CSV/Excel.</p>
+                            <h3 class="text-sm font-bold text-gray-900">Kalkulator Pesangon (PP 35/2021)</h3>
+                            <p class="text-xs text-gray-500 mt-1">Hitung Uang Pesangon (UP), UPMK, & UPH 15% secara resmi.</p>
                         </div>
-                        <button onclick="exportPayrollCsv()" class="text-xs font-semibold text-emerald-700 hover:underline inline-flex items-center gap-1">
-                            Ekspor CSV <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        <button onclick="openPesangonModal()" class="text-xs font-semibold text-blue-700 hover:underline inline-flex items-center gap-1">
+                            Hitung Pesangon <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Breakdown Overview Cards -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Rincian Biaya Penggajian -->
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
                         <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
                             <i data-lucide="pie-chart" class="w-4 h-4 text-mfa-700"></i>
@@ -603,15 +865,19 @@
                                 <span class="font-bold text-gray-900" id="dashTunjanganTetap">Rp0</span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Upah Lembur (Overtime)</span>
+                                <span class="text-gray-600">Upah Lembur (Hari Kerja & Libur PP 35/2021)</span>
                                 <span class="font-bold text-gray-900" id="dashLembur">Rp0</span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
-                                <span>Iuran BPJS Ketenagakerjaan (Pekerja 3%)</span>
+                                <span>Potongan Mangkir/Alpha (PP 36/2021)</span>
+                                <span class="font-bold" id="dashPotonganAlpha">- Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                                <span>Iuran BPJS Ketenagakerjaan (3%)</span>
                                 <span class="font-bold" id="dashBpjsTk">- Rp0</span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
-                                <span>Iuran BPJS Kesehatan (Pekerja 1%)</span>
+                                <span>Iuran BPJS Kesehatan (1%)</span>
                                 <span class="font-bold" id="dashBpjsKes">- Rp0</span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
@@ -625,40 +891,39 @@
                         </div>
                     </div>
 
-                    <!-- Status Kepatuhan & Rumus Penggajian -->
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
                         <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="book-open" class="w-4 h-4 text-mfa-700"></i>
-                            Standar Rumus Payroll Indonesia
+                            <i data-lucide="shield" class="w-4 h-4 text-mfa-700"></i>
+                            Kepatuhan Regulasi Ketenagakerjaan
                         </h3>
                         <div class="space-y-3 text-xs text-gray-600 leading-relaxed">
                             <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">1. PPh 21 TER (PP 58/2023)</p>
-                                <p class="text-[11px] text-gray-500">PPh 21 = Penghasilan Bruto Sebulan × Tarif TER Kategori (A/B/C).</p>
+                                <p class="font-bold text-gray-900">Permenaker 6/2016 (THR Keagamaan)</p>
+                                <p class="text-[11px] text-gray-500">Masa kerja &ge; 12 bulan: 1 bulan upah. Masa kerja 1 s.d &lt;12 bulan: (Masa kerja &divide; 12) &times; Upah.</p>
                             </div>
                             <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">2. BPJS Kesehatan (Perpres 64/2020)</p>
-                                <p class="text-[11px] text-gray-500">1% Pekerja + 4% Perusahaan. Batas atas upah maksimal Rp12.000.000/bln (Maks iuran pekerja Rp120.000).</p>
+                                <p class="font-bold text-gray-900">PP 35/2021 Pasal 31–32 (Lembur)</p>
+                                <p class="text-[11px] text-gray-500">Upah/jam = 1/173. Hari kerja: 1.5&times; lalu 2&times;. Hari libur resmi: 8 jam pertama 2&times;, jam ke-9 3&times;, jam ke-10–11 4&times;.</p>
                             </div>
                             <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">3. BPJS Ketenagakerjaan (PP 44, 45, 46/2015)</p>
-                                <p class="text-[11px] text-gray-500">JHT 2% pekerja (3.7% kantor), JP 1% pekerja (2% kantor, batas upah pensiun Rp10.042.300).</p>
+                                <p class="font-bold text-gray-900">PP 36/2021 Pasal 21 (Potongan Mangkir)</p>
+                                <p class="text-[11px] text-gray-500">Perusahaan 5 hari kerja: Upah &divide; 21. Perusahaan 6 hari kerja: Upah &divide; 25.</p>
                             </div>
                             <div class="p-3 bg-gray-50 rounded-xl space-y-1">
-                                <p class="font-bold text-gray-900">4. Upah Lembur (PP 35/2021)</p>
-                                <p class="text-[11px] text-gray-500">Upah/jam = 1/173 × Gaji Sebulan. Jam ke-1: 1.5×, jam ke-2 dst: 2× upah per jam.</p>
+                                <p class="font-bold text-gray-900">PP 35/2021 Pasal 40 (Pesangon PHK)</p>
+                                <p class="text-[11px] text-gray-500">Uang Pesangon (1–9 bln) + UPMK (2–10 bln) + UPH 15% dari (Pesangon + UPMK) &amp; cuti.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= VIEW 3: KARYAWAN (MASTER DATA) ================= -->
+            <!-- ================= VIEW: KARYAWAN (MASTER DATA) ================= -->
             <section id="view-karyawan" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900">Master Data Karyawan</h1>
-                        <p class="text-xs text-gray-500 mt-1">Kelola data identitas, jabatan, departemen, dan komponen gaji pokok karyawan.</p>
+                        <p class="text-xs text-gray-500 mt-1">Kelola data identitas, masa kerja, jabatan, dan komponen gaji pokok karyawan.</p>
                     </div>
                     <button onclick="openEmployeeModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
                         <i data-lucide="plus" class="w-4 h-4"></i>
@@ -672,30 +937,28 @@
                             <thead>
                                 <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
                                     <th class="px-6 py-3.5">NIK & Karyawan</th>
+                                    <th class="px-4 py-3.5">Masa Kerja</th>
                                     <th class="px-4 py-3.5">Departemen & Posisi</th>
                                     <th class="px-4 py-3.5">Gaji Pokok</th>
                                     <th class="px-4 py-3.5">Tunjangan Tetap</th>
-                                    <th class="px-4 py-3.5">PTKP / Status Pajak</th>
-                                    <th class="px-4 py-3.5">Status Kerja</th>
+                                    <th class="px-4 py-3.5">PTKP (TER)</th>
                                     <th class="px-6 py-3.5 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="karyawanMasterTableBody" class="divide-y divide-gray-100 text-gray-700">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="karyawanMasterTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= VIEW 4: KEHADIRAN (ABSENSI & LEMBUR) ================= -->
+            <!-- ================= VIEW: KEHADIRAN (ABSENSI & LEMBUR BNSP) ================= -->
             <section id="view-kehadiran" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Absensi & Rekapitulasi Lembur</h1>
-                        <p class="text-xs text-gray-500 mt-1">Catatan kehadiran, hari mangkir (alpha), dan jam lembur yang memengaruhi perhitungan gaji.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Absensi, Unpaid Leave & Lembur (PP 35 & 36/2021)</h1>
+                        <p class="text-xs text-gray-500 mt-1">Lembur hari biasa ($1.5\times \rightarrow 2\times$), lembur hari libur ($2\times \rightarrow 3\times \rightarrow 4\times$), dan potongan alpha berdasarkan hari kerja.</p>
                     </div>
-                    <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil diperbarui!')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                    <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil disinkronkan!')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
                         <i data-lucide="save" class="w-4 h-4"></i>
                         <span>Simpan & Sinkronkan</span>
                     </button>
@@ -707,27 +970,25 @@
                             <thead>
                                 <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
                                     <th class="px-6 py-3.5">Karyawan</th>
-                                    <th class="px-4 py-3.5">Hari Efektif</th>
+                                    <th class="px-4 py-3.5">Upah/Jam (1/173)</th>
                                     <th class="px-4 py-3.5">Hadir (Hari)</th>
-                                    <th class="px-4 py-3.5">Sakit/Izin (Hari)</th>
-                                    <th class="px-4 py-3.5">Alpha/Mangkir</th>
-                                    <th class="px-4 py-3.5">Lembur (Jam)</th>
-                                    <th class="px-4 py-3.5">Kalkulasi Upah Lembur</th>
+                                    <th class="px-4 py-3.5">Alpha (Mangkir)</th>
+                                    <th class="px-4 py-3.5">Lembur Kerja (Jam)</th>
+                                    <th class="px-4 py-3.5">Lembur Libur (Jam)</th>
+                                    <th class="px-4 py-3.5 font-bold text-gray-900">Total Lembur</th>
                                 </tr>
                             </thead>
-                            <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 text-gray-700">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= VIEW 5: PERSETUJUAN (APPROVAL) ================= -->
+            <!-- ================= VIEW: PERSETUJUAN (APPROVAL) ================= -->
             <section id="view-persetujuan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Alur Persetujuan Payroll</h1>
-                    <p class="text-xs text-gray-500 mt-1">Multi-level approval: Verifikasi HR $\rightarrow$ Finance Manager $\rightarrow$ Direktur Utama.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Alur Persetujuan Payroll Perusahaan</h1>
+                    <p class="text-xs text-gray-500 mt-1">Multi-level approval: HR Staff $\rightarrow$ Finance Manager $\rightarrow$ Direktur Utama.</p>
                 </div>
 
                 <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
@@ -739,7 +1000,6 @@
                         <span class="badge-amber px-3 py-1 rounded-full text-xs font-bold" id="approvalStateBadge">Draft / Siap Diajukan</span>
                     </div>
 
-                    <!-- Steps Timeline -->
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
                             <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
@@ -747,7 +1007,7 @@
                             </div>
                             <div>
                                 <h4 class="text-xs font-bold text-gray-900">1. Penyusunan oleh HR Admin (Muhammad Faari Akbar)</h4>
-                                <p class="text-[11px] text-gray-500">Semua data gaji, absensi, potongan BPJS, dan PPh 21 TER dihitung otomatis.</p>
+                                <p class="text-[11px] text-gray-500">Semua data gaji, absensi, potongan BPJS, lembur BNSP, dan PPh 21 TER dihitung otomatis.</p>
                                 <span class="text-[10px] text-emerald-700 font-semibold mt-1 inline-block">✓ Selesai & Terverifikasi</span>
                             </div>
                         </div>
@@ -770,7 +1030,7 @@
                                 3
                             </div>
                             <div class="flex-1">
-                                <h4 class="text-xs font-bold text-gray-900">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur)</h4>
+                                <h4 class="text-xs font-bold text-gray-900">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur Utama)</h4>
                                 <p class="text-[11px] text-gray-500">Otorisasi final untuk proses pencairan dana gaji ke rekening karyawan.</p>
                                 <div class="mt-2 flex gap-2">
                                     <button onclick="approveStep(3)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Otorisasi Pencairan</button>
@@ -781,19 +1041,17 @@
                 </div>
             </section>
 
-            <!-- ================= VIEW 6: LAPORAN (REKAP & PAJAK) ================= -->
+            <!-- ================= VIEW: LAPORAN (REKAP & PAJAK) ================= -->
             <section id="view-laporan" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Laporan Rekapitulasi & SPT PPh 21</h1>
-                        <p class="text-xs text-gray-500 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi.</p>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Laporan Rekapitulasi & SPT PPh 21 Masa</h1>
+                        <p class="text-xs text-gray-500 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
-                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                            <span>Download Format CSV / Excel</span>
-                        </button>
-                    </div>
+                    <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                        <span>Download Format CSV / Excel</span>
+                    </button>
                 </div>
 
                 <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
@@ -806,84 +1064,76 @@
                                     <th class="px-4 py-3">NPWP</th>
                                     <th class="px-4 py-3">Kategori TER</th>
                                     <th class="px-4 py-3">Penghasilan Bruto</th>
-                                    <th class="px-4 py-3">Tarif Efektif (%)</th>
+                                    <th class="px-4 py-3">Tarif (%)</th>
                                     <th class="px-4 py-3">PPh 21 Dipotong</th>
-                                    <th class="px-4 py-3">BPJS TK (Pemberi Kerja)</th>
-                                    <th class="px-4 py-3">BPJS Kes (Pemberi Kerja)</th>
+                                    <th class="px-4 py-3">BPJS TK Kantor</th>
+                                    <th class="px-4 py-3">BPJS Kes Kantor</th>
                                 </tr>
                             </thead>
-                            <tbody id="laporanTableBody" class="divide-y divide-gray-100 text-gray-700">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="laporanTableBody" class="divide-y divide-gray-100 text-gray-700"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- ================= VIEW 7: PENGATURAN & RUMUS ================= -->
+            <!-- ================= VIEW: PENGATURAN PERUSAHAAN & RUMUS ================= -->
             <section id="view-pengaturan" class="space-y-6 hidden">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Pengaturan Payroll & Parameter Rumus</h1>
-                    <p class="text-xs text-gray-500 mt-1">Konfigurasi persentase BPJS, batas upah maksimal, dan peraturan pajak pemerintah Indonesia.</p>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Profil Perusahaan & Parameter Rumus</h1>
+                    <p class="text-xs text-gray-500 mt-1">Kustomisasi nama perusahaan, skema hari kerja (5 atau 6 hari), dan batas plafon upah.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Setting Pajak PPh 21 -->
+                    <!-- Pengaturan Profil Perusahaan -->
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
                         <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="scale" class="w-4 h-4 text-mfa-800"></i>
-                            Regulasi PPh 21 (PP 58 Tahun 2023)
+                            <i data-lucide="building-2" class="w-4 h-4 text-mfa-800"></i>
+                            Identitas Perusahaan (B2B Tools)
                         </h3>
                         <div class="space-y-3 text-xs">
                             <div>
-                                <label class="block text-gray-600 font-medium mb-1">Metode Pajak</label>
-                                <select class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 text-xs">
-                                    <option selected>Gross (Pajak dipotong dari gaji karyawan)</option>
-                                    <option>Gross Up (Tunjangan pajak dari perusahaan)</option>
-                                    <option>Nett (Pajak ditanggung perusahaan)</option>
+                                <label class="block text-gray-700 font-semibold mb-1">Nama Perusahaan / Organisasi</label>
+                                <input type="text" id="settingCompanyName" value="MFA Studio" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-1">Skema Hari Kerja (Dasar Potongan Alpha PP 36/2021)</label>
+                                <select id="settingWorkDays" onchange="updateCompanySettings()" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold">
+                                    <option value="5" selected>5 Hari Kerja per Minggu (Potongan Alpha = Upah ÷ 21)</option>
+                                    <option value="6">6 Hari Kerja per Minggu (Potongan Alpha = Upah ÷ 25)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-medium mb-1">Kategori TER A</label>
-                                <p class="text-gray-400 text-[11px]">PTKP: TK/0 (Rp54.000.000), TK/1 (Rp58.500.000), K/0 (Rp58.500.000)</p>
+                                <label class="block text-gray-700 font-semibold mb-1">NPWP Perusahaan</label>
+                                <input type="text" id="settingCompanyNpwp" value="01.234.567.8-012.000" class="w-full p-2.5 rounded-xl border border-gray-200 text-xs">
                             </div>
-                            <div>
-                                <label class="block text-gray-600 font-medium mb-1">Kategori TER B</label>
-                                <p class="text-gray-400 text-[11px]">PTKP: TK/2 (Rp63.000.000), TK/3 (Rp67.500.000), K/1 (Rp63.000.000), K/2 (Rp67.500.000)</p>
-                            </div>
-                            <div>
-                                <label class="block text-gray-600 font-medium mb-1">Kategori TER C</label>
-                                <p class="text-gray-400 text-[11px]">PTKP: K/3 (Rp72.000.000)</p>
+                            <div class="pt-2">
+                                <button onclick="saveCompanySettings()" class="px-4 py-2 bg-[#1B3B2B] text-white rounded-xl text-xs font-semibold">Simpan Pengaturan</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Setting BPJS -->
+                    <!-- Parameter BPJS & Pajak -->
                     <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
                         <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                            <i data-lucide="shield" class="w-4 h-4 text-mfa-800"></i>
-                            Batas Plafon & Tarif BPJS
+                            <i data-lucide="scale" class="w-4 h-4 text-mfa-800"></i>
+                            Parameter Hukum & Batas Upah
                         </h3>
                         <div class="space-y-3 text-xs">
                             <div class="flex justify-between py-1.5 border-b border-gray-100">
-                                <span>BPJS Kesehatan (Pekerja)</span>
-                                <span class="font-bold">1.0% (Maks Upah Rp12.000.000)</span>
+                                <span>Plafon Upah Maks BPJS Kesehatan</span>
+                                <span class="font-bold">Rp12.000.000 (Maks Iuran Rp120.000)</span>
                             </div>
                             <div class="flex justify-between py-1.5 border-b border-gray-100">
-                                <span>BPJS Kesehatan (Perusahaan)</span>
-                                <span class="font-bold">4.0% (Maks Upah Rp12.000.000)</span>
+                                <span>Plafon Upah Maks Jaminan Pensiun (JP)</span>
+                                <span class="font-bold">Rp10.042.300 (Maks Iuran Rp100.423)</span>
                             </div>
                             <div class="flex justify-between py-1.5 border-b border-gray-100">
-                                <span>BPJS TK JHT (Pekerja)</span>
-                                <span class="font-bold">2.0%</span>
-                            </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
-                                <span>BPJS TK Jaminan Pensiun (Pekerja)</span>
-                                <span class="font-bold">1.0% (Maks Upah Rp10.042.300)</span>
-                            </div>
-                            <div class="flex justify-between py-1.5 border-b border-gray-100">
-                                <span>Faktor Pengali Jam Lembur Standar</span>
+                                <span>Pengali Lembur Standar (PP 35/2021)</span>
                                 <span class="font-bold">1 / 173 per Jam</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>Tarif Efektif PPh 21 Bulanan</span>
+                                <span class="font-bold text-emerald-700">PP 58 Tahun 2023 (TER A, B, C)</span>
                             </div>
                         </div>
                     </div>
@@ -893,9 +1143,133 @@
         </main>
     </div>
 
-    <!-- ================= MODALS ================= -->
+    <!-- ================= MODALS SPESIAL BNSP & RUMUS ================= -->
 
-    <!-- 1. MODAL TAMBAH / EDIT KARYAWAN -->
+    <!-- 1. MODAL KALKULATOR THR (PERMENAKER 6/2016) -->
+    <div id="thrModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                        <i data-lucide="gift" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900">Kalkulator THR Keagamaan</h3>
+                        <p class="text-[11px] text-gray-500">Permenaker No. 6 Tahun 2016 Pasal 3</p>
+                    </div>
+                </div>
+                <button onclick="closeThrModal()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Gaji Sebulan (Gaji Pokok + Tunjangan Tetap)</label>
+                    <input type="number" id="thrGaji" value="12000000" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Masa Kerja (Bulan)</label>
+                    <input type="number" id="thrMasaKerja" value="6" min="1" max="600" oninput="calculateThr()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    <p class="text-[11px] text-gray-400 mt-1">Minimal masa kerja 1 bulan untuk mendapatkan THR.</p>
+                </div>
+
+                <div class="p-4 bg-amber-50/80 rounded-xl space-y-2 border border-amber-200/60">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Ketentuan Hak THR:</span>
+                        <span class="font-bold text-gray-900" id="thrStatusText">Prorata (Masa kerja &lt; 12 bulan)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Rumus:</span>
+                        <span class="font-mono text-xs text-amber-900 font-semibold" id="thrRumusText">(6 &divide; 12) &times; Rp12.000.000</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-amber-200/60">
+                        <span class="font-bold text-gray-900">Total Nominal THR:</span>
+                        <span class="font-extrabold text-base text-amber-800" id="thrNominalResult">Rp6.000.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeThrModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL KALKULATOR PESANGON, UPMK & UPH (PP 35/2021) -->
+    <div id="pesangonModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 max-h-[92vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900">Kalkulator Pesangon PHK (PP 35/2021)</h3>
+                        <p class="text-[11px] text-gray-500">Pasal 40: Uang Pesangon (UP) + UPMK + UPH 15%</p>
+                    </div>
+                </div>
+                <button onclick="closePesangonModal()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Upah Sebulan (Pokok + Tetap)</label>
+                        <input type="number" id="pesangonGaji" value="10000000" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Masa Kerja (Tahun Penuh)</label>
+                        <input type="number" id="pesangonTahun" value="4" min="0" max="40" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Alasan Pemutusan Hubungan Kerja (PHK)</label>
+                        <select id="pesangonFaktor" onchange="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                            <option value="1.0">Standar (1.0x Pesangon)</option>
+                            <option value="0.5">Efisiensi Rugi / Tutup (0.5x Pesangon)</option>
+                            <option value="1.75">Pensiun Normal (1.75x Pesangon)</option>
+                            <option value="2.0">Meninggal Dunia / Sakit (2.0x Pesangon)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Sisa Cuti Belum Diambil (Hari)</label>
+                        <input type="number" id="pesangonSisaCuti" value="5" min="0" oninput="calculatePesangon()" class="w-full p-2.5 rounded-xl border border-gray-200">
+                    </div>
+                </div>
+
+                <!-- Hasil Kalkulasi Rinci -->
+                <div class="p-4 bg-gray-50 rounded-xl space-y-2.5 border border-gray-200">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">1. Uang Pesangon (UP) <span id="pesangonUpFaktor" class="text-gray-400">(5 bulan &times; faktor)</span>:</span>
+                        <span class="font-bold text-gray-900" id="pesangonUpNominal">Rp50.000.000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">2. Uang Penghargaan Masa Kerja (UPMK) <span id="pesangonUpmkFaktor" class="text-gray-400">(2 bulan)</span>:</span>
+                        <span class="font-bold text-gray-900" id="pesangonUpmkNominal">Rp20.000.000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">3. Uang Penggantian Hak (UPH) 15% dari (UP+UPMK) &amp; Cuti:</span>
+                        <span class="font-bold text-gray-900" id="pesangonUphNominal">Rp12.880.952</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2.5 border-t border-gray-200 text-sm">
+                        <span class="font-bold text-blue-900">Total Kompensasi PHK Diterima:</span>
+                        <span class="font-extrabold text-blue-800 text-base" id="pesangonTotalNominal">Rp82.880.952</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closePesangonModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL TAMBAH / EDIT KARYAWAN -->
     <div id="employeeModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100">
@@ -960,11 +1334,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-1">Status Pajak NPWP</label>
-                        <select id="empNpwp" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
-                            <option value="Ada">Memiliki NPWP</option>
-                            <option value="Tidak">Tidak Memiliki NPWP (+20% tarif normal)</option>
-                        </select>
+                        <label class="block text-gray-700 font-semibold mb-1">Lama Masa Kerja (Bulan)</label>
+                        <input type="number" id="empMasaKerja" required min="0" value="12" placeholder="12" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
                     </div>
                 </div>
 
@@ -976,7 +1347,7 @@
         </div>
     </div>
 
-    <!-- 2. MODAL SLIP GAJI PROFESIONAL -->
+    <!-- 4. MODAL SLIP GAJI LENGKAP STANDAR BNSP -->
     <div id="slipModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div id="slipModalContent" class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-gray-100 max-h-[92vh] overflow-y-auto">
             <!-- Modal Header -->
@@ -998,8 +1369,11 @@
             <!-- Breakdown Detail -->
             <div class="space-y-4 text-xs">
                 <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
-                    <span class="text-gray-500">Periode Penggajian</span>
-                    <span class="font-bold text-gray-900">Oktober 2026 (MFA Studio)</span>
+                    <div>
+                        <span class="text-gray-500 block text-[11px]">Perusahaan & Periode</span>
+                        <span class="font-bold text-gray-900" id="slipModalCompanyHeader">MFA Studio · Oktober 2026</span>
+                    </div>
+                    <span class="badge-green px-2.5 py-0.5 rounded-full font-bold text-[11px]">Sah & Terverifikasi</span>
                 </div>
 
                 <!-- Komponen Penerimaan -->
@@ -1011,12 +1385,16 @@
                             <span id="modalGajiPokok" class="font-semibold text-gray-900">Rp0</span>
                         </div>
                         <div class="flex justify-between py-0.5 text-gray-600">
-                            <span>Tunjangan Transport & Makan</span>
+                            <span>Tunjangan Tetap (Makan & Transport)</span>
                             <span id="modalTunjangan" class="font-semibold text-gray-900">Rp0</span>
                         </div>
                         <div class="flex justify-between py-0.5 text-gray-600">
-                            <span>Upah Lembur (Overtime)</span>
-                            <span id="modalLembur" class="font-semibold text-gray-900">Rp0</span>
+                            <span>Upah Lembur Hari Biasa (PP 35/2021)</span>
+                            <span id="modalLemburBiasa" class="font-semibold text-gray-900">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>Upah Lembur Hari Libur Resmi (PP 35/2021)</span>
+                            <span id="modalLemburLibur" class="font-semibold text-gray-900">Rp0</span>
                         </div>
                         <div class="flex justify-between py-0.5 font-bold text-gray-800 pt-1 border-t border-gray-100">
                             <span>Total Penghasilan Bruto</span>
@@ -1027,8 +1405,12 @@
 
                 <!-- Komponen Potongan -->
                 <div>
-                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-rose-800">B. Potongan Karyawan</h4>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-rose-800">B. Potongan Resmi</h4>
                     <div class="space-y-1.5 pl-2 border-l-2 border-rose-500">
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>Potongan Unpaid Leave / Alpha (PP 36/2021)</span>
+                            <span id="modalPotonganAlpha" class="font-semibold text-rose-600">- Rp0</span>
+                        </div>
                         <div class="flex justify-between py-0.5 text-gray-600">
                             <span>BPJS Kesehatan (1% Pekerja - Maks Rp120.000)</span>
                             <span id="modalBpjsKes" class="font-semibold text-rose-600">- Rp0</span>
@@ -1052,7 +1434,7 @@
                 <div class="p-4 rounded-xl bg-mfa-50 border border-mfa-200 flex justify-between items-center text-sm">
                     <div>
                         <span class="font-bold text-gray-900 block">Take Home Pay (Gaji Bersih)</span>
-                        <span class="text-[11px] text-gray-500">Ditransfer ke Rekening Karyawan</span>
+                        <span class="text-[11px] text-gray-500">Hak Bersih Diterima Karyawan</span>
                     </div>
                     <span id="modalGajiBersih" class="font-extrabold text-[#1B3B2B] text-lg">Rp0</span>
                 </div>
@@ -1069,7 +1451,7 @@
         </div>
     </div>
 
-    <!-- 3. MODAL SIMULATOR PPH 21 -->
+    <!-- 5. MODAL SIMULATOR PPH 21 TER -->
     <div id="taxSimulatorModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100">
@@ -1082,11 +1464,11 @@
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Penghasilan Bruto Sebulan (Rp)</label>
-                    <input type="number" id="simBruto" value="12000000" oninput="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    <input type="number" id="simBruto" value="12000000" oninput="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200">
                 </div>
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Status PTKP</label>
-                    <select id="simPtkp" onchange="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    <select id="simPtkp" onchange="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200">
                         <option value="TER_A">TK/0, TK/1, K/0 (Kategori TER A)</option>
                         <option value="TER_B">TK/2, TK/3, K/1, K/2 (Kategori TER B)</option>
                         <option value="TER_C">K/3 (Kategori TER C)</option>
@@ -1111,7 +1493,7 @@
         </div>
     </div>
 
-    <!-- 4. MODAL AJUKAN PERSETUJUAN -->
+    <!-- 6. MODAL AJUKAN PERSETUJUAN -->
     <div id="approvalModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100">
             <div class="w-12 h-12 rounded-2xl bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xl">
@@ -1119,8 +1501,8 @@
             </div>
             <div>
                 <h3 class="text-base font-bold text-gray-900">Ajukan Persetujuan Payroll</h3>
-                <p class="text-xs text-gray-500 mt-1 leading-relaxed" id="approvalModalDesc">
-                    Anda akan mengajukan payroll periode <b>Oktober 2026</b> untuk diverifikasi oleh Finance & Direktur Utama.
+                <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                    Anda akan mengajukan payroll terverifikasi standar BNSP &amp; Kemenaker untuk disetujui Direktur.
                 </p>
             </div>
 
@@ -1134,9 +1516,15 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
-    <!-- JAVASCRIPT PAYROLL ENGINE (PP 58/2023, BPJS & DATA MANAGER) -->
+    <!-- JAVASCRIPT PAYROLL ENGINE DENGAN RUMUS RESMI BNSP & KEMENAKER -->
     <script>
-        // Inisialisasi: Default data kosong sesuai instruksi Faari
+        // Storage Keys
+        let companySettings = JSON.parse(localStorage.getItem('mfa_company_settings')) || {
+            name: "MFA Studio",
+            workDays: 5, // 5 hari kerja (÷21) atau 6 hari kerja (÷25)
+            npwp: "01.234.567.8-012.000"
+        };
+
         let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
         let attendance = JSON.parse(localStorage.getItem('mfa_payroll_attendance')) || {};
         let currentFilter = 'semua';
@@ -1145,24 +1533,22 @@
         const pageSize = 6;
         let selectedIds = new Set();
         let currentModalEmp = null;
-        let approvalStage = 1;
 
-        // Sample Data Template (Jika Faari ingin mengisi contoh 1-klik)
+        // Sample Data Template
         const sampleEmployees = [
-            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer", dept: "Design", avatar: "AW", pokok: 12000000, tunjangan: 1500000, ptkp: "TK/0", npwp: "Ada", status: "siap" },
-            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 15000000, tunjangan: 2000000, ptkp: "K/1", npwp: "Ada", status: "siap" },
-            { id: "MFA-003", name: "Citra Maharani", role: "Finance Analyst", dept: "Finance", avatar: "CM", pokok: 10000000, tunjangan: 1000000, ptkp: "TK/1", npwp: "Ada", status: "siap" },
-            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive", dept: "Marketing", avatar: "DP", pokok: 9000000, tunjangan: 1250000, ptkp: "K/0", npwp: "Ada", status: "tinjau" },
-            { id: "MFA-005", name: "Eka Putri", role: "People Operations", dept: "HR & Operations", avatar: "EP", pokok: 11000000, tunjangan: 1000000, ptkp: "TK/0", npwp: "Ada", status: "siap" },
-            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 9500000, tunjangan: 1000000, ptkp: "K/2", npwp: "Ada", status: "siap" }
+            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer", dept: "Design", avatar: "AW", pokok: 12000000, tunjangan: 1500000, ptkp: "TK/0", masaKerja: 14, status: "siap" },
+            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 15000000, tunjangan: 2000000, ptkp: "K/1", masaKerja: 26, status: "siap" },
+            { id: "MFA-003", name: "Citra Maharani", role: "Finance Analyst", dept: "Finance", avatar: "CM", pokok: 10000000, tunjangan: 1000000, ptkp: "TK/1", masaKerja: 9, status: "siap" },
+            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive", dept: "Marketing", avatar: "DP", pokok: 9000000, tunjangan: 1250000, ptkp: "K/0", masaKerja: 5, status: "tinjau" },
+            { id: "MFA-005", name: "Eka Putri", role: "People Operations", dept: "HR & Operations", avatar: "EP", pokok: 11000000, tunjangan: 1000000, ptkp: "TK/0", masaKerja: 18, status: "siap" },
+            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 9500000, tunjangan: 1000000, ptkp: "K/2", masaKerja: 11, status: "siap" }
         ];
 
-        // Format Angka Rupiah
         function formatRupiah(num) {
             return 'Rp' + Math.round(num || 0).toLocaleString('id-ID');
         }
 
-        // ================= RUMUS PPH 21 TER (PP 58 TAHUN 2023) =================
+        // ================= RUMUS RESMI PPH 21 TER (PP 58/2023) =================
         function getTerCategory(ptkp) {
             if (['TK/0', 'TK/1', 'K/0'].includes(ptkp)) return 'TER_A';
             if (['TK/2', 'TK/3', 'K/1', 'K/2'].includes(ptkp)) return 'TER_B';
@@ -1204,7 +1590,6 @@
                 if (bruto <= 18600000) return 0.05;
                 return 0.07;
             } else {
-                // TER_C
                 if (bruto <= 6600000) return 0.00;
                 if (bruto <= 6950000) return 0.0025;
                 if (bruto <= 7350000) return 0.005;
@@ -1216,48 +1601,77 @@
             }
         }
 
-        // ================= ENGINE PERHITUNGAN PAYROLL LENGKAP =================
+        // ================= ENGINE KALKULASI UTAMA (BNSP & KEMENAKER) =================
         function calculatePayrollForEmployee(emp) {
-            const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburJam: 0 };
-            
-            // 1. Upah Lembur (PP 35/2021): 1/173 x Gaji Sebulan
-            const upahPerJam = (emp.pokok + emp.tunjangan) / 173;
-            let lemburNominal = 0;
-            if (att.lemburJam > 0) {
-                // Jam ke-1: 1.5x, jam selanjutnya 2x
-                lemburNominal = upahPerJam * 1.5 + (att.lemburJam - 1 > 0 ? (att.lemburJam - 1) * upahPerJam * 2 : 0);
+            const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
+            const upahBulanan = emp.pokok + emp.tunjangan;
+
+            // 1. Upah Lembur Per Jam (PP 35/2021 Pasal 31) = 1/173 x Upah Sebulan
+            const upahPerJam = upahBulanan / 173;
+
+            // 2. Lembur Hari Kerja Biasa: 1 jam x 1.5x + sisa jam x 2x
+            let lemburBiasaNominal = 0;
+            if (att.lemburBiasa > 0) {
+                lemburBiasaNominal += 1.5 * upahPerJam;
+                if (att.lemburBiasa > 1) {
+                    lemburBiasaNominal += (att.lemburBiasa - 1) * 2 * upahPerJam;
+                }
             }
 
-            // 2. Penghasilan Bruto
-            const totalBruto = emp.pokok + emp.tunjangan + lemburNominal;
+            // 3. Lembur Hari Libur Resmi / Istirahat Mingguan:
+            // 8 jam pertama = 8 x 2x; jam ke-9 = 3x; jam ke-10 & 11 = 4x
+            let lemburLiburNominal = 0;
+            if (att.lemburLibur > 0) {
+                const jamLibur = att.lemburLibur;
+                if (jamLibur <= 8) {
+                    lemburLiburNominal = jamLibur * 2 * upahPerJam;
+                } else if (jamLibur === 9) {
+                    lemburLiburNominal = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam);
+                } else {
+                    const jamLebih = jamLibur - 9;
+                    lemburLiburNominal = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam) + (jamLebih * 4 * upahPerJam);
+                }
+            }
 
-            // 3. Potongan BPJS Kesehatan Karyawan (1%, Maks Upah Rp12.000.000)
-            const basisBpjsKes = Math.min(emp.pokok + emp.tunjangan, 12000000);
+            const totalLembur = lemburBiasaNominal + lemburLiburNominal;
+
+            // 4. Potongan Unpaid Leave / Alpha (PP 36/2021 Pasal 21)
+            // 5 hari kerja = Upah / 21; 6 hari kerja = Upah / 25
+            const pembagiHari = companySettings.workDays === 6 ? 25 : 21;
+            const upahHarian = upahBulanan / pembagiHari;
+            const potonganAlpha = (att.alpha || 0) * upahHarian;
+
+            // 5. Total Penghasilan Bruto (Setelah Lembur)
+            const totalBruto = Math.max(0, emp.pokok + emp.tunjangan + totalLembur);
+
+            // 6. BPJS Kesehatan (1% Karyawan, Maks Upah Rp12.000.000)
+            const basisBpjsKes = Math.min(upahBulanan, 12000000);
             const bpjsKesKaryawan = basisBpjsKes * 0.01;
             const bpjsKesPerusahaan = basisBpjsKes * 0.04;
 
-            // 4. Potongan BPJS Ketenagakerjaan Karyawan (JHT 2% + JP 1% Maks Upah Rp10.042.300)
+            // 7. BPJS Ketenagakerjaan (JHT 2% + JP 1% Maks Upah Rp10.042.300)
             const jhtKaryawan = emp.pokok * 0.02;
             const jpKaryawan = Math.min(emp.pokok, 10042300) * 0.01;
             const bpjsTkKaryawan = jhtKaryawan + jpKaryawan;
-            const bpjsTkPerusahaan = (emp.pokok * 0.037) + (Math.min(emp.pokok, 10042300) * 0.02) + (emp.pokok * 0.0054); // JHT 3.7% + JP 2% + JKK/JKM 0.54%
+            const bpjsTkPerusahaan = (emp.pokok * 0.037) + (Math.min(emp.pokok, 10042300) * 0.02) + (emp.pokok * 0.0054);
 
-            // 5. Potongan PPh 21 TER PP 58/2023
+            // 8. PPh 21 TER (PP 58/2023)
             const terCat = getTerCategory(emp.ptkp);
             const terRate = getTerRate(terCat, totalBruto);
-            let pph21 = totalBruto * terRate;
-            if (emp.npwp === 'Tidak') {
-                pph21 *= 1.2; // Tambahan 20% bagi yang tidak memiliki NPWP
-            }
+            const pph21 = totalBruto * terRate;
 
-            // 6. Total Potongan Karyawan
-            const totalPotongan = bpjsKesKaryawan + bpjsTkKaryawan + pph21;
+            // 9. Total Seluruh Potongan
+            const totalPotongan = bpjsKesKaryawan + bpjsTkKaryawan + pph21 + potonganAlpha;
 
-            // 7. Gaji Bersih (Take Home Pay)
-            const gajiBersih = totalBruto - totalPotongan;
+            // 10. Gaji Bersih (Take Home Pay)
+            const gajiBersih = Math.max(0, totalBruto - totalPotongan);
 
             return {
-                lemburNominal,
+                upahPerJam,
+                lemburBiasaNominal,
+                lemburLiburNominal,
+                totalLembur,
+                potonganAlpha,
                 totalBruto,
                 bpjsKesKaryawan,
                 bpjsKesPerusahaan,
@@ -1271,7 +1685,111 @@
             };
         }
 
-        // ================= RENDER UTAMA =================
+        // ================= RUMUS THR (PERMENAKER 6/2016) =================
+        function calculateThr() {
+            const gaji = parseFloat(document.getElementById('thrGaji').value) || 0;
+            const masaKerjaBulan = parseFloat(document.getElementById('thrMasaKerja').value) || 0;
+
+            let thr = 0;
+            let status = "";
+            let rumus = "";
+
+            if (masaKerjaBulan < 1) {
+                thr = 0;
+                status = "Belum berhak THR (Masa kerja < 1 bulan)";
+                rumus = "Tidak berhak THR";
+            } else if (masaKerjaBulan >= 12) {
+                thr = gaji;
+                status = "Penuh (Masa kerja ≥ 12 bulan)";
+                rumus = `1 × ${formatRupiah(gaji)}`;
+            } else {
+                thr = (masaKerjaBulan / 12) * gaji;
+                status = "Prorata (Masa kerja < 12 bulan)";
+                rumus = `(${masaKerjaBulan} ÷ 12) × ${formatRupiah(gaji)}`;
+            }
+
+            document.getElementById('thrStatusText').innerText = status;
+            document.getElementById('thrRumusText').innerText = rumus;
+            document.getElementById('thrNominalResult').innerText = formatRupiah(thr);
+        }
+
+        function openThrModal() {
+            calculateThr();
+            document.getElementById('thrModal').classList.remove('hidden');
+            document.getElementById('thrModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeThrModal() {
+            document.getElementById('thrModal').classList.add('hidden');
+            document.getElementById('thrModal').classList.remove('flex');
+        }
+
+        // ================= RUMUS PESANGON, UPMK & UPH (PP 35/2021 PASAL 40) =================
+        function calculatePesangon() {
+            const upah = parseFloat(document.getElementById('pesangonGaji').value) || 0;
+            const tahun = parseFloat(document.getElementById('pesangonTahun').value) || 0;
+            const faktorPHK = parseFloat(document.getElementById('pesangonFaktor').value) || 1.0;
+            const sisaCuti = parseFloat(document.getElementById('pesangonSisaCuti').value) || 0;
+
+            // 1. Uang Pesangon (UP) PP 35/2021 Pasal 40 Ayat 2
+            let upFaktorBulan = 1;
+            if (tahun < 1) upFaktorBulan = 1;
+            else if (tahun < 2) upFaktorBulan = 2;
+            else if (tahun < 3) upFaktorBulan = 3;
+            else if (tahun < 4) upFaktorBulan = 4;
+            else if (tahun < 5) upFaktorBulan = 5;
+            else if (tahun < 6) upFaktorBulan = 6;
+            else if (tahun < 7) upFaktorBulan = 7;
+            else if (tahun < 8) upFaktorBulan = 8;
+            else upFaktorBulan = 9;
+
+            const upNominal = upFaktorBulan * upah * faktorPHK;
+
+            // 2. UPMK PP 35/2021 Pasal 40 Ayat 3
+            let upmkFaktorBulan = 0;
+            if (tahun < 3) upmkFaktorBulan = 0;
+            else if (tahun < 6) upmkFaktorBulan = 2;
+            else if (tahun < 9) upmkFaktorBulan = 3;
+            else if (tahun < 12) upmkFaktorBulan = 4;
+            else if (tahun < 15) upmkFaktorBulan = 5;
+            else if (tahun < 18) upmkFaktorBulan = 6;
+            else if (tahun < 21) upmkFaktorBulan = 7;
+            else if (tahun < 24) upmkFaktorBulan = 8;
+            else upmkFaktorBulan = 10;
+
+            const upmkNominal = upmkFaktorBulan * upah;
+
+            // 3. UPH PP 35/2021 Pasal 40 Ayat 4
+            const kompensasiCuti = sisaCuti * (upah / 21);
+            const uph15Persen = 0.15 * (upNominal + upmkNominal);
+            const uphNominal = uph15Persen + kompensasiCuti;
+
+            const totalKompensasi = upNominal + upmkNominal + uphNominal;
+
+            document.getElementById('pesangonUpFaktor').innerText = `(${upFaktorBulan} bln × ${faktorPHK}x)`;
+            document.getElementById('pesangonUpNominal').innerText = formatRupiah(upNominal);
+
+            document.getElementById('pesangonUpmkFaktor').innerText = `(${upmkFaktorBulan} bln)`;
+            document.getElementById('pesangonUpmkNominal').innerText = formatRupiah(upmkNominal);
+
+            document.getElementById('pesangonUphNominal').innerText = formatRupiah(uphNominal);
+            document.getElementById('pesangonTotalNominal').innerText = formatRupiah(totalKompensasi);
+        }
+
+        function openPesangonModal() {
+            calculatePesangon();
+            document.getElementById('pesangonModal').classList.remove('hidden');
+            document.getElementById('pesangonModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closePesangonModal() {
+            document.getElementById('pesangonModal').classList.add('hidden');
+            document.getElementById('pesangonModal').classList.remove('flex');
+        }
+
+        // ================= RENDER UTAMA SEMUA TAB =================
         function renderAll() {
             renderPayrollTable();
             renderMetrics();
@@ -1304,7 +1822,7 @@
                                 <i data-lucide="inbox" class="w-6 h-6"></i>
                             </div>
                             <p class="font-bold text-gray-700 text-sm">Belum ada data payroll</p>
-                            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Klik tombol <b>+ Tambah Karyawan</b> atau <b>Muat Contoh Data</b> di atas untuk mulai menguji sistem penggajian.</p>
+                            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Klik tombol <b>+ Tambah Karyawan</b> atau <b>Muat Contoh</b> untuk mulai menguji kalkulasi otomatis.</p>
                         </td>
                     </tr>
                 `;
@@ -1341,7 +1859,7 @@
                         </div>
                     </td>
                     <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.pokok)}</td>
-                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.tunjangan + calc.lemburNominal)}</td>
+                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.tunjangan + calc.totalLembur)}</td>
                     <td class="px-4 py-4 font-normal text-rose-600">- ${formatRupiah(calc.totalPotongan)}</td>
                     <td class="px-4 py-4 font-bold text-gray-900">${formatRupiah(calc.gajiBersih)}</td>
                     <td class="px-4 py-4">${statusBadge}</td>
@@ -1368,6 +1886,7 @@
             let totalPotongan = 0;
             let totalGajiPokok = 0;
             let totalLembur = 0;
+            let totalPotonganAlpha = 0;
             let totalBpjsKes = 0;
             let totalBpjsTk = 0;
             let totalPph21 = 0;
@@ -1378,10 +1897,11 @@
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
                 totalGajiBersih += calc.gajiBersih;
-                totalTunjangan += (emp.tunjangan + calc.lemburNominal);
+                totalTunjangan += (emp.tunjangan + calc.totalLembur);
                 totalPotongan += calc.totalPotongan;
                 totalGajiPokok += emp.pokok;
-                totalLembur += calc.lemburNominal;
+                totalLembur += calc.totalLembur;
+                totalPotonganAlpha += calc.potonganAlpha;
                 totalBpjsKes += calc.bpjsKesKaryawan;
                 totalBpjsTk += calc.bpjsTkKaryawan;
                 totalPph21 += calc.pph21;
@@ -1404,10 +1924,11 @@
             document.getElementById('badgeTinjau').innerText = tinjauCount;
             document.getElementById('headerCountBadge').innerText = `${employees.length} karyawan`;
 
-            // Dashboard Metrics
+            // Dashboard Overview
             document.getElementById('dashGajiPokok').innerText = formatRupiah(totalGajiPokok);
             document.getElementById('dashTunjanganTetap').innerText = formatRupiah(totalTunjangan - totalLembur);
             document.getElementById('dashLembur').innerText = formatRupiah(totalLembur);
+            document.getElementById('dashPotonganAlpha').innerText = `- ${formatRupiah(totalPotonganAlpha)}`;
             document.getElementById('dashBpjsKes').innerText = `- ${formatRupiah(totalBpjsKes)}`;
             document.getElementById('dashBpjsTk').innerText = `- ${formatRupiah(totalBpjsTk)}`;
             document.getElementById('dashPph21').innerText = `- ${formatRupiah(totalPph21)}`;
@@ -1440,6 +1961,9 @@
                             </div>
                         </div>
                     </td>
+                    <td class="px-4 py-3.5 text-gray-700">
+                        <span class="font-semibold">${emp.masaKerja || 12} Bulan</span>
+                    </td>
                     <td class="px-4 py-3.5">
                         <p class="font-medium text-gray-800">${emp.role}</p>
                         <p class="text-[11px] text-gray-400">${emp.dept}</p>
@@ -1448,9 +1972,6 @@
                     <td class="px-4 py-3.5 text-gray-600">${formatRupiah(emp.tunjangan)}</td>
                     <td class="px-4 py-3.5">
                         <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${emp.ptkp}</span>
-                    </td>
-                    <td class="px-4 py-3.5">
-                        <span class="badge-green px-2 py-0.5 rounded-full font-semibold">Aktif</span>
                     </td>
                     <td class="px-6 py-3.5 text-right">
                         <button onclick="editEmployee('${emp.id}')" class="text-gray-500 hover:text-gray-900 mr-2"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
@@ -1471,27 +1992,30 @@
             }
 
             employees.forEach(emp => {
-                const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburJam: 0 };
+                const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
                 const calc = calculatePayrollForEmployee(emp);
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-gray-50/70 transition border-b border-gray-100";
                 tr.innerHTML = `
-                    <td class="px-6 py-3.5 font-bold text-gray-900">${emp.name}</td>
-                    <td class="px-4 py-3.5 text-gray-500">22 hari</td>
+                    <td class="px-6 py-3.5">
+                        <p class="font-bold text-gray-900">${emp.name}</p>
+                        <p class="text-[11px] text-gray-400">${emp.id}</p>
+                    </td>
+                    <td class="px-4 py-3.5 text-gray-600 font-mono">${formatRupiah(calc.upahPerJam)}</td>
                     <td class="px-4 py-3.5">
                         <input type="number" min="0" max="31" value="${att.hadir}" onchange="updateAttendance('${emp.id}', 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.sakit || 0}" onchange="updateAttendance('${emp.id}', 'sakit', this.value)" class="w-16 p-1 border rounded-lg text-center">
+                        <input type="number" min="0" max="31" value="${att.alpha || 0}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 font-bold">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.alpha}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 font-bold">
+                        <input type="number" min="0" max="100" value="${att.lemburBiasa || 0}" onchange="updateAttendance('${emp.id}', 'lemburBiasa', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700" title="Hari Kerja: 1.5x jam 1, 2x sisa jam">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="100" value="${att.lemburJam}" onchange="updateAttendance('${emp.id}', 'lemburJam', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700">
+                        <input type="number" min="0" max="100" value="${att.lemburLibur || 0}" onchange="updateAttendance('${emp.id}', 'lemburLibur', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-purple-700" title="Hari Libur: 2x 8 jam, 3x jam 9, 4x jam 10-11">
                     </td>
-                    <td class="px-4 py-3.5 font-bold text-emerald-800">${formatRupiah(calc.lemburNominal)}</td>
+                    <td class="px-4 py-3.5 font-bold text-emerald-800">${formatRupiah(calc.totalLembur)}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1512,7 +2036,7 @@
                 tr.className = "border-b border-gray-100";
                 tr.innerHTML = `
                     <td class="px-4 py-3 font-semibold text-gray-900">${emp.name}</td>
-                    <td class="px-4 py-3 text-gray-500">${emp.npwp === 'Ada' ? '08.123.456.7-012.000' : 'Non-NPWP'}</td>
+                    <td class="px-4 py-3 text-gray-500 font-mono">08.123.456.7-012.000</td>
                     <td class="px-4 py-3 font-bold">${calc.terCat} (${emp.ptkp})</td>
                     <td class="px-4 py-3 font-bold text-gray-900">${formatRupiah(calc.totalBruto)}</td>
                     <td class="px-4 py-3 font-semibold text-mfa-800">${(calc.terRate * 100).toFixed(2)}%</td>
@@ -1556,7 +2080,7 @@
             const pokok = parseFloat(document.getElementById('empPokok').value) || 0;
             const tunjangan = parseFloat(document.getElementById('empTunjangan').value) || 0;
             const ptkp = document.getElementById('empPtkp').value;
-            const npwp = document.getElementById('empNpwp').value;
+            const masaKerja = parseInt(document.getElementById('empMasaKerja').value) || 12;
 
             const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
@@ -1569,7 +2093,7 @@
                 pokok,
                 tunjangan,
                 ptkp,
-                npwp,
+                masaKerja,
                 status: "siap"
             };
 
@@ -1578,7 +2102,7 @@
                 showToast(`Data karyawan ${name} berhasil diperbarui!`);
             } else {
                 employees.push(empData);
-                attendance[id] = { hadir: 22, alpha: 0, lemburJam: 0 };
+                attendance[id] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
                 showToast(`Karyawan ${name} berhasil ditambahkan!`);
             }
 
@@ -1601,7 +2125,7 @@
             document.getElementById('empPokok').value = emp.pokok;
             document.getElementById('empTunjangan').value = emp.tunjangan;
             document.getElementById('empPtkp').value = emp.ptkp || 'TK/0';
-            document.getElementById('empNpwp').value = emp.npwp || 'Ada';
+            document.getElementById('empMasaKerja').value = emp.masaKerja || 12;
 
             document.getElementById('employeeModal').classList.remove('hidden');
             document.getElementById('employeeModal').classList.add('flex');
@@ -1619,7 +2143,7 @@
         }
 
         function updateAttendance(empId, field, val) {
-            if (!attendance[empId]) attendance[empId] = { hadir: 22, alpha: 0, lemburJam: 0 };
+            if (!attendance[empId]) attendance[empId] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
             attendance[empId][field] = parseFloat(val) || 0;
             saveToStorage();
             renderMetrics();
@@ -1631,11 +2155,16 @@
             employees = JSON.parse(JSON.stringify(sampleEmployees));
             attendance = {};
             employees.forEach(e => {
-                attendance[e.id] = { hadir: 22, alpha: 0, lemburJam: e.id === "MFA-002" ? 8 : (e.id === "MFA-001" ? 4 : 0) };
+                attendance[e.id] = { 
+                    hadir: 22, 
+                    alpha: e.id === "MFA-004" ? 1 : 0, 
+                    lemburBiasa: e.id === "MFA-002" ? 6 : (e.id === "MFA-001" ? 4 : 0),
+                    lemburLibur: e.id === "MFA-002" ? 8 : 0
+                };
             });
             saveToStorage();
             renderAll();
-            showToast("Berhasil memuat contoh data karyawan lengkap!");
+            showToast("Berhasil memuat data contoh karyawan lengkap!");
         }
 
         function clearAllDataConfirm() {
@@ -1651,6 +2180,28 @@
         function saveToStorage() {
             localStorage.setItem('mfa_payroll_employees', JSON.stringify(employees));
             localStorage.setItem('mfa_payroll_attendance', JSON.stringify(attendance));
+            localStorage.setItem('mfa_company_settings', JSON.stringify(companySettings));
+        }
+
+        function updateCompanySettings() {
+            companySettings.name = document.getElementById('settingCompanyName').value.trim() || "MFA Studio";
+            companySettings.workDays = parseInt(document.getElementById('settingWorkDays').value) || 5;
+            companySettings.npwp = document.getElementById('settingCompanyNpwp').value.trim();
+            saveToStorage();
+            applyCompanyBranding();
+            recalculatePayroll();
+        }
+
+        function saveCompanySettings() {
+            updateCompanySettings();
+            showToast("Pengaturan profil perusahaan berhasil disimpan!");
+        }
+
+        function applyCompanyBranding() {
+            document.getElementById('sidebarOrgName').innerText = companySettings.name;
+            document.getElementById('topbarCompany').innerText = companySettings.name;
+            const logoText = companySettings.name.split(' ').map(n => n[0]).join('').substring(0, 3).toUpperCase();
+            document.getElementById('sidebarOrgLogo').innerText = logoText || "MFA";
         }
 
         // ================= SLIP GAJI MODAL =================
@@ -1662,13 +2213,16 @@
 
             document.getElementById('modalAvatar').innerText = emp.avatar || emp.name.substring(0, 2).toUpperCase();
             document.getElementById('modalName').innerText = emp.name;
-            document.getElementById('modalSub').innerText = `${emp.id} · ${emp.role} (${emp.dept})`;
+            document.getElementById('modalSub').innerText = `${emp.id} · ${emp.role} (${emp.dept}) · Masa Kerja ${emp.masaKerja || 12} Bulan`;
+            document.getElementById('slipModalCompanyHeader').innerText = `${companySettings.name} · Periode Oktober 2026`;
             
             document.getElementById('modalGajiPokok').innerText = formatRupiah(emp.pokok);
             document.getElementById('modalTunjangan').innerText = formatRupiah(emp.tunjangan);
-            document.getElementById('modalLembur').innerText = formatRupiah(calc.lemburNominal);
+            document.getElementById('modalLemburBiasa').innerText = formatRupiah(calc.lemburBiasaNominal);
+            document.getElementById('modalLemburLibur').innerText = formatRupiah(calc.lemburLiburNominal);
             document.getElementById('modalTotalBruto').innerText = formatRupiah(calc.totalBruto);
 
+            document.getElementById('modalPotonganAlpha').innerText = `- ${formatRupiah(calc.potonganAlpha)}`;
             document.getElementById('modalBpjsKes').innerText = `- ${formatRupiah(calc.bpjsKesKaryawan)}`;
             document.getElementById('modalBpjsTk').innerText = `- ${formatRupiah(calc.bpjsTkKaryawan)}`;
             document.getElementById('modalPphLabel').innerText = `PPh 21 (${calc.terCat} - ${(calc.terRate * 100).toFixed(2)}%)`;
@@ -1738,13 +2292,13 @@
                 document.getElementById('step2Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
                 document.getElementById('step2Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
                 document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-mfa-100 text-mfa-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
-                showToast("Tahap 2 Finance Manager disetujui!");
+                showToast("Tahap Finance Manager disetujui!");
             } else if (step === 3) {
                 document.getElementById('step3Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
                 document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
                 document.getElementById('approvalStateBadge').innerText = "Disetujui Sepenuhnya (Siap Bayar)";
                 document.getElementById('approvalStateBadge').className = "badge-green px-3 py-1 rounded-full text-xs font-bold";
-                showToast("Payroll telah disetujui oleh Direktur Utama!");
+                showToast("Payroll disetujui Direktur Utama!");
             }
             lucide.createIcons();
         }
@@ -1756,17 +2310,17 @@
                 return;
             }
 
-            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur,Total Bruto,BPJS Kes,BPJS TK,PPh 21,Total Potongan,Gaji Bersih\n";
+            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes,BPJS TK,PPh 21,Total Potongan,Gaji Bersih\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
-                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburNominal},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsTkKaryawan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih}\n`;
+                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsTkKaryawan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih}\n`;
             });
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `MFA_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `${companySettings.name.replace(/\\s+/g, '_')}_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
             a.click();
             URL.revokeObjectURL(url);
             showToast("Laporan Payroll CSV berhasil diunduh!");
@@ -1774,32 +2328,31 @@
 
         // ================= VIEW SWITCHER =================
         function switchView(viewName) {
-            const views = ['penggajian', 'ringkasan', 'karyawan', 'kehadiran', 'persetujuan', 'laporan', 'pengaturan'];
+            const views = ['penggajian', 'ringkasan', 'karyawan', 'kehadiran', 'persetujuan', 'laporan', 'bnsp', 'pengaturan'];
             views.forEach(v => {
                 const el = document.getElementById('view-' + v);
                 const nav = document.getElementById('nav-' + v);
                 if (v === viewName) {
-                    el.classList.remove('hidden');
+                    if (el) el.classList.remove('hidden');
                     if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left";
                 } else {
-                    el.classList.add('hidden');
+                    if (el) el.classList.add('hidden');
                     if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left";
                 }
             });
 
-            // Update topbar breadcrumb
             const titles = {
                 'penggajian': 'Penggajian',
                 'ringkasan': 'Ringkasan & Dashboard',
                 'karyawan': 'Master Data Karyawan',
-                'kehadiran': 'Absensi & Lembur',
+                'kehadiran': 'Absensi & Lembur (PP 35 & 36/2021)',
                 'persetujuan': 'Alur Persetujuan',
                 'laporan': 'Laporan SPT & Payroll',
-                'pengaturan': 'Pengaturan & Rumus'
+                'bnsp': 'Tabel Rumus Payroll BNSP & Kemenaker',
+                'pengaturan': 'Profil Perusahaan & Parameter Rumus'
             };
             document.getElementById('topbarBreadcrumb').innerText = titles[viewName] || 'Penggajian';
 
-            // Close mobile sidebar if open
             const sb = document.getElementById('sidebar');
             if (!sb.classList.contains('-translate-x-full')) {
                 sb.classList.add('-translate-x-full');
@@ -1847,7 +2400,7 @@
 
         function recalculatePayroll() {
             renderAll();
-            showToast("Perhitungan gaji, PPh 21 TER, dan BPJS diperbarui!");
+            showToast("Semua perhitungan gaji, lembur, dan pajak diperbarui!");
         }
 
         function toggleSidebar() {
@@ -1871,8 +2424,9 @@
             }, 3000);
         }
 
-        // Start initialization
+        // Inisialisasi awal
         document.addEventListener('DOMContentLoaded', () => {
+            applyCompanyBranding();
             renderAll();
         });
     </script>
