@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nala Payroll - Kelola Penggajian Karyawan</title>
+    <title>MFA Payroll - Sistem Penggajian & HRIS Enterprise</title>
+    
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,26 +23,18 @@
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
-                        brand: {
-                            50: '#F3F7F4',
-                            100: '#E4EDE7',
-                            200: '#C8DBD0',
-                            300: '#9FBFA9',
-                            400: '#6FA07E',
-                            500: '#49825B',
-                            600: '#346745',
-                            700: '#285036',
-                            800: '#1D3B27',
-                            900: '#152C1D',
-                            950: '#0B1710'
-                        },
-                        sand: {
-                            50: '#FAF8F5',
-                            100: '#F5F1EA',
-                            200: '#E8E1D5',
-                            300: '#D5C7B3',
-                            500: '#9E8563',
-                            800: '#4D3B23'
+                        mfa: {
+                            50: '#F2F7F4',
+                            100: '#E1EDE5',
+                            200: '#C5DCCF',
+                            300: '#9EBEAD',
+                            400: '#6FA085',
+                            500: '#488463',
+                            600: '#34694D',
+                            700: '#2A533E',
+                            800: '#1B3B2B',
+                            900: '#12261C',
+                            950: '#09140E'
                         }
                     }
                 }
@@ -47,7 +42,7 @@
         }
     </script>
 
-    <!-- Lucide Icons -->
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -64,7 +59,7 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-        .sidebar-active {
+        .nav-item-active {
             background-color: #E2ECE5;
             color: #173823;
             font-weight: 600;
@@ -81,6 +76,33 @@
             color: #1E6637;
             border: 1px solid #D2EBD5;
         }
+
+        .badge-blue {
+            background-color: #EFF6FF;
+            color: #1D4ED8;
+            border: 1px solid #DBEAFE;
+        }
+
+        /* Print styling for Slip Gaji */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #slipModalContent, #slipModalContent * {
+                visibility: visible;
+            }
+            #slipModalContent {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex text-[13px] bg-[#F8F9FA]">
@@ -88,19 +110,14 @@
     <!-- SIDEBAR -->
     <aside id="sidebar" class="w-[260px] bg-[#FAFAFA] border-r border-[#ECECEC] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
         <div class="flex flex-col flex-1 overflow-y-auto">
-            <!-- Brand Logo -->
+            <!-- Brand Logo with MFA Monogram -->
             <div class="px-6 pt-6 pb-4 flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-[#183925] flex items-center justify-center text-white shadow-sm">
-                    <!-- Geometric leaf icon resembling 'nala' logo -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" stroke="#E2ECE5" stroke-width="1.8" stroke-dasharray="2 3"/>
-                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-                        <circle cx="12" cy="12" r="2" fill="#52B788"/>
-                    </svg>
+                <div class="w-8 h-8 rounded-xl bg-[#1B3B2B] flex items-center justify-center text-white font-extrabold shadow-sm text-xs tracking-tight">
+                    MFA
                 </div>
                 <div class="flex items-baseline gap-1.5">
-                    <span class="text-xl font-bold tracking-tight text-gray-900">nala</span>
-                    <span class="text-[10px] font-bold tracking-widest text-gray-500 uppercase">PAYROLL</span>
+                    <span class="text-xl font-extrabold tracking-tight text-gray-900">mfa</span>
+                    <span class="text-[10px] font-bold tracking-widest text-mfa-600 uppercase">PAYROLL</span>
                 </div>
             </div>
 
@@ -108,12 +125,12 @@
             <div class="px-4 py-2">
                 <div class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white shadow-xs hover:border-gray-300 transition cursor-pointer">
                     <div class="flex items-center gap-2.5 min-w-0">
-                        <div class="w-7 h-7 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 flex items-center justify-center text-xs font-bold shrink-0">
-                            NS
+                        <div class="w-7 h-7 rounded-lg bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xs font-bold shrink-0">
+                            MFA
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs font-semibold text-gray-900 truncate leading-tight">Nusantara Studio</p>
-                            <p class="text-[11px] text-gray-400 truncate leading-tight">Workspace perusahaan</p>
+                            <p class="text-xs font-semibold text-gray-900 truncate leading-tight">MFA Studio</p>
+                            <p class="text-[11px] text-gray-400 truncate leading-tight">Workspace Muhammad Faari Akbar</p>
                         </div>
                     </div>
                     <i data-lucide="chevrons-up-down" class="w-4 h-4 text-gray-400 shrink-0"></i>
@@ -127,44 +144,47 @@
                     <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Menu Utama</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
+                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500"></i>
                                 <span>Ringkasan</span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
-                                <i data-lucide="users" class="w-4 h-4 text-gray-500"></i>
-                                <span>Karyawan</span>
-                            </a>
+                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="users" class="w-4 h-4 text-gray-500"></i>
+                                    <span>Karyawan</span>
+                                </div>
+                                <span class="bg-gray-200/80 text-gray-700 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarKaryawanCount">0</span>
+                            </button>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
+                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
                                 <span>Kehadiran</span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <!-- Active item: Penggajian -->
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl sidebar-active transition">
+                            <!-- Active Default Menu: Penggajian -->
+                            <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left">
                                 <i data-lucide="wallet" class="w-4 h-4 text-[#173823]"></i>
                                 <span>Penggajian</span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
+                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500"></i>
                                     <span>Persetujuan</span>
                                 </div>
-                                <span class="bg-gray-200/80 text-gray-700 text-[11px] font-bold px-1.5 py-0.5 rounded-full">4</span>
-                            </a>
+                                <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarApprovalCount">0</span>
+                            </button>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
+                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="line-chart" class="w-4 h-4 text-gray-500"></i>
                                 <span>Laporan</span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -174,10 +194,10 @@
                     <p class="px-3 text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2">Workspace</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium">
+                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left">
                                 <i data-lucide="sliders" class="w-4 h-4 text-gray-500"></i>
-                                <span>Pengaturan</span>
-                            </a>
+                                <span>Pengaturan & Rumus</span>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -188,31 +208,31 @@
         <div class="p-4 space-y-3">
             <!-- Assistance Box -->
             <div class="p-3.5 rounded-2xl bg-[#F4F5F4] border border-[#E9EAE8] space-y-2">
-                <div class="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 text-xs shadow-2xs">
-                    <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                <div class="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 text-xs">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5 text-mfa-700"></i>
                 </div>
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-900">Butuh bantuan?</h4>
-                    <p class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Tim kami siap membantu proses payroll Anda.</p>
+                    <h4 class="text-xs font-semibold text-gray-900">Kalkulator Pajak PPh 21</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Sesuai PP 58/2023 (TER A, B, C) & BPJS.</p>
                 </div>
-                <a href="javascript:void(0)" onclick="showToast('Menghubungkan ke pusat bantuan Nala Payroll...')" class="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-900 hover:text-brand-800 transition">
-                    Hubungi support
+                <button onclick="openTaxSimulatorModal()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 hover:underline">
+                    Simulasi PPh 21
                     <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
-                </a>
+                </button>
             </div>
 
-            <!-- Profile Info Bar -->
+            <!-- Profile Info Bar: Muhammad Faari Akbar -->
             <div class="pt-2 border-t border-gray-200/80 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full bg-[#E5E7EB] text-gray-700 flex items-center justify-center text-xs font-bold">
-                        AP
+                    <div class="w-8 h-8 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs font-bold">
+                        MFA
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-gray-900 leading-tight">Aditya Pratama</p>
-                        <p class="text-[11px] text-gray-400 leading-tight">HR Administrator</p>
+                        <p class="text-xs font-semibold text-gray-900 leading-tight">Muhammad Faari Akbar</p>
+                        <p class="text-[11px] text-gray-400 leading-tight">Administrator</p>
                     </div>
                 </div>
-                <button title="Keluar" onclick="showToast('Sesi diamankan')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-200/50 transition">
+                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi diamankan')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-200/50 transition">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -230,25 +250,36 @@
                 </button>
                 <!-- Breadcrumbs -->
                 <nav class="flex items-center gap-2 text-xs text-gray-500">
-                    <span>Workspace</span>
+                    <span>MFA Workspace</span>
                     <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
-                    <span class="text-gray-900 font-medium">Penggajian</span>
+                    <span class="text-gray-900 font-medium" id="topbarBreadcrumb">Penggajian</span>
                 </nav>
             </div>
 
             <!-- Top Right Utilities -->
-            <div class="flex items-center gap-5">
+            <div class="flex items-center gap-4">
                 <div class="flex items-center gap-1.5 text-xs text-gray-500">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-gray-400"></i>
-                    <span class="hidden sm:inline">Data tersimpan aman</span>
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                    <span class="hidden sm:inline">Data tersimpan aman (Lokal)</span>
                 </div>
 
-                <button class="relative text-gray-500 hover:text-gray-800 transition p-1" title="Notifikasi" onclick="showToast('Tidak ada notifikasi baru')">
+                <!-- Template Data Loader (Convenience for testing) -->
+                <button onclick="loadSampleData()" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 bg-mfa-50 hover:bg-mfa-100 border border-mfa-200 px-2.5 py-1 rounded-lg transition" title="Muat Data Contoh Karyawan">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mfa-600"></i>
+                    <span>Muat Contoh Data</span>
+                </button>
+
+                <button onclick="clearAllDataConfirm()" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 hover:bg-rose-50 px-2 py-1 rounded-lg transition" title="Reset Semua Data Jadi Kosong">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>Kosongkan</span>
+                </button>
+
+                <button class="relative text-gray-500 hover:text-gray-800 transition p-1" title="Notifikasi" onclick="showToast('Semua sistem payroll aktif dan sinkron.')">
                     <i data-lucide="bell" class="w-4 h-4"></i>
                     <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                 </button>
 
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-700 cursor-pointer hover:text-gray-900">
+                <div class="flex items-center gap-1 text-xs font-semibold text-gray-700">
                     <span>ID</span>
                     <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400"></i>
                 </div>
@@ -258,354 +289,844 @@
         <!-- MAIN SCROLLABLE CONTAINER -->
         <main class="p-6 sm:p-8 space-y-6 max-w-7xl w-full mx-auto">
 
-            <!-- PAGE TITLE & HEADER ACTIONS -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Penggajian</h1>
-                    <p class="text-xs text-gray-500 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
-                </div>
-                <div class="flex items-center gap-2.5">
-                    <button onclick="exportReport()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 text-xs font-semibold shadow-2xs transition">
-                        <i data-lucide="download" class="w-4 h-4 text-gray-500"></i>
-                        <span>Ekspor laporan</span>
-                    </button>
-                    <button onclick="openApprovalModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#183925] hover:bg-[#122B1C] text-white text-xs font-semibold shadow-xs transition">
-                        <span>Ajukan persetujuan</span>
-                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- METRIC CARDS (4 Columns) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Card 1: Total Gaji Bersih -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-gray-500 mb-2">
-                        <span class="text-xs text-gray-500 font-medium">Total gaji bersih</span>
-                        <i data-lucide="wallet" class="w-4 h-4 text-gray-400"></i>
-                    </div>
+            <!-- ================= VIEW 1: PENGGAJIAN (CORE VIEW) ================= -->
+            <section id="view-penggajian" class="space-y-6">
+                <!-- Page Title & Header Actions -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalGaji">Rp1.248.000.000</h2>
-                        <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600">
-                            <span>+2,4% dari September</span>
-                        </div>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Penggajian</h1>
+                        <p class="text-xs text-gray-500 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 text-xs font-semibold shadow-2xs transition">
+                            <i data-lucide="download" class="w-4 h-4 text-gray-500"></i>
+                            <span>Ekspor laporan</span>
+                        </button>
+                        <button onclick="openApprovalModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                            <span>Ajukan persetujuan</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Card 2: Karyawan dalam payroll -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-gray-500 mb-2">
-                        <span class="text-xs text-gray-500 font-medium">Karyawan dalam payroll</span>
-                        <i data-lucide="users" class="w-4 h-4 text-gray-400"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalKaryawan">128</h2>
-                        <div class="mt-2 text-xs text-gray-500 font-medium">
-                            <span class="text-gray-700">124 siap</span> · <span class="text-amber-700 font-semibold">4 perlu ditinjau</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3: Total tunjangan -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-gray-500 mb-2">
-                        <span class="text-xs text-gray-500 font-medium">Total tunjangan</span>
-                        <i data-lucide="plus-circle" class="w-4 h-4 text-gray-400"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalTunjangan">Rp96.000.000</h2>
-                        <div class="mt-2 text-xs text-gray-500 font-medium">
-                            Transportasi, makan & lainnya
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4: Total potongan -->
-                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-gray-500 mb-2">
-                        <span class="text-xs text-gray-500 font-medium">Total potongan</span>
-                        <i data-lucide="minus-circle" class="w-4 h-4 text-gray-400"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalPotongan">Rp72.000.000</h2>
-                        <div class="mt-2 text-xs text-gray-500 font-medium">
-                            PPh 21, BPJS & penyesuaian
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PAYROLL PERIOD & WORKFLOW STEPPER CARD -->
-            <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
-                <!-- Top Row: Periode & Tanggal Info -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
-                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                <!-- 4 Metric Cards (Dynamic Calculation) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Total Gaji Bersih -->
+                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 mb-2">
+                            <span class="text-xs text-gray-500 font-medium">Total gaji bersih</span>
+                            <i data-lucide="wallet" class="w-4 h-4 text-gray-400"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] font-bold text-gray-400 tracking-wider uppercase leading-none">Periode Payroll</p>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-sm font-bold text-gray-900">Oktober 2026</span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400 cursor-pointer"></i>
-                                <span class="badge-amber text-[11px] font-semibold px-2.5 py-0.5 rounded-full ml-1">Dalam tinjauan</span>
+                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalGaji">Rp0</h2>
+                            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600" id="metricGajiSub">
+                                <span>Periode Oktober 2026</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-6 text-xs text-gray-500">
-                        <div>
-                            <span>01–31 Oktober 2026</span>
+                    <!-- Karyawan dalam payroll -->
+                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 mb-2">
+                            <span class="text-xs text-gray-500 font-medium">Karyawan dalam payroll</span>
+                            <i data-lucide="users" class="w-4 h-4 text-gray-400"></i>
                         </div>
-                        <div class="h-3 w-px bg-gray-200"></div>
                         <div>
-                            Tanggal pembayaran <span class="font-bold text-gray-900 ml-1">27 Okt 2026</span>
+                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalKaryawan">0</h2>
+                            <div class="mt-2 text-xs text-gray-500 font-medium" id="metricKaryawanSub">
+                                <span class="text-gray-700" id="metricSiapCount">0 siap</span> · <span class="text-amber-700 font-semibold" id="metricTinjauCount">0 perlu ditinjau</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total tunjangan -->
+                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 mb-2">
+                            <span class="text-xs text-gray-500 font-medium">Total tunjangan</span>
+                            <i data-lucide="plus-circle" class="w-4 h-4 text-gray-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalTunjangan">Rp0</h2>
+                            <div class="mt-2 text-xs text-gray-500 font-medium">
+                                Transportasi, makan, lembur & lainnya
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total potongan -->
+                    <div class="bg-white border border-[#E9EAE8] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 mb-2">
+                            <span class="text-xs text-gray-500 font-medium">Total potongan</span>
+                            <i data-lucide="minus-circle" class="w-4 h-4 text-gray-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight" id="metricTotalPotongan">Rp0</h2>
+                            <div class="mt-2 text-xs text-gray-500 font-medium">
+                                PPh 21, BPJS Kes & TK
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bottom Row: Stepper (4 Steps) -->
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-2 relative">
-                    <!-- Step 1 -->
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-[#183925] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
-                            <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                <!-- Payroll Period & Stepper Card -->
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <!-- Top Row -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
+                                <i data-lucide="calendar" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 tracking-wider uppercase leading-none">Periode Payroll</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-sm font-bold text-gray-900" id="periodTitle">Oktober 2026</span>
+                                    <span class="badge-amber text-[11px] font-semibold px-2.5 py-0.5 rounded-full ml-1" id="payrollStatusBadge">Dalam tinjauan</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-900">Data & kehadiran</p>
-                            <p class="text-[11px] text-gray-500">Tersinkronisasi</p>
+
+                        <div class="flex items-center gap-6 text-xs text-gray-500">
+                            <div>
+                                <span>01–31 Oktober 2026</span>
+                            </div>
+                            <div class="h-3 w-px bg-gray-200"></div>
+                            <div>
+                                Tanggal pembayaran <span class="font-bold text-gray-900 ml-1">27 Okt 2026</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Step 2 (Active) -->
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-[#183925] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
-                            2
+                    <!-- Bottom Row: Stepper -->
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-2 relative">
+                        <!-- Step 1 -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
+                                <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-900">Data & kehadiran</p>
+                                <p class="text-[11px] text-gray-500">Tersinkronisasi</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-900">Tinjau payroll</p>
-                            <p class="text-[11px] font-semibold text-gray-800">4 data perlu ditinjau</p>
-                        </div>
-                    </div>
 
-                    <!-- Step 3 -->
-                    <div class="flex items-start gap-3 opacity-60">
-                        <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
-                            3
+                        <!-- Step 2 -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold shadow-xs">
+                                2
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-900">Tinjau payroll</p>
+                                <p class="text-[11px] font-semibold text-gray-800" id="stepperTinjauText">0 data perlu ditinjau</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs font-semibold text-gray-700">Persetujuan</p>
-                            <p class="text-[11px] text-gray-400">Menunggu pengajuan</p>
-                        </div>
-                    </div>
 
-                    <!-- Step 4 -->
-                    <div class="flex items-start gap-3 opacity-60">
-                        <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
-                            4
+                        <!-- Step 3 -->
+                        <div class="flex items-start gap-3 opacity-60" id="step3Container">
+                            <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
+                                3
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-700">Persetujuan</p>
+                                <p class="text-[11px] text-gray-400">Menunggu pengajuan</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs font-semibold text-gray-700">Pembayaran</p>
-                            <p class="text-[11px] text-gray-400">27 Oktober 2026</p>
+
+                        <!-- Step 4 -->
+                        <div class="flex items-start gap-3 opacity-60" id="step4Container">
+                            <div class="w-6 h-6 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center text-xs shrink-0 mt-0.5 font-medium">
+                                4
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-700">Pembayaran</p>
+                                <p class="text-[11px] text-gray-400">27 Oktober 2026</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- TABLE CONTAINER (DAFTAR PENGGAJIAN) -->
-            <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
-                <!-- Card Header -->
-                <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100">
-                    <div class="flex items-center gap-2.5">
-                        <h3 class="text-sm font-bold text-gray-900">Daftar penggajian</h3>
-                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-medium" id="headerCountBadge">128 karyawan</span>
+                <!-- Table Container (Daftar Penggajian) -->
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                    <!-- Card Header -->
+                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100">
+                        <div class="flex items-center gap-2.5">
+                            <h3 class="text-sm font-bold text-gray-900">Daftar penggajian</h3>
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-medium" id="headerCountBadge">0 karyawan</span>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition" title="Kalkulasi Ulang Pajak & BPJS">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-500"></i>
+                                <span>Hitung Ulang</span>
+                            </button>
+                            <button onclick="openEmployeeModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold transition">
+                                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                                <span>Tambah Karyawan</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs text-gray-400">Diperbarui 24 Okt, 09.41 WIB</span>
-                        <button onclick="importDataModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition">
-                            <i data-lucide="upload" class="w-3.5 h-3.5 text-gray-500"></i>
-                            <span>Impor data</span>
-                        </button>
+                    <!-- Filters & Search Toolbar -->
+                    <div class="px-6 py-3.5 bg-gray-50/50 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <!-- Filter Tabs -->
+                        <div class="flex items-center gap-1 bg-[#EEF0EE] p-1 rounded-xl text-xs font-medium">
+                            <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-xs font-semibold transition">
+                                Semua <span class="ml-1 text-gray-500 font-normal" id="badgeSemua">0</span>
+                            </button>
+                            <button onclick="setFilter('siap')" id="tabSiap" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
+                                Siap diproses <span class="ml-1 text-gray-400 font-normal" id="badgeSiap">0</span>
+                            </button>
+                            <button onclick="setFilter('tinjau')" id="tabTinjau" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
+                                Perlu ditinjau <span class="ml-1 text-gray-400 font-normal" id="badgeTinjau">0</span>
+                            </button>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="flex items-center gap-2">
+                            <div class="relative w-full sm:w-64">
+                                <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari nama, NIK, atau jabatan" class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 bg-white text-xs focus:outline-none focus:border-mfa-600 transition placeholder:text-gray-400">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLE -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                    <th class="w-10 px-6 py-3.5">
+                                        <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
+                                    </th>
+                                    <th class="px-3 py-3.5 font-semibold text-gray-500">Karyawan</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Pokok</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Tunjangan</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Potongan (Pph+BPJS)</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji Bersih (THP)</th>
+                                    <th class="px-4 py-3.5 font-semibold text-gray-500">Status</th>
+                                    <th class="w-20 px-6 py-3.5 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payrollTableBody" class="divide-y divide-gray-100 text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State / Pagination Footer -->
+                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 bg-white">
+                        <div class="text-xs text-gray-500" id="paginationInfo">
+                            Menampilkan 0 dari 0 karyawan
+                        </div>
+                        <div class="flex items-center gap-1 text-xs" id="paginationControls">
+                            <!-- Pagination buttons -->
+                        </div>
                     </div>
                 </div>
 
-                <!-- Filters & Search Toolbar -->
-                <div class="px-6 py-3.5 bg-gray-50/50 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <!-- Filter Tabs -->
-                    <div class="flex items-center gap-1 bg-[#EEF0EE] p-1 rounded-xl text-xs font-medium">
-                        <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-xs font-semibold transition">
-                            Semua <span class="ml-1 text-gray-500 font-normal" id="badgeSemua">128</span>
-                        </button>
-                        <button onclick="setFilter('siap')" id="tabSiap" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
-                            Siap diproses <span class="ml-1 text-gray-400 font-normal" id="badgeSiap">124</span>
-                        </button>
-                        <button onclick="setFilter('tinjau')" id="tabTinjau" class="px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition">
-                            Perlu ditinjau <span class="ml-1 text-gray-400 font-normal" id="badgeTinjau">4</span>
-                        </button>
-                    </div>
-
-                    <!-- Search & Filter Button -->
+                <!-- Bottom Attention Callout -->
+                <div class="flex items-center justify-between text-xs text-gray-500 py-1">
                     <div class="flex items-center gap-2">
-                        <div class="relative w-full sm:w-64">
-                            <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari nama atau ID karyawan" class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 bg-white text-xs focus:outline-none focus:border-brand-600 transition placeholder:text-gray-400">
+                        <i data-lucide="info" class="w-4 h-4 text-gray-400"></i>
+                        <span id="bottomAttentionText">Sistem menghitung PPh 21 tarif TER PP 58/2023 & batas upah BPJS secara otomatis.</span>
+                    </div>
+                    <button onclick="switchView('laporan')" class="inline-flex items-center gap-1 font-medium text-gray-700 hover:text-gray-900 transition">
+                        Lihat rekapitulasi laporan
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 2: RINGKASAN (DASHBOARD) ================= -->
+            <section id="view-ringkasan" class="space-y-6 hidden">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Ringkasan Payroll & HR</h1>
+                    <p class="text-xs text-gray-500 mt-1">Ikhtisar metrik penggajian, komposisi pajak PPh 21, dan distribusi departemen.</p>
+                </div>
+
+                <!-- Quick Action Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-mfa-50 text-mfa-800 flex items-center justify-center font-bold">
+                            <i data-lucide="user-plus" class="w-5 h-5"></i>
                         </div>
-                        <button onclick="toggleAdvancedFilter()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition">
-                            <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-gray-500"></i>
-                            <span>Filter</span>
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-900">Tambah Karyawan Baru</h3>
+                            <p class="text-xs text-gray-500 mt-1">Daftarkan NIK, gaji pokok, tunjangan, dan status pajak PTKP.</p>
+                        </div>
+                        <button onclick="openEmployeeModal()" class="text-xs font-semibold text-mfa-800 hover:underline inline-flex items-center gap-1">
+                            Mulai pendaftaran <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-900">Kalkulator Pajak TER PPh 21</h3>
+                            <p class="text-xs text-gray-500 mt-1">Simulasikan perhitungan pajak berdasarkan TER A, B, atau C.</p>
+                        </div>
+                        <button onclick="openTaxSimulatorModal()" class="text-xs font-semibold text-blue-700 hover:underline inline-flex items-center gap-1">
+                            Buka simulasi <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-2xs space-y-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                            <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-900">Unduh Laporan Payroll</h3>
+                            <p class="text-xs text-gray-500 mt-1">Ekspor rekapitulasi gaji bulanan siap cetak atau format CSV/Excel.</p>
+                        </div>
+                        <button onclick="exportPayrollCsv()" class="text-xs font-semibold text-emerald-700 hover:underline inline-flex items-center gap-1">
+                            Ekspor CSV <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- TABLE -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead>
-                            <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
-                                <th class="w-10 px-6 py-3.5">
-                                    <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded border-gray-300 text-brand-800 focus:ring-brand-800 w-4 h-4 cursor-pointer">
-                                </th>
-                                <th class="px-3 py-3.5 font-semibold text-gray-500">
-                                    <button class="inline-flex items-center gap-1 hover:text-gray-800" onclick="sortEmployees()">
-                                        <span>Karyawan</span>
-                                        <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-gray-400"></i>
-                                    </button>
-                                </th>
-                                <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji pokok</th>
-                                <th class="px-4 py-3.5 font-semibold text-gray-500">Tunjangan</th>
-                                <th class="px-4 py-3.5 font-semibold text-gray-500">Potongan</th>
-                                <th class="px-4 py-3.5 font-semibold text-gray-500">Gaji bersih</th>
-                                <th class="px-4 py-3.5 font-semibold text-gray-500">Status</th>
-                                <th class="w-12 px-6 py-3.5 text-right"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="payrollTableBody" class="divide-y divide-gray-100 text-gray-700">
-                            <!-- Rows dynamically populated by JavaScript -->
-                        </tbody>
-                    </table>
+                <!-- Breakdown Overview Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Rincian Biaya Penggajian -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="w-4 h-4 text-mfa-700"></i>
+                            Komposisi Komponen Gaji
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Gaji Pokok Karyawan</span>
+                                <span class="font-bold text-gray-900" id="dashGajiPokok">Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Tunjangan Transport & Makan</span>
+                                <span class="font-bold text-gray-900" id="dashTunjanganTetap">Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Upah Lembur (Overtime)</span>
+                                <span class="font-bold text-gray-900" id="dashLembur">Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                                <span>Iuran BPJS Ketenagakerjaan (Pekerja 3%)</span>
+                                <span class="font-bold" id="dashBpjsTk">- Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                                <span>Iuran BPJS Kesehatan (Pekerja 1%)</span>
+                                <span class="font-bold" id="dashBpjsKes">- Rp0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100 text-rose-600">
+                                <span>Potongan PPh 21 (TER PP 58/2023)</span>
+                                <span class="font-bold" id="dashPph21">- Rp0</span>
+                            </div>
+                            <div class="flex justify-between pt-2 text-sm font-extrabold text-mfa-900">
+                                <span>Total Take Home Pay (Dibayarkan)</span>
+                                <span id="dashTotalThp">Rp0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Kepatuhan & Rumus Penggajian -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-4 h-4 text-mfa-700"></i>
+                            Standar Rumus Payroll Indonesia
+                        </h3>
+                        <div class="space-y-3 text-xs text-gray-600 leading-relaxed">
+                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900">1. PPh 21 TER (PP 58/2023)</p>
+                                <p class="text-[11px] text-gray-500">PPh 21 = Penghasilan Bruto Sebulan × Tarif TER Kategori (A/B/C).</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900">2. BPJS Kesehatan (Perpres 64/2020)</p>
+                                <p class="text-[11px] text-gray-500">1% Pekerja + 4% Perusahaan. Batas atas upah maksimal Rp12.000.000/bln (Maks iuran pekerja Rp120.000).</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900">3. BPJS Ketenagakerjaan (PP 44, 45, 46/2015)</p>
+                                <p class="text-[11px] text-gray-500">JHT 2% pekerja (3.7% kantor), JP 1% pekerja (2% kantor, batas upah pensiun Rp10.042.300).</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-xl space-y-1">
+                                <p class="font-bold text-gray-900">4. Upah Lembur (PP 35/2021)</p>
+                                <p class="text-[11px] text-gray-500">Upah/jam = 1/173 × Gaji Sebulan. Jam ke-1: 1.5×, jam ke-2 dst: 2× upah per jam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 3: KARYAWAN (MASTER DATA) ================= -->
+            <section id="view-karyawan" class="space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Master Data Karyawan</h1>
+                        <p class="text-xs text-gray-500 mt-1">Kelola data identitas, jabatan, departemen, dan komponen gaji pokok karyawan.</p>
+                    </div>
+                    <button onclick="openEmployeeModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Tambah Karyawan</span>
+                    </button>
                 </div>
 
-                <!-- Pagination Footer -->
-                <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 bg-white">
-                    <div class="text-xs text-gray-500" id="paginationInfo">
-                        Menampilkan 1-6 dari 128 karyawan
-                    </div>
-                    <div class="flex items-center gap-1 text-xs" id="paginationControls">
-                        <button onclick="changePage(currentPage - 1)" class="w-7 h-7 rounded-lg flex items-center justify-center border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40" id="prevPageBtn">
-                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                        </button>
-                        <button onclick="changePage(1)" class="w-7 h-7 rounded-lg flex items-center justify-center bg-gray-100 font-bold text-gray-900" id="btnPage1">1</button>
-                        <button onclick="changePage(2)" class="w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100" id="btnPage2">2</button>
-                        <button onclick="changePage(3)" class="w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100" id="btnPage3">3</button>
-                        <span class="px-1 text-gray-400">...</span>
-                        <button onclick="changePage(22)" class="w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100" id="btnPage22">22</button>
-                        <button onclick="changePage(currentPage + 1)" class="w-7 h-7 rounded-lg flex items-center justify-center border border-gray-200 text-gray-500 hover:bg-gray-50" id="nextPageBtn">
-                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </button>
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                    <th class="px-6 py-3.5">NIK & Karyawan</th>
+                                    <th class="px-4 py-3.5">Departemen & Posisi</th>
+                                    <th class="px-4 py-3.5">Gaji Pokok</th>
+                                    <th class="px-4 py-3.5">Tunjangan Tetap</th>
+                                    <th class="px-4 py-3.5">PTKP / Status Pajak</th>
+                                    <th class="px-4 py-3.5">Status Kerja</th>
+                                    <th class="px-6 py-3.5 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="karyawanMasterTableBody" class="divide-y divide-gray-100 text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- BOTTOM ATTENTION CALLOUT -->
-            <div class="flex items-center justify-between text-xs text-gray-500 py-1">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="info" class="w-4 h-4 text-gray-400"></i>
-                    <span>Tinjau 4 data karyawan sebelum mengajukan persetujuan payroll.</span>
+            <!-- ================= VIEW 4: KEHADIRAN (ABSENSI & LEMBUR) ================= -->
+            <section id="view-kehadiran" class="space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Absensi & Rekapitulasi Lembur</h1>
+                        <p class="text-xs text-gray-500 mt-1">Catatan kehadiran, hari mangkir (alpha), dan jam lembur yang memengaruhi perhitungan gaji.</p>
+                    </div>
+                    <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil diperbarui!')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        <span>Simpan & Sinkronkan</span>
+                    </button>
                 </div>
-                <a href="javascript:void(0)" onclick="showToast('Membuka riwayat aktivitas payroll...')" class="inline-flex items-center gap-1 font-medium text-gray-700 hover:text-gray-900 transition">
-                    Lihat riwayat aktivitas
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-                </a>
-            </div>
+
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl shadow-2xs overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                    <th class="px-6 py-3.5">Karyawan</th>
+                                    <th class="px-4 py-3.5">Hari Efektif</th>
+                                    <th class="px-4 py-3.5">Hadir (Hari)</th>
+                                    <th class="px-4 py-3.5">Sakit/Izin (Hari)</th>
+                                    <th class="px-4 py-3.5">Alpha/Mangkir</th>
+                                    <th class="px-4 py-3.5">Lembur (Jam)</th>
+                                    <th class="px-4 py-3.5">Kalkulasi Upah Lembur</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 5: PERSETUJUAN (APPROVAL) ================= -->
+            <section id="view-persetujuan" class="space-y-6 hidden">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Alur Persetujuan Payroll</h1>
+                    <p class="text-xs text-gray-500 mt-1">Multi-level approval: Verifikasi HR $\rightarrow$ Finance Manager $\rightarrow$ Direktur Utama.</p>
+                </div>
+
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                        <div>
+                            <h3 class="text-base font-bold text-gray-900">Pengajuan Payroll Periode Oktober 2026</h3>
+                            <p class="text-xs text-gray-500 mt-0.5" id="approvalSubtext">Total nilai pembayaran: Rp0 untuk 0 karyawan</p>
+                        </div>
+                        <span class="badge-amber px-3 py-1 rounded-full text-xs font-bold" id="approvalStateBadge">Draft / Siap Diajukan</span>
+                    </div>
+
+                    <!-- Steps Timeline -->
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-900">1. Penyusunan oleh HR Admin (Muhammad Faari Akbar)</h4>
+                                <p class="text-[11px] text-gray-500">Semua data gaji, absensi, potongan BPJS, dan PPh 21 TER dihitung otomatis.</p>
+                                <span class="text-[10px] text-emerald-700 font-semibold mt-1 inline-block">✓ Selesai & Terverifikasi</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-mfa-50 text-mfa-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step2Icon">
+                                2
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold text-gray-900">2. Review & Verifikasi Budget Finance Manager</h4>
+                                <p class="text-[11px] text-gray-500">Pemeriksaan alokasi dana kas perusahaan dan rekening penggajian.</p>
+                                <div class="mt-2 flex gap-2">
+                                    <button onclick="approveStep(2)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Setujui Tahap Finance</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full border border-gray-300 text-gray-400 bg-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5" id="step3Icon">
+                                3
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold text-gray-900">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur)</h4>
+                                <p class="text-[11px] text-gray-500">Otorisasi final untuk proses pencairan dana gaji ke rekening karyawan.</p>
+                                <div class="mt-2 flex gap-2">
+                                    <button onclick="approveStep(3)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Otorisasi Pencairan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 6: LAPORAN (REKAP & PAJAK) ================= -->
+            <section id="view-laporan" class="space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Laporan Rekapitulasi & SPT PPh 21</h1>
+                        <p class="text-xs text-gray-500 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                            <span>Download Format CSV / Excel</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-[#E9EAE8] rounded-2xl p-6 shadow-2xs space-y-6">
+                    <h3 class="text-sm font-bold text-gray-900">Rekapitulasi Formulir Pemotongan Pajak PPh 21 Masa (PP 58/2023)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-gray-400 font-semibold border-b border-gray-100 bg-white">
+                                    <th class="px-4 py-3">Nama Karyawan</th>
+                                    <th class="px-4 py-3">NPWP</th>
+                                    <th class="px-4 py-3">Kategori TER</th>
+                                    <th class="px-4 py-3">Penghasilan Bruto</th>
+                                    <th class="px-4 py-3">Tarif Efektif (%)</th>
+                                    <th class="px-4 py-3">PPh 21 Dipotong</th>
+                                    <th class="px-4 py-3">BPJS TK (Pemberi Kerja)</th>
+                                    <th class="px-4 py-3">BPJS Kes (Pemberi Kerja)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="laporanTableBody" class="divide-y divide-gray-100 text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 7: PENGATURAN & RUMUS ================= -->
+            <section id="view-pengaturan" class="space-y-6 hidden">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">Pengaturan Payroll & Parameter Rumus</h1>
+                    <p class="text-xs text-gray-500 mt-1">Konfigurasi persentase BPJS, batas upah maksimal, dan peraturan pajak pemerintah Indonesia.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Setting Pajak PPh 21 -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+                            <i data-lucide="scale" class="w-4 h-4 text-mfa-800"></i>
+                            Regulasi PPh 21 (PP 58 Tahun 2023)
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div>
+                                <label class="block text-gray-600 font-medium mb-1">Metode Pajak</label>
+                                <select class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 text-xs">
+                                    <option selected>Gross (Pajak dipotong dari gaji karyawan)</option>
+                                    <option>Gross Up (Tunjangan pajak dari perusahaan)</option>
+                                    <option>Nett (Pajak ditanggung perusahaan)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-600 font-medium mb-1">Kategori TER A</label>
+                                <p class="text-gray-400 text-[11px]">PTKP: TK/0 (Rp54.000.000), TK/1 (Rp58.500.000), K/0 (Rp58.500.000)</p>
+                            </div>
+                            <div>
+                                <label class="block text-gray-600 font-medium mb-1">Kategori TER B</label>
+                                <p class="text-gray-400 text-[11px]">PTKP: TK/2 (Rp63.000.000), TK/3 (Rp67.500.000), K/1 (Rp63.000.000), K/2 (Rp67.500.000)</p>
+                            </div>
+                            <div>
+                                <label class="block text-gray-600 font-medium mb-1">Kategori TER C</label>
+                                <p class="text-gray-400 text-[11px]">PTKP: K/3 (Rp72.000.000)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Setting BPJS -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xs space-y-4">
+                        <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4 text-mfa-800"></i>
+                            Batas Plafon & Tarif BPJS
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>BPJS Kesehatan (Pekerja)</span>
+                                <span class="font-bold">1.0% (Maks Upah Rp12.000.000)</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>BPJS Kesehatan (Perusahaan)</span>
+                                <span class="font-bold">4.0% (Maks Upah Rp12.000.000)</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>BPJS TK JHT (Pekerja)</span>
+                                <span class="font-bold">2.0%</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>BPJS TK Jaminan Pensiun (Pekerja)</span>
+                                <span class="font-bold">1.0% (Maks Upah Rp10.042.300)</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-gray-100">
+                                <span>Faktor Pengali Jam Lembur Standar</span>
+                                <span class="font-bold">1 / 173 per Jam</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </main>
     </div>
 
-    <!-- MODAL SLIP GAJI / DETAIL KARYAWAN -->
+    <!-- ================= MODALS ================= -->
+
+    <!-- 1. MODAL TAMBAH / EDIT KARYAWAN -->
+    <div id="employeeModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <h3 class="text-base font-bold text-gray-900" id="empModalTitle">Tambah Karyawan Baru</h3>
+                <button onclick="closeEmployeeModal()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="empForm" onsubmit="saveEmployee(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="empFormIndex" value="-1">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">NIK / ID Karyawan</label>
+                        <input type="text" id="empNik" required placeholder="Contoh: MFA-001" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label>
+                        <input type="text" id="empName" required placeholder="Nama karyawan" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Departemen</label>
+                        <select id="empDept" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                            <option value="Engineering">Engineering / IT</option>
+                            <option value="Design">Product & Design</option>
+                            <option value="Finance">Finance & Accounting</option>
+                            <option value="Marketing">Marketing & Sales</option>
+                            <option value="HR & Operations">HR & Operations</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Jabatan / Posisi</label>
+                        <input type="text" id="empRole" required placeholder="Contoh: Software Engineer" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Gaji Pokok (Rp)</label>
+                        <input type="number" id="empPokok" required min="0" placeholder="10000000" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Tunjangan Tetap (Rp)</label>
+                        <input type="number" id="empTunjangan" required min="0" placeholder="1500000" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Status PTKP (Kategori TER)</label>
+                        <select id="empPtkp" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                            <option value="TK/0">TK/0 - Tidak Kawin, 0 Tanggungan (TER A)</option>
+                            <option value="TK/1">TK/1 - Tidak Kawin, 1 Tanggungan (TER A)</option>
+                            <option value="K/0">K/0 - Kawin, 0 Tanggungan (TER A)</option>
+                            <option value="K/1">K/1 - Kawin, 1 Tanggungan (TER B)</option>
+                            <option value="K/2">K/2 - Kawin, 2 Tanggungan (TER B)</option>
+                            <option value="K/3">K/3 - Kawin, 3 Tanggungan (TER C)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">Status Pajak NPWP</label>
+                        <select id="empNpwp" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                            <option value="Ada">Memiliki NPWP</option>
+                            <option value="Tidak">Tidak Memiliki NPWP (+20% tarif normal)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100">
+                    <button type="button" onclick="closeEmployeeModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold">Batal</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white font-semibold">Simpan Data Karyawan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. MODAL SLIP GAJI PROFESIONAL -->
     <div id="slipModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6 relative border border-gray-100 animate-in fade-in zoom-in-95 duration-150">
+        <div id="slipModalContent" class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-gray-100 max-h-[92vh] overflow-y-auto">
             <!-- Modal Header -->
             <div class="flex items-start justify-between pb-4 border-b border-gray-100">
                 <div class="flex items-center gap-3">
-                    <div id="modalAvatar" class="w-10 h-10 rounded-full bg-gray-100 text-gray-700 font-bold flex items-center justify-center text-sm border border-gray-200">
-                        AW
+                    <div id="modalAvatar" class="w-10 h-10 rounded-full bg-[#1B3B2B] text-white font-bold flex items-center justify-center text-sm">
+                        MFA
                     </div>
                     <div>
-                        <h3 id="modalName" class="text-sm font-bold text-gray-900">Ayu Wulandari</h3>
-                        <p id="modalSub" class="text-xs text-gray-500">NS-001 · Product Designer</p>
+                        <h3 id="modalName" class="text-sm font-bold text-gray-900">-</h3>
+                        <p id="modalSub" class="text-xs text-gray-500">-</p>
                     </div>
                 </div>
-                <button onclick="closeSlipModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+                <button onclick="closeSlipModal()" class="text-gray-400 hover:text-gray-600 p-1 no-print">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
 
-            <!-- Modal Content Breakdown -->
+            <!-- Breakdown Detail -->
             <div class="space-y-4 text-xs">
                 <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
-                    <span class="text-gray-500">Status Payroll</span>
-                    <span id="modalStatusBadge" class="badge-green px-2.5 py-0.5 rounded-full font-semibold">Siap diproses</span>
+                    <span class="text-gray-500">Periode Penggajian</span>
+                    <span class="font-bold text-gray-900">Oktober 2026 (MFA Studio)</span>
                 </div>
 
-                <div class="space-y-2">
-                    <div class="flex justify-between py-1 text-gray-600">
-                        <span>Gaji Pokok</span>
-                        <span id="modalGajiPokok" class="font-semibold text-gray-900">Rp12.000.000</span>
-                    </div>
-                    <div class="flex justify-between py-1 text-gray-600">
-                        <span>Tunjangan Transportasi & Makan</span>
-                        <span id="modalTunjangan" class="font-semibold text-gray-900">Rp1.500.000</span>
-                    </div>
-                    <div class="flex justify-between py-1 text-rose-600">
-                        <span>Potongan (PPh 21, BPJS Kes/TK)</span>
-                        <span id="modalPotongan" class="font-semibold">- Rp675.000</span>
-                    </div>
-                    <div class="pt-3 border-t border-gray-100 flex justify-between items-center text-sm">
-                        <span class="font-bold text-gray-900">Total Gaji Bersih (Take Home Pay)</span>
-                        <span id="modalGajiBersih" class="font-extrabold text-[#183925] text-base">Rp12.825.000</span>
+                <!-- Komponen Penerimaan -->
+                <div>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-emerald-800">A. Penerimaan (Penghasilan Bruto)</h4>
+                    <div class="space-y-1.5 pl-2 border-l-2 border-emerald-500">
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>Gaji Pokok</span>
+                            <span id="modalGajiPokok" class="font-semibold text-gray-900">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>Tunjangan Transport & Makan</span>
+                            <span id="modalTunjangan" class="font-semibold text-gray-900">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>Upah Lembur (Overtime)</span>
+                            <span id="modalLembur" class="font-semibold text-gray-900">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 font-bold text-gray-800 pt-1 border-t border-gray-100">
+                            <span>Total Penghasilan Bruto</span>
+                            <span id="modalTotalBruto">Rp0</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Info Box -->
-                <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100/60 text-emerald-800 text-[11px] flex items-start gap-2">
-                    <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 mt-0.5 text-emerald-600"></i>
-                    <span>Semua jam kerja, lembur, dan absensi telah diverifikasi oleh HRMS. Siap ditransfer pada 27 Okt 2026.</span>
+                <!-- Komponen Potongan -->
+                <div>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-wider text-[11px] mb-2 text-rose-800">B. Potongan Karyawan</h4>
+                    <div class="space-y-1.5 pl-2 border-l-2 border-rose-500">
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>BPJS Kesehatan (1% Pekerja - Maks Rp120.000)</span>
+                            <span id="modalBpjsKes" class="font-semibold text-rose-600">- Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span>BPJS TK (JHT 2% + JP 1% Pekerja)</span>
+                            <span id="modalBpjsTk" class="font-semibold text-rose-600">- Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600">
+                            <span id="modalPphLabel">PPh 21 (TER PP 58/2023)</span>
+                            <span id="modalPph21" class="font-semibold text-rose-600">- Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 font-bold text-rose-700 pt-1 border-t border-gray-100">
+                            <span>Total Potongan</span>
+                            <span id="modalTotalPotongan">- Rp0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Take Home Pay Highlight -->
+                <div class="p-4 rounded-xl bg-mfa-50 border border-mfa-200 flex justify-between items-center text-sm">
+                    <div>
+                        <span class="font-bold text-gray-900 block">Take Home Pay (Gaji Bersih)</span>
+                        <span class="text-[11px] text-gray-500">Ditransfer ke Rekening Karyawan</span>
+                    </div>
+                    <span id="modalGajiBersih" class="font-extrabold text-[#1B3B2B] text-lg">Rp0</span>
                 </div>
             </div>
 
             <!-- Modal Actions -->
-            <div class="flex justify-end gap-2.5 pt-2">
+            <div class="flex justify-end gap-2.5 pt-2 no-print">
                 <button onclick="closeSlipModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
-                <button onclick="downloadSlipPdf()" class="px-4 py-2 rounded-xl bg-[#183925] hover:bg-[#122B1C] text-white text-xs font-semibold inline-flex items-center gap-1.5">
-                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                    <span>Unduh Slip Gaji (PDF)</span>
+                <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold inline-flex items-center gap-1.5">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <span>Cetak Slip Gaji</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL AJUKAN PERSETUJUAN -->
+    <!-- 3. MODAL SIMULATOR PPH 21 -->
+    <div id="taxSimulatorModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <h3 class="text-base font-bold text-gray-900">Kalkulator Cepat PPh 21 TER</h3>
+                <button onclick="closeTaxSimulatorModal()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Penghasilan Bruto Sebulan (Rp)</label>
+                    <input type="number" id="simBruto" value="12000000" oninput="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Status PTKP</label>
+                    <select id="simPtkp" onchange="calculateTaxSim()" class="w-full p-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-mfa-600">
+                        <option value="TER_A">TK/0, TK/1, K/0 (Kategori TER A)</option>
+                        <option value="TER_B">TK/2, TK/3, K/1, K/2 (Kategori TER B)</option>
+                        <option value="TER_C">K/3 (Kategori TER C)</option>
+                    </select>
+                </div>
+
+                <div class="p-4 bg-gray-50 rounded-xl space-y-2 border border-gray-200">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Tarif Efektif (TER):</span>
+                        <span class="font-bold text-gray-900" id="simTarif">4.0%</span>
+                    </div>
+                    <div class="flex justify-between text-rose-600">
+                        <span class="font-medium">PPh 21 Terutang Sebulan:</span>
+                        <span class="font-extrabold text-sm" id="simHasil">Rp480.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeTaxSimulatorModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL AJUKAN PERSETUJUAN -->
     <div id="approvalModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100">
-            <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 text-brand-800 flex items-center justify-center text-xl">
+            <div class="w-12 h-12 rounded-2xl bg-mfa-50 border border-mfa-200 text-mfa-800 flex items-center justify-center text-xl">
                 <i data-lucide="send" class="w-6 h-6"></i>
             </div>
             <div>
                 <h3 class="text-base font-bold text-gray-900">Ajukan Persetujuan Payroll</h3>
-                <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-                    Anda akan mengajukan payroll periode <b>Oktober 2026</b> senilai <b>Rp1.248.000.000</b> untuk <b>128 karyawan</b> kepada Finance Director.
+                <p class="text-xs text-gray-500 mt-1 leading-relaxed" id="approvalModalDesc">
+                    Anda akan mengajukan payroll periode <b>Oktober 2026</b> untuk diverifikasi oleh Finance & Direktur Utama.
                 </p>
-            </div>
-
-            <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-200/60 text-amber-800 text-xs flex items-start gap-2">
-                <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 mt-0.5 text-amber-600"></i>
-                <span>Perhatian: Terdapat 4 data karyawan dengan status <b>Perlu ditinjau</b>. Pastikan data sudah diperiksa sebelum finalisasi.</span>
             </div>
 
             <div class="flex justify-end gap-2.5 pt-2">
                 <button onclick="closeApprovalModal()" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-semibold">Batal</button>
-                <button onclick="submitApprovalConfirm()" class="px-4 py-2 rounded-xl bg-[#183925] hover:bg-[#122B1C] text-white text-xs font-semibold">Ajukan Sekarang</button>
+                <button onclick="submitApprovalConfirm()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold">Ajukan Sekarang</button>
             </div>
         </div>
     </div>
@@ -613,40 +1134,159 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT PAYROLL ENGINE (PP 58/2023, BPJS & DATA MANAGER) -->
     <script>
-        // Data Karyawan (Mock Payroll Dataset)
-        const employeesData = [
-            { id: "NS-001", name: "Ayu Wulandari", role: "Product Designer", avatar: "AW", pokok: 12000000, tunjangan: 1500000, potongan: 675000, bersih: 12825000, status: "siap" },
-            { id: "NS-002", name: "Bima Saputra", role: "Software Engineer", avatar: "BS", pokok: 15000000, tunjangan: 2000000, potongan: 850000, bersih: 16150000, status: "siap" },
-            { id: "NS-003", name: "Citra Maharani", role: "Finance Analyst", avatar: "CM", pokok: 10000000, tunjangan: 1000000, potongan: 550000, bersih: 10450000, status: "siap" },
-            { id: "NS-004", name: "Dimas Pratama", role: "Account Executive", avatar: "DP", pokok: 9000000, tunjangan: 1250000, potongan: 475000, bersih: 9775000, status: "tinjau" },
-            { id: "NS-005", name: "Eka Putri", role: "People Operations", avatar: "EP", pokok: 11000000, tunjangan: 1000000, potongan: 600000, bersih: 11400000, status: "siap" },
-            { id: "NS-006", name: "Fajar Ramadhan", role: "Marketing Specialist", avatar: "FR", pokok: 9500000, tunjangan: 1000000, potongan: 525000, bersih: 9975000, status: "siap" },
-            { id: "NS-007", name: "Gita Savitri", role: "UI/UX Researcher", avatar: "GS", pokok: 11500000, tunjangan: 1200000, potongan: 620000, bersih: 12080000, status: "siap" },
-            { id: "NS-008", name: "Hadi Nugroho", role: "DevOps Engineer", avatar: "HN", pokok: 16500000, tunjangan: 2500000, potongan: 980000, bersih: 18020000, status: "tinjau" },
-            { id: "NS-009", name: "Indah Permata", role: "Content Strategist", avatar: "IP", pokok: 8500000, tunjangan: 900000, potongan: 450000, bersih: 8950000, status: "siap" },
-            { id: "NS-010", name: "Joko Susilo", role: "QA Engineer", avatar: "JS", pokok: 10500000, tunjangan: 1100000, potongan: 580000, bersih: 11020000, status: "siap" },
-            { id: "NS-011", name: "Karina Anindya", role: "Product Manager", avatar: "KA", pokok: 18000000, tunjangan: 3000000, potongan: 1200000, bersih: 19800000, status: "siap" },
-            { id: "NS-012", name: "Lukman Hakim", role: "Backend Developer", avatar: "LH", pokok: 14000000, tunjangan: 1800000, potongan: 790000, bersih: 15010000, status: "tinjau" }
-        ];
-
+        // Inisialisasi: Default data kosong sesuai instruksi Faari
+        let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
+        let attendance = JSON.parse(localStorage.getItem('mfa_payroll_attendance')) || {};
         let currentFilter = 'semua';
         let searchQuery = '';
         let currentPage = 1;
         const pageSize = 6;
         let selectedIds = new Set();
-        let currentModalEmployee = null;
+        let currentModalEmp = null;
+        let approvalStage = 1;
 
+        // Sample Data Template (Jika Faari ingin mengisi contoh 1-klik)
+        const sampleEmployees = [
+            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer", dept: "Design", avatar: "AW", pokok: 12000000, tunjangan: 1500000, ptkp: "TK/0", npwp: "Ada", status: "siap" },
+            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 15000000, tunjangan: 2000000, ptkp: "K/1", npwp: "Ada", status: "siap" },
+            { id: "MFA-003", name: "Citra Maharani", role: "Finance Analyst", dept: "Finance", avatar: "CM", pokok: 10000000, tunjangan: 1000000, ptkp: "TK/1", npwp: "Ada", status: "siap" },
+            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive", dept: "Marketing", avatar: "DP", pokok: 9000000, tunjangan: 1250000, ptkp: "K/0", npwp: "Ada", status: "tinjau" },
+            { id: "MFA-005", name: "Eka Putri", role: "People Operations", dept: "HR & Operations", avatar: "EP", pokok: 11000000, tunjangan: 1000000, ptkp: "TK/0", npwp: "Ada", status: "siap" },
+            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 9500000, tunjangan: 1000000, ptkp: "K/2", npwp: "Ada", status: "siap" }
+        ];
+
+        // Format Angka Rupiah
         function formatRupiah(num) {
-            return 'Rp' + num.toLocaleString('id-ID');
+            return 'Rp' + Math.round(num || 0).toLocaleString('id-ID');
         }
 
-        function renderTable() {
+        // ================= RUMUS PPH 21 TER (PP 58 TAHUN 2023) =================
+        function getTerCategory(ptkp) {
+            if (['TK/0', 'TK/1', 'K/0'].includes(ptkp)) return 'TER_A';
+            if (['TK/2', 'TK/3', 'K/1', 'K/2'].includes(ptkp)) return 'TER_B';
+            return 'TER_C';
+        }
+
+        function getTerRate(category, bruto) {
+            if (category === 'TER_A') {
+                if (bruto <= 5400000) return 0.00;
+                if (bruto <= 5650000) return 0.0025;
+                if (bruto <= 5950000) return 0.005;
+                if (bruto <= 6300000) return 0.0075;
+                if (bruto <= 6750000) return 0.01;
+                if (bruto <= 7500000) return 0.0125;
+                if (bruto <= 8550000) return 0.015;
+                if (bruto <= 9650000) return 0.0175;
+                if (bruto <= 10050000) return 0.02;
+                if (bruto <= 10350000) return 0.0225;
+                if (bruto <= 10700000) return 0.025;
+                if (bruto <= 11050000) return 0.03;
+                if (bruto <= 11600000) return 0.035;
+                if (bruto <= 12500000) return 0.04;
+                if (bruto <= 13750000) return 0.05;
+                if (bruto <= 15100000) return 0.06;
+                if (bruto <= 16950000) return 0.07;
+                if (bruto <= 19750000) return 0.08;
+                if (bruto <= 24150000) return 0.09;
+                return 0.10;
+            } else if (category === 'TER_B') {
+                if (bruto <= 6200000) return 0.00;
+                if (bruto <= 6500000) return 0.0025;
+                if (bruto <= 6850000) return 0.005;
+                if (bruto <= 7300000) return 0.0075;
+                if (bruto <= 9200000) return 0.01;
+                if (bruto <= 10750000) return 0.015;
+                if (bruto <= 12500000) return 0.02;
+                if (bruto <= 14000000) return 0.03;
+                if (bruto <= 16300000) return 0.04;
+                if (bruto <= 18600000) return 0.05;
+                return 0.07;
+            } else {
+                // TER_C
+                if (bruto <= 6600000) return 0.00;
+                if (bruto <= 6950000) return 0.0025;
+                if (bruto <= 7350000) return 0.005;
+                if (bruto <= 7800000) return 0.0075;
+                if (bruto <= 8850000) return 0.01;
+                if (bruto <= 10900000) return 0.015;
+                if (bruto <= 12600000) return 0.02;
+                return 0.04;
+            }
+        }
+
+        // ================= ENGINE PERHITUNGAN PAYROLL LENGKAP =================
+        function calculatePayrollForEmployee(emp) {
+            const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburJam: 0 };
+            
+            // 1. Upah Lembur (PP 35/2021): 1/173 x Gaji Sebulan
+            const upahPerJam = (emp.pokok + emp.tunjangan) / 173;
+            let lemburNominal = 0;
+            if (att.lemburJam > 0) {
+                // Jam ke-1: 1.5x, jam selanjutnya 2x
+                lemburNominal = upahPerJam * 1.5 + (att.lemburJam - 1 > 0 ? (att.lemburJam - 1) * upahPerJam * 2 : 0);
+            }
+
+            // 2. Penghasilan Bruto
+            const totalBruto = emp.pokok + emp.tunjangan + lemburNominal;
+
+            // 3. Potongan BPJS Kesehatan Karyawan (1%, Maks Upah Rp12.000.000)
+            const basisBpjsKes = Math.min(emp.pokok + emp.tunjangan, 12000000);
+            const bpjsKesKaryawan = basisBpjsKes * 0.01;
+            const bpjsKesPerusahaan = basisBpjsKes * 0.04;
+
+            // 4. Potongan BPJS Ketenagakerjaan Karyawan (JHT 2% + JP 1% Maks Upah Rp10.042.300)
+            const jhtKaryawan = emp.pokok * 0.02;
+            const jpKaryawan = Math.min(emp.pokok, 10042300) * 0.01;
+            const bpjsTkKaryawan = jhtKaryawan + jpKaryawan;
+            const bpjsTkPerusahaan = (emp.pokok * 0.037) + (Math.min(emp.pokok, 10042300) * 0.02) + (emp.pokok * 0.0054); // JHT 3.7% + JP 2% + JKK/JKM 0.54%
+
+            // 5. Potongan PPh 21 TER PP 58/2023
+            const terCat = getTerCategory(emp.ptkp);
+            const terRate = getTerRate(terCat, totalBruto);
+            let pph21 = totalBruto * terRate;
+            if (emp.npwp === 'Tidak') {
+                pph21 *= 1.2; // Tambahan 20% bagi yang tidak memiliki NPWP
+            }
+
+            // 6. Total Potongan Karyawan
+            const totalPotongan = bpjsKesKaryawan + bpjsTkKaryawan + pph21;
+
+            // 7. Gaji Bersih (Take Home Pay)
+            const gajiBersih = totalBruto - totalPotongan;
+
+            return {
+                lemburNominal,
+                totalBruto,
+                bpjsKesKaryawan,
+                bpjsKesPerusahaan,
+                bpjsTkKaryawan,
+                bpjsTkPerusahaan,
+                terCat,
+                terRate,
+                pph21,
+                totalPotongan,
+                gajiBersih
+            };
+        }
+
+        // ================= RENDER UTAMA =================
+        function renderAll() {
+            renderPayrollTable();
+            renderMetrics();
+            renderMasterKaryawan();
+            renderKehadiran();
+            renderLaporan();
+            updateSidebarCounts();
+            lucide.createIcons();
+        }
+
+        function renderPayrollTable() {
             const tableBody = document.getElementById('payrollTableBody');
             tableBody.innerHTML = '';
 
-            let filtered = employeesData.filter(emp => {
+            let filtered = employees.filter(emp => {
                 const matchFilter = (currentFilter === 'semua') || (emp.status === currentFilter);
                 const matchSearch = emp.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                     emp.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -655,72 +1295,523 @@
             });
 
             const total = filtered.length;
-            const startIdx = (currentPage - 1) * pageSize;
-            const pageData = filtered.slice(startIdx, startIdx + pageSize);
 
-            if (pageData.length === 0) {
+            if (total === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="text-center py-10 text-gray-400">
-                            <i data-lucide="search-x" class="w-8 h-8 mx-auto mb-2 text-gray-300"></i>
-                            Tidak ada karyawan yang sesuai dengan pencarian atau filter.
+                        <td colspan="8" class="text-center py-12 text-gray-400">
+                            <div class="w-12 h-12 rounded-2xl bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-3">
+                                <i data-lucide="inbox" class="w-6 h-6"></i>
+                            </div>
+                            <p class="font-bold text-gray-700 text-sm">Belum ada data payroll</p>
+                            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Klik tombol <b>+ Tambah Karyawan</b> atau <b>Muat Contoh Data</b> di atas untuk mulai menguji sistem penggajian.</p>
                         </td>
                     </tr>
                 `;
-                lucide.createIcons();
+                document.getElementById('paginationInfo').innerText = "Menampilkan 0 dari 0 karyawan";
                 return;
             }
 
+            const startIdx = (currentPage - 1) * pageSize;
+            const pageData = filtered.slice(startIdx, startIdx + pageSize);
+
             pageData.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
                 const isSelected = selectedIds.has(emp.id);
-                const tr = document.createElement('tr');
-                tr.className = `hover:bg-gray-50/70 transition border-b border-gray-100 ${isSelected ? 'bg-emerald-50/30' : ''}`;
-                
+
                 const statusBadge = emp.status === 'siap' 
                     ? `<span class="badge-green px-2.5 py-0.5 rounded-full font-medium inline-block">Siap diproses</span>`
                     : `<span class="badge-amber px-2.5 py-0.5 rounded-full font-medium inline-block">Perlu ditinjau</span>`;
 
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-gray-50/70 transition border-b border-gray-100 ${isSelected ? 'bg-mfa-50/40' : ''}`;
                 tr.innerHTML = `
                     <td class="px-6 py-4">
-                        <input type="checkbox" onchange="toggleSelectRow('${emp.id}')" ${isSelected ? 'checked' : ''} class="rounded border-gray-300 text-brand-800 focus:ring-brand-800 w-4 h-4 cursor-pointer">
+                        <input type="checkbox" onchange="toggleSelectRow('${emp.id}')" ${isSelected ? 'checked' : ''} class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
                     </td>
                     <td class="px-3 py-4">
                         <div class="flex items-center gap-3 cursor-pointer" onclick="openSlipModal('${emp.id}')">
-                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center font-bold text-xs shrink-0 border border-gray-200">
-                                ${emp.avatar}
+                            <div class="w-8 h-8 rounded-full bg-mfa-100 text-mfa-900 flex items-center justify-center font-bold text-xs shrink-0 border border-mfa-200">
+                                ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
                             </div>
                             <div>
-                                <p class="font-semibold text-gray-900 leading-tight hover:text-brand-800 transition">${emp.name}</p>
+                                <p class="font-semibold text-gray-900 leading-tight hover:text-mfa-800 transition">${emp.name}</p>
                                 <p class="text-[11px] text-gray-400 leading-tight mt-0.5">${emp.id} · ${emp.role}</p>
                             </div>
                         </div>
                     </td>
                     <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.pokok)}</td>
-                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.tunjangan)}</td>
-                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.potongan)}</td>
-                    <td class="px-4 py-4 font-bold text-gray-900">${formatRupiah(emp.bersih)}</td>
+                    <td class="px-4 py-4 font-normal text-gray-700">${formatRupiah(emp.tunjangan + calc.lemburNominal)}</td>
+                    <td class="px-4 py-4 font-normal text-rose-600">- ${formatRupiah(calc.totalPotongan)}</td>
+                    <td class="px-4 py-4 font-bold text-gray-900">${formatRupiah(calc.gajiBersih)}</td>
                     <td class="px-4 py-4">${statusBadge}</td>
                     <td class="px-6 py-4 text-right">
-                        <button onclick="openSlipModal('${emp.id}')" class="text-gray-400 hover:text-gray-700 p-1 rounded-md transition" title="Lihat Slip & Detail">
-                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
-                        </button>
+                        <div class="flex items-center justify-end gap-1">
+                            <button onclick="openSlipModal('${emp.id}')" class="text-mfa-800 hover:bg-mfa-50 p-1.5 rounded-lg transition" title="Lihat Slip Gaji">
+                                <i data-lucide="receipt" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="editEmployee('${emp.id}')" class="text-gray-400 hover:text-gray-700 p-1.5 rounded-lg transition" title="Edit Karyawan">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tableBody.appendChild(tr);
             });
 
-            // Update pagination text
-            const endIdx = Math.min(startIdx + pageSize, 128);
-            document.getElementById('paginationInfo').innerText = `Menampilkan ${startIdx + 1}-${Math.min(startIdx + pageData.length, 128)} dari 128 karyawan`;
+            document.getElementById('paginationInfo').innerText = `Menampilkan ${startIdx + 1}-${Math.min(startIdx + pageData.length, total)} dari ${total} karyawan`;
+        }
 
+        function renderMetrics() {
+            let totalGajiBersih = 0;
+            let totalTunjangan = 0;
+            let totalPotongan = 0;
+            let totalGajiPokok = 0;
+            let totalLembur = 0;
+            let totalBpjsKes = 0;
+            let totalBpjsTk = 0;
+            let totalPph21 = 0;
+
+            let siapCount = 0;
+            let tinjauCount = 0;
+
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                totalGajiBersih += calc.gajiBersih;
+                totalTunjangan += (emp.tunjangan + calc.lemburNominal);
+                totalPotongan += calc.totalPotongan;
+                totalGajiPokok += emp.pokok;
+                totalLembur += calc.lemburNominal;
+                totalBpjsKes += calc.bpjsKesKaryawan;
+                totalBpjsTk += calc.bpjsTkKaryawan;
+                totalPph21 += calc.pph21;
+
+                if (emp.status === 'siap') siapCount++;
+                else tinjauCount++;
+            });
+
+            document.getElementById('metricTotalGaji').innerText = formatRupiah(totalGajiBersih);
+            document.getElementById('metricTotalKaryawan').innerText = employees.length;
+            document.getElementById('metricTotalTunjangan').innerText = formatRupiah(totalTunjangan);
+            document.getElementById('metricTotalPotongan').innerText = formatRupiah(totalPotongan);
+
+            document.getElementById('metricSiapCount').innerText = `${siapCount} siap`;
+            document.getElementById('metricTinjauCount').innerText = `${tinjauCount} perlu ditinjau`;
+            document.getElementById('stepperTinjauText').innerText = `${tinjauCount} data perlu ditinjau`;
+
+            document.getElementById('badgeSemua').innerText = employees.length;
+            document.getElementById('badgeSiap').innerText = siapCount;
+            document.getElementById('badgeTinjau').innerText = tinjauCount;
+            document.getElementById('headerCountBadge').innerText = `${employees.length} karyawan`;
+
+            // Dashboard Metrics
+            document.getElementById('dashGajiPokok').innerText = formatRupiah(totalGajiPokok);
+            document.getElementById('dashTunjanganTetap').innerText = formatRupiah(totalTunjangan - totalLembur);
+            document.getElementById('dashLembur').innerText = formatRupiah(totalLembur);
+            document.getElementById('dashBpjsKes').innerText = `- ${formatRupiah(totalBpjsKes)}`;
+            document.getElementById('dashBpjsTk').innerText = `- ${formatRupiah(totalBpjsTk)}`;
+            document.getElementById('dashPph21').innerText = `- ${formatRupiah(totalPph21)}`;
+            document.getElementById('dashTotalThp').innerText = formatRupiah(totalGajiBersih);
+
+            document.getElementById('approvalSubtext').innerText = `Total nilai pembayaran: ${formatRupiah(totalGajiBersih)} untuk ${employees.length} karyawan`;
+        }
+
+        function renderMasterKaryawan() {
+            const tbody = document.getElementById('karyawanMasterTableBody');
+            tbody.innerHTML = '';
+
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-gray-400">Belum ada karyawan terdaftar.</td></tr>`;
+                return;
+            }
+
+            employees.forEach(emp => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50/70 transition border-b border-gray-100";
+                tr.innerHTML = `
+                    <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-7 h-7 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center font-bold text-xs">
+                                ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900">${emp.name}</p>
+                                <p class="text-[11px] text-gray-400">${emp.id}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <p class="font-medium text-gray-800">${emp.role}</p>
+                        <p class="text-[11px] text-gray-400">${emp.dept}</p>
+                    </td>
+                    <td class="px-4 py-3.5 font-semibold text-gray-900">${formatRupiah(emp.pokok)}</td>
+                    <td class="px-4 py-3.5 text-gray-600">${formatRupiah(emp.tunjangan)}</td>
+                    <td class="px-4 py-3.5">
+                        <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${emp.ptkp}</span>
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <span class="badge-green px-2 py-0.5 rounded-full font-semibold">Aktif</span>
+                    </td>
+                    <td class="px-6 py-3.5 text-right">
+                        <button onclick="editEmployee('${emp.id}')" class="text-gray-500 hover:text-gray-900 mr-2"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        <button onclick="deleteEmployee('${emp.id}')" class="text-rose-500 hover:text-rose-700"><i data-lucide="trash" class="w-4 h-4"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderKehadiran() {
+            const tbody = document.getElementById('kehadiranTableBody');
+            tbody.innerHTML = '';
+
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-gray-400">Belum ada karyawan untuk dicatat absensinya.</td></tr>`;
+                return;
+            }
+
+            employees.forEach(emp => {
+                const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburJam: 0 };
+                const calc = calculatePayrollForEmployee(emp);
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50/70 transition border-b border-gray-100";
+                tr.innerHTML = `
+                    <td class="px-6 py-3.5 font-bold text-gray-900">${emp.name}</td>
+                    <td class="px-4 py-3.5 text-gray-500">22 hari</td>
+                    <td class="px-4 py-3.5">
+                        <input type="number" min="0" max="31" value="${att.hadir}" onchange="updateAttendance('${emp.id}', 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold">
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <input type="number" min="0" max="31" value="${att.sakit || 0}" onchange="updateAttendance('${emp.id}', 'sakit', this.value)" class="w-16 p-1 border rounded-lg text-center">
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <input type="number" min="0" max="31" value="${att.alpha}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 font-bold">
+                    </td>
+                    <td class="px-4 py-3.5">
+                        <input type="number" min="0" max="100" value="${att.lemburJam}" onchange="updateAttendance('${emp.id}', 'lemburJam', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700">
+                    </td>
+                    <td class="px-4 py-3.5 font-bold text-emerald-800">${formatRupiah(calc.lemburNominal)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderLaporan() {
+            const tbody = document.getElementById('laporanTableBody');
+            tbody.innerHTML = '';
+
+            if (employees.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-gray-400">Belum ada data untuk laporan.</td></tr>`;
+                return;
+            }
+
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-100";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-gray-900">${emp.name}</td>
+                    <td class="px-4 py-3 text-gray-500">${emp.npwp === 'Ada' ? '08.123.456.7-012.000' : 'Non-NPWP'}</td>
+                    <td class="px-4 py-3 font-bold">${calc.terCat} (${emp.ptkp})</td>
+                    <td class="px-4 py-3 font-bold text-gray-900">${formatRupiah(calc.totalBruto)}</td>
+                    <td class="px-4 py-3 font-semibold text-mfa-800">${(calc.terRate * 100).toFixed(2)}%</td>
+                    <td class="px-4 py-3 font-bold text-rose-600">${formatRupiah(calc.pph21)}</td>
+                    <td class="px-4 py-3 text-gray-600">${formatRupiah(calc.bpjsTkPerusahaan)}</td>
+                    <td class="px-4 py-3 text-gray-600">${formatRupiah(calc.bpjsKesPerusahaan)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateSidebarCounts() {
+            document.getElementById('sidebarKaryawanCount').innerText = employees.length;
+            const tinjauCount = employees.filter(e => e.status === 'tinjau').length;
+            document.getElementById('sidebarApprovalCount').innerText = tinjauCount;
+        }
+
+        // ================= CRUD KARYAWAN =================
+        function openEmployeeModal() {
+            document.getElementById('empFormIndex').value = "-1";
+            document.getElementById('empModalTitle').innerText = "Tambah Karyawan Baru";
+            document.getElementById('empForm').reset();
+            document.getElementById('empNik').value = "MFA-00" + (employees.length + 1);
+            document.getElementById('employeeModal').classList.remove('hidden');
+            document.getElementById('employeeModal').classList.add('flex');
             lucide.createIcons();
         }
 
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.add('hidden');
+            document.getElementById('employeeModal').classList.remove('flex');
+        }
+
+        function saveEmployee(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('empFormIndex').value);
+            const id = document.getElementById('empNik').value.trim();
+            const name = document.getElementById('empName').value.trim();
+            const dept = document.getElementById('empDept').value;
+            const role = document.getElementById('empRole').value.trim();
+            const pokok = parseFloat(document.getElementById('empPokok').value) || 0;
+            const tunjangan = parseFloat(document.getElementById('empTunjangan').value) || 0;
+            const ptkp = document.getElementById('empPtkp').value;
+            const npwp = document.getElementById('empNpwp').value;
+
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+            const empData = {
+                id,
+                name,
+                dept,
+                role,
+                avatar: initials,
+                pokok,
+                tunjangan,
+                ptkp,
+                npwp,
+                status: "siap"
+            };
+
+            if (idx >= 0) {
+                employees[idx] = empData;
+                showToast(`Data karyawan ${name} berhasil diperbarui!`);
+            } else {
+                employees.push(empData);
+                attendance[id] = { hadir: 22, alpha: 0, lemburJam: 0 };
+                showToast(`Karyawan ${name} berhasil ditambahkan!`);
+            }
+
+            saveToStorage();
+            closeEmployeeModal();
+            renderAll();
+        }
+
+        function editEmployee(empId) {
+            const idx = employees.findIndex(e => e.id === empId);
+            if (idx === -1) return;
+            const emp = employees[idx];
+
+            document.getElementById('empFormIndex').value = idx;
+            document.getElementById('empModalTitle').innerText = "Edit Data Karyawan";
+            document.getElementById('empNik').value = emp.id;
+            document.getElementById('empName').value = emp.name;
+            document.getElementById('empDept').value = emp.dept || 'Engineering';
+            document.getElementById('empRole').value = emp.role;
+            document.getElementById('empPokok').value = emp.pokok;
+            document.getElementById('empTunjangan').value = emp.tunjangan;
+            document.getElementById('empPtkp').value = emp.ptkp || 'TK/0';
+            document.getElementById('empNpwp').value = emp.npwp || 'Ada';
+
+            document.getElementById('employeeModal').classList.remove('hidden');
+            document.getElementById('employeeModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function deleteEmployee(empId) {
+            if (confirm(`Hapus data karyawan ${empId}?`)) {
+                employees = employees.filter(e => e.id !== empId);
+                delete attendance[empId];
+                saveToStorage();
+                renderAll();
+                showToast("Data karyawan dihapus.");
+            }
+        }
+
+        function updateAttendance(empId, field, val) {
+            if (!attendance[empId]) attendance[empId] = { hadir: 22, alpha: 0, lemburJam: 0 };
+            attendance[empId][field] = parseFloat(val) || 0;
+            saveToStorage();
+            renderMetrics();
+            renderPayrollTable();
+        }
+
+        // ================= TEMPLATE & STORAGE =================
+        function loadSampleData() {
+            employees = JSON.parse(JSON.stringify(sampleEmployees));
+            attendance = {};
+            employees.forEach(e => {
+                attendance[e.id] = { hadir: 22, alpha: 0, lemburJam: e.id === "MFA-002" ? 8 : (e.id === "MFA-001" ? 4 : 0) };
+            });
+            saveToStorage();
+            renderAll();
+            showToast("Berhasil memuat contoh data karyawan lengkap!");
+        }
+
+        function clearAllDataConfirm() {
+            if (confirm("Kosongkan semua data payroll dan karyawan?")) {
+                employees = [];
+                attendance = {};
+                saveToStorage();
+                renderAll();
+                showToast("Semua data telah dikosongkan.");
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('mfa_payroll_employees', JSON.stringify(employees));
+            localStorage.setItem('mfa_payroll_attendance', JSON.stringify(attendance));
+        }
+
+        // ================= SLIP GAJI MODAL =================
+        function openSlipModal(empId) {
+            const emp = employees.find(e => e.id === empId);
+            if (!emp) return;
+            currentModalEmp = emp;
+            const calc = calculatePayrollForEmployee(emp);
+
+            document.getElementById('modalAvatar').innerText = emp.avatar || emp.name.substring(0, 2).toUpperCase();
+            document.getElementById('modalName').innerText = emp.name;
+            document.getElementById('modalSub').innerText = `${emp.id} · ${emp.role} (${emp.dept})`;
+            
+            document.getElementById('modalGajiPokok').innerText = formatRupiah(emp.pokok);
+            document.getElementById('modalTunjangan').innerText = formatRupiah(emp.tunjangan);
+            document.getElementById('modalLembur').innerText = formatRupiah(calc.lemburNominal);
+            document.getElementById('modalTotalBruto').innerText = formatRupiah(calc.totalBruto);
+
+            document.getElementById('modalBpjsKes').innerText = `- ${formatRupiah(calc.bpjsKesKaryawan)}`;
+            document.getElementById('modalBpjsTk').innerText = `- ${formatRupiah(calc.bpjsTkKaryawan)}`;
+            document.getElementById('modalPphLabel').innerText = `PPh 21 (${calc.terCat} - ${(calc.terRate * 100).toFixed(2)}%)`;
+            document.getElementById('modalPph21').innerText = `- ${formatRupiah(calc.pph21)}`;
+            document.getElementById('modalTotalPotongan').innerText = `- ${formatRupiah(calc.totalPotongan)}`;
+
+            document.getElementById('modalGajiBersih').innerText = formatRupiah(calc.gajiBersih);
+
+            document.getElementById('slipModal').classList.remove('hidden');
+            document.getElementById('slipModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeSlipModal() {
+            document.getElementById('slipModal').classList.add('hidden');
+            document.getElementById('slipModal').classList.remove('flex');
+        }
+
+        // ================= SIMULATOR PPH 21 =================
+        function openTaxSimulatorModal() {
+            calculateTaxSim();
+            document.getElementById('taxSimulatorModal').classList.remove('hidden');
+            document.getElementById('taxSimulatorModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeTaxSimulatorModal() {
+            document.getElementById('taxSimulatorModal').classList.add('hidden');
+            document.getElementById('taxSimulatorModal').classList.remove('flex');
+        }
+
+        function calculateTaxSim() {
+            const bruto = parseFloat(document.getElementById('simBruto').value) || 0;
+            const cat = document.getElementById('simPtkp').value;
+            const rate = getTerRate(cat, bruto);
+            const pph = bruto * rate;
+
+            document.getElementById('simTarif').innerText = `${(rate * 100).toFixed(2)}%`;
+            document.getElementById('simHasil').innerText = formatRupiah(pph);
+        }
+
+        // ================= APPROVAL MODAL & WORKFLOW =================
+        function openApprovalModal() {
+            if (employees.length === 0) {
+                alert("Belum ada data payroll untuk diajukan.");
+                return;
+            }
+            document.getElementById('approvalModal').classList.remove('hidden');
+            document.getElementById('approvalModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeApprovalModal() {
+            document.getElementById('approvalModal').classList.add('hidden');
+            document.getElementById('approvalModal').classList.remove('flex');
+        }
+
+        function submitApprovalConfirm() {
+            closeApprovalModal();
+            document.getElementById('payrollStatusBadge').innerText = "Menunggu Persetujuan Finance";
+            document.getElementById('payrollStatusBadge').className = "badge-blue text-[11px] font-semibold px-2.5 py-0.5 rounded-full ml-1";
+            showToast('Payroll berhasil diajukan ke tahap persetujuan!');
+        }
+
+        function approveStep(step) {
+            if (step === 2) {
+                document.getElementById('step2Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
+                document.getElementById('step2Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-mfa-100 text-mfa-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                showToast("Tahap 2 Finance Manager disetujui!");
+            } else if (step === 3) {
+                document.getElementById('step3Icon').innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-700"></i>`;
+                document.getElementById('step3Icon').className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5";
+                document.getElementById('approvalStateBadge').innerText = "Disetujui Sepenuhnya (Siap Bayar)";
+                document.getElementById('approvalStateBadge').className = "badge-green px-3 py-1 rounded-full text-xs font-bold";
+                showToast("Payroll telah disetujui oleh Direktur Utama!");
+            }
+            lucide.createIcons();
+        }
+
+        // ================= CSV EXPORT =================
+        function exportPayrollCsv() {
+            if (employees.length === 0) {
+                alert("Belum ada data untuk diekspor.");
+                return;
+            }
+
+            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur,Total Bruto,BPJS Kes,BPJS TK,PPh 21,Total Potongan,Gaji Bersih\n";
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburNominal},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsTkKaryawan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MFA_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Laporan Payroll CSV berhasil diunduh!");
+        }
+
+        // ================= VIEW SWITCHER =================
+        function switchView(viewName) {
+            const views = ['penggajian', 'ringkasan', 'karyawan', 'kehadiran', 'persetujuan', 'laporan', 'pengaturan'];
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                const nav = document.getElementById('nav-' + v);
+                if (v === viewName) {
+                    el.classList.remove('hidden');
+                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left";
+                } else {
+                    el.classList.add('hidden');
+                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100/70 transition font-medium text-left";
+                }
+            });
+
+            // Update topbar breadcrumb
+            const titles = {
+                'penggajian': 'Penggajian',
+                'ringkasan': 'Ringkasan & Dashboard',
+                'karyawan': 'Master Data Karyawan',
+                'kehadiran': 'Absensi & Lembur',
+                'persetujuan': 'Alur Persetujuan',
+                'laporan': 'Laporan SPT & Payroll',
+                'pengaturan': 'Pengaturan & Rumus'
+            };
+            document.getElementById('topbarBreadcrumb').innerText = titles[viewName] || 'Penggajian';
+
+            // Close mobile sidebar if open
+            const sb = document.getElementById('sidebar');
+            if (!sb.classList.contains('-translate-x-full')) {
+                sb.classList.add('-translate-x-full');
+            }
+
+            renderAll();
+        }
+
+        // ================= SEARCH & FILTER =================
         function setFilter(filterType) {
             currentFilter = filterType;
             currentPage = 1;
-
-            // Reset tab styles
             const tabs = ['Semua', 'Siap', 'Tinjau'];
             tabs.forEach(t => {
                 const el = document.getElementById('tab' + t);
@@ -730,137 +1821,37 @@
                     el.className = "px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 transition";
                 }
             });
-
-            renderTable();
+            renderPayrollTable();
         }
 
         function handleSearch() {
             searchQuery = document.getElementById('searchInput').value;
             currentPage = 1;
-            renderTable();
+            renderPayrollTable();
         }
 
-        function toggleSelectAll(masterCheckbox) {
-            if (masterCheckbox.checked) {
-                employeesData.forEach(e => selectedIds.add(e.id));
+        function toggleSelectAll(master) {
+            if (master.checked) {
+                employees.forEach(e => selectedIds.add(e.id));
             } else {
                 selectedIds.clear();
             }
-            renderTable();
+            renderPayrollTable();
         }
 
         function toggleSelectRow(id) {
-            if (selectedIds.has(id)) {
-                selectedIds.delete(id);
-            } else {
-                selectedIds.add(id);
-            }
-            const master = document.getElementById('selectAllCheckbox');
-            master.checked = (selectedIds.size === employeesData.length);
-            renderTable();
+            if (selectedIds.has(id)) selectedIds.delete(id);
+            else selectedIds.add(id);
+            renderPayrollTable();
         }
 
-        function changePage(page) {
-            if (page < 1) page = 1;
-            if (page > 22) page = 22;
-            currentPage = page;
-
-            // Highlight buttons
-            [1, 2, 3].forEach(p => {
-                const btn = document.getElementById('btnPage' + p);
-                if (btn) {
-                    if (p === currentPage) {
-                        btn.className = "w-7 h-7 rounded-lg flex items-center justify-center bg-gray-100 font-bold text-gray-900";
-                    } else {
-                        btn.className = "w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100";
-                    }
-                }
-            });
-
-            renderTable();
-        }
-
-        function openSlipModal(empId) {
-            const emp = employeesData.find(e => e.id === empId);
-            if (!emp) return;
-            currentModalEmployee = emp;
-
-            document.getElementById('modalAvatar').innerText = emp.avatar;
-            document.getElementById('modalName').innerText = emp.name;
-            document.getElementById('modalSub').innerText = `${emp.id} · ${emp.role}`;
-            document.getElementById('modalGajiPokok').innerText = formatRupiah(emp.pokok);
-            document.getElementById('modalTunjangan').innerText = formatRupiah(emp.tunjangan);
-            document.getElementById('modalPotongan').innerText = `- ${formatRupiah(emp.potongan)}`;
-            document.getElementById('modalGajiBersih').innerText = formatRupiah(emp.bersih);
-
-            const badge = document.getElementById('modalStatusBadge');
-            if (emp.status === 'siap') {
-                badge.className = "badge-green px-2.5 py-0.5 rounded-full font-semibold";
-                badge.innerText = "Siap diproses";
-            } else {
-                badge.className = "badge-amber px-2.5 py-0.5 rounded-full font-semibold";
-                badge.innerText = "Perlu ditinjau";
-            }
-
-            const modal = document.getElementById('slipModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
-        }
-
-        function closeSlipModal() {
-            const modal = document.getElementById('slipModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function openApprovalModal() {
-            const modal = document.getElementById('approvalModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
-        }
-
-        function closeApprovalModal() {
-            const modal = document.getElementById('approvalModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function submitApprovalConfirm() {
-            closeApprovalModal();
-            showToast('Pengajuan persetujuan payroll berhasil dikirim ke Finance Director!');
-        }
-
-        function downloadSlipPdf() {
-            if (!currentModalEmployee) return;
-            showToast(`Mengunduh Slip Gaji ${currentModalEmployee.name} (PDF)...`);
-            setTimeout(() => {
-                closeSlipModal();
-            }, 700);
-        }
-
-        function exportReport() {
-            showToast('Mengekspor laporan payroll ke format Excel & CSV...');
-        }
-
-        function importDataModal() {
-            showToast('Membuka wizard impor data kehadiran & tunjangan...');
-        }
-
-        function toggleAdvancedFilter() {
-            showToast('Opsi filter lanjutan: Departemen, Rentang Gaji, Lokasi Kerja');
-        }
-
-        function sortEmployees() {
-            employeesData.reverse();
-            renderTable();
-            showToast('Urutan tabel diperbarui');
+        function recalculatePayroll() {
+            renderAll();
+            showToast("Perhitungan gaji, PPh 21 TER, dan BPJS diperbarui!");
         }
 
         function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            sb.classList.toggle('-translate-x-full');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
         function showToast(msg) {
@@ -880,10 +1871,9 @@
             }, 3000);
         }
 
-        // Initialize table on load
+        // Start initialization
         document.addEventListener('DOMContentLoaded', () => {
-            renderTable();
-            lucide.createIcons();
+            renderAll();
         });
     </script>
 </body>
