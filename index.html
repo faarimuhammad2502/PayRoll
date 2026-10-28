@@ -46,6 +46,9 @@
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- SheetJS (XLSX) for Excel & Google Sheets export/import with auto column widths & multi-sheet -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -264,10 +267,10 @@
                         <li>
                             <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
                                 <div class="flex items-center gap-3">
-                                    <i data-lucide="sheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                                    <span>Google Sheets Sync</span>
+                                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                                    <span>Excel &amp; Sheets Sync</span>
                                 </div>
-                                <span class="bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">BARU</span>
+                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">XLSX</span>
                             </button>
                         </li>
                         <li>
@@ -341,10 +344,10 @@
                     <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
                 </button>
 
-                <!-- Google Sheets Shortcut Button -->
-                <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1.5 rounded-xl transition" title="Sinkronisasi Google Sheets">
-                    <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
-                    <span class="hidden sm:inline">Google Sheets</span>
+                <!-- Excel & Google Sheets Shortcut Button -->
+                <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1.5 rounded-xl transition" title="Template & Sinkronisasi Excel / Google Sheets">
+                    <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+                    <span class="hidden sm:inline">Excel &amp; Sheets</span>
                 </button>
 
                 <!-- Template Data Loader -->
@@ -631,10 +634,14 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Penggajian</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
                     </div>
-                    <div class="flex items-center gap-2.5">
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-semibold shadow-2xs transition">
+                    <div class="flex items-center gap-2">
+                        <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-xs font-semibold shadow-2xs transition" title="Unduh Laporan Excel .xlsx otomatis rapi dengan formula & kolom pas">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                            <span>Ekspor Excel (.xlsx)</span>
+                        </button>
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-semibold shadow-2xs transition" title="Unduh Format CSV">
                             <i data-lucide="download" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                            <span>Ekspor laporan</span>
+                            <span>CSV</span>
                         </button>
                         <button onclick="openApprovalModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
                             <span>Ajukan persetujuan</span>
@@ -1119,13 +1126,17 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="openSheetsModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
+                        <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
                             <i data-lucide="sheet" class="w-4 h-4"></i>
                             <span>Buka di Google Sheets</span>
                         </button>
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
-                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                            <span>Download Format CSV / Excel</span>
+                        <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition" title="Unduh Excel .xlsx rapi dengan formula">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-300"></i>
+                            <span>Download Excel (.xlsx) Rapi</span>
+                        </button>
+                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 text-xs font-semibold transition" title="Format CSV">
+                            <i data-lucide="download" class="w-4 h-4 text-gray-400"></i>
+                            <span>CSV</span>
                         </button>
                     </div>
                 </div>
@@ -1235,17 +1246,17 @@
 
     <!-- ================= MODALS SPESIAL ================= -->
 
-    <!-- 0. MODAL GOOGLE SHEETS SYNC (INTEGRASI FITUR BARU) -->
+    <!-- 0. MODAL GOOGLE SHEETS & EXCEL SYNC (INTEGRASI FITUR SPREADSHEET RAPI) -->
     <div id="sheetsModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
-                        <i data-lucide="sheet" class="w-4 h-4"></i>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold shadow-2xs">
+                        <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Integrasi Google Sheets</h3>
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Sinkronisasi Data Absensi &amp; Rekapitulasi Payroll</p>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Integrasi Excel &amp; Google Sheets</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Template Terstandarisasi, Rapi Otomatis &amp; Sinkronisasi 2-Arah</p>
                     </div>
                 </div>
                 <button onclick="closeSheetsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
@@ -1255,37 +1266,77 @@
 
             <div class="space-y-4 text-xs">
                 <!-- Info Benefit -->
-                <div class="p-3 bg-emerald-50/70 dark:bg-emerald-950/40 rounded-xl border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300 text-[11px] space-y-1">
-                    <p class="font-bold">Keuntungan Integrasi Google Sheets untuk Perusahaan:</p>
-                    <p class="text-emerald-700 dark:text-emerald-400">1. HR &amp; Finance dapat mengisi absensi/lembur bersama di Google Sheets, lalu disinkronkan ke web dengan 1-klik.</p>
-                    <p class="text-emerald-700 dark:text-emerald-400">2. Hasil akhir penggajian &amp; bukti potong PPh 21 dapat diekspor langsung kembali ke Google Drive perusahaan.</p>
+                <div class="p-3 bg-emerald-50/80 dark:bg-emerald-950/40 rounded-xl border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300 text-[11px] space-y-1">
+                    <div class="flex items-center gap-1.5 font-bold text-emerald-950 dark:text-emerald-200">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                        <span>Format Langsung Rapi &amp; Siap Pakai di Microsoft Excel &amp; Google Sheets</span>
+                    </div>
+                    <p class="text-emerald-800 dark:text-emerald-400">
+                        Template Excel (.xlsx) dibuat dengan <strong>lebar kolom pas otomatis</strong> (tidak terpotong / ###), <strong>format mata uang Rupiah</strong>, serta dilengkapi <strong>3 Sheet terpisah</strong>: Master Karyawan, Absensi &amp; Lembur, dan Kamus Rumus Legalitas Ketenagakerjaan RI.
+                    </p>
                 </div>
 
-                <!-- Input URL Google Sheets Publish / CSV -->
-                <div class="space-y-1.5">
-                    <label class="block text-gray-700 dark:text-gray-300 font-semibold">Tautkan Link Google Sheets (File &rarr; Bagikan / Publikasikan CSV)</label>
-                    <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
-                    <p class="text-[10px] text-gray-400">Atau gunakan tombol di bawah untuk mengunduh template spreadsheet resmi.</p>
+                <!-- Step 1: Download Templates -->
+                <div class="space-y-2">
+                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Langkah 1: Unduh Template Spreadsheet Resmi</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <!-- Primary Excel Template -->
+                        <button onclick="downloadExcelTemplate()" class="p-3 rounded-xl border-2 border-emerald-500/50 bg-emerald-50/40 dark:bg-emerald-950/30 hover:bg-emerald-100/60 dark:hover:bg-emerald-900/40 text-left transition group">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                                    <span class="font-bold text-gray-900 dark:text-white">Template Excel (.xlsx)</span>
+                                </div>
+                                <span class="bg-emerald-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase">Rekomendasi</span>
+                            </div>
+                            <p class="text-[10px] text-gray-600 dark:text-gray-400">Multi-sheet (Master + Absensi + Kamus Rumus PP 35/58). Dibuka di Excel langsung rapi!</p>
+                        </button>
+
+                        <!-- Secondary CSV Template -->
+                        <button onclick="downloadSheetTemplate()" class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-700/60 text-left transition">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i data-lucide="sheet" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+                                <span class="font-bold text-gray-900 dark:text-white">Template CSV (UTF-8 BOM)</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 dark:text-gray-400">Format text kompatibel langsung impor ke Google Drive / Google Sheets web.</p>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Opsi Aksi Cepat -->
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button onclick="downloadSheetTemplate()" class="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 hover:bg-gray-100 text-left font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
-                        <i data-lucide="download" class="w-4 h-4 text-emerald-600"></i>
-                        <span>Unduh Template Sheet</span>
-                    </button>
-                    <button onclick="openInGoogleSheets()" class="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 hover:bg-gray-100 text-left font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
-                        <i data-lucide="external-link" class="w-4 h-4 text-blue-600"></i>
-                        <span>Buka Google Sheets</span>
-                    </button>
+                <!-- Step 2: Upload Excel or CSV -->
+                <div class="space-y-2 pt-1">
+                    <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Langkah 2: Masukkan Data ke Sistem MFA Payroll</label>
+                    
+                    <!-- Direct Excel Upload Dropzone -->
+                    <div class="border-2 border-dashed border-emerald-300 dark:border-emerald-800 hover:border-emerald-500 dark:hover:border-emerald-600 rounded-xl p-3.5 text-center bg-emerald-50/20 dark:bg-emerald-950/20 hover:bg-emerald-50/40 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
+                        <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)">
+                        <div class="flex flex-col items-center justify-center gap-1.5">
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 flex items-center justify-center">
+                                <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-800 dark:text-gray-200">Klik untuk upload file Excel (.xlsx) atau CSV yang sudah diisi</span>
+                            <span class="text-[10px] text-gray-500 dark:text-gray-400">Sistem otomatis membaca data karyawan &amp; absensi, lalu menghitung payroll seketika.</span>
+                        </div>
+                    </div>
+
+                    <!-- Sync URL Google Sheets -->
+                    <div class="space-y-1.5 pt-2">
+                        <label class="block text-gray-600 dark:text-gray-400 font-semibold text-[11px]">Atau Tautkan Link Google Sheets (Publikasikan ke Web &rarr; CSV):</label>
+                        <div class="flex gap-2">
+                            <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
+                            <button onclick="openInGoogleSheets()" class="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-xs font-semibold shrink-0" title="Buka Google Sheets Baru">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
-                <button onclick="closeSheetsModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
-                <button onclick="syncFromGoogleSheets()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold inline-flex items-center gap-1.5">
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+                <button onclick="closeSheetsModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-semibold">Tutup</button>
+                <button onclick="syncFromGoogleSheets()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs">
                     <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-                    <span>Tarik Data Sheet</span>
+                    <span>Tarik Data Sheet URL</span>
                 </button>
             </div>
         </div>
@@ -2047,31 +2098,259 @@
             document.getElementById('sheetsModal').classList.remove('flex');
         }
 
+        // ================= TEMPLATE SPREADSHEET (EXCEL .XLSX & CSV) =================
+        function downloadExcelTemplate() {
+            if (typeof XLSX === 'undefined') {
+                alert("Pustaka Excel sedang dimuat dari CDN, silakan coba dalam beberapa detik.");
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            // Sheet 1: Master Karyawan
+            const ws1Data = [
+                ["TEMPLATE MASTER DATA KARYAWAN - MFA PAYROLL"],
+                ["Petunjuk: Masukkan data karyawan di bawah ini. Gaji Pokok & Tunjangan diisi angka murni tanpa tanda titik/koma."],
+                [],
+                ["ID Karyawan", "Nama Lengkap", "Jabatan", "Departemen", "Gaji Pokok", "Tunjangan Tetap", "Status PTKP", "Masa Kerja (Bulan)", "Status Kontrak", "NPWP Karyawan"],
+                ["MFA-001", "Ayu Wulandari", "Product Designer", "Design", 12000000, 1500000, "TK/0", 14, "Tetap", "01.234.567.8-012.000"],
+                ["MFA-002", "Bima Saputra", "Senior Software Engineer", "Engineering", 18500000, 2500000, "K/1", 26, "Tetap", "02.345.678.9-013.000"],
+                ["MFA-003", "Citra Maharani", "Finance & Tax Specialist", "Finance", 10500000, 1200000, "TK/1", 9, "PKWT", "03.456.789.0-014.000"],
+                ["MFA-004", "Dimas Prasetyo", "Marketing Executive", "Marketing", 8500000, 1000000, "K/2", 18, "Tetap", "04.567.890.1-015.000"],
+                ["MFA-005", "Eka Putri Lestari", "HR & Legal Officer", "Human Resources", 9500000, 1200000, "TK/0", 11, "PKWT", "05.678.901.2-016.000"],
+                ["MFA-006", "Fajar Nugraha", "Operations Associate", "Operations", 7500000, 1000000, "TK/0", 6, "PKWT", "06.789.012.3-017.000"]
+            ];
+
+            const ws1 = XLSX.utils.aoa_to_sheet(ws1Data);
+            ws1['!cols'] = [
+                { wch: 15 }, // ID
+                { wch: 28 }, // Nama
+                { wch: 26 }, // Jabatan
+                { wch: 20 }, // Departemen
+                { wch: 18 }, // Gaji Pokok
+                { wch: 18 }, // Tunjangan Tetap
+                { wch: 15 }, // PTKP
+                { wch: 20 }, // Masa Kerja
+                { wch: 16 }, // Status Kontrak
+                { wch: 24 }  // NPWP
+            ];
+
+            // Format angka menjadi Currency Rp
+            for (let r = 4; r < ws1Data.length; r++) {
+                const cellE = XLSX.utils.encode_cell({ r, c: 4 });
+                const cellF = XLSX.utils.encode_cell({ r, c: 5 });
+                if (ws1[cellE]) ws1[cellE].z = '"Rp "#,##0';
+                if (ws1[cellF]) ws1[cellF].z = '"Rp "#,##0';
+            }
+
+            XLSX.utils.book_append_sheet(wb, ws1, "1. Master Karyawan");
+
+            // Sheet 2: Absensi & Lembur
+            const ws2Data = [
+                ["TEMPLATE DATA ABSENSI & LEMBUR BULANAN - MFA PAYROLL"],
+                ["Petunjuk: Masukkan jumlah hari hadir kerja, hari alpha/mangkir, serta total jam lembur pada hari kerja dan libur resmi."],
+                [],
+                ["ID Karyawan", "Nama Karyawan", "Hari Kerja Sebulan", "Hari Hadir", "Hari Alpha (Mangkir)", "Lembur Hari Kerja (Jam)", "Lembur Hari Libur (Jam)", "Keterangan"],
+                ["MFA-001", "Ayu Wulandari", 22, 22, 0, 4, 0, "Hadir Penuh"],
+                ["MFA-002", "Bima Saputra", 22, 22, 0, 6, 8, "Lembur deployment akhir pekan (PP 35/2021)"],
+                ["MFA-003", "Citra Maharani", 22, 21, 1, 0, 0, "Alpha 1 hari (potongan PP 36/2021)"],
+                ["MFA-004", "Dimas Prasetyo", 22, 22, 0, 2, 0, "Lembur event campaign marketing"],
+                ["MFA-005", "Eka Putri Lestari", 22, 22, 0, 0, 0, "Hadir Penuh"],
+                ["MFA-006", "Fajar Nugraha", 22, 22, 0, 5, 0, "Lembur closing operasional"]
+            ];
+
+            const ws2 = XLSX.utils.aoa_to_sheet(ws2Data);
+            ws2['!cols'] = [
+                { wch: 15 }, // ID
+                { wch: 28 }, // Nama
+                { wch: 20 }, // Hari Kerja
+                { wch: 14 }, // Hari Hadir
+                { wch: 22 }, // Hari Alpha
+                { wch: 24 }, // Lembur Kerja
+                { wch: 24 }, // Lembur Libur
+                { wch: 38 }  // Keterangan
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws2, "2. Absensi & Lembur");
+
+            // Sheet 3: Panduan Rumus & Legal HR
+            const ws3Data = [
+                ["PANDUAN RUMUS PAYROLL & REGULASI KETENAGAKERJAAN INDONESIA"],
+                ["Disusun resmi berdasar UU Cipta Kerja No 6/2023, PP 35/2021, PP 36/2021, & PP 58/2023 (PPh 21 TER)"],
+                [],
+                ["Kategori", "Komponen / Objek", "Dasar Hukum", "Rumus / Cara Perhitungan", "Plafon Upah / Ketentuan Resmi"],
+                ["PPh 21 TER", "TER Kategori A (TK/0, TK/1, K/0)", "PP 58/2023 & PMK 168/2023", "Gaji Bruto x Tarif TER A (0% s.d. 34%)", "Tabel resmi lapis penghasilan bruto sebulan"],
+                ["PPh 21 TER", "TER Kategori B (TK/2, TK/3, K/1, K/2)", "PP 58/2023 & PMK 168/2023", "Gaji Bruto x Tarif TER B (0% s.d. 34%)", "Tabel resmi lapis penghasilan bruto sebulan"],
+                ["PPh 21 TER", "TER Kategori C (K/3)", "PP 58/2023 & PMK 168/2023", "Gaji Bruto x Tarif TER C (0% s.d. 34%)", "Tabel resmi lapis penghasilan bruto sebulan"],
+                ["Upah Lembur", "Tarif Upah Lembur Sejam (TUL)", "PP 35/2021 Pasal 32", "1 / 173 x (Gaji Pokok + Tunjangan Tetap)", "Pembagi standar ketenagakerjaan RI"],
+                ["Upah Lembur", "Lembur Hari Kerja Biasa", "PP 35/2021", "Jam ke-1: 1.5x TUL | Jam ke-2 dst: 2x TUL", "Dihitung akumulatif per hari kerja"],
+                ["Upah Lembur", "Lembur Hari Libur Resmi (5 HK)", "PP 35/2021", "Jam 1-8: 2x TUL | Jam 9: 3x TUL | Jam 10+: 4x TUL", "Ketentuan standar 5 hari kerja"],
+                ["Potongan Absensi", "Potongan Alpha / Mangkir Kerja", "PP 36/2021", "Upah 1 Hari = Upah Sebulan / Hari Kerja Standar (21 atau 25)", "Potongan = Hari Alpha x Upah 1 Hari"],
+                ["BPJS Kesehatan", "Iuran BPJS Kesehatan", "Perpres 64/2020", "Karyawan: 1% | Perusahaan: 4%", "Batas Plafon Upah: Rp 12.000.000 (Maks Potongan Rp 120.000)"],
+                ["BPJS Ketenagakerjaan", "Jaminan Hari Tua (JHT)", "PP 46/2015", "Karyawan: 2% | Perusahaan: 3.7%", "Tidak ada batas plafon upah"],
+                ["BPJS Ketenagakerjaan", "Jaminan Pensiun (JP)", "PP 45/2015", "Karyawan: 1% | Perusahaan: 2%", "Batas Plafon Upah: Rp 10.042.300 (Maks Potongan Rp 100.423)"],
+                ["BPJS Ketenagakerjaan", "Jaminan Kecelakaan Kerja (JKK)", "PP 44/2015", "Perusahaan: 0.24% s.d. 1.74% (sesuai tingkat risiko kerja)", "Ditanggung sepenuhnya oleh pemberi kerja"],
+                ["BPJS Ketenagakerjaan", "Jaminan Kematian (JKM)", "PP 44/2015", "Perusahaan: 0.30%", "Ditanggung sepenuhnya oleh pemberi kerja"],
+                ["Kompensasi PKWT", "Uang Kompensasi Berakhir Kontrak", "PP 35/2021 Pasal 16", "(Masa Kerja dlm Bulan / 12) x 1 Bulan Upah", "Diberikan saat kontrak PKWT berakhir (min 1 bln)"],
+                ["Pesangon PHK", "Uang Pesangon (UP)", "PP 35/2021 Pasal 40 (2)", "1 s.d. 9 Bulan Upah sesuai masa kerja", "Upah = Gaji Pokok + Tunjangan Tetap"],
+                ["Pesangon PHK", "Penghargaan Masa Kerja (UPMK)", "PP 35/2021 Pasal 40 (3)", "2 s.d. 10 Bulan Upah sesuai rentang masa kerja", "Diberikan untuk masa kerja mulai 3 tahun ke atas"],
+                ["Pesangon PHK", "Penggantian Hak (UPH)", "PP 35/2021 Pasal 40 (4)", "15% dari (UP + UPMK) + Cuti tahunan yang belum gugur", "Wajib diperhitungkan dalam formulir PHK"]
+            ];
+
+            const ws3 = XLSX.utils.aoa_to_sheet(ws3Data);
+            ws3['!cols'] = [
+                { wch: 22 },
+                { wch: 35 },
+                { wch: 26 },
+                { wch: 48 },
+                { wch: 40 }
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws3, "3. Panduan Rumus & Legal");
+
+            const compName = (companySettings.name || 'MFA_Studio').replace(/\s+/g, '_');
+            XLSX.writeFile(wb, `Template_Payroll_${compName}.xlsx`);
+            showToast("Template Excel (.xlsx) berhasil diunduh! Buka di Excel, semua kolom sudah rapi & multi-sheet.");
+        }
+
         function downloadSheetTemplate() {
             let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan Tetap,PTKP,Masa Kerja (Bulan),Hari Hadir,Alpha,Lembur Biasa (Jam),Lembur Libur (Jam)\n";
             csv += "MFA-001,Ayu Wulandari,Product Designer,Design,12000000,1500000,TK/0,14,22,0,4,0\n";
             csv += "MFA-002,Bima Saputra,Software Engineer,Engineering,15000000,2000000,K/1,26,22,0,6,8\n";
             csv += "MFA-003,Citra Maharani,Finance Analyst,Finance,10000000,1000000,TK/1,9,22,0,0,0\n";
+            csv += "MFA-004,Dimas Prasetyo,Marketing Executive,Marketing,8500000,1000000,K/2,18,22,0,2,0\n";
             
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            // Prepend \uFEFF UTF-8 BOM so Microsoft Excel opens with correct encoding
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Template_Google_Sheets_Payroll_${companySettings.name.replace(/\\s+/g, '_')}.csv`;
+            a.download = `Template_Google_Sheets_Payroll_${companySettings.name.replace(/\s+/g, '_')}.csv`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast("Template Google Sheets Payroll berhasil diunduh! Siap di-import ke Google Drive.");
+            showToast("Template CSV berhasil diunduh dengan encoding UTF-8 BOM! Siap di-import ke Google Drive.");
         }
 
         function openInGoogleSheets() {
             window.open('https://sheets.new', '_blank');
-            showToast("Membuka Google Sheets baru. Anda dapat meng-import file template CSV.");
+            showToast("Membuka Google Sheets baru. Anda dapat meng-import file template CSV / XLSX.");
+        }
+
+        function handleExcelUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (typeof XLSX === 'undefined') {
+                alert("Pustaka Excel belum siap. Silakan refresh halaman dan coba kembali.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    // Cari Sheet Master Karyawan
+                    const empSheetName = workbook.SheetNames.find(n => n.toLowerCase().includes("karyawan")) || workbook.SheetNames[0];
+                    const empSheet = workbook.Sheets[empSheetName];
+                    const empJson = XLSX.utils.sheet_to_json(empSheet, { header: 1 });
+
+                    // Cari baris header yang memuat 'ID' atau 'Nama'
+                    let headerIndex = -1;
+                    for (let i = 0; i < Math.min(10, empJson.length); i++) {
+                        const row = empJson[i] || [];
+                        if (row.some(c => typeof c === 'string' && (c.includes('ID') || c.includes('Nama')))) {
+                            headerIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (headerIndex === -1 && empJson.length > 0) headerIndex = 0;
+
+                    const newEmployees = [];
+                    for (let i = headerIndex + 1; i < empJson.length; i++) {
+                        const row = empJson[i];
+                        if (!row || !row[0] || !row[1]) continue;
+
+                        const id = String(row[0]).trim();
+                        const name = String(row[1]).trim();
+                        const role = row[2] ? String(row[2]).trim() : 'Staff';
+                        const dept = row[3] ? String(row[3]).trim() : 'General';
+                        const pokok = parseFloat(row[4]) || 0;
+                        const tunjangan = parseFloat(row[5]) || 0;
+                        const ptkp = row[6] ? String(row[6]).trim().toUpperCase() : 'TK/0';
+                        const masaKerja = parseInt(row[7]) || 12;
+                        const statusKontrak = row[8] ? String(row[8]).trim() : 'Tetap';
+                        const npwp = row[9] ? String(row[9]).trim() : '';
+
+                        newEmployees.push({
+                            id,
+                            name,
+                            role,
+                            dept,
+                            avatar: name.substring(0, 2).toUpperCase(),
+                            pokok,
+                            tunjangan,
+                            ptkp,
+                            masaKerja,
+                            statusKontrak,
+                            npwp,
+                            status: "siap"
+                        });
+                    }
+
+                    // Cari Sheet Absensi & Lembur jika ada
+                    const attSheetName = workbook.SheetNames.find(n => n.toLowerCase().includes("absen") || n.toLowerCase().includes("lembur"));
+                    if (attSheetName) {
+                        const attSheet = workbook.Sheets[attSheetName];
+                        const attJson = XLSX.utils.sheet_to_json(attSheet, { header: 1 });
+                        let attHeaderIndex = -1;
+                        for (let i = 0; i < Math.min(10, attJson.length); i++) {
+                            const row = attJson[i] || [];
+                            if (row.some(c => typeof c === 'string' && (c.includes('ID') || c.includes('Hadir')))) {
+                                attHeaderIndex = i;
+                                break;
+                            }
+                        }
+
+                        if (attHeaderIndex !== -1) {
+                            for (let i = attHeaderIndex + 1; i < attJson.length; i++) {
+                                const row = attJson[i];
+                                if (!row || !row[0]) continue;
+                                const empId = String(row[0]).trim();
+                                attendance[empId] = {
+                                    hadir: parseInt(row[3]) || 22,
+                                    alpha: parseInt(row[4]) || 0,
+                                    lemburBiasa: parseFloat(row[5]) || 0,
+                                    lemburLibur: parseFloat(row[6]) || 0
+                                };
+                            }
+                        }
+                    }
+
+                    if (newEmployees.length > 0) {
+                        employees = newEmployees;
+                        saveToStorage();
+                        renderAll();
+                        closeSheetsModal();
+                        showToast(`Berhasil mengimpor ${newEmployees.length} data karyawan & absensi dari file Excel!`);
+                    } else {
+                        alert("Tidak ditemukan baris data karyawan yang valid pada file spreadsheet ini.");
+                    }
+                } catch (err) {
+                    console.error("Gagal membaca Excel:", err);
+                    alert("Gagal membaca file spreadsheet. Pastikan format kolom sesuai dengan template resmi MFA Payroll.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+            event.target.value = ''; // Reset input agar bisa dipilih kembali
         }
 
         function syncFromGoogleSheets() {
             const url = document.getElementById('sheetsUrlInput').value.trim();
             if (!url) {
-                alert("Silakan masukkan URL Google Sheets yang telah dipublikasikan ke CSV, atau unduh template CSV untuk pengisian.");
+                alert("Silakan masukkan URL Google Sheets yang telah dipublikasikan ke CSV, atau unduh template Excel/CSV untuk pengisian.");
                 return;
             }
             companySettings.sheetsUrl = url;
@@ -2655,7 +2934,176 @@
             lucide.createIcons();
         }
 
-        // ================= CSV EXPORT =================
+        // ================= EKSPOR LAPORAN (EXCEL .XLSX & CSV) =================
+        function exportPayrollExcel() {
+            if (employees.length === 0) {
+                alert("Belum ada data karyawan untuk diekspor. Silakan isi data atau klik 'Muat Contoh'.");
+                return;
+            }
+
+            if (typeof XLSX === 'undefined') {
+                exportPayrollCsv();
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            // Sheet 1: Rekap Payroll
+            const titleRows = [
+                [`LAPORAN REKAPITULASI PENGGAJIAN & HRIS - MFA PAYROLL`],
+                [`Perusahaan: ${companySettings.name} | NPWP: ${companySettings.npwp || '-'}`],
+                [`Periode: ${new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} | Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`],
+                []
+            ];
+
+            const tableHeaders = [
+                "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", 
+                "Gaji Pokok", "Tunjangan Tetap", "Lembur Biasa", "Lembur Libur", 
+                "Total Lembur", "Potongan Alpha", "Gaji Bruto", "BPJS Kesehatan", 
+                "BPJS TK", "PPh 21 (TER)", "Total Potongan", "Gaji Bersih (THP)"
+            ];
+
+            let rowData = [];
+            let totPokok = 0, totTunjangan = 0, totLemburBiasa = 0, totLemburLibur = 0;
+            let totLembur = 0, totAlpha = 0, totBruto = 0;
+            let totBpjsKes = 0, totBpjsTk = 0, totPph21 = 0, totPotongan = 0, totBersih = 0;
+
+            employees.forEach((emp, index) => {
+                const calc = calculatePayrollForEmployee(emp);
+                totPokok += emp.pokok;
+                totTunjangan += emp.tunjangan;
+                totLemburBiasa += calc.lemburBiasaNominal;
+                totLemburLibur += calc.lemburLiburNominal;
+                totLembur += calc.totalLembur;
+                totAlpha += calc.potonganAlpha;
+                totBruto += calc.totalBruto;
+                totBpjsKes += calc.bpjsKesKaryawan;
+                totBpjsTk += calc.bpjsTkKaryawan;
+                totPph21 += calc.pph21;
+                totPotongan += calc.totalPotongan;
+                totBersih += calc.gajiBersih;
+
+                rowData.push([
+                    index + 1,
+                    emp.id,
+                    emp.name,
+                    emp.role,
+                    emp.dept,
+                    emp.pokok,
+                    emp.tunjangan,
+                    calc.lemburBiasaNominal,
+                    calc.lemburLiburNominal,
+                    calc.totalLembur,
+                    calc.potonganAlpha,
+                    calc.totalBruto,
+                    calc.bpjsKesKaryawan,
+                    calc.bpjsTkKaryawan,
+                    calc.pph21,
+                    calc.totalPotongan,
+                    calc.gajiBersih
+                ]);
+            });
+
+            const summaryRow = [
+                "", "TOTAL", `${employees.length} Karyawan`, "", "",
+                totPokok, totTunjangan, totLemburBiasa, totLemburLibur,
+                totLembur, totAlpha, totBruto, totBpjsKes,
+                totBpjsTk, totPph21, totPotongan, totBersih
+            ];
+
+            const allRows = [...titleRows, tableHeaders, ...rowData, summaryRow];
+            const ws = XLSX.utils.aoa_to_sheet(allRows);
+
+            // Set lebar kolom otomatis pas agar tidak terpotong / ### di Excel
+            ws['!cols'] = [
+                { wch: 5 },  // No
+                { wch: 14 }, // ID
+                { wch: 28 }, // Nama
+                { wch: 22 }, // Jabatan
+                { wch: 18 }, // Departemen
+                { wch: 18 }, // Gaji Pokok
+                { wch: 18 }, // Tunjangan Tetap
+                { wch: 16 }, // Lembur Biasa
+                { wch: 16 }, // Lembur Libur
+                { wch: 18 }, // Total Lembur
+                { wch: 16 }, // Pot. Alpha
+                { wch: 20 }, // Gaji Bruto
+                { wch: 18 }, // BPJS Kes
+                { wch: 18 }, // BPJS TK
+                { wch: 18 }, // PPh 21
+                { wch: 18 }, // Total Potongan
+                { wch: 22 }  // Gaji Bersih
+            ];
+
+            // Format angka menjadi Rupiah untuk semua sel nominal
+            const startRow = titleRows.length + 1; // 0-based index 5
+            const endRow = allRows.length - 1;
+            for (let r = startRow; r <= endRow; r++) {
+                [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].forEach(c => {
+                    const cellAddr = XLSX.utils.encode_cell({ r, c });
+                    if (ws[cellAddr] && typeof ws[cellAddr].v === 'number') {
+                        ws[cellAddr].z = '"Rp "#,##0';
+                    }
+                });
+            }
+
+            XLSX.utils.book_append_sheet(wb, ws, "Rekap Payroll");
+
+            // Sheet 2: SPT Masa PPh 21 PP 58/2023
+            const pphHeaders = [
+                ["REKAPITULASI PEMOTONGAN PAJAK PPH 21 MASA (PP 58/2023 & PMK 168/2023)"],
+                [`Perusahaan: ${companySettings.name} | NPWP: ${companySettings.npwp || '-'}`],
+                [],
+                ["No", "Nama Karyawan", "NPWP", "Status PTKP", "Kategori TER", "Tarif Efektif (%)", "Penghasilan Bruto", "Potongan PPh 21"]
+            ];
+
+            const pphRows = [];
+            employees.forEach((emp, idx) => {
+                const calc = calculatePayrollForEmployee(emp);
+                const terCat = getTerCategory(emp.ptkp);
+                const terRate = getTerRate(terCat, calc.totalBruto);
+                pphRows.push([
+                    idx + 1,
+                    emp.name,
+                    emp.npwp || "00.000.000.0-000.000",
+                    emp.ptkp,
+                    terCat.replace('_', ' '),
+                    (terRate * 100).toFixed(2) + "%",
+                    calc.totalBruto,
+                    calc.pph21
+                ]);
+            });
+
+            const pphSummary = ["", "TOTAL", "", "", "", "", totBruto, totPph21];
+            const allPphRows = [...pphHeaders, ...pphRows, pphSummary];
+            const wsPph = XLSX.utils.aoa_to_sheet(allPphRows);
+
+            wsPph['!cols'] = [
+                { wch: 5 },  // No
+                { wch: 28 }, // Nama
+                { wch: 24 }, // NPWP
+                { wch: 14 }, // PTKP
+                { wch: 16 }, // Kategori TER
+                { wch: 18 }, // Tarif
+                { wch: 20 }, // Bruto
+                { wch: 20 }  // PPh 21
+            ];
+
+            for (let r = 4; r < allPphRows.length; r++) {
+                const cellG = XLSX.utils.encode_cell({ r, c: 6 });
+                const cellH = XLSX.utils.encode_cell({ r, c: 7 });
+                if (wsPph[cellG] && typeof wsPph[cellG].v === 'number') wsPph[cellG].z = '"Rp "#,##0';
+                if (wsPph[cellH] && typeof wsPph[cellH].v === 'number') wsPph[cellH].z = '"Rp "#,##0';
+            }
+
+            XLSX.utils.book_append_sheet(wb, wsPph, "Pajak PPh 21 PP58");
+
+            const compName = (companySettings.name || 'MFA_Studio').replace(/\s+/g, '_');
+            const period = new Date().toISOString().slice(0, 7);
+            XLSX.writeFile(wb, `Laporan_Payroll_${compName}_${period}.xlsx`);
+            showToast("Laporan Payroll Excel (.xlsx) berhasil diunduh! Kolom rapi dan diformat otomatis.");
+        }
+
         function exportPayrollCsv() {
             if (employees.length === 0) {
                 alert("Belum ada data untuk diekspor.");
@@ -2668,14 +3116,15 @@
                 csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsTkKaryawan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih}\n`;
             });
 
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            // Prepend \uFEFF UTF-8 BOM agar Excel membukanya langsung rapi tanpa error encoding
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${companySettings.name.replace(/\\s+/g, '_')}_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `${companySettings.name.replace(/\s+/g, '_')}_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast("Laporan Payroll CSV berhasil diunduh!");
+            showToast("Laporan Payroll CSV (UTF-8 BOM) berhasil diunduh!");
         }
 
         // ================= VIEW SWITCHER =================
