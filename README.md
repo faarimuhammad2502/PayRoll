@@ -1,0 +1,104 @@
+<div align="center">
+
+<img src="./banner.png" alt="MFA Payroll & HRIS Enterprise" width="100%" />
+
+# MFA PAYROLL &bull; ENTERPRISE HRIS PLATFORM
+### Statutory Labor Law Compliance &bull; Compensation Automation &bull; Multi-Tier Governance
+
+[![Live Application](https://img.shields.io/badge/LIVE_PREVIEW-pay--roll--theta.vercel.app-2563eb?style=for-the-badge&logo=vercel&logoColor=white)](https://pay-roll-theta.vercel.app)
+[![Compliance](https://img.shields.io/badge/REGULATORY_COMPLIANCE-PP_58%2F2023_%7C_PP_35%2F2021-0284c7?style=for-the-badge)](https://pay-roll-theta.vercel.app)
+[![Architecture](https://img.shields.io/badge/ARCHITECTURE-LIGHTWEIGHT_ENTERPRISE_CLIENT-0f172a?style=for-the-badge)](https://pay-roll-theta.vercel.app)
+[![Creator](https://img.shields.io/badge/ARCHITECT-MUHAMMAD_FAARI_AKBAR-1e293b?style=for-the-badge)](https://github.com/faarimuhammad2502)
+
+<br>
+
+**AN INTEGRATED HUMAN RESOURCE INFORMATION SYSTEM (HRIS) & STATUTORY PAYROLL ENGINE**  
+*Conceived, architected, and engineered by Muhammad Faari Akbar*
+
+[Access Live Enterprise Portal](https://pay-roll-theta.vercel.app) &bull; [Inspect Source Repository](https://github.com/faarimuhammad2502/payroll)
+
+</div>
+
+---
+
+## EXECUTIVE SUMMARY
+
+**MFA Payroll & HRIS** is an enterprise-grade web application engineered to automate corporate compensation, employee master data management, and statutory Indonesian labor law compliance. 
+
+Designed by merging **Human Resource Management, Labor Regulations, and Financial Data Analytics**, the platform eliminates payroll processing inaccuracies, mitigates non-compliance legal risks, and provides complete auditable governance. The system handles complex wage structures, overtime formulas, non-permanent contract compensations, and personal income tax withholding with zero external software bloat.
+
+---
+
+## STATUTORY REGULATORY COMPLIANCE ENGINES
+
+MFA Payroll is built with native calculation matrices strictly aligned with Indonesian Ministry of Finance and Ministry of Manpower regulations:
+
+### 1. PPh 21 TAX COMPUTATION &bull; PP 58/2023 (TER SCHEME)
+* **Average Effective Tax Rate (Tarif Efektif Rata-Rata - TER):** Automated bracket assignment across Categories A, B, and C based on employee non-taxable income status (*PTKP: TK/0 through K/3*).
+* **Monthly Withholding & Annual True-Up:** Precise monthly deductions (January–November) coupled with December tax reconciliations to prevent employer under/over-withholding.
+
+### 2. EMPLOYMENT REGULATION COMPLIANCE &bull; PP 35/2021 & PP 36/2021
+* **PKWT Contract Compensation Calculator:** Statutory end-of-contract gratuity calculations proportional to tenure for fixed-term employees.
+* **Religious Holiday Allowance (THR):** Prorated and full entitlement engines factoring tenure, basic salary, and fixed allowances.
+* **Termination & Severance Calculator (PHK):** Formulaic assessment of severance pay (*UP*), service appreciation pay (*UPMK*), and compensation rights (*UPH*).
+* **Statutory Overtime Matrix:** Standardized hourly multiplier formulas (1.5x initial hour, 2.0x subsequent weekday hours, up to 3.0x/4.0x holiday rates).
+
+---
+
+## MULTI-TIER CORPORATE APPROVAL WORKFLOW
+
+To prevent unauthorized salary modifications and uphold internal financial audit integrity, the platform implements a structured three-tier payroll release pipeline:
+
+```
+[ Tier 1: HR Specialist ]
+Compilation of Master Attendance, Overtime, & Deductions
+(Prepared by: Muhammad Faari Akbar)
+         │
+         ▼
+[ Tier 2: Finance Manager ]
+Budgetary Variance Review, Cash Flow Reconciliation, & Audit Verification
+         │
+         ▼
+[ Tier 3: Managing Director / C-Suite ]
+Final Executive Authorization & Banking Disbursement Release
+```
+
+Each transaction state is timestamped, locked against edits post-submission, and archived for corporate reporting.
+
+---
+
+## CORE SYSTEM CAPABILITIES
+
+### EMPLOYEE MASTER DATA MANAGEMENT
+Centralized repository tracking full employee lifecycle data: employment type (*PKWT, PKWTT, Internship*), department taxonomy, base remuneration packages, tax classification (*PTKP*), and banking routing codes.
+
+### DIGITAL PAYSLIP & AUTOMATED PRINT ENGINE
+* Dynamic generation of professional, corporate-branded payslips with itemized gross earnings, statutory deductions, tax withholdings, and net payable compensation.
+* Print-optimized layout with digital audit verification markers and print-ready CSS formatting.
+
+### BI-DIRECTIONAL CLOUD INTEGRATION
+* Seamless two-way synchronization with enterprise Google Sheets spreadsheets via REST endpoints, allowing organizations to maintain centralized spreadsheet backups without manual data entry.
+
+---
+
+## TECHNICAL SPECIFICATIONS & ARCHITECTURE
+
+The platform is designed to provide maximum execution performance and zero latency:
+
+* **Client Engine:** Modular ES6+ JavaScript, Semantic HTML5 layout, and Tailwind CSS.
+* **Computation Engine:** In-browser floating-point rounding precision ensuring zero rupiah discrepancies across bulk employee batches.
+* **Data Storage:** Local persistent caching with cloud-level backup synchronization.
+* **Hosting Infrastructure:** Globally deployed and distributed via Vercel Edge Network.
+
+---
+
+<div align="center">
+
+```
+M F A   P A Y R O L L   &   H R I S   E N T E R P R I S E
+ACCURACY &bull; STATUTORY COMPLIANCE &bull; AUDITABLE INTEGRITY
+```
+
+<sub>&copy; 2026 MFA Payroll. Conceived, designed, and developed by <b>Muhammad Faari Akbar</b>. All rights reserved.</sub>
+
+</div>
