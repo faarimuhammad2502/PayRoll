@@ -2127,28 +2127,62 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Departemen</label>
-                        <select id="empDept" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <select id="empDept" onchange="onDeptChange()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium">
                             <option value="Engineering">Engineering / IT</option>
-                            <option value="Design">Product & Design</option>
-                            <option value="Finance">Finance & Accounting</option>
-                            <option value="Marketing">Marketing & Sales</option>
-                            <option value="HR & Operations">HR & Operations</option>
+                            <option value="Design">Product &amp; Design</option>
+                            <option value="Finance">Finance &amp; Accounting</option>
+                            <option value="Marketing">Marketing &amp; Sales</option>
+                            <option value="HR &amp; Operations">HR &amp; Operations</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Jabatan / Posisi</label>
-                        <input type="text" id="empRole" required placeholder="Contoh: Software Engineer" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-gray-700 dark:text-gray-300 font-semibold">Jabatan / Posisi</label>
+                            <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                                <i data-lucide="sparkles" class="w-3 h-3"></i> Auto Nominal
+                            </span>
+                        </div>
+                        <select id="empRoleSelect" onchange="onRoleSelectChange(true)" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium">
+                            <!-- Diisi dinamis via JS sesuai Departemen -->
+                        </select>
                     </div>
+                </div>
+
+                <!-- Input Khusus jika memilih "Lainnya / Posisi Baru" -->
+                <div id="empRoleCustomContainer" class="hidden">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Tulis Nama Jabatan / Posisi Baru</label>
+                    <input type="text" id="empRoleCustom" placeholder="Contoh: AI Research Specialist" class="w-full p-2.5 rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50/40 dark:bg-emerald-950/20 text-gray-900 dark:text-white font-medium placeholder-gray-400">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Gaji Pokok (Rp)</label>
-                        <input type="number" id="empPokok" required min="0" placeholder="10000000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-gray-700 dark:text-gray-300 font-semibold">Gaji Pokok (Rp)</label>
+                            <span id="empPokokPreview" class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 font-mono">Rp 0</span>
+                        </div>
+                        <input type="number" id="empPokok" required min="0" oninput="updateNominalPreviews()" placeholder="10000000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold">
+                        <!-- Quick Nominal Presets -->
+                        <div class="flex items-center gap-1 mt-1.5 flex-wrap">
+                            <button type="button" onclick="setQuickPokok(5000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">5 Jt</button>
+                            <button type="button" onclick="setQuickPokok(8000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">8 Jt</button>
+                            <button type="button" onclick="setQuickPokok(10000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">10 Jt</button>
+                            <button type="button" onclick="setQuickPokok(15000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">15 Jt</button>
+                            <button type="button" onclick="setQuickPokok(20000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">20 Jt</button>
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Tunjangan Tetap (Rp)</label>
-                        <input type="number" id="empTunjangan" required min="0" placeholder="1500000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-gray-700 dark:text-gray-300 font-semibold">Tunjangan Tetap (Rp)</label>
+                            <span id="empTunjanganPreview" class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 font-mono">Rp 0</span>
+                        </div>
+                        <input type="number" id="empTunjangan" required min="0" oninput="updateNominalPreviews()" placeholder="1500000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold">
+                        <!-- Quick Tunjangan Presets -->
+                        <div class="flex items-center gap-1 mt-1.5 flex-wrap">
+                            <button type="button" onclick="setQuickTunjangan(500000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">500 Rb</button>
+                            <button type="button" onclick="setQuickTunjangan(1000000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">1 Jt</button>
+                            <button type="button" onclick="setQuickTunjangan(1500000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">1.5 Jt</button>
+                            <button type="button" onclick="setQuickTunjangan(2500000)" class="btn-tactile px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[10px] text-gray-600 dark:text-gray-300 font-semibold">2.5 Jt</button>
+                        </div>
                     </div>
                 </div>
 
@@ -3693,12 +3727,137 @@ function doPost(e) {
             document.getElementById('sidebarApprovalCount').innerText = tinjauCount;
         }
 
+        // ================= MASTER DEPARTEMEN & JABATAN DENGAN BENCHMARK GAJI =================
+        const DEPARTMENT_ROLES = {
+            "Engineering": [
+                { role: "Software Engineer", pokok: 12000000, tunjangan: 1500000 },
+                { role: "Senior Software Engineer", pokok: 18000000, tunjangan: 2500000 },
+                { role: "Tech Lead / Engineering Manager", pokok: 25000000, tunjangan: 3500000 },
+                { role: "Frontend Developer", pokok: 10000000, tunjangan: 1500000 },
+                { role: "Backend Developer", pokok: 11000000, tunjangan: 1500000 },
+                { role: "QA Engineer / Software Tester", pokok: 9000000, tunjangan: 1200000 },
+                { role: "DevOps & Cloud Engineer", pokok: 15000000, tunjangan: 2000000 },
+                { role: "IT Support Specialist", pokok: 6500000, tunjangan: 1000000 }
+            ],
+            "Design": [
+                { role: "Product Designer / UI/UX", pokok: 11000000, tunjangan: 1500000 },
+                { role: "Senior UI/UX Designer", pokok: 16000000, tunjangan: 2000000 },
+                { role: "Product Manager", pokok: 17000000, tunjangan: 2500000 },
+                { role: "Graphic Designer & Creative", pokok: 7500000, tunjangan: 1000000 },
+                { role: "Motion & Brand Designer", pokok: 9500000, tunjangan: 1200000 }
+            ],
+            "Finance": [
+                { role: "Staff Akuntansi & Finance", pokok: 7000000, tunjangan: 1000000 },
+                { role: "Senior Accountant", pokok: 12000000, tunjangan: 1800000 },
+                { role: "Tax Specialist (Pajak PPh & PPN)", pokok: 10000000, tunjangan: 1500000 },
+                { role: "Payroll & Compensation Officer", pokok: 8500000, tunjangan: 1200000 },
+                { role: "Finance Manager", pokok: 20000000, tunjangan: 3000000 }
+            ],
+            "Marketing": [
+                { role: "Marketing Specialist", pokok: 7500000, tunjangan: 1000000 },
+                { role: "Digital Marketing & Growth Lead", pokok: 12000000, tunjangan: 1800000 },
+                { role: "Account Executive / B2B Sales", pokok: 8000000, tunjangan: 1500000 },
+                { role: "Content Creator & Copywriter", pokok: 6500000, tunjangan: 1000000 },
+                { role: "Marketing & Brand Manager", pokok: 18000000, tunjangan: 2500000 }
+            ],
+            "HR & Operations": [
+                { role: "HR Generalist", pokok: 7500000, tunjangan: 1000000 },
+                { role: "Talent Acquisition & Recruiter", pokok: 8500000, tunjangan: 1200000 },
+                { role: "People & Culture Specialist", pokok: 9000000, tunjangan: 1500000 },
+                { role: "Operations Specialist", pokok: 7000000, tunjangan: 1000000 },
+                { role: "HR & Operational Manager", pokok: 19000000, tunjangan: 2800000 },
+                { role: "Office Administrator", pokok: 5500000, tunjangan: 800000 }
+            ]
+        };
+
+        function onDeptChange(selectedRole = null) {
+            const deptSelect = document.getElementById('empDept');
+            const dept = deptSelect ? deptSelect.value : 'Engineering';
+            const roleSelect = document.getElementById('empRoleSelect');
+            const customContainer = document.getElementById('empRoleCustomContainer');
+            const customInput = document.getElementById('empRoleCustom');
+            if (!roleSelect) return;
+
+            const list = DEPARTMENT_ROLES[dept] || DEPARTMENT_ROLES['Engineering'] || [];
+            let html = '';
+            let isFound = false;
+
+            list.forEach(item => {
+                const isSelected = selectedRole && selectedRole.toLowerCase() === item.role.toLowerCase();
+                if (isSelected) isFound = true;
+                html += `<option value="${item.role}" data-pokok="${item.pokok}" data-tunjangan="${item.tunjangan}" ${isSelected ? 'selected' : ''}>${item.role}</option>`;
+            });
+
+            const isCustom = selectedRole && !isFound;
+            html += `<option value="__custom__" ${isCustom ? 'selected' : ''}>✨ Lainnya / Posisi Baru...</option>`;
+            roleSelect.innerHTML = html;
+
+            if (isCustom) {
+                if (customContainer) customContainer.classList.remove('hidden');
+                if (customInput) customInput.value = selectedRole;
+            } else {
+                if (customContainer) customContainer.classList.add('hidden');
+                if (customInput) customInput.value = '';
+            }
+
+            if (!selectedRole) {
+                onRoleSelectChange(true);
+            }
+        }
+
+        function onRoleSelectChange(autoFillSalary = true) {
+            const roleSelect = document.getElementById('empRoleSelect');
+            const customContainer = document.getElementById('empRoleCustomContainer');
+            const customInput = document.getElementById('empRoleCustom');
+            if (!roleSelect) return;
+
+            const selectedOption = roleSelect.options[roleSelect.selectedIndex];
+            if (roleSelect.value === '__custom__') {
+                if (customContainer) customContainer.classList.remove('hidden');
+                if (customInput) customInput.focus();
+            } else {
+                if (customContainer) customContainer.classList.add('hidden');
+                if (autoFillSalary && selectedOption) {
+                    const defaultPokok = selectedOption.dataset.pokok;
+                    const defaultTunjangan = selectedOption.dataset.tunjangan;
+                    if (defaultPokok) document.getElementById('empPokok').value = defaultPokok;
+                    if (defaultTunjangan) document.getElementById('empTunjangan').value = defaultTunjangan;
+                    updateNominalPreviews();
+                }
+            }
+        }
+
+        function updateNominalPreviews() {
+            const pokokInput = document.getElementById('empPokok');
+            const tunjanganInput = document.getElementById('empTunjangan');
+            const pokokVal = pokokInput ? (parseFloat(pokokInput.value) || 0) : 0;
+            const tunjanganVal = tunjanganInput ? (parseFloat(tunjanganInput.value) || 0) : 0;
+            const pPreview = document.getElementById('empPokokPreview');
+            const tPreview = document.getElementById('empTunjanganPreview');
+            if (pPreview) pPreview.innerText = formatRupiah(pokokVal);
+            if (tPreview) tPreview.innerText = formatRupiah(tunjanganVal);
+        }
+
+        function setQuickPokok(val) {
+            const el = document.getElementById('empPokok');
+            if (el) el.value = val;
+            updateNominalPreviews();
+        }
+
+        function setQuickTunjangan(val) {
+            const el = document.getElementById('empTunjangan');
+            if (el) el.value = val;
+            updateNominalPreviews();
+        }
+
         // ================= CRUD KARYAWAN =================
         function openEmployeeModal() {
             document.getElementById('empFormIndex').value = "-1";
             document.getElementById('empModalTitle').innerText = "Tambah Karyawan Baru";
             document.getElementById('empForm').reset();
             document.getElementById('empNik').value = "MFA-00" + (employees.length + 1);
+            onDeptChange(); // Otomatis mengisi opsi jabatan dan nominal gaji & tunjangan default!
+            updateNominalPreviews();
             document.getElementById('employeeModal').classList.remove('hidden');
             document.getElementById('employeeModal').classList.add('flex');
             lucide.createIcons();
@@ -3715,7 +3874,14 @@ function doPost(e) {
             const id = document.getElementById('empNik').value.trim();
             const name = document.getElementById('empName').value.trim();
             const dept = document.getElementById('empDept').value;
-            const role = document.getElementById('empRole').value.trim();
+            
+            const roleSelect = document.getElementById('empRoleSelect');
+            let role = roleSelect ? roleSelect.value : 'Staff';
+            if (role === '__custom__') {
+                const customInput = document.getElementById('empRoleCustom');
+                role = (customInput && customInput.value.trim()) ? customInput.value.trim() : 'Staff';
+            }
+
             const pokok = parseFloat(document.getElementById('empPokok').value) || 0;
             const tunjangan = parseFloat(document.getElementById('empTunjangan').value) || 0;
             const ptkp = document.getElementById('empPtkp').value;
@@ -3760,9 +3926,10 @@ function doPost(e) {
             document.getElementById('empNik').value = emp.id;
             document.getElementById('empName').value = emp.name;
             document.getElementById('empDept').value = emp.dept || 'Engineering';
-            document.getElementById('empRole').value = emp.role;
+            onDeptChange(emp.role); // Preserves role or puts into custom!
             document.getElementById('empPokok').value = emp.pokok;
             document.getElementById('empTunjangan').value = emp.tunjangan;
+            updateNominalPreviews();
             document.getElementById('empPtkp').value = emp.ptkp || 'TK/0';
             document.getElementById('empMasaKerja').value = emp.masaKerja || 12;
 
