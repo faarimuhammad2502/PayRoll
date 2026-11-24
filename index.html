@@ -1051,6 +1051,10 @@
                                 <span>CSV</span>
                             </button>
                         </div>
+                        <button onclick="openDisbursementModal()" class="btn-tactile bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60 px-3.5 py-2 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all inline-flex items-center shrink-0" title="Pencairan Payroll & Transfer Bank Massal (BCA, Mandiri, & Universal)">
+                            <i data-lucide="landmark" class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400"></i>
+                            <span>Transfer Bank</span>
+                        </button>
                         <button onclick="openApprovalModal()" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all shrink-0">
                             <span>Ajukan Persetujuan</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
@@ -1508,12 +1512,14 @@
                             <thead>
                                 <tr class="text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#15202E]">
                                     <th class="px-6 py-3.5">Karyawan</th>
-                                    <th class="px-4 py-3.5">TUL / Jam (1/173)</th>
-                                    <th class="px-4 py-3.5">Hadir (Hari)</th>
-                                    <th class="px-4 py-3.5">Alpha (Mangkir)</th>
-                                    <th class="px-4 py-3.5">Lembur Kerja (Jam)</th>
-                                    <th class="px-4 py-3.5">Lembur Libur (Jam)</th>
-                                    <th class="px-4 py-3.5 font-bold text-gray-900 dark:text-white">Total Upah Lembur</th>
+                                    <th class="px-4 py-3.5">TUL / Jam</th>
+                                    <th class="px-2 py-3.5 text-center">Hadir</th>
+                                    <th class="px-2 py-3.5 text-center">Cuti (Hari)</th>
+                                    <th class="px-2 py-3.5 text-center">Sakit / Izin</th>
+                                    <th class="px-2 py-3.5 text-center">Alpha</th>
+                                    <th class="px-2 py-3.5 text-center">Lembur Kerja</th>
+                                    <th class="px-2 py-3.5 text-center">Lembur Libur</th>
+                                    <th class="px-4 py-3.5 font-bold text-gray-900 dark:text-white text-right">Upah Lembur</th>
                                 </tr>
                             </thead>
                             <tbody id="kehadiranTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300"></tbody>
@@ -2218,6 +2224,109 @@
         </div>
     </div>
 
+    <!-- 3.6 MODAL TRANSFER BANK MASSAL (CORPORATE DISBURSEMENT: BCA & MANDIRI) -->
+    <div id="disbursementModal" onclick="if(event.target === this) closeDisbursementModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-3 sm:p-4 transition-all">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-4xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] flex flex-col">
+            <!-- Header -->
+            <div class="flex items-start justify-between pb-3 border-b border-gray-100 dark:border-gray-800 shrink-0">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="badge-blue px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Corporate Disbursement</span>
+                        <span class="badge-green px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Audit-Ready</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mt-1">Pencairan Payroll &amp; Transfer Bank Massal</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Ekspor file instruksi transfer otomatis untuk portal perbankan perusahaan (BCA KlikBisnis, Mandiri MCM, &amp; Universal CSV).</p>
+                </div>
+                <button onclick="closeDisbursementModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Batch Overview Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 shrink-0">
+                <div class="p-3.5 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800">
+                    <span class="text-[11px] text-gray-400 block font-medium">Total Karyawan Penerima</span>
+                    <span class="text-base font-bold text-gray-900 dark:text-white" id="disburseTotalKaryawan">0 Karyawan</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40">
+                    <span class="text-[11px] text-blue-700 dark:text-blue-300 block font-medium">Total Dana Pencairan (THP)</span>
+                    <span class="text-base font-bold text-blue-800 dark:text-blue-300 font-mono" id="disburseTotalDana">Rp0</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+                    <span class="text-[11px] text-emerald-700 dark:text-emerald-300 block font-medium">Periode Pembayaran</span>
+                    <span class="text-base font-bold text-emerald-800 dark:text-emerald-300" id="disbursePeriod">Oktober 2026</span>
+                </div>
+            </div>
+
+            <!-- Format Export Selection & Action Toolbar -->
+            <div class="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/40 space-y-3 shrink-0">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <span class="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                        <i data-lucide="download-cloud" class="w-4 h-4 text-emerald-600"></i>
+                        Pilih Format File Bank Perusahaan:
+                    </span>
+                    <span class="text-[11px] text-gray-500 dark:text-gray-400">Siap diunggah langsung ke Corporate Internet Banking</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <!-- BCA KlikBisnis -->
+                    <button type="button" onclick="exportDisbursementBca('csv')" class="btn-tactile bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex flex-col items-start gap-1 text-left shadow-2xs group">
+                        <div class="flex items-center justify-between w-full">
+                            <span class="text-xs font-bold text-blue-800 dark:text-blue-400 group-hover:underline">BCA KlikBisnis Payroll</span>
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-bold">CSV</span>
+                        </div>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Format No Rekening, Nama, Nominal, &amp; Berita BCA.</p>
+                    </button>
+
+                    <!-- Mandiri Cash Management (MCM) -->
+                    <button type="button" onclick="exportDisbursementMandiri()" class="btn-tactile bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex flex-col items-start gap-1 text-left shadow-2xs group">
+                        <div class="flex items-center justify-between w-full">
+                            <span class="text-xs font-bold text-amber-700 dark:text-amber-400 group-hover:underline">Mandiri MCM (Corporate)</span>
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 font-bold">CSV</span>
+                        </div>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Format Beneficiary Account, Name, Currency IDR &amp; Remark.</p>
+                    </button>
+
+                    <!-- Universal Multi-Bank Gateway -->
+                    <button type="button" onclick="exportDisbursementUniversal()" class="btn-tactile bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex flex-col items-start gap-1 text-left shadow-2xs group">
+                        <div class="flex items-center justify-between w-full">
+                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 group-hover:underline">Universal Gateway (All Bank)</span>
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 font-bold">CSV</span>
+                        </div>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Format kompatibel Flip for Business, Xendit, &amp; All Bank.</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Batch Preview Table -->
+            <div class="overflow-x-auto flex-1 border border-gray-100 dark:border-gray-800 rounded-xl">
+                <table class="w-full text-left text-xs">
+                    <thead class="sticky top-0 bg-gray-50 dark:bg-gray-800/90 backdrop-blur-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 font-semibold z-10">
+                        <tr>
+                            <th class="px-4 py-3">No</th>
+                            <th class="px-4 py-3">Karyawan &amp; Departemen</th>
+                            <th class="px-4 py-3">Bank Penerima</th>
+                            <th class="px-4 py-3">Nomor Rekening</th>
+                            <th class="px-4 py-3 font-mono">Take Home Pay (THP)</th>
+                            <th class="px-4 py-3 text-right">Status Rekening</th>
+                        </tr>
+                    </thead>
+                    <tbody id="disbursePreviewTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300 font-medium">
+                        <!-- Diisi via renderDisbursementPreview() -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800 shrink-0">
+                <span class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                    Data rekening &amp; nominal terenkripsi secara lokal di sisi peramban.
+                </span>
+                <button type="button" onclick="closeDisbursementModal()" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold shadow-xs">Selesai / Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 4. MODAL TAMBAH / EDIT KARYAWAN -->
     <div id="employeeModal" onclick="if(event.target === this) closeEmployeeModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
@@ -2356,6 +2465,31 @@
                     </div>
                 </div>
 
+                <!-- Hak Cuti & Fasilitas Kasbon / Pinjaman Karyawan -->
+                <div class="p-3 rounded-xl bg-gray-50/70 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                            <i data-lucide="calendar-heart" class="w-3.5 h-3.5 text-indigo-600"></i>
+                            Cuti Tahunan &amp; Kasbon Karyawan
+                        </span>
+                        <span class="text-[10px] text-gray-400">Opsional</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2.5">
+                        <div>
+                            <label class="block text-gray-600 dark:text-gray-400 text-[11px] font-medium mb-1">Sisa Cuti (Hari)</label>
+                            <input type="number" id="empCutiTahunan" value="12" min="0" max="30" class="w-full p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold text-center">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 dark:text-gray-400 text-[11px] font-medium mb-1">Saldo Kasbon (Rp)</label>
+                            <input type="number" id="empSaldoKasbon" value="0" min="0" step="50000" placeholder="0" class="w-full p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 dark:text-gray-400 text-[11px] font-medium mb-1">Cicilan/Bulan (Rp)</label>
+                            <input type="number" id="empCicilanKasbon" value="0" min="0" step="50000" placeholder="0" class="w-full p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100 dark:border-gray-800">
                     <button type="button" onclick="closeEmployeeModal()" class="btn-tactile btn-secondary px-4.5 py-2.5 rounded-xl text-xs font-semibold">Batal</button>
                     <button type="submit" class="btn-tactile btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm">Simpan Data Karyawan</button>
@@ -2440,6 +2574,10 @@
                         <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
                             <span id="modalPphLabel">PPh 21 (TER PP 58/2023)</span>
                             <span id="modalPph21" class="font-semibold text-rose-600 dark:text-rose-400">- Rp0</span>
+                        </div>
+                        <div id="modalRowKasbon" class="flex justify-between py-0.5 text-amber-700 dark:text-amber-400 hidden">
+                            <span>Cicilan Pinjaman / Kasbon</span>
+                            <span id="modalPotonganKasbon" class="font-semibold text-amber-700 dark:text-amber-400">- Rp0</span>
                         </div>
                         <div class="flex justify-between py-0.5 font-bold text-rose-700 dark:text-rose-400 pt-1 border-t border-gray-100 dark:border-gray-800">
                             <span>Total Potongan</span>
@@ -2608,12 +2746,12 @@
 
         // Sample Data Template
         const sampleEmployees = [
-            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer / UI/UX", dept: "Design", avatar: "AW", pokok: 11000000, tunjangan: 1500000, ptkp: "TK/0", masaKerja: 14, status: "siap", bank: "BCA", rekening: "8271928371" },
-            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 12000000, tunjangan: 1500000, ptkp: "K/1", masaKerja: 26, status: "siap", bank: "Bank Mandiri", rekening: "1370019283741" },
-            { id: "MFA-003", name: "Citra Maharani", role: "Staff Akuntansi & Finance", dept: "Finance", avatar: "CM", pokok: 7000000, tunjangan: 1000000, ptkp: "TK/1", masaKerja: 9, status: "siap", bank: "BNI", rekening: "0982314567" },
-            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive / B2B Sales", dept: "Marketing", avatar: "DP", pokok: 8000000, tunjangan: 1500000, ptkp: "K/0", masaKerja: 5, status: "tinjau", bank: "BRI", rekening: "012301982736501" },
-            { id: "MFA-005", name: "Eka Putri", role: "HR Generalist", dept: "HR & Operations", avatar: "EP", pokok: 7500000, tunjangan: 1000000, ptkp: "TK/0", masaKerja: 18, status: "siap", bank: "BSI", rekening: "7123984712" },
-            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 7500000, tunjangan: 1000000, ptkp: "K/2", masaKerja: 11, status: "siap", bank: "CIMB Niaga", rekening: "701928374612" }
+            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer / UI/UX", dept: "Design", avatar: "AW", pokok: 11000000, tunjangan: 1500000, ptkp: "TK/0", masaKerja: 14, status: "siap", bank: "BCA", rekening: "8271928371", cutiTahunan: 12, saldoKasbon: 0, cicilanKasbon: 0 },
+            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 12000000, tunjangan: 1500000, ptkp: "K/1", masaKerja: 26, status: "siap", bank: "Bank Mandiri", rekening: "1370019283741", cutiTahunan: 10, saldoKasbon: 0, cicilanKasbon: 0 },
+            { id: "MFA-003", name: "Citra Maharani", role: "Staff Akuntansi & Finance", dept: "Finance", avatar: "CM", pokok: 7000000, tunjangan: 1000000, ptkp: "TK/1", masaKerja: 9, status: "siap", bank: "BNI", rekening: "0982314567", cutiTahunan: 12, saldoKasbon: 0, cicilanKasbon: 0 },
+            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive / B2B Sales", dept: "Marketing", avatar: "DP", pokok: 8000000, tunjangan: 1500000, ptkp: "K/0", masaKerja: 5, status: "tinjau", bank: "BRI", rekening: "012301982736501", cutiTahunan: 8, saldoKasbon: 2000000, cicilanKasbon: 500000 },
+            { id: "MFA-005", name: "Eka Putri", role: "HR Generalist", dept: "HR & Operations", avatar: "EP", pokok: 7500000, tunjangan: 1000000, ptkp: "TK/0", masaKerja: 18, status: "siap", bank: "BSI", rekening: "7123984712", cutiTahunan: 11, saldoKasbon: 0, cicilanKasbon: 0 },
+            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 7500000, tunjangan: 1000000, ptkp: "K/2", masaKerja: 11, status: "siap", bank: "CIMB Niaga", rekening: "701928374612", cutiTahunan: 12, saldoKasbon: 0, cicilanKasbon: 0 }
         ];
 
 
@@ -2851,13 +2989,19 @@
             const terRate = getTerRate(terCat, totalBruto);
             const pph21 = totalBruto * terRate;
 
-            // 12. Total Potongan Karyawan
-            const totalPotongan = bpjsKesKaryawan + bpjsTkKaryawan + pph21 + potonganAlpha;
+            // 12. Manajemen Kasbon & Pinjaman Karyawan (Salary Advance / Loan)
+            const saldoKasbon = Math.max(0, emp.saldoKasbon || 0);
+            const cicilanKasbon = Math.max(0, emp.cicilanKasbon || 0);
+            const potonganKasbon = Math.min(cicilanKasbon, saldoKasbon);
+            const sisaKasbon = Math.max(0, saldoKasbon - potonganKasbon);
 
-            // 13. Gaji Bersih (Take Home Pay)
+            // 13. Total Potongan Karyawan
+            const totalPotongan = bpjsKesKaryawan + bpjsTkKaryawan + pph21 + potonganAlpha + potonganKasbon;
+
+            // 14. Gaji Bersih (Take Home Pay)
             const gajiBersih = Math.max(0, totalBruto - totalPotongan);
 
-            // 14. Beban Perusahaan (Cost to Company / CTC)
+            // 15. Beban Perusahaan (Cost to Company / CTC)
             const totalCTC = totalBruto + bpjsKesPerusahaan + bpjsTkPerusahaan;
 
             return {
@@ -2874,6 +3018,10 @@
                 terCat,
                 terRate,
                 pph21,
+                saldoKasbon,
+                cicilanKasbon,
+                potonganKasbon,
+                sisaKasbon,
                 totalPotongan,
                 gajiBersih,
                 totalCTC
@@ -4256,6 +4404,9 @@ function doPost(e) {
             document.getElementById('empNik').value = "MFA-00" + (employees.length + 1);
             if (document.getElementById('empBankName')) document.getElementById('empBankName').value = 'BCA';
             if (document.getElementById('empBankRekening')) document.getElementById('empBankRekening').value = '';
+            if (document.getElementById('empCutiTahunan')) document.getElementById('empCutiTahunan').value = 12;
+            if (document.getElementById('empSaldoKasbon')) document.getElementById('empSaldoKasbon').value = 0;
+            if (document.getElementById('empCicilanKasbon')) document.getElementById('empCicilanKasbon').value = 0;
             onDeptChange(); // Otomatis mengisi opsi jabatan dan nominal gaji & tunjangan default sesuai acuan!
             updateNominalPreviews();
             document.getElementById('employeeModal').classList.remove('hidden');
@@ -4291,6 +4442,9 @@ function doPost(e) {
 
             const bank = document.getElementById('empBankName') ? document.getElementById('empBankName').value : 'BCA';
             const rekening = document.getElementById('empBankRekening') ? document.getElementById('empBankRekening').value.trim() : '';
+            const cutiTahunan = parseInt(document.getElementById('empCutiTahunan')?.value) || 12;
+            const saldoKasbon = parseFloat(document.getElementById('empSaldoKasbon')?.value) || 0;
+            const cicilanKasbon = parseFloat(document.getElementById('empCicilanKasbon')?.value) || 0;
 
             const empData = {
                 id,
@@ -4304,6 +4458,9 @@ function doPost(e) {
                 masaKerja,
                 bank,
                 rekening,
+                cutiTahunan,
+                saldoKasbon,
+                cicilanKasbon,
                 status: "siap"
             };
 
@@ -4339,6 +4496,9 @@ function doPost(e) {
             document.getElementById('empMasaKerja').value = emp.masaKerja || 12;
             if (document.getElementById('empBankName')) document.getElementById('empBankName').value = emp.bank || 'BCA';
             if (document.getElementById('empBankRekening')) document.getElementById('empBankRekening').value = emp.rekening || '';
+            if (document.getElementById('empCutiTahunan')) document.getElementById('empCutiTahunan').value = emp.cutiTahunan ?? 12;
+            if (document.getElementById('empSaldoKasbon')) document.getElementById('empSaldoKasbon').value = emp.saldoKasbon || 0;
+            if (document.getElementById('empCicilanKasbon')) document.getElementById('empCicilanKasbon').value = emp.cicilanKasbon || 0;
 
             document.getElementById('employeeModal').classList.remove('hidden');
             document.getElementById('employeeModal').classList.add('flex');
@@ -4489,6 +4649,18 @@ function doPost(e) {
             document.getElementById('modalBpjsTk').innerText = `- ${formatRupiah(calc.bpjsTkKaryawan)}`;
             document.getElementById('modalPphLabel').innerText = `PPh 21 (${calc.terCat} - ${(calc.terRate * 100).toFixed(2)}%)`;
             document.getElementById('modalPph21').innerText = `- ${formatRupiah(calc.pph21)}`;
+            
+            const elRowKasbon = document.getElementById('modalRowKasbon');
+            const elPotKasbon = document.getElementById('modalPotonganKasbon');
+            if (elRowKasbon && elPotKasbon) {
+                if (calc.potonganKasbon > 0) {
+                    elRowKasbon.classList.remove('hidden');
+                    elPotKasbon.innerText = `- ${formatRupiah(calc.potonganKasbon)} (Sisa: ${formatRupiah(calc.sisaKasbon)})`;
+                } else {
+                    elRowKasbon.classList.add('hidden');
+                }
+            }
+
             document.getElementById('modalTotalPotongan').innerText = `- ${formatRupiah(calc.totalPotongan)}`;
 
             document.getElementById('modalGajiBersih').innerText = formatRupiah(calc.gajiBersih);
@@ -4582,6 +4754,7 @@ function doPost(e) {
                                 <tr><td style="padding: 3px 0; color: #4B5563;">BPJS Kesehatan (1% Pekerja)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.bpjsKesKaryawan)}</td></tr>
                                 <tr><td style="padding: 3px 0; color: #4B5563;">BPJS TK (JHT 2% + JP 1%)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.bpjsTkKaryawan)}</td></tr>
                                 <tr><td style="padding: 3px 0; color: #4B5563;">PPh 21 (${calc.terCat} - ${(calc.terRate * 100).toFixed(2)}%)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.pph21)}</td></tr>
+                                ${calc.potonganKasbon > 0 ? `<tr><td style="padding: 3px 0; color: #B45309;">Cicilan Kasbon (Sisa: ${formatRupiah(calc.sisaKasbon)})</td><td style="text-align: right; font-weight: 600; color: #B45309;">- ${formatRupiah(calc.potonganKasbon)}</td></tr>` : ''}
                                 <tr style="border-top: 1px solid #E5E7EB; font-weight: bold; color: #DC2626;"><td style="padding: 4px 0;">Total Potongan</td><td style="text-align: right;">- ${formatRupiah(calc.totalPotongan)}</td></tr>
                             </table>
                         </div>
@@ -4719,7 +4892,7 @@ function doPost(e) {
             const tableHeaders = [
                 "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", "Bank Pembayaran", "No Rekening",
                 "Gaji Pokok", "Tunjangan Tetap", "Lembur Biasa", "Lembur Libur", 
-                "Total Lembur", "Potongan Alpha", "Gaji Bruto", "BPJS Kes Karyawan", 
+                "Total Lembur", "Potongan Alpha", "Potongan Kasbon", "Gaji Bruto", "BPJS Kes Karyawan", 
                 "BPJS Kes Kantor", "BPJS TK Karyawan", "BPJS TK Kantor", "PPh 21 TER", 
                 "Total Potongan", "Take Home Pay", "Total CTC Perusahaan"
             ];
@@ -4763,6 +4936,7 @@ function doPost(e) {
                     calc.lemburLiburNominal,
                     calc.totalLembur,
                     calc.potonganAlpha,
+                    calc.potonganKasbon || 0,
                     calc.totalBruto,
                     calc.bpjsKesKaryawan,
                     calc.bpjsKesPerusahaan,
@@ -4885,10 +5059,10 @@ function doPost(e) {
                 return;
             }
 
-            let csv = "ID,Nama,Jabatan,Departemen,Bank Pembayaran,No Rekening,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
+            let csv = "ID,Nama,Jabatan,Departemen,Bank Pembayaran,No Rekening,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Potongan Kasbon,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
-                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
+                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.potonganKasbon || 0},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
             });
 
             // Prepend \uFEFF UTF-8 BOM agar Excel membukanya langsung rapi tanpa error encoding
@@ -5025,6 +5199,150 @@ function doPost(e) {
             }, 3000);
         }
 
+
+        // ================= PENCAIRAN PAYROLL & TRANSFER BANK MASSAL (DISBURSEMENT BATCH) =================
+        function openDisbursementModal() {
+            if (!employees || employees.length === 0) {
+                alert("Belum ada data karyawan untuk dicairkan.");
+                return;
+            }
+
+            const modal = document.getElementById('disbursementModal');
+            if (!modal) return;
+
+            let totalGaji = 0;
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                totalGaji += calc.gajiBersih;
+            });
+
+            const elTotalKar = document.getElementById('disburseTotalKaryawan');
+            if (elTotalKar) elTotalKar.innerText = `${employees.length} Karyawan`;
+
+            const elTotalDana = document.getElementById('disburseTotalDana');
+            if (elTotalDana) elTotalDana.innerText = formatRupiah(totalGaji);
+
+            const elPeriod = document.getElementById('disbursePeriod');
+            if (elPeriod) elPeriod.innerText = getPeriodDetails(currentPayrollPeriod).title;
+
+            renderDisbursementPreview();
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeDisbursementModal() {
+            const modal = document.getElementById('disbursementModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderDisbursementPreview() {
+            const tbody = document.getElementById('disbursePreviewTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            employees.forEach((emp, idx) => {
+                const calc = calculatePayrollForEmployee(emp);
+                const hasRekening = Boolean(emp.rekening && emp.rekening.trim().length >= 5);
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-gray-400 font-mono">${idx + 1}</td>
+                    <td class="px-4 py-3">
+                        <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
+                        <p class="text-[10px] text-gray-400">${emp.id} &bull; ${emp.dept}</p>
+                    </td>
+                    <td class="px-4 py-3 font-semibold text-gray-800 dark:text-gray-200">
+                        ${emp.bank || 'BCA'}
+                    </td>
+                    <td class="px-4 py-3 font-mono ${hasRekening ? 'text-gray-900 dark:text-white font-semibold' : 'text-rose-500 font-bold'}">
+                        ${emp.rekening || '(Belum Diisi)'}
+                    </td>
+                    <td class="px-4 py-3 font-bold font-mono text-emerald-800 dark:text-emerald-300">
+                        ${formatRupiah(calc.gajiBersih)}
+                    </td>
+                    <td class="px-4 py-3 text-right">
+                        ${hasRekening 
+                            ? '<span class="badge-green px-2 py-0.5 rounded-full text-[10px] font-bold">Siap Transfer</span>' 
+                            : '<span class="badge-amber px-2 py-0.5 rounded-full text-[10px] font-bold">Cek No Rek</span>'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        function exportDisbursementBca(format = 'csv') {
+            if (employees.length === 0) return;
+            const periodTitle = getPeriodDetails(currentPayrollPeriod).title;
+            const remarkText = `Gaji ${periodTitle}`.substring(0, 18);
+
+            let content = "No Rekening,Nama Penerima,Nominal,Berita,Kode Bank\n";
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                const rek = (emp.rekening || '').replace(/[^0-9]/g, '');
+                const cleanName = (emp.name || '').replace(/,/g, '');
+                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},${remarkText},${emp.bank || 'BCA'}\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `BCA_KLIKBISNIS_PAYROLL_${periodTitle.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("File batch transfer BCA KlikBisnis berhasil diunduh!");
+        }
+
+        function exportDisbursementMandiri() {
+            if (employees.length === 0) return;
+            const periodTitle = getPeriodDetails(currentPayrollPeriod).title;
+            const remark1 = `Gaji ${periodTitle}`.substring(0, 30);
+            const compName = (companySettings.name || 'MFA Studio').substring(0, 30);
+
+            let content = "Beneficiary Account Number,Beneficiary Name,Amount,Currency,Remark 1,Remark 2,Beneficiary Bank\n";
+            employees.forEach(emp => {
+                const calc = calculatePayrollForEmployee(emp);
+                const rek = (emp.rekening || '').replace(/[^0-9]/g, '');
+                const cleanName = (emp.name || '').replace(/,/g, '');
+                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},IDR,${remark1},${compName},${emp.bank || 'MANDIRI'}\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MANDIRI_MCM_PAYROLL_${periodTitle.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("File batch transfer Mandiri MCM berhasil diunduh!");
+        }
+
+        function exportDisbursementUniversal() {
+            if (employees.length === 0) return;
+            const periodTitle = getPeriodDetails(currentPayrollPeriod).title;
+
+            let content = "No,ID Karyawan,Nama Karyawan,Departemen,Bank Tujuan,Nomor Rekening,Nominal Transfer (THP),Berita Transfer\n";
+            employees.forEach((emp, idx) => {
+                const calc = calculatePayrollForEmployee(emp);
+                content += `${idx + 1},"${emp.id}","${emp.name}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${Math.round(calc.gajiBersih)},"Gaji ${periodTitle}"\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `UNIVERSAL_DISBURSEMENT_${periodTitle.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("File transfer Universal Payroll berhasil diunduh!");
+        }
+
         // ================= GLOBAL MODAL DISMISSAL & ESCAPE KEY HANDLER =================
         function closeAllModals() {
             closeSheetsModal();
@@ -5034,6 +5352,7 @@ function doPost(e) {
             closeProrataModal();
             closeEmployeeModal();
             closeAcuanUpahModal();
+            closeDisbursementModal();
             closeSlipModal();
             closeTaxSimulatorModal();
             closeApprovalModal();

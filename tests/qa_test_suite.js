@@ -3,11 +3,11 @@
  * Sub-Agent 3: Web App QA & Verification Specialist
  * 
  * Verifikasi:
- * 1. DOM Integrity & ID element validation (160+ elements, including Bank & Acuan IDs)
+ * 1. DOM Integrity & ID element validation (170+ elements, including Disbursement, Bank & Acuan IDs)
  * 2. Event Listeners & Buttons validation (80+ buttons, complete event handlers)
- * 3. Mathematical Formulas & Edge Cases (BPJS ceilings, PP 35/2021 Overtime, PP 36/2021 Alpha, PP 58/2023 PPh 21 TER, CTC)
- * 4. Modal Dialogs & Overlay Dismissal (Backdrop click & ESC key handler, including acuanUpahModal)
- * 5. Data Export (Excel & CSV UTF-8 BOM, Bank disbursement fields)
+ * 3. Mathematical Formulas & Edge Cases (BPJS ceilings, PP 35/2021 Overtime, PP 36/2021 Alpha, PP 58/2023 PPh 21 TER, CTC, Kasbon & Cuti)
+ * 4. Modal Dialogs & Overlay Dismissal (Backdrop click & ESC key handler, 11 enterprise modals)
+ * 5. Data Export (Excel & CSV UTF-8 BOM, Bank Disbursement batch files: BCA & Mandiri)
  * 6. Wage Scale & Benchmark Verification (Permenaker 1/2017 & UU 13/2003 75% rule)
  */
 
@@ -48,7 +48,9 @@ assert(declaredIds.size >= 148, `Declared HTML IDs (${declaredIds.size} found)`)
 // Check required prompt & enterprise IDs
 const requiredIds = [
   'topbarCompany', 'topbarBreadcrumb', 'bulkPrintBtnLabel', 'prorataModal', 'bulkPrintContainer',
-  'acuanUpahModal', 'empBankName', 'empBankRekening', 'payrollMonthPicker', 'periodDateRange', 'periodPayDate'
+  'acuanUpahModal', 'empBankName', 'empBankRekening', 'payrollMonthPicker', 'periodDateRange', 'periodPayDate',
+  'disbursementModal', 'disburseTotalKaryawan', 'disburseTotalDana', 'disbursePeriod',
+  'empCutiTahunan', 'empSaldoKasbon', 'empCicilanKasbon'
 ];
 requiredIds.forEach(id => {
   assert(declaredIds.has(id), `Mandatory ID '${id}' exists in HTML`);
@@ -193,11 +195,31 @@ assert(resAlp2.gajiBersih >= 0, 'Alpha ekstrim tidak menghasilkan gaji minus (Ma
 assert(Math.abs(resUnder.totalCTC - (resUnder.totalBruto + resUnder.bpjsKesPerusahaan + resUnder.bpjsTkPerusahaan)) < 0.01, 'CTC = Total Bruto + BPJS Kantor (Emp 1)');
 assert(Math.abs(resOver.totalCTC - (resOver.totalBruto + resOver.bpjsKesPerusahaan + resOver.bpjsTkPerusahaan)) < 0.01, 'CTC = Total Bruto + BPJS Kantor (Emp 2)');
 
+// 5. Cuti & Kasbon Deduction Testing (Opsi B)
+const empCuti = { id: 'EMP_CUTI', pokok: 8000000, tunjangan: 1000000, ptkp: 'TK/0', saldoKasbon: 0, cicilanKasbon: 0 };
+run("attendance['EMP_CUTI'] = { hadir: 18, cuti: 4, sakit: 0, alpha: 0, lemburBiasa: 0, lemburLibur: 0 }");
+const resCuti = run(`calculatePayrollForEmployee(${JSON.stringify(empCuti)})`);
+assert(resCuti.potonganAlpha === 0, 'Cuti Tahunan 4 hari tidak memotong upah (potonganAlpha = 0)');
+assert(resCuti.totalBruto === 9000000, 'Total Bruto tetap utuh saat cuti diambil');
+
+const empKasbon = { id: 'EMP_KSB1', pokok: 10000000, tunjangan: 1000000, ptkp: 'TK/0', saldoKasbon: 2000000, cicilanKasbon: 500000 };
+run("attendance['EMP_KSB1'] = { hadir: 22, cuti: 0, sakit: 0, alpha: 0, lemburBiasa: 0, lemburLibur: 0 }");
+const resKsb1 = run(`calculatePayrollForEmployee(${JSON.stringify(empKasbon)})`);
+assert(resKsb1.potonganKasbon === 500000, 'Potongan kasbon cicilan normal = Rp500.000');
+assert(resKsb1.sisaKasbon === 1500000, 'Sisa saldo kasbon berkurang menjadi Rp1.500.000');
+
+// Kasbon Cap: Cicilan lebih besar dari sisa saldo
+const empKasbonCap = { id: 'EMP_KSB2', pokok: 10000000, tunjangan: 1000000, ptkp: 'TK/0', saldoKasbon: 300000, cicilanKasbon: 500000 };
+run("attendance['EMP_KSB2'] = { hadir: 22, cuti: 0, sakit: 0, alpha: 0, lemburBiasa: 0, lemburLibur: 0 }");
+const resKsb2 = run(`calculatePayrollForEmployee(${JSON.stringify(empKasbonCap)})`);
+assert(resKsb2.potonganKasbon === 300000, 'Potongan kasbon mentok sisa saldo (Math.min(cicilan, saldo) = 300rb)');
+assert(resKsb2.sisaKasbon === 0, 'Sisa kasbon lunas menjadi Rp0');
+
 // ================= TEST 4: MODALS & OVERLAY DISMISSAL =================
 console.log('\n--- 4. PENGUJIAN MODAL DIALOG & OVERLAY DISMISSAL ---');
 const modalList = [
   'sheetsModal', 'kompensasiModal', 'thrModal', 'pesangonModal',
-  'prorataModal', 'acuanUpahModal', 'employeeModal', 'slipModal', 'taxSimulatorModal', 'approvalModal'
+  'prorataModal', 'acuanUpahModal', 'disbursementModal', 'employeeModal', 'slipModal', 'taxSimulatorModal', 'approvalModal'
 ];
 
 modalList.forEach(mId => {
@@ -214,6 +236,9 @@ assert(html.includes("exportPayrollCsv"), 'Function exportPayrollCsv is defined'
 assert(html.includes("'\\uFEFF'"), 'CSV Export uses UTF-8 BOM encoding for seamless Excel opening');
 assert(html.includes("downloadBackupJson"), 'Function downloadBackupJson is defined');
 assert(html.includes("restoreBackupJson"), 'Function restoreBackupJson is defined');
+assert(html.includes("exportDisbursementBca"), 'Function exportDisbursementBca is defined');
+assert(html.includes("exportDisbursementMandiri"), 'Function exportDisbursementMandiri is defined');
+assert(html.includes("exportDisbursementUniversal"), 'Function exportDisbursementUniversal is defined');
 
 // ================= TEST 6: WAGE SCALE & COMPLIANCE BENCHMARK =================
 console.log('\n--- 6. PENGUJIAN STRUKTUR & SKALA UPAH RESMI (PERMENAKER 1/2017) ---');

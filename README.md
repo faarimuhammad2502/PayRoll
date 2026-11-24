@@ -48,6 +48,15 @@ MFA Payroll is built with native calculation matrices strictly aligned with Indo
 * **Mandatory 75% Basic Wage Rule (Pasal 94 UU 13/2003):** Strict compliance engine ensuring the basic wage component constitutes >= 75% of total fixed compensation.
 * **Auto-Nominal Salary Population:** Instant cascading dropdown between department and role, automatically populating official statutory benchmark wages and overtime rates (TUL 1/173).
 
+### 4. CORPORATE BANK DISBURSEMENT ENGINE (OPSI A)
+* **BCA KlikBisnis Payroll Format:** Instant export of standard corporate payroll CSV files formatted directly for BCA KlikBisnis / myBCA Bisnis upload (`No Rekening,Nama Penerima,Nominal,Berita,Kode Bank`).
+* **Mandiri Cash Management (MCM) Format:** Native batch format compliant with Bank Mandiri MCM corporate bulk transfer gateway (`Beneficiary Account Number,Beneficiary Name,Amount,Currency,Remark 1,Remark 2,Beneficiary Bank`).
+* **Universal Corporate Gateway:** Standardized CSV schema with complete employee identification, bank routing, net take-home pay, and audit metadata compatible with BNI Direct, BRI Cash Management, and external payroll gateways.
+
+### 5. STATUTORY LEAVE & CASH ADVANCE (KASBON) MANAGEMENT (OPSI B)
+* **Leave & Absence Governance:** Distinct accounting between statutory paid leave (*Cuti Tahunan* 12 days/year & *Sakit/Izin Resmi* backed by medical certificates) which retains full base compensation, versus unauthorized absence (*Alpha/Mangkir*) governed by statutory deduction formulas under PP 36/2021.
+* **Employee Loan & Cash Advance Installment:** Integrated tracking of employee loan balances (*Saldo Kasbon*) and automated monthly installment deduction (*Cicilan Kasbon*), with smart auto-capping (`Math.min(cicilan, saldo)`) and transparent itemization on corporate payslips and payroll ledgers.
+
 ---
 
 ## MULTI-TIER CORPORATE APPROVAL WORKFLOW
