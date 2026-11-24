@@ -118,15 +118,255 @@
             border: 1px solid rgba(168, 85, 247, 0.35);
         }
 
-        /* Print styling for Slip Gaji */
+        /* ==========================================================================
+           MFA ENTERPRISE BUTTON DESIGN SYSTEM (DNA GetLayers AI & Figma)
+           ========================================================================== */
+        
+        /* Base tactile micro-interactions */
+        .btn-tactile {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+            user-select: none;
+            cursor: pointer;
+            transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+            position: relative;
+        }
+        .btn-tactile:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #10B981;
+        }
+        .dark .btn-tactile:focus-visible {
+            box-shadow: 0 0 0 2px #0B1118, 0 0 0 4px #34D399;
+        }
+        .btn-tactile:active:not(:disabled) {
+            transform: scale(0.97) translateY(0.5px);
+        }
+        .btn-tactile:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* 1. Primary Buttons: Deep MFA Emerald Gradient with Inner Highlight Glow */
+        .btn-primary {
+            background: linear-gradient(135deg, #1B3B2B 0%, #10261A 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 1px 2px rgba(16, 38, 26, 0.18), 0 3px 6px -1px rgba(16, 38, 26, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+        .dark .btn-primary {
+            background: linear-gradient(135deg, #24523B 0%, #153825 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(52, 211, 153, 0.28);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 8px -1px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #234E39 0%, #153324 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -2px rgba(27, 59, 43, 0.32), 0 2px 4px -1px rgba(27, 59, 43, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .dark .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2D674B 0%, #1A462E 100%);
+            border-color: rgba(52, 211, 153, 0.45);
+            box-shadow: 0 6px 18px -2px rgba(6, 78, 59, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* 2. Emerald Accent Buttons (e.g. Google Sheets Sync, Send) */
+        .btn-emerald {
+            background: linear-gradient(135deg, #047857 0%, #065F46 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 1px 2px rgba(4, 120, 87, 0.2), 0 3px 6px -1px rgba(4, 120, 87, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .dark .btn-emerald {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border: 1px solid rgba(110, 231, 183, 0.25);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .btn-emerald:hover:not(:disabled) {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -2px rgba(5, 150, 105, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        .dark .btn-emerald:hover:not(:disabled) {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            box-shadow: 0 6px 18px -2px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        /* 3. Secondary / Neutral Outline Buttons (e.g. Excel export, Batal, Tutup) */
+        .btn-secondary {
+            background-color: #FFFFFF;
+            color: #334155;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+        .dark .btn-secondary {
+            background-color: #15202E;
+            color: #E2E8F0;
+            border: 1px solid #1E2E40;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #F8FAFC;
+            color: #0F172A;
+            border-color: #CBD5E1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        }
+        .dark .btn-secondary:hover:not(:disabled) {
+            background-color: #1E2E40;
+            color: #FFFFFF;
+            border-color: #334155;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 4. Tinted Action Buttons */
+        .btn-tint-emerald {
+            background-color: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+        .dark .btn-tint-emerald {
+            background-color: rgba(6, 78, 59, 0.35);
+            color: #6EE7B7;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+        .btn-tint-emerald:hover:not(:disabled) {
+            background-color: #D1FAE5;
+            color: #047857;
+            border-color: #6EE7B7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+        .dark .btn-tint-emerald:hover:not(:disabled) {
+            background-color: rgba(6, 78, 59, 0.55);
+            color: #A7F3D0;
+            border-color: rgba(52, 211, 153, 0.5);
+            box-shadow: 0 4px 12px rgba(6, 78, 59, 0.4);
+        }
+
+        .btn-accent-purple {
+            background: linear-gradient(135deg, #7E22CE 0%, #6B21A8 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 4px rgba(126, 34, 206, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-accent-purple:hover:not(:disabled) {
+            background: linear-gradient(135deg, #9333EA 0%, #7E22CE 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -2px rgba(147, 51, 234, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-accent-amber {
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-accent-amber:hover:not(:disabled) {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -2px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-accent-blue {
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-accent-blue:hover:not(:disabled) {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -2px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* 5. Danger / Destructive Buttons */
+        .btn-danger {
+            background-color: #FFF1F2;
+            color: #E11D48;
+            border: 1px solid #FECDD3;
+        }
+        .dark .btn-danger {
+            background-color: rgba(225, 29, 72, 0.15);
+            color: #FB7185;
+            border: 1px solid rgba(225, 29, 72, 0.3);
+        }
+        .btn-danger:hover:not(:disabled) {
+            background-color: #FFE4E6;
+            color: #BE123C;
+            border-color: #FDA4AF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.15);
+        }
+        .dark .btn-danger:hover:not(:disabled) {
+            background-color: rgba(225, 29, 72, 0.3);
+            color: #FDA4AF;
+            border-color: rgba(225, 29, 72, 0.5);
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+        }
+
+        /* 6. Ghost & Icon Buttons */
+        .btn-ghost {
+            background: transparent;
+            color: #64748B;
+            border: 1px solid transparent;
+        }
+        .dark .btn-ghost {
+            color: #94A3B8;
+        }
+        .btn-ghost:hover:not(:disabled) {
+            background-color: #F1F5F9;
+            color: #0F172A;
+            transform: translateY(-0.5px);
+        }
+        .dark .btn-ghost:hover:not(:disabled) {
+            background-color: #1E293B;
+            color: #F8FAFC;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Table pill action buttons */
+        .btn-table-pill {
+            padding: 0.25rem 0.65rem;
+            border-radius: 0.5rem;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.25;
+            transition: all 140ms ease;
+        }
+        .btn-table-pill:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+        .btn-table-pill:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        /* Print styling for Slip Gaji (Single & Bulk) */
         @media print {
             body * {
                 visibility: hidden;
             }
-            #slipModalContent, #slipModalContent * {
+            #slipModal:not(.hidden) #slipModalContent,
+            #slipModal:not(.hidden) #slipModalContent *,
+            #bulkPrintContainer,
+            #bulkPrintContainer * {
                 visibility: visible;
             }
-            #slipModalContent {
+            #slipModal:not(.hidden) #slipModalContent {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -135,6 +375,29 @@
                 box-shadow: none;
                 background: white !important;
                 color: black !important;
+            }
+            #bulkPrintContainer {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: white !important;
+                color: black !important;
+                display: block !important;
+            }
+            .slip-page {
+                break-after: page;
+                page-break-after: always;
+                padding: 28px;
+                box-sizing: border-box;
+                background: white !important;
+                color: #111827 !important;
+            }
+            .slip-page:last-child {
+                break-after: auto;
+                page-break-after: auto;
             }
             .no-print {
                 display: none !important;
@@ -181,13 +444,13 @@
                     <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Menu Utama</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Ringkasan</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="users" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                     <span>Karyawan</span>
@@ -196,20 +459,20 @@
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="calendar" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Kehadiran & Lembur</span>
                             </button>
                         </li>
                         <li>
                             <!-- Active Default Menu: Penggajian -->
-                            <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left">
+                            <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active btn-tactile text-left transition-all">
                                 <i data-lucide="wallet" class="w-4 h-4 text-[#173823] dark:text-emerald-300"></i>
                                 <span>Penggajian</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                     <span>Persetujuan</span>
@@ -218,7 +481,7 @@
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="line-chart" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Laporan</span>
                             </button>
@@ -231,7 +494,7 @@
                     <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">10 Rumus Payroll Resmi UU</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600 dark:text-emerald-400"></i>
                                     <span class="font-semibold text-gray-800 dark:text-gray-200">10 Rumus Payroll UU</span>
@@ -240,21 +503,27 @@
                             </button>
                         </li>
                         <li>
-                            <button onclick="openKompensasiModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="openKompensasiModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="file-badge-2" class="w-4 h-4 text-purple-600 dark:text-purple-400"></i>
                                 <span>Kompensasi PKWT (Kontrak)</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="openThrModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="openThrModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="gift" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
                                 <span>Kalkulator THR</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="openPesangonModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="openPesangonModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="briefcase" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
                                 <span>Pesangon, UPMK & UPH</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="openProrataModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <i data-lucide="calculator" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
+                                <span>Kalkulator Prorata</span>
                             </button>
                         </li>
                     </ul>
@@ -265,7 +534,7 @@
                     <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Integrasi & Pengaturan</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                                     <span>Excel &amp; Sheets Sync</span>
@@ -274,7 +543,7 @@
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left">
+                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
                                 <i data-lucide="sliders" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                                 <span>Profil Perusahaan & Rumus</span>
                             </button>
@@ -295,7 +564,7 @@
                     <h4 class="text-xs font-semibold text-gray-900 dark:text-white">Simulasi Pajak PPh 21</h4>
                     <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">Tarif Efektif Rata-Rata (TER) PP 58/2023.</p>
                 </div>
-                <button onclick="openTaxSimulatorModal()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 dark:text-emerald-400 hover:underline">
+                <button onclick="openTaxSimulatorModal()" class="btn-tactile inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 dark:text-emerald-400 hover:text-mfa-900 dark:hover:text-emerald-300 hover:underline active:scale-95 transition-all">
                     Buka Kalkulator
                     <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
                 </button>
@@ -312,7 +581,7 @@
                         <p class="text-[11px] text-gray-400 leading-tight">Administrator</p>
                     </div>
                 </div>
-                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi tersimpan')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800 transition">
+                <button title="Keluar / Pengaturan Akun" onclick="showToast('Sesi tersimpan')" class="btn-tactile btn-ghost p-2 rounded-xl text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200/60 dark:hover:bg-gray-800 transition-all">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -325,7 +594,7 @@
         <!-- TOP BAR -->
         <header class="h-14 bg-white/70 dark:bg-[#0F172A]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#1E293B] px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
             <div class="flex items-center gap-3">
-                <button onclick="toggleSidebar()" class="lg:hidden p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                <button onclick="toggleSidebar()" class="btn-tactile btn-ghost p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
                 <!-- Breadcrumbs -->
@@ -339,29 +608,29 @@
             <!-- Top Right Utilities -->
             <div class="flex items-center gap-3">
                 <!-- Theme Toggle Button (Light/Dark Mode) -->
-                <button onclick="toggleTheme()" class="p-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition" title="Ganti Mode Gelap / Terang" id="themeToggleBtn">
+                <button onclick="toggleTheme()" class="btn-tactile btn-secondary p-2.5 rounded-xl transition-all" title="Ganti Mode Gelap / Terang" id="themeToggleBtn">
                     <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
                     <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
                 </button>
 
                 <!-- Excel & Google Sheets Shortcut Button -->
-                <button onclick="openSheetsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1.5 rounded-xl transition" title="Template & Sinkronisasi Excel / Google Sheets">
+                <button onclick="openSheetsModal()" class="btn-tactile btn-tint-emerald px-3 py-1.5 rounded-xl text-[11px] font-semibold gap-1.5 shadow-2xs transition-all" title="Template & Sinkronisasi Excel / Google Sheets">
                     <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
                     <span class="hidden sm:inline">Excel &amp; Sheets</span>
                 </button>
 
                 <!-- Template Data Loader -->
-                <button onclick="loadSampleData()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-mfa-800 dark:text-emerald-300 bg-mfa-50 dark:bg-gray-800 hover:bg-mfa-100 dark:hover:bg-gray-700 border border-mfa-200 dark:border-gray-700 px-2.5 py-1.5 rounded-xl transition" title="Muat Data Contoh Karyawan">
+                <button onclick="loadSampleData()" class="btn-tactile btn-secondary px-3 py-1.5 rounded-xl text-[11px] font-semibold text-mfa-900 dark:text-emerald-300 gap-1.5 shadow-2xs transition-all" title="Muat Data Contoh Karyawan">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mfa-600 dark:text-emerald-400"></i>
                     <span class="hidden sm:inline">Muat Contoh</span>
                 </button>
 
-                <button onclick="clearAllDataConfirm()" class="inline-flex items-center gap-1 text-[11px] font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 px-2 py-1.5 rounded-xl transition" title="Kosongkan Semua Data">
+                <button onclick="clearAllDataConfirm()" class="btn-tactile btn-danger px-2.5 py-1.5 rounded-xl text-[11px] font-medium gap-1 shadow-2xs transition-all" title="Kosongkan Semua Data">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                     <span class="hidden sm:inline">Kosongkan</span>
                 </button>
 
-                <button class="relative text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition p-1" title="Notifikasi" onclick="showToast('Semua rumus payroll terintegrasi.')">
+                <button class="btn-tactile btn-ghost p-2 rounded-xl relative text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-all" title="Notifikasi" onclick="showToast('Semua rumus payroll terintegrasi.')">
                     <i data-lucide="bell" class="w-4 h-4"></i>
                     <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                 </button>
@@ -383,15 +652,15 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Panduan perhitungan hak-hak karyawan resmi sesuai perundang-undangan Republik Indonesia.</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="openKompensasiModal()" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
+                        <button onclick="openKompensasiModal()" class="btn-tactile btn-accent-purple px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all inline-flex items-center">
                             <i data-lucide="file-badge-2" class="w-4 h-4"></i>
                             <span>Uang Kompensasi PKWT</span>
                         </button>
-                        <button onclick="openThrModal()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
+                        <button onclick="openThrModal()" class="btn-tactile btn-accent-amber px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all inline-flex items-center">
                             <i data-lucide="gift" class="w-4 h-4"></i>
                             <span>Hitung THR</span>
                         </button>
-                        <button onclick="openPesangonModal()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition inline-flex items-center gap-1.5">
+                        <button onclick="openPesangonModal()" class="btn-tactile btn-accent-blue px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all inline-flex items-center">
                             <i data-lucide="calculator" class="w-4 h-4"></i>
                             <span>Pesangon PHK</span>
                         </button>
@@ -433,7 +702,7 @@
                                         <span class="badge-blue px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 3 ayat (1) Permenaker 6/2016</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="openThrModal()" class="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                        <button onclick="openThrModal()" class="btn-tactile btn-table-pill bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">Hitung</button>
                                     </td>
                                 </tr>
 
@@ -456,7 +725,7 @@
                                         <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 32 ayat (2) PP 35/2021</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="switchView('kehadiran')" class="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 rounded-lg font-semibold text-[11px]">Input</button>
+                                        <button onclick="switchView('kehadiran')" class="btn-tactile btn-table-pill btn-tint-emerald">Input</button>
                                     </td>
                                 </tr>
 
@@ -479,7 +748,7 @@
                                         <span class="badge-purple px-2.5 py-1 rounded-lg font-semibold inline-block">Pasal 16 ayat (1) PP 35/2021</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="openKompensasiModal()" class="px-2.5 py-1 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 rounded-lg font-semibold text-[11px]">Hitung</button>
+                                        <button onclick="openKompensasiModal()" class="btn-tactile btn-table-pill bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60">Hitung</button>
                                     </td>
                                 </tr>
 
@@ -594,7 +863,7 @@
                                         <span class="badge-green px-2.5 py-1 rounded-lg font-semibold inline-block">PP 44/2015</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <button onclick="switchView('pengaturan')" class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-800 dark:text-gray-200 rounded-lg font-semibold text-[11px]">Setting</button>
+                                        <button onclick="switchView('pengaturan')" class="btn-tactile btn-table-pill btn-secondary">Setting</button>
                                     </td>
                                 </tr>
 
@@ -635,79 +904,111 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="sendPayrollToGoogleSheets()" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-xs transition" title="Kirim & perbarui data payroll ke Google Sheets secara otomatis">
+                        <button onclick="sendPayrollToGoogleSheets()" class="btn-tactile btn-emerald px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all" title="Kirim & perbarui data payroll ke Google Sheets secara otomatis">
                             <i data-lucide="send" class="w-4 h-4"></i>
                             <span>Kirim ke Google Sheets</span>
                         </button>
-                        <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-xs font-semibold shadow-2xs transition" title="Unduh Laporan Excel .xlsx otomatis rapi dengan formula & kolom pas">
+                        <button onclick="bulkPrintSlips()" class="btn-tactile btn-secondary px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-2xs transition-all inline-flex items-center" title="Cetak slip gaji massal (karyawan terpilih atau semua karyawan)">
+                            <i data-lucide="printer" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+                            <span id="bulkPrintBtnLabel">Cetak Slip Massal</span>
+                        </button>
+                        <button onclick="exportPayrollExcel()" class="btn-tactile btn-tint-emerald px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-2xs transition-all" title="Unduh Laporan Excel .xlsx otomatis rapi dengan formula & kolom pas">
                             <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                             <span>Ekspor Excel (.xlsx)</span>
                         </button>
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-semibold shadow-2xs transition" title="Unduh Format CSV">
+                        <button onclick="exportPayrollCsv()" class="btn-tactile btn-secondary px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all" title="Unduh Format CSV">
                             <i data-lucide="download" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                             <span>CSV</span>
                         </button>
-                        <button onclick="openApprovalModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                        <button onclick="openApprovalModal()" class="btn-tactile btn-primary px-4.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all">
                             <span>Ajukan persetujuan</span>
                             <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- 4 Metric Cards (Dynamic Calculation) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- 6 Metric Cards (Enterprise Dynamic Calculation & CTC) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                     <!-- Total Gaji Bersih -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
                             <span class="text-xs font-medium">Total gaji bersih</span>
-                            <i data-lucide="wallet" class="w-4 h-4"></i>
+                            <i data-lucide="wallet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalGaji">Rp0</h2>
-                            <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-emerald-600 dark:text-emerald-400" id="metricGajiSub">
-                                <span>Periode Oktober 2026</span>
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalGaji">Rp0</h2>
+                            <div class="flex items-center gap-1 mt-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400" id="metricGajiSub">
+                                <span>Take Home Pay</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Penghasilan Bruto -->
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Total gaji bruto</span>
+                            <i data-lucide="layers" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalBruto">Rp0</h2>
+                            <div class="mt-1.5 text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+                                Pokok + Tunj. + Lembur
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Beban Perusahaan (CTC) -->
+                    <div class="bg-white dark:bg-[#15202E] border border-blue-200 dark:border-blue-900/60 rounded-2xl p-4 shadow-2xs flex flex-col justify-between bg-gradient-to-br from-white to-blue-50/30 dark:from-[#15202E] dark:to-blue-950/20">
+                        <div class="flex items-center justify-between text-blue-700 dark:text-blue-400 mb-2">
+                            <span class="text-xs font-bold">Beban Perusahaan (CTC)</span>
+                            <i data-lucide="building-2" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-extrabold text-blue-900 dark:text-blue-300 tracking-tight" id="metricTotalCTC">Rp0</h2>
+                            <div class="mt-1.5 text-[11px] text-blue-600 dark:text-blue-400 font-medium">
+                                Bruto + BPJS Kantor
                             </div>
                         </div>
                     </div>
 
                     <!-- Karyawan dalam payroll -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
-                            <span class="text-xs font-medium">Karyawan dalam payroll</span>
-                            <i data-lucide="users" class="w-4 h-4"></i>
+                            <span class="text-xs font-medium">Karyawan payroll</span>
+                            <i data-lucide="users" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalKaryawan">0</h2>
-                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium" id="metricKaryawanSub">
-                                <span class="text-gray-700 dark:text-gray-300" id="metricSiapCount">0 siap</span> · <span class="text-amber-700 dark:text-amber-400 font-semibold" id="metricTinjauCount">0 perlu ditinjau</span>
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalKaryawan">0</h2>
+                            <div class="mt-1.5 text-[11px] text-gray-500 dark:text-gray-400 font-medium" id="metricKaryawanSub">
+                                <span class="text-gray-700 dark:text-gray-300" id="metricSiapCount">0 siap</span> · <span class="text-amber-700 dark:text-amber-400 font-semibold" id="metricTinjauCount">0 tinjau</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Total tunjangan -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
-                            <span class="text-xs font-medium">Total tunjangan & lembur</span>
-                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span class="text-xs font-medium">Tunjangan & lembur</span>
+                            <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalTunjangan">Rp0</h2>
-                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                Transportasi, makan & TUL (1/173)
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalTunjangan">Rp0</h2>
+                            <div class="mt-1.5 text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+                                Tetap & TUL (1/173)
                             </div>
                         </div>
                     </div>
 
                     <!-- Total potongan -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-5 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
                             <span class="text-xs font-medium">Total potongan</span>
-                            <i data-lucide="minus-circle" class="w-4 h-4"></i>
+                            <i data-lucide="minus-circle" class="w-4 h-4 text-rose-600 dark:text-rose-400"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalPotongan">Rp0</h2>
-                            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                PPh 21 TER, BPJS & Alpha (UL)
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalPotongan">Rp0</h2>
+                            <div class="mt-1.5 text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+                                PPh 21, BPJS & Alpha
                             </div>
                         </div>
                     </div>
@@ -793,11 +1094,15 @@
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <button onclick="recalculatePayroll()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs font-medium text-gray-700 dark:text-gray-200 transition" title="Kalkulasi Ulang">
+                            <button onclick="bulkPrintSlips()" class="btn-tactile btn-secondary px-3 py-1.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all inline-flex items-center" title="Cetak slip gaji massal (terpilih atau semua)">
+                                <i data-lucide="printer" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
+                                <span>Cetak Slip</span>
+                            </button>
+                            <button onclick="recalculatePayroll()" class="btn-tactile btn-secondary px-3 py-1.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all" title="Kalkulasi Ulang">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
                                 <span>Hitung Ulang</span>
                             </button>
-                            <button onclick="openEmployeeModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold transition">
+                            <button onclick="openEmployeeModal()" class="btn-tactile btn-primary px-3.5 py-1.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all">
                                 <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
                                 <span>Tambah Karyawan</span>
                             </button>
@@ -807,13 +1112,13 @@
                     <!-- Filters & Search Toolbar -->
                     <div class="px-6 py-3.5 bg-gray-50/50 dark:bg-[#0E1724] border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="flex items-center gap-1 bg-[#EEF0EE] dark:bg-gray-800 p-1 rounded-xl text-xs font-medium">
-                            <button onclick="setFilter('semua')" id="tabSemua" class="px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition">
+                            <button onclick="setFilter('semua')" id="tabSemua" class="btn-tactile px-3.5 py-1.5 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition-all">
                                 Semua <span class="ml-1 text-gray-500 dark:text-gray-400 font-normal" id="badgeSemua">0</span>
                             </button>
-                            <button onclick="setFilter('siap')" id="tabSiap" class="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
+                            <button onclick="setFilter('siap')" id="tabSiap" class="btn-tactile px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all">
                                 Siap diproses <span class="ml-1 text-gray-400 font-normal" id="badgeSiap">0</span>
                             </button>
-                            <button onclick="setFilter('tinjau')" id="tabTinjau" class="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
+                            <button onclick="setFilter('tinjau')" id="tabTinjau" class="btn-tactile px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all">
                                 Perlu ditinjau <span class="ml-1 text-gray-400 font-normal" id="badgeTinjau">0</span>
                             </button>
                         </div>
@@ -861,7 +1166,7 @@
                         <i data-lucide="info" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                         <span>10 Rumus Payroll resmi terintegrasi (THR, TUL 1/173, Unpaid Leave, BPJS TK &amp; Pensiun).</span>
                     </div>
-                    <button onclick="switchView('bnsp')" class="inline-flex items-center gap-1 font-semibold text-mfa-800 dark:text-emerald-400 hover:underline transition">
+                    <button onclick="switchView('bnsp')" class="btn-tactile inline-flex items-center gap-1 font-semibold text-mfa-800 dark:text-emerald-400 hover:text-mfa-900 dark:hover:text-emerald-300 hover:underline active:scale-95 transition-all">
                         Buka 10 rumus payroll UU
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </button>
@@ -884,7 +1189,7 @@
                             <h3 class="text-sm font-bold text-gray-900 dark:text-white">Kompensasi PKWT</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Uang kompensasi akhir kontrak (PP 35/2021).</p>
                         </div>
-                        <button onclick="openKompensasiModal()" class="text-xs font-semibold text-purple-700 dark:text-purple-300 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openKompensasiModal()" class="btn-tactile text-xs font-semibold text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-200 hover:underline inline-flex items-center gap-1.5 active:scale-95 transition-all">
                             Hitung Kompensasi <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -897,7 +1202,7 @@
                             <h3 class="text-sm font-bold text-gray-900 dark:text-white">Kalkulator THR</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Hitung THR prorata / penuh (Permenaker 6/2016).</p>
                         </div>
-                        <button onclick="openThrModal()" class="text-xs font-semibold text-amber-700 dark:text-amber-300 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openThrModal()" class="btn-tactile text-xs font-semibold text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-200 hover:underline inline-flex items-center gap-1.5 active:scale-95 transition-all">
                             Hitung THR <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -910,7 +1215,7 @@
                             <h3 class="text-sm font-bold text-gray-900 dark:text-white">Pesangon PHK</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Hitung UP, UPMK, & UPH (PP 35/2021).</p>
                         </div>
-                        <button onclick="openPesangonModal()" class="text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openPesangonModal()" class="btn-tactile text-xs font-semibold text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-200 hover:underline inline-flex items-center gap-1.5 active:scale-95 transition-all">
                             Hitung Pesangon <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -923,7 +1228,7 @@
                             <h3 class="text-sm font-bold text-gray-900 dark:text-white">Google Sheets</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Impor & ekspor spreadsheet otomatis.</p>
                         </div>
-                        <button onclick="openSheetsModal()" class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline inline-flex items-center gap-1">
+                        <button onclick="openSheetsModal()" class="btn-tactile text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-emerald-200 hover:underline inline-flex items-center gap-1.5 active:scale-95 transition-all">
                             Buka Sync <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -1006,7 +1311,7 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Master Data Karyawan</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola data identitas, masa kerja, jabatan, dan komponen gaji pokok karyawan.</p>
                     </div>
-                    <button onclick="openEmployeeModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                    <button onclick="openEmployeeModal()" class="btn-tactile btn-primary px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all">
                         <i data-lucide="plus" class="w-4 h-4"></i>
                         <span>Tambah Karyawan</span>
                     </button>
@@ -1039,7 +1344,7 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Absensi, Unpaid Leave & Lembur (PP 35 & 36/2021)</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Lembur hari biasa (1.5x lalu 2x), lembur hari libur (2x lalu 3x lalu 4x), dan potongan mangkir berdasarkan hari kerja.</p>
                     </div>
-                    <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil disinkronkan!')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition">
+                    <button onclick="recalculatePayroll(); showToast('Data absensi & upah lembur berhasil disinkronkan!')" class="btn-tactile btn-primary px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all">
                         <i data-lucide="save" class="w-4 h-4"></i>
                         <span>Simpan & Sinkronkan</span>
                     </button>
@@ -1101,7 +1406,7 @@
                                 <h4 class="text-xs font-bold text-gray-900 dark:text-white">2. Review & Verifikasi Budget Finance Manager</h4>
                                 <p class="text-[11px] text-gray-500 dark:text-gray-400">Pemeriksaan alokasi dana kas perusahaan dan rekening penggajian.</p>
                                 <div class="mt-2 flex gap-2">
-                                    <button onclick="approveStep(2)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Setujui Tahap Finance</button>
+                                    <button onclick="approveStep(2)" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold shadow-2xs">Setujui Tahap Finance</button>
                                 </div>
                             </div>
                         </div>
@@ -1114,7 +1419,7 @@
                                 <h4 class="text-xs font-bold text-gray-900 dark:text-white">3. Persetujuan Akhir & Otorisasi Bank Transfer (Direktur Utama)</h4>
                                 <p class="text-[11px] text-gray-500 dark:text-gray-400">Otorisasi final untuk proses pencairan dana gaji ke rekening karyawan.</p>
                                 <div class="mt-2 flex gap-2">
-                                    <button onclick="approveStep(3)" class="px-3 py-1.5 rounded-lg bg-[#1B3B2B] text-white font-semibold text-xs hover:bg-[#12261C]">Otorisasi Pencairan</button>
+                                    <button onclick="approveStep(3)" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold shadow-2xs">Otorisasi Pencairan</button>
                                 </div>
                             </div>
                         </div>
@@ -1130,19 +1435,19 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Laporan resmi untuk perpajakan, BPJS Kesehatan, BPJS Ketenagakerjaan, dan akuntansi perusahaan.</p>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="sendPayrollToGoogleSheets()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-xs transition" title="Kirim & perbarui data payroll ke Google Sheets otomatis">
+                        <button onclick="sendPayrollToGoogleSheets()" class="btn-tactile btn-emerald px-3.5 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all" title="Kirim & perbarui data payroll ke Google Sheets otomatis">
                             <i data-lucide="send" class="w-4 h-4"></i>
                             <span>Kirim ke Google Sheets</span>
                         </button>
-                        <button onclick="openSheetsModal('receive')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold shadow-xs transition">
+                        <button onclick="openSheetsModal('receive')" class="btn-tactile btn-tint-emerald px-3.5 py-2 rounded-xl text-xs font-semibold gap-2 shadow-2xs transition-all">
                             <i data-lucide="sheet" class="w-4 h-4"></i>
                             <span>Tarik dari Google Sheets</span>
                         </button>
-                        <button onclick="exportPayrollExcel()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold shadow-xs transition" title="Unduh Excel .xlsx rapi dengan formula">
+                        <button onclick="exportPayrollExcel()" class="btn-tactile btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all" title="Unduh Excel .xlsx rapi dengan formula">
                             <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-300"></i>
                             <span>Download Excel (.xlsx) Rapi</span>
                         </button>
-                        <button onclick="exportPayrollCsv()" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 text-xs font-semibold transition" title="Format CSV">
+                        <button onclick="exportPayrollCsv()" class="btn-tactile btn-secondary px-3 py-2 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all" title="Format CSV">
                             <i data-lucide="download" class="w-4 h-4 text-gray-400"></i>
                             <span>CSV</span>
                         </button>
@@ -1212,7 +1517,7 @@
                                 <input type="text" id="settingCompanyNpwp" value="01.234.567.8-012.000" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs">
                             </div>
                             <div class="pt-2">
-                                <button onclick="saveCompanySettings()" class="px-4 py-2 bg-[#1B3B2B] text-white rounded-xl text-xs font-semibold">Simpan Pengaturan</button>
+                                <button onclick="saveCompanySettings()" class="btn-tactile btn-primary px-4.5 py-2.5 rounded-xl text-xs font-semibold shadow-sm">Simpan Pengaturan</button>
                             </div>
                         </div>
                     </div>
@@ -1255,7 +1560,7 @@
     <!-- ================= MODALS SPESIAL ================= -->
 
     <!-- 0. MODAL GOOGLE SHEETS & EXCEL SYNC (2-ARAH: KIRIM OTOMATIS & TARIK DATA) -->
-    <div id="sheetsModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="sheetsModal" onclick="if(event.target === this) closeSheetsModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
@@ -1267,18 +1572,18 @@
                         <p class="text-[11px] text-gray-500 dark:text-gray-400">Kirim Data Otomatis ke Spreadsheet &bull; Tarik Data &bull; Unduh Template Rapi</p>
                     </div>
                 </div>
-                <button onclick="closeSheetsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closeSheetsModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
             <!-- Tab Switcher -->
             <div class="flex border-b border-gray-200 dark:border-gray-800 gap-6 text-xs font-bold">
-                <button id="tabBtnSend" onclick="switchSheetsTab('send')" class="pb-2.5 border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 transition">
+                <button id="tabBtnSend" onclick="switchSheetsTab('send')" class="btn-tactile pb-2.5 border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 transition-all">
                     <i data-lucide="send" class="w-4 h-4"></i>
                     <span>1. Kirim ke Google Sheet (Otomatis Terisi)</span>
                 </button>
-                <button id="tabBtnReceive" onclick="switchSheetsTab('receive')" class="pb-2.5 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1.5 transition">
+                <button id="tabBtnReceive" onclick="switchSheetsTab('receive')" class="btn-tactile pb-2.5 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-1.5 transition-all">
                     <i data-lucide="download" class="w-4 h-4"></i>
                     <span>2. Tarik Data &amp; Template Excel</span>
                 </button>
@@ -1302,7 +1607,7 @@
                     <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">URL Webhook Google Apps Script:</label>
                     <div class="flex gap-2">
                         <input type="url" id="sheetsWebhookUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
-                        <button onclick="sendPayrollToGoogleSheets()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold flex items-center gap-1.5 shrink-0 shadow-xs">
+                        <button onclick="sendPayrollToGoogleSheets()" class="btn-tactile btn-emerald px-4.5 py-2.5 rounded-xl font-bold flex items-center gap-1.5 shrink-0 shadow-sm">
                             <i data-lucide="send" class="w-3.5 h-3.5"></i>
                             <span>Kirim Sekarang</span>
                         </button>
@@ -1317,7 +1622,7 @@
                             <i data-lucide="code-2" class="w-4 h-4 text-emerald-600"></i>
                             Panduan Pasang di Google Sheets (1 Menit, Resmi &amp; Gratis):
                         </span>
-                        <button onclick="copyAppsScriptCode()" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-800 px-2.5 py-1 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition">
+                        <button onclick="copyAppsScriptCode()" class="btn-tactile btn-tint-emerald px-3 py-1.5 rounded-xl text-[11px] font-bold gap-1.5 shadow-2xs">
                             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                             <span>Salin Kode Script (1-Klik)</span>
                         </button>
@@ -1350,7 +1655,7 @@
                 <div class="space-y-2">
                     <label class="block text-gray-800 dark:text-gray-200 font-bold text-xs">Unduh Template Spreadsheet Siap Pakai:</label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <button onclick="downloadExcelTemplate()" class="p-3 rounded-xl border-2 border-emerald-500/50 bg-emerald-50/40 dark:bg-emerald-950/30 hover:bg-emerald-100/60 dark:hover:bg-emerald-900/40 text-left transition group">
+                        <button onclick="downloadExcelTemplate()" class="btn-tactile w-full p-3.5 rounded-xl border-2 border-emerald-500/50 bg-emerald-50/40 dark:bg-emerald-950/30 hover:bg-emerald-100/60 dark:hover:bg-emerald-900/40 hover:border-emerald-500 text-left transition-all group shadow-2xs hover:shadow-md">
                             <div class="flex items-center justify-between mb-1">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
@@ -1361,7 +1666,7 @@
                             <p class="text-[10px] text-gray-600 dark:text-gray-400">Multi-sheet (Master + Absensi + Kamus Rumus PP 35/58). Dibuka di Excel langsung rapi!</p>
                         </button>
 
-                        <button onclick="downloadSheetTemplate()" class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-700/60 text-left transition">
+                        <button onclick="downloadSheetTemplate()" class="btn-tactile w-full p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-700/60 hover:border-gray-300 dark:hover:border-gray-600 text-left transition-all group shadow-2xs hover:shadow-md">
                             <div class="flex items-center gap-2 mb-1">
                                 <i data-lucide="sheet" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
                                 <span class="font-bold text-gray-900 dark:text-white">Template CSV (UTF-8 BOM)</span>
@@ -1391,7 +1696,7 @@
                         <label class="block text-gray-600 dark:text-gray-400 font-semibold text-[11px]">Atau Tautkan Link Google Sheets (Siapa saja yang memiliki link):</label>
                         <div class="flex gap-2">
                             <input type="url" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing" class="flex-1 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-emerald-600 text-xs">
-                            <button onclick="syncFromGoogleSheets()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shrink-0">
+                            <button onclick="syncFromGoogleSheets()" class="btn-tactile btn-emerald px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shrink-0 shadow-sm">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                                 <span>Tarik Data</span>
                             </button>
@@ -1401,8 +1706,8 @@
             </div>
 
             <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-                <button onclick="closeSheetsModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-semibold">Tutup</button>
-                <button onclick="openInGoogleSheets()" class="px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 text-xs font-semibold inline-flex items-center gap-1.5">
+                <button onclick="closeSheetsModal()" class="btn-tactile btn-secondary px-4 py-2 rounded-xl text-xs font-semibold">Tutup</button>
+                <button onclick="openInGoogleSheets()" class="btn-tactile btn-secondary px-4 py-2 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5">
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                     <span>Buka Google Sheets Baru</span>
                 </button>
@@ -1411,7 +1716,7 @@
     </div>
 
     <!-- 1. MODAL KALKULATOR UANG KOMPENSASI PKWT -->
-    <div id="kompensasiModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="kompensasiModal" onclick="if(event.target === this) closeKompensasiModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
@@ -1423,7 +1728,7 @@
                         <p class="text-[11px] text-gray-500 dark:text-gray-400">Pasal 16 ayat (1) PP 35 Tahun 2021</p>
                     </div>
                 </div>
-                <button onclick="closeKompensasiModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closeKompensasiModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1456,13 +1761,13 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button onclick="closeKompensasiModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+                <button onclick="closeKompensasiModal()" class="btn-tactile btn-primary px-5 py-2 rounded-xl text-xs font-semibold shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- 2. MODAL KALKULATOR THR -->
-    <div id="thrModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="thrModal" onclick="if(event.target === this) closeThrModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
@@ -1474,7 +1779,7 @@
                         <p class="text-[11px] text-gray-500 dark:text-gray-400">Permenaker No. 6 Tahun 2016 Pasal 3</p>
                     </div>
                 </div>
-                <button onclick="closeThrModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closeThrModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1506,13 +1811,13 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button onclick="closeThrModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+                <button onclick="closeThrModal()" class="btn-tactile btn-primary px-5 py-2 rounded-xl text-xs font-semibold shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- 3. MODAL KALKULATOR PESANGON, UPMK & UPH -->
-    <div id="pesangonModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="pesangonModal" onclick="if(event.target === this) closePesangonModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-2.5">
@@ -1524,7 +1829,7 @@
                         <p class="text-[11px] text-gray-500 dark:text-gray-400">Pasal 40: Uang Pesangon (UP) + UPMK + UPH 15%</p>
                     </div>
                 </div>
-                <button onclick="closePesangonModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closePesangonModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1579,17 +1884,87 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button onclick="closePesangonModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+                <button onclick="closePesangonModal()" class="btn-tactile btn-primary px-5 py-2 rounded-xl text-xs font-semibold shadow-sm">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KALKULATOR GAJI PRORATA -->
+    <div id="prorataModal" onclick="if(event.target === this) closeProrataModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">Kalkulator Gaji Prorata</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Rumus Resmi: (Hari Kerja Masuk ÷ Hari Kerja Sebulan) × Upah Sebulan</p>
+                    </div>
+                </div>
+                <button onclick="closeProrataModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Pilih Karyawan (Opsional / Otomatis Terisi)</label>
+                    <select id="prorataEmpSelect" onchange="loadProrataEmp()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <option value="">-- Input Bebas / Manual --</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Upah Sebulan (Pokok + Tetap)</label>
+                        <input type="number" id="prorataUpah" value="10000000" min="0" oninput="calculateProrata()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Hari Kerja Aktual Masuk</label>
+                        <input type="number" id="prorataHariMasuk" value="11" min="0" max="31" oninput="calculateProrata()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Total Hari Kerja Sebulan</label>
+                        <input type="number" id="prorataTotalHari" value="21" min="1" max="31" oninput="calculateProrata()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <p class="text-[10px] text-gray-400 mt-1">Standar: 21 hari (5 hari kerja) atau 25 hari (6 hari kerja)</p>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Rasio / Persentase Kerja</label>
+                        <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 text-indigo-700 dark:text-indigo-300 font-bold" id="prorataPersentaseText">
+                            52.4% Hari Kerja
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kotak Hasil Rinci -->
+                <div class="p-4 bg-indigo-50/70 dark:bg-indigo-950/40 rounded-xl space-y-2 border border-indigo-200 dark:border-indigo-800/60">
+                    <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        <span>Formula Prorata:</span>
+                        <span class="font-mono text-gray-800 dark:text-gray-200" id="prorataRumusText">(11 ÷ 21) × Rp10.000.000</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-indigo-200 dark:border-indigo-800">
+                        <span class="font-bold text-gray-900 dark:text-white text-xs">Upah Prorata Bersih:</span>
+                        <span class="font-extrabold text-indigo-700 dark:text-indigo-300 text-lg" id="prorataHasilNominal">Rp5.238.095</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeProrataModal()" class="btn-tactile btn-primary px-5 py-2 rounded-xl text-xs font-semibold shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- 4. MODAL TAMBAH / EDIT KARYAWAN -->
-    <div id="employeeModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="employeeModal" onclick="if(event.target === this) closeEmployeeModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <h3 class="text-base font-bold text-gray-900 dark:text-white" id="empModalTitle">Tambah Karyawan Baru</h3>
-                <button onclick="closeEmployeeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closeEmployeeModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1655,15 +2030,15 @@
                 </div>
 
                 <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100 dark:border-gray-800">
-                    <button type="button" onclick="closeEmployeeModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Batal</button>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white font-semibold">Simpan Data Karyawan</button>
+                    <button type="button" onclick="closeEmployeeModal()" class="btn-tactile btn-secondary px-4.5 py-2.5 rounded-xl text-xs font-semibold">Batal</button>
+                    <button type="submit" class="btn-tactile btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm">Simpan Data Karyawan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 5. MODAL SLIP GAJI LENGKAP -->
-    <div id="slipModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="slipModal" onclick="if(event.target === this) closeSlipModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div id="slipModalContent" class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] overflow-y-auto">
             <div class="flex items-start justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div class="flex items-center gap-3">
@@ -1675,7 +2050,7 @@
                         <p id="modalSub" class="text-xs text-gray-500 dark:text-gray-400">-</p>
                     </div>
                 </div>
-                <button onclick="closeSlipModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 no-print">
+                <button onclick="closeSlipModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 no-print">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -1751,12 +2126,31 @@
                     </div>
                     <span id="modalGajiBersih" class="font-extrabold text-[#1B3B2B] dark:text-emerald-300 text-lg">Rp0</span>
                 </div>
+
+                <!-- C. Beban Perusahaan (Employer Burden & CTC) -->
+                <div>
+                    <h4 class="font-bold uppercase tracking-wider text-[11px] mb-2 text-blue-800 dark:text-blue-400">C. Beban Perusahaan (Employer Burden & CTC)</h4>
+                    <div class="space-y-1.5 pl-2 border-l-2 border-blue-500">
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
+                            <span>BPJS Kesehatan Kantor (4% - Maks Rp480.000)</span>
+                            <span id="modalBpjsKesKantor" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 text-gray-600 dark:text-gray-300">
+                            <span>BPJS TK Kantor (JKK + JKM + JHT 3.7% + JP 2%)</span>
+                            <span id="modalBpjsTkKantor" class="font-semibold text-gray-900 dark:text-white">Rp0</span>
+                        </div>
+                        <div class="flex justify-between py-0.5 font-bold text-blue-900 dark:text-blue-300 pt-1 border-t border-gray-100 dark:border-gray-800">
+                            <span>Total Cost to Company (CTC)</span>
+                            <span id="modalTotalCTC">Rp0</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Actions -->
             <div class="flex justify-end gap-2.5 pt-2 no-print">
-                <button onclick="closeSlipModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Tutup</button>
-                <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold inline-flex items-center gap-1.5">
+                <button onclick="closeSlipModal()" class="btn-tactile btn-secondary px-4.5 py-2 rounded-xl text-xs font-semibold">Tutup</button>
+                <button onclick="window.print()" class="btn-tactile btn-primary px-4.5 py-2 rounded-xl text-xs font-semibold inline-flex items-center gap-2 shadow-sm">
                     <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                     <span>Cetak Slip Gaji</span>
                 </button>
@@ -1765,11 +2159,11 @@
     </div>
 
     <!-- 6. MODAL SIMULATOR PPH 21 TER -->
-    <div id="taxSimulatorModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="taxSimulatorModal" onclick="if(event.target === this) closeTaxSimulatorModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40]">
             <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                 <h3 class="text-base font-bold text-gray-900 dark:text-white">Kalkulator Cepat PPh 21 TER</h3>
-                <button onclick="closeTaxSimulatorModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="closeTaxSimulatorModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1801,13 +2195,13 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button onclick="closeTaxSimulatorModal()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] text-white text-xs font-semibold">Tutup</button>
+                <button onclick="closeTaxSimulatorModal()" class="btn-tactile btn-primary px-5 py-2 rounded-xl text-xs font-semibold shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- 7. MODAL AJUKAN PERSETUJUAN -->
-    <div id="approvalModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+    <div id="approvalModal" onclick="if(event.target === this) closeApprovalModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 border border-gray-100 dark:border-[#1E2E40]">
             <div class="w-12 h-12 rounded-2xl bg-mfa-50 dark:bg-gray-800 border border-mfa-200 dark:border-gray-700 text-mfa-800 dark:text-emerald-400 flex items-center justify-center text-xl">
                 <i data-lucide="send" class="w-6 h-6"></i>
@@ -1820,8 +2214,8 @@
             </div>
 
             <div class="flex justify-end gap-2.5 pt-2">
-                <button onclick="closeApprovalModal()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 text-xs font-semibold">Batal</button>
-                <button onclick="submitApprovalConfirm()" class="px-4 py-2 rounded-xl bg-[#1B3B2B] hover:bg-[#12261C] text-white text-xs font-semibold">Ajukan Sekarang</button>
+                <button onclick="closeApprovalModal()" class="btn-tactile btn-secondary px-4.5 py-2.5 rounded-xl text-xs font-semibold">Batal</button>
+                <button onclick="submitApprovalConfirm()" class="btn-tactile btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm">Ajukan Sekarang</button>
             </div>
         </div>
     </div>
@@ -1957,27 +2351,23 @@
             // 1. Rumus 02: Tarif Upah Lembur (TUL) = 1/173 x Upah Sebulan (PP 35/2021)
             const upahPerJam = upahBulanan / 173;
 
-            // 2. Lembur Hari Kerja Biasa: 1 jam x 1.5x + sisa jam x 2x
+            // 2. Lembur Hari Kerja Biasa: 1 jam x 1.5x + sisa jam x 2x (Mendukung desimal & pecahan presisi)
             let lemburBiasaNominal = 0;
             if (att.lemburBiasa > 0) {
-                lemburBiasaNominal += 1.5 * upahPerJam;
-                if (att.lemburBiasa > 1) {
-                    lemburBiasaNominal += (att.lemburBiasa - 1) * 2 * upahPerJam;
-                }
+                const jamBiasa = att.lemburBiasa;
+                const jamTier1 = Math.min(jamBiasa, 1);
+                const jamTier2 = Math.max(0, jamBiasa - 1);
+                lemburBiasaNominal = (jamTier1 * 1.5 + jamTier2 * 2) * upahPerJam;
             }
 
-            // 3. Lembur Hari Libur Resmi: 8 jam pertama = 8 x 2x; jam ke-9 = 3x; jam ke-10 & 11 = 4x
+            // 3. Lembur Hari Libur Resmi: 8 jam pertama = 8 x 2x; jam ke-9 = 3x; jam ke-10 & 11 = 4x (Mendukung desimal & pecahan presisi)
             let lemburLiburNominal = 0;
             if (att.lemburLibur > 0) {
                 const jamLibur = att.lemburLibur;
-                if (jamLibur <= 8) {
-                    lemburLiburNominal = jamLibur * 2 * upahPerJam;
-                } else if (jamLibur === 9) {
-                    lemburLiburNominal = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam);
-                } else {
-                    const jamLebih = jamLibur - 9;
-                    lemburLiburNominal = (8 * 2 * upahPerJam) + (1 * 3 * upahPerJam) + (jamLebih * 4 * upahPerJam);
-                }
+                const jamTier1 = Math.min(jamLibur, 8);
+                const jamTier2 = Math.max(0, Math.min(jamLibur - 8, 1));
+                const jamTier3 = Math.max(0, jamLibur - 9);
+                lemburLiburNominal = (jamTier1 * 2 + jamTier2 * 3 + jamTier3 * 4) * upahPerJam;
             }
 
             const totalLembur = lemburBiasaNominal + lemburLiburNominal;
@@ -2025,6 +2415,9 @@
             // 13. Gaji Bersih (Take Home Pay)
             const gajiBersih = Math.max(0, totalBruto - totalPotongan);
 
+            // 14. Beban Perusahaan (Cost to Company / CTC)
+            const totalCTC = totalBruto + bpjsKesPerusahaan + bpjsTkPerusahaan;
+
             return {
                 upahPerJam,
                 lemburBiasaNominal,
@@ -2040,7 +2433,8 @@
                 terRate,
                 pph21,
                 totalPotongan,
-                gajiBersih
+                gajiBersih,
+                totalCTC
             };
         }
 
@@ -2165,6 +2559,64 @@
         function closePesangonModal() {
             document.getElementById('pesangonModal').classList.add('hidden');
             document.getElementById('pesangonModal').classList.remove('flex');
+        }
+
+        // ================= MODAL KALKULATOR GAJI PRORATA =================
+        function openProrataModal() {
+            // Populate select employee
+            const selectEl = document.getElementById('prorataEmpSelect');
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="">-- Input Bebas / Manual --</option>';
+                employees.forEach(emp => {
+                    const opt = document.createElement('option');
+                    opt.value = emp.id;
+                    opt.textContent = `${emp.name} (${emp.id}) - Upah: ${formatRupiah(emp.pokok + emp.tunjangan)}`;
+                    selectEl.appendChild(opt);
+                });
+            }
+
+            // Sync total hari kerja default from companySettings
+            const totalHariEl = document.getElementById('prorataTotalHari');
+            if (totalHariEl) {
+                totalHariEl.value = companySettings.workDays === 6 ? 25 : 21;
+            }
+
+            calculateProrata();
+            document.getElementById('prorataModal').classList.remove('hidden');
+            document.getElementById('prorataModal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeProrataModal() {
+            document.getElementById('prorataModal').classList.add('hidden');
+            document.getElementById('prorataModal').classList.remove('flex');
+        }
+
+        function loadProrataEmp() {
+            const empId = document.getElementById('prorataEmpSelect').value;
+            if (!empId) return;
+            const emp = employees.find(e => e.id === empId);
+            if (emp) {
+                document.getElementById('prorataUpah').value = emp.pokok + emp.tunjangan;
+                const att = attendance[emp.id];
+                if (att && att.hadir !== undefined) {
+                    document.getElementById('prorataHariMasuk').value = att.hadir;
+                }
+                calculateProrata();
+            }
+        }
+
+        function calculateProrata() {
+            const upah = parseFloat(document.getElementById('prorataUpah').value) || 0;
+            const hariMasuk = parseFloat(document.getElementById('prorataHariMasuk').value) || 0;
+            const totalHari = parseFloat(document.getElementById('prorataTotalHari').value) || 21;
+
+            const prorataNominal = totalHari > 0 ? (hariMasuk / totalHari) * upah : 0;
+            const persentase = totalHari > 0 ? (hariMasuk / totalHari * 100) : 0;
+
+            document.getElementById('prorataRumusText').innerText = `(${hariMasuk} hari ÷ ${totalHari} hari) × ${formatRupiah(upah)}`;
+            document.getElementById('prorataPersentaseText').innerText = `${persentase.toFixed(1)}% Hari Kerja`;
+            document.getElementById('prorataHasilNominal').innerText = formatRupiah(Math.round(prorataNominal));
         }
 
         // ================= GOOGLE SHEETS INTEGRATION MODAL & ACTIONS =================
@@ -2509,7 +2961,7 @@ function doPost(e) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Template_Google_Sheets_Payroll_${companySettings.name.replace(/\s+/g, '_')}.csv`;
+            a.download = `Template_Google_Sheets_Payroll_${(companySettings.name || 'MFA_Studio').replace(/\s+/g, '_')}.csv`;
             a.click();
             URL.revokeObjectURL(url);
             showToast("Template CSV berhasil diunduh dengan encoding UTF-8 BOM! Siap di-import ke Google Drive.");
@@ -2824,6 +3276,8 @@ function doPost(e) {
                     </tr>
                 `;
                 document.getElementById('paginationInfo').innerText = "Menampilkan 0 dari 0 karyawan";
+                const pagControls = document.getElementById('paginationControls');
+                if (pagControls) pagControls.innerHTML = '';
                 return;
             }
 
@@ -2862,10 +3316,10 @@ function doPost(e) {
                     <td class="px-4 py-4">${statusBadge}</td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex items-center justify-end gap-1">
-                            <button onclick="openSlipModal('${emp.id}')" class="text-mfa-800 dark:text-emerald-400 hover:bg-mfa-50 dark:hover:bg-gray-800 p-1.5 rounded-lg transition" title="Lihat Slip Gaji">
+                            <button onclick="openSlipModal('${emp.id}')" class="btn-tactile btn-ghost p-2 rounded-lg text-mfa-800 dark:text-emerald-400 hover:bg-mfa-100/70 dark:hover:bg-gray-800 border border-transparent hover:border-mfa-200 dark:hover:border-emerald-800/60 shadow-2xs" title="Lihat Slip Gaji">
                                 <i data-lucide="receipt" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="editEmployee('${emp.id}')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-lg transition" title="Edit Karyawan">
+                            <button onclick="editEmployee('${emp.id}')" class="btn-tactile btn-ghost p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 shadow-2xs" title="Edit Karyawan">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -2875,6 +3329,36 @@ function doPost(e) {
             });
 
             document.getElementById('paginationInfo').innerText = `Menampilkan ${startIdx + 1}-${Math.min(startIdx + pageData.length, total)} dari ${total} karyawan`;
+
+            const totalPages = Math.ceil(total / pageSize);
+            const pagControls = document.getElementById('paginationControls');
+            if (pagControls) {
+                if (totalPages > 1) {
+                    let pagHtml = `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="btn-tactile btn-secondary px-2.5 py-1 rounded-lg text-xs font-semibold gap-1" title="Halaman Sebelumnya"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>`;
+                    for (let p = 1; p <= totalPages; p++) {
+                        pagHtml += `<button onclick="changePage(${p})" class="btn-tactile ${p === currentPage ? 'btn-primary px-3 py-1 rounded-lg text-xs font-semibold shadow-2xs' : 'btn-secondary px-3 py-1 rounded-lg text-xs font-semibold'}">${p}</button>`;
+                    }
+                    pagHtml += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="btn-tactile btn-secondary px-2.5 py-1 rounded-lg text-xs font-semibold gap-1" title="Halaman Berikutnya"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>`;
+                    pagControls.innerHTML = pagHtml;
+                } else {
+                    pagControls.innerHTML = '';
+                }
+            }
+
+            const bulkBtn = document.getElementById('bulkPrintBtnLabel');
+            if (bulkBtn) {
+                if (typeof selectedIds !== 'undefined' && selectedIds.size > 0) {
+                    bulkBtn.innerText = `Cetak Slip Terpilih (${selectedIds.size})`;
+                } else {
+                    bulkBtn.innerText = `Cetak Semua Slip (${employees.length})`;
+                }
+            }
+        }
+
+        function changePage(p) {
+            currentPage = p;
+            renderPayrollTable();
+            lucide.createIcons();
         }
 
         function renderMetrics() {
@@ -2887,6 +3371,8 @@ function doPost(e) {
             let totalBpjsKes = 0;
             let totalBpjsTk = 0;
             let totalPph21 = 0;
+            let totalBruto = 0;
+            let totalCTC = 0;
 
             let siapCount = 0;
             let tinjauCount = 0;
@@ -2902,15 +3388,30 @@ function doPost(e) {
                 totalBpjsKes += calc.bpjsKesKaryawan;
                 totalBpjsTk += calc.bpjsTkKaryawan;
                 totalPph21 += calc.pph21;
+                totalBruto += calc.totalBruto;
+                totalCTC += calc.totalCTC;
 
                 if (emp.status === 'siap') siapCount++;
                 else tinjauCount++;
             });
 
             document.getElementById('metricTotalGaji').innerText = formatRupiah(totalGajiBersih);
+            const elBruto = document.getElementById('metricTotalBruto');
+            if (elBruto) elBruto.innerText = formatRupiah(totalBruto);
+            const elCTC = document.getElementById('metricTotalCTC');
+            if (elCTC) elCTC.innerText = formatRupiah(totalCTC);
             document.getElementById('metricTotalKaryawan').innerText = employees.length;
             document.getElementById('metricTotalTunjangan').innerText = formatRupiah(totalTunjangan);
             document.getElementById('metricTotalPotongan').innerText = formatRupiah(totalPotongan);
+
+            const bulkBtn = document.getElementById('bulkPrintBtnLabel');
+            if (bulkBtn) {
+                if (typeof selectedIds !== 'undefined' && selectedIds.size > 0) {
+                    bulkBtn.innerText = `Cetak Slip Terpilih (${selectedIds.size})`;
+                } else {
+                    bulkBtn.innerText = `Cetak Semua Slip (${employees.length})`;
+                }
+            }
 
             document.getElementById('metricSiapCount').innerText = `${siapCount} siap`;
             document.getElementById('metricTinjauCount').innerText = `${tinjauCount} perlu ditinjau`;
@@ -2971,8 +3472,8 @@ function doPost(e) {
                         <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${emp.ptkp}</span>
                     </td>
                     <td class="px-6 py-3.5 text-right">
-                        <button onclick="editEmployee('${emp.id}')" class="text-gray-500 hover:text-gray-900 dark:hover:text-white mr-2"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                        <button onclick="deleteEmployee('${emp.id}')" class="text-rose-500 hover:text-rose-700"><i data-lucide="trash" class="w-4 h-4"></i></button>
+                        <button onclick="editEmployee('${emp.id}')" class="btn-tactile btn-ghost p-1.5 rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 mr-1.5" title="Edit Data"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        <button onclick="deleteEmployee('${emp.id}')" class="btn-tactile btn-ghost p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Hapus Karyawan"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -3196,10 +3697,14 @@ function doPost(e) {
         }
 
         function applyCompanyBranding() {
-            document.getElementById('sidebarOrgName').innerText = companySettings.name;
-            document.getElementById('topbarCompany').innerText = companySettings.name;
-            const logoText = companySettings.name.split(' ').map(n => n[0]).join('').substring(0, 3).toUpperCase();
-            document.getElementById('sidebarOrgLogo').innerText = logoText || "MFA";
+            const compName = (companySettings && companySettings.name) ? companySettings.name : "MFA Studio";
+            const elOrgName = document.getElementById('sidebarOrgName');
+            if (elOrgName) elOrgName.innerText = compName;
+            const elTopbarComp = document.getElementById('topbarCompany');
+            if (elTopbarComp) elTopbarComp.innerText = compName;
+            const logoText = compName.split(/\s+/).filter(Boolean).map(n => n[0]).join('').substring(0, 3).toUpperCase();
+            const elOrgLogo = document.getElementById('sidebarOrgLogo');
+            if (elOrgLogo) elOrgLogo.innerText = logoText || "MFA";
         }
 
         // ================= SLIP GAJI MODAL =================
@@ -3229,6 +3734,14 @@ function doPost(e) {
 
             document.getElementById('modalGajiBersih').innerText = formatRupiah(calc.gajiBersih);
 
+            // Beban Perusahaan & CTC
+            const elBpjsKesKantor = document.getElementById('modalBpjsKesKantor');
+            if (elBpjsKesKantor) elBpjsKesKantor.innerText = formatRupiah(calc.bpjsKesPerusahaan);
+            const elBpjsTkKantor = document.getElementById('modalBpjsTkKantor');
+            if (elBpjsTkKantor) elBpjsTkKantor.innerText = formatRupiah(calc.bpjsTkPerusahaan);
+            const elTotalCTC = document.getElementById('modalTotalCTC');
+            if (elTotalCTC) elTotalCTC.innerText = formatRupiah(calc.totalCTC);
+
             document.getElementById('slipModal').classList.remove('hidden');
             document.getElementById('slipModal').classList.add('flex');
             lucide.createIcons();
@@ -3237,6 +3750,127 @@ function doPost(e) {
         function closeSlipModal() {
             document.getElementById('slipModal').classList.add('hidden');
             document.getElementById('slipModal').classList.remove('flex');
+        }
+
+        // ================= CETAK SLIP GAJI MASSAL (BULK PRINT) =================
+        function bulkPrintSlips() {
+            let targetEmps = [];
+            if (typeof selectedIds !== 'undefined' && selectedIds.size > 0) {
+                targetEmps = employees.filter(e => selectedIds.has(e.id));
+            } else {
+                targetEmps = [...employees];
+            }
+
+            if (targetEmps.length === 0) {
+                alert("Belum ada data karyawan untuk dicetak slip.");
+                return;
+            }
+
+            const container = document.getElementById('bulkPrintContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            targetEmps.forEach((emp, idx) => {
+                const calc = calculatePayrollForEmployee(emp);
+                const page = document.createElement('div');
+                page.className = 'slip-page';
+                page.innerHTML = `
+                    <div style="border-bottom: 2px solid #1B3B2B; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 28px; height: 28px; background: #1B3B2B; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">MFA</div>
+                                <h2 style="font-size: 18px; font-weight: 800; color: #111827; margin: 0;">${companySettings.name}</h2>
+                            </div>
+                            <p style="font-size: 11px; color: #4B5563; margin-top: 4px;">NPWP: ${companySettings.npwp || '-'} · Sistem HRIS & Penggajian Terintegrasi</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="font-size: 12px; font-weight: 800; color: #1B3B2B; background: #ECFDF5; padding: 4px 10px; border-radius: 9999px; border: 1px solid #A7F3D0;">SLIP GAJI RESMI</span>
+                            <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">Periode: Oktober 2026</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; background: #F9FAFB; padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 11px;">
+                        <div>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Nama Karyawan: <strong style="color: #111827;">${emp.name}</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">NIK / ID: <strong style="color: #111827;">${emp.id}</strong></p>
+                            <p style="color: #6B7280;">Departemen: <strong style="color: #111827;">${emp.dept}</strong></p>
+                        </div>
+                        <div>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Jabatan: <strong style="color: #111827;">${emp.role}</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Status PTKP: <strong style="color: #111827;">${emp.ptkp} (${calc.terCat})</strong></p>
+                            <p style="color: #6B7280;">Masa Kerja: <strong style="color: #111827;">${emp.masaKerja || 12} Bulan</strong></p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 11px; margin-bottom: 16px;">
+                        <!-- Penerimaan -->
+                        <div style="border-left: 3px solid #10B981; padding-left: 10px;">
+                            <h4 style="font-size: 11px; font-weight: bold; color: #065F46; text-transform: uppercase; margin-bottom: 8px;">A. Penerimaan (Penghasilan Bruto)</h4>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr><td style="padding: 3px 0; color: #4B5563;">Gaji Pokok</td><td style="text-align: right; font-weight: 600;">${formatRupiah(emp.pokok)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">Tunjangan Tetap</td><td style="text-align: right; font-weight: 600;">${formatRupiah(emp.tunjangan)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">Lembur Biasa (TUL 1/173)</td><td style="text-align: right; font-weight: 600;">${formatRupiah(calc.lemburBiasaNominal)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">Lembur Libur Resmi</td><td style="text-align: right; font-weight: 600;">${formatRupiah(calc.lemburLiburNominal)}</td></tr>
+                                <tr style="border-top: 1px solid #E5E7EB; font-weight: bold; color: #111827;"><td style="padding: 4px 0;">Total Penghasilan Bruto</td><td style="text-align: right;">${formatRupiah(calc.totalBruto)}</td></tr>
+                            </table>
+                        </div>
+
+                        <!-- Potongan -->
+                        <div style="border-left: 3px solid #EF4444; padding-left: 10px;">
+                            <h4 style="font-size: 11px; font-weight: bold; color: #991B1B; text-transform: uppercase; margin-bottom: 8px;">B. Potongan Resmi</h4>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr><td style="padding: 3px 0; color: #4B5563;">Pot. Unpaid Leave (PP 36/2021)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.potonganAlpha)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">BPJS Kesehatan (1% Pekerja)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.bpjsKesKaryawan)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">BPJS TK (JHT 2% + JP 1%)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.bpjsTkKaryawan)}</td></tr>
+                                <tr><td style="padding: 3px 0; color: #4B5563;">PPh 21 (${calc.terCat} - ${(calc.terRate * 100).toFixed(2)}%)</td><td style="text-align: right; font-weight: 600; color: #DC2626;">- ${formatRupiah(calc.pph21)}</td></tr>
+                                <tr style="border-top: 1px solid #E5E7EB; font-weight: bold; color: #DC2626;"><td style="padding: 4px 0;">Total Potongan</td><td style="text-align: right;">- ${formatRupiah(calc.totalPotongan)}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Take Home Pay Card -->
+                    <div style="background: #ECFDF5; border: 1.5px solid #10B981; border-radius: 10px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            <span style="font-weight: 800; font-size: 13px; color: #065F46; display: block;">TAKE HOME PAY (GAJI BERSIH)</span>
+                            <span style="font-size: 10px; color: #047857;">Hak Bersih Diterima Karyawan</span>
+                        </div>
+                        <span style="font-size: 18px; font-weight: 900; color: #1B3B2B;">${formatRupiah(calc.gajiBersih)}</span>
+                    </div>
+
+                    <!-- CTC / Employer Burden -->
+                    <div style="border-left: 3px solid #3B82F6; padding-left: 10px; margin-bottom: 20px; font-size: 11px;">
+                        <h4 style="font-size: 11px; font-weight: bold; color: #1E40AF; text-transform: uppercase; margin-bottom: 8px;">C. Beban Perusahaan (Cost to Company / CTC)</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr><td style="padding: 2px 0; color: #4B5563;">BPJS Kesehatan Kantor (4% - Maks Rp480.000)</td><td style="text-align: right; font-weight: 600;">${formatRupiah(calc.bpjsKesPerusahaan)}</td></tr>
+                            <tr><td style="padding: 2px 0; color: #4B5563;">BPJS TK Kantor (JKK, JKM, JHT 3.7%, JP 2%)</td><td style="text-align: right; font-weight: 600;">${formatRupiah(calc.bpjsTkPerusahaan)}</td></tr>
+                            <tr style="border-top: 1px solid #BFDBFE; font-weight: bold; color: #1E3A8A;"><td style="padding: 3px 0;">Total Beban CTC Perusahaan</td><td style="text-align: right;">${formatRupiah(calc.totalCTC)}</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; font-size: 11px; text-align: center;">
+                        <div>
+                            <p style="color: #6B7280; margin-bottom: 40px;">Diterima oleh Karyawan,</p>
+                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${emp.name}</p>
+                        </div>
+                        <div>
+                            <p style="color: #6B7280; margin-bottom: 40px;">Disahkan oleh HR & Finance,</p>
+                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${companySettings.name}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(page);
+            });
+
+            closeSlipModal();
+            container.classList.remove('hidden');
+
+            window.print();
+
+            setTimeout(() => {
+                container.classList.add('hidden');
+                container.innerHTML = '';
+            }, 1000);
         }
 
         // ================= SIMULATOR PPH 21 =================
@@ -3326,14 +3960,17 @@ function doPost(e) {
             const tableHeaders = [
                 "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", 
                 "Gaji Pokok", "Tunjangan Tetap", "Lembur Biasa", "Lembur Libur", 
-                "Total Lembur", "Potongan Alpha", "Gaji Bruto", "BPJS Kesehatan", 
-                "BPJS TK", "PPh 21 (TER)", "Total Potongan", "Gaji Bersih (THP)"
+                "Total Lembur", "Potongan Alpha", "Gaji Bruto", "BPJS Kes Karyawan", 
+                "BPJS Kes Kantor", "BPJS TK Karyawan", "BPJS TK Kantor", "PPh 21 TER", 
+                "Total Potongan", "Take Home Pay", "Total CTC Perusahaan"
             ];
 
             let rowData = [];
             let totPokok = 0, totTunjangan = 0, totLemburBiasa = 0, totLemburLibur = 0;
             let totLembur = 0, totAlpha = 0, totBruto = 0;
-            let totBpjsKes = 0, totBpjsTk = 0, totPph21 = 0, totPotongan = 0, totBersih = 0;
+            let totBpjsKesKar = 0, totBpjsKesPer = 0;
+            let totBpjsTkKar = 0, totBpjsTkPer = 0;
+            let totPph21 = 0, totPotongan = 0, totBersih = 0, totCTC = 0;
 
             employees.forEach((emp, index) => {
                 const calc = calculatePayrollForEmployee(emp);
@@ -3344,11 +3981,14 @@ function doPost(e) {
                 totLembur += calc.totalLembur;
                 totAlpha += calc.potonganAlpha;
                 totBruto += calc.totalBruto;
-                totBpjsKes += calc.bpjsKesKaryawan;
-                totBpjsTk += calc.bpjsTkKaryawan;
+                totBpjsKesKar += calc.bpjsKesKaryawan;
+                totBpjsKesPer += calc.bpjsKesPerusahaan;
+                totBpjsTkKar += calc.bpjsTkKaryawan;
+                totBpjsTkPer += calc.bpjsTkPerusahaan;
                 totPph21 += calc.pph21;
                 totPotongan += calc.totalPotongan;
                 totBersih += calc.gajiBersih;
+                totCTC += calc.totalCTC;
 
                 rowData.push([
                     index + 1,
@@ -3364,18 +4004,22 @@ function doPost(e) {
                     calc.potonganAlpha,
                     calc.totalBruto,
                     calc.bpjsKesKaryawan,
+                    calc.bpjsKesPerusahaan,
                     calc.bpjsTkKaryawan,
+                    calc.bpjsTkPerusahaan,
                     calc.pph21,
                     calc.totalPotongan,
-                    calc.gajiBersih
+                    calc.gajiBersih,
+                    calc.totalCTC
                 ]);
             });
 
             const summaryRow = [
                 "", "TOTAL", `${employees.length} Karyawan`, "", "",
                 totPokok, totTunjangan, totLemburBiasa, totLemburLibur,
-                totLembur, totAlpha, totBruto, totBpjsKes,
-                totBpjsTk, totPph21, totPotongan, totBersih
+                totLembur, totAlpha, totBruto, totBpjsKesKar,
+                totBpjsKesPer, totBpjsTkKar, totBpjsTkPer, totPph21,
+                totPotongan, totBersih, totCTC
             ];
 
             const allRows = [...titleRows, tableHeaders, ...rowData, summaryRow];
@@ -3395,23 +4039,26 @@ function doPost(e) {
                 { wch: 18 }, // Total Lembur
                 { wch: 16 }, // Pot. Alpha
                 { wch: 20 }, // Gaji Bruto
-                { wch: 18 }, // BPJS Kes
-                { wch: 18 }, // BPJS TK
-                { wch: 18 }, // PPh 21
+                { wch: 18 }, // BPJS Kes Karyawan
+                { wch: 18 }, // BPJS Kes Kantor
+                { wch: 18 }, // BPJS TK Karyawan
+                { wch: 18 }, // BPJS TK Kantor
+                { wch: 18 }, // PPh 21 TER
                 { wch: 18 }, // Total Potongan
-                { wch: 22 }  // Gaji Bersih
+                { wch: 22 }, // Take Home Pay
+                { wch: 22 }  // Total CTC Perusahaan
             ];
 
-            // Format angka menjadi Rupiah untuk semua sel nominal
-            const startRow = titleRows.length + 1; // 0-based index 5
+            // Format angka menjadi Rupiah untuk semua sel nominal (kolom 5 sampai 19)
+            const startRow = titleRows.length + 1; // 0-based index
             const endRow = allRows.length - 1;
             for (let r = startRow; r <= endRow; r++) {
-                [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].forEach(c => {
+                for (let c = 5; c <= 19; c++) {
                     const cellAddr = XLSX.utils.encode_cell({ r, c });
                     if (ws[cellAddr] && typeof ws[cellAddr].v === 'number') {
                         ws[cellAddr].z = '"Rp "#,##0';
                     }
-                });
+                }
             }
 
             XLSX.utils.book_append_sheet(wb, ws, "Rekap Payroll");
@@ -3477,10 +4124,10 @@ function doPost(e) {
                 return;
             }
 
-            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes,BPJS TK,PPh 21,Total Potongan,Gaji Bersih\n";
+            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
-                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsTkKaryawan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih}\n`;
+                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
             });
 
             // Prepend \uFEFF UTF-8 BOM agar Excel membukanya langsung rapi tanpa error encoding
@@ -3488,10 +4135,10 @@ function doPost(e) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${companySettings.name.replace(/\s+/g, '_')}_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `${(companySettings.name || 'MFA_Studio').replace(/\s+/g, '_')}_Payroll_Report_${new Date().toISOString().slice(0, 10)}.csv`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast("Laporan Payroll CSV (UTF-8 BOM) berhasil diunduh!");
+            showToast("Laporan Payroll CSV (Audit-Ready UTF-8) berhasil diunduh!");
         }
 
         // ================= VIEW SWITCHER =================
@@ -3500,12 +4147,13 @@ function doPost(e) {
             views.forEach(v => {
                 const el = document.getElementById('view-' + v);
                 const nav = document.getElementById('nav-' + v);
+                const hasBadge = ['karyawan', 'persetujuan', 'bnsp'].includes(v);
                 if (v === viewName) {
                     if (el) el.classList.remove('hidden');
-                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active transition text-left";
+                    if (nav) nav.className = `w-full flex items-center ${hasBadge ? 'justify-between' : 'gap-3'} px-3 py-2 rounded-xl nav-item-active btn-tactile text-left transition-all`;
                 } else {
                     if (el) el.classList.add('hidden');
-                    if (nav) nav.className = "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 transition font-medium text-left";
+                    if (nav) nav.className = `w-full flex items-center ${hasBadge ? 'justify-between' : 'gap-3'} px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all`;
                 }
             });
 
@@ -3536,23 +4184,25 @@ function doPost(e) {
             const tabs = ['Semua', 'Siap', 'Tinjau'];
             tabs.forEach(t => {
                 const el = document.getElementById('tab' + t);
+                if (!el) return;
                 if (t.toLowerCase() === filterType) {
-                    el.className = "px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition";
+                    el.className = "btn-tactile px-3.5 py-1.5 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold transition-all";
                 } else {
-                    el.className = "px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition";
+                    el.className = "btn-tactile px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all";
                 }
             });
             renderPayrollTable();
         }
 
         function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value;
+            const input = document.getElementById('searchInput');
+            searchQuery = input ? input.value : '';
             currentPage = 1;
             renderPayrollTable();
         }
 
         function toggleSelectAll(master) {
-            if (master.checked) {
+            if (master && master.checked) {
                 employees.forEach(e => selectedIds.add(e.id));
             } else {
                 selectedIds.clear();
@@ -3572,11 +4222,13 @@ function doPost(e) {
         }
 
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('-translate-x-full');
         }
 
         function showToast(msg) {
             const container = document.getElementById('toastContainer');
+            if (!container) return;
             const toast = document.createElement('div');
             toast.className = "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 pointer-events-auto animate-in slide-in-from-bottom-2 duration-200 border border-gray-800 dark:border-gray-200";
             toast.innerHTML = `
@@ -3592,6 +4244,24 @@ function doPost(e) {
             }, 3000);
         }
 
+        // ================= GLOBAL MODAL DISMISSAL & ESCAPE KEY HANDLER =================
+        function closeAllModals() {
+            closeSheetsModal();
+            closeKompensasiModal();
+            closeThrModal();
+            closePesangonModal();
+            closeProrataModal();
+            closeEmployeeModal();
+            closeSlipModal();
+            closeTaxSimulatorModal();
+            closeApprovalModal();
+        }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                closeAllModals();
+            }
+        });
+
         // Inisialisasi awal
         document.addEventListener('DOMContentLoaded', () => {
             applyTheme();
@@ -3599,5 +4269,8 @@ function doPost(e) {
             renderAll();
         });
     </script>
+
+    <!-- CONTAINER CETAK SLIP GAJI MASSAL (BULK PRINT) -->
+    <div id="bulkPrintContainer" class="hidden"></div>
 </body>
 </html>
