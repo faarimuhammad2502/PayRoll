@@ -43,6 +43,11 @@ MFA Payroll is built with native calculation matrices strictly aligned with Indo
 * **Termination & Severance Calculator (PHK):** Formulaic assessment of severance pay (*UP*), service appreciation pay (*UPMK*), and compensation rights (*UPH*).
 * **Statutory Overtime Matrix:** Standardized hourly multiplier formulas (1.5x initial hour, 2.0x subsequent weekday hours, up to 3.0x/4.0x holiday rates).
 
+### 3. STATUTORY WAGE STRUCTURE & SCALE &bull; PERMENAKER NO. 1 TAHUN 2017
+* **Official Wage Scale Reference Matrix:** Integrated matrix of 29 benchmark roles across 5 departments (Engineering, Design, Finance, Marketing, HR & Operations) mapping job grades (Grade 1-5), job levels, and salary ranges.
+* **Mandatory 75% Basic Wage Rule (Pasal 94 UU 13/2003):** Strict compliance engine ensuring the basic wage component constitutes >= 75% of total fixed compensation.
+* **Auto-Nominal Salary Population:** Instant cascading dropdown between department and role, automatically populating official statutory benchmark wages and overtime rates (TUL 1/173).
+
 ---
 
 ## MULTI-TIER CORPORATE APPROVAL WORKFLOW
@@ -69,8 +74,12 @@ Each transaction state is timestamped, locked against edits post-submission, and
 
 ## CORE SYSTEM CAPABILITIES
 
-### EMPLOYEE MASTER DATA MANAGEMENT
-Centralized repository tracking full employee lifecycle data: employment type (*PKWT, PKWTT, Internship*), department taxonomy, base remuneration packages, tax classification (*PTKP*), and banking routing codes.
+### EMPLOYEE MASTER DATA & BANK DISBURSEMENT
+Centralized repository tracking full employee lifecycle data: employment type (*PKWT, PKWTT, Internship*), department taxonomy, base remuneration packages, tax classification (*PTKP*), and banking routing codes (BCA, Mandiri, BRI, BNI, BSI, CIMB Niaga, Permata, Jago, SeaBank).
+
+### DYNAMIC PAYROLL PERIODS & 1-CLICK BACKUP
+* **Dynamic Month & Year Picker:** Seamlessly shift between payroll periods (`YYYY-MM`) with auto-reconciled dates, approval titles, payslip headers, and report filenames.
+* **1-Click JSON Backup & Restore:** Export complete offline snapshots of employees, attendance, settings, and scale matrices in encrypted/auditable JSON format, with one-click full system restore.
 
 ### DIGITAL PAYSLIP & AUTOMATED PRINT ENGINE
 * Dynamic generation of professional, corporate-branded payslips with itemized gross earnings, statutory deductions, tax withholdings, and net payable compensation.

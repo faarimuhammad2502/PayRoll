@@ -1161,13 +1161,18 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400">
-                            <div>
-                                <span>01–31 Oktober 2026</span>
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Pilih Periode:</span>
+                                <input type="month" id="payrollMonthPicker" value="2026-10" onchange="changePayrollPeriod(this.value)" class="text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer">
                             </div>
-                            <div class="h-3 w-px bg-gray-200 dark:bg-gray-700"></div>
+                            <div class="h-3 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
                             <div>
-                                Tanggal pembayaran <span class="font-bold text-gray-900 dark:text-white ml-1">27 Okt 2026</span>
+                                <span id="periodDateRange">01–31 Oktober 2026</span>
+                            </div>
+                            <div class="h-3 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
+                            <div>
+                                Tanggal pembayaran <span class="font-bold text-gray-900 dark:text-white ml-1" id="periodPayDate">27 Okt 2026</span>
                             </div>
                         </div>
                     </div>
@@ -1210,7 +1215,7 @@
                             </div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">Pembayaran</p>
-                                <p class="text-[11px] text-gray-400">27 Oktober 2026</p>
+                                <p class="text-[11px] text-gray-400" id="periodStepPayDate">27 Oktober 2026</p>
                             </div>
                         </div>
                     </div>
@@ -1442,10 +1447,16 @@
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Master Data Karyawan</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola data identitas, masa kerja, jabatan, dan komponen gaji pokok karyawan.</p>
                     </div>
-                    <button onclick="openEmployeeModal()" class="btn-tactile btn-primary px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Tambah Karyawan</span>
-                    </button>
+                    <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                        <button onclick="openAcuanUpahModal()" class="btn-tactile btn-secondary px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all inline-flex items-center">
+                            <i data-lucide="book-open" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                            <span>Tabel Acuan Upah Resmi</span>
+                        </button>
+                        <button onclick="openEmployeeModal()" class="btn-tactile btn-primary px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all inline-flex items-center">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Tambah Karyawan</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl shadow-2xs overflow-hidden">
@@ -1521,7 +1532,7 @@
                 <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-6 shadow-2xs space-y-6">
                     <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
                         <div>
-                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Pengajuan Payroll Periode Oktober 2026</h3>
+                            <h3 class="text-base font-bold text-gray-900 dark:text-white" id="approvalPeriodTitle">Pengajuan Payroll Periode Oktober 2026</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5" id="approvalSubtext">Total nilai pembayaran: Rp0 untuk 0 karyawan</p>
                         </div>
                         <span class="badge-amber px-3 py-1 rounded-full text-xs font-bold" id="approvalStateBadge">Draft / Siap Diajukan</span>
@@ -1689,6 +1700,45 @@
                             <div class="flex justify-between py-1.5 border-b border-gray-100 dark:border-gray-800">
                                 <span>Uang Kompensasi PKWT</span>
                                 <span class="font-bold text-purple-700 dark:text-purple-400">Pasal 16 PP 35/2021</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cadangan & Pemulihan Data JSON (Backup & Restore) -->
+                    <div class="bg-white dark:bg-[#15202E] p-6 rounded-2xl border border-gray-200 dark:border-[#1E2E40] shadow-2xs space-y-4 md:col-span-2">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    <i data-lucide="database" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                                    Cadangan &amp; Pemulihan Data (Backup &amp; Restore 1-Click)
+                                </h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Amankan seluruh data master karyawan, riwayat absensi, periode payroll, dan pengaturan perusahaan dalam satu file JSON.</p>
+                            </div>
+                            <span class="badge-green px-2.5 py-0.5 rounded-full text-[11px] font-bold">Client-Side Safe</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                            <div class="p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/40 space-y-2">
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                                    <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
+                                    Unduh Cadangan (Backup Data)
+                                </h4>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Simpan seluruh data saat ini ke file JSON di komputer Anda untuk arsip offline.</p>
+                                <button type="button" onclick="downloadBackupJson()" class="btn-tactile btn-emerald px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-2xs inline-flex items-center">
+                                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                                    <span>Download Backup JSON</span>
+                                </button>
+                            </div>
+                            <div class="p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/40 space-y-2">
+                                <h4 class="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                                    <i data-lucide="upload" class="w-3.5 h-3.5 text-blue-600"></i>
+                                    Pulihkan Data (Restore Data)
+                                </h4>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400">Muat kembali data dari file backup JSON yang pernah Anda unduh sebelumnya.</p>
+                                <label class="btn-tactile btn-secondary px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-2xs cursor-pointer inline-flex items-center">
+                                    <i data-lucide="upload" class="w-3.5 h-3.5 text-blue-600"></i>
+                                    <span>Pilih File Backup JSON</span>
+                                    <input type="file" id="restoreJsonInput" accept=".json" onchange="restoreBackupJson(event)" class="hidden">
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -2100,6 +2150,74 @@
         </div>
     </div>
 
+    <!-- 3.5 MODAL TABEL ACUAN STRUKTUR & SKALA UPAH RESMI (PERMENAKER 1/2017) -->
+    <div id="acuanUpahModal" onclick="if(event.target === this) closeAcuanUpahModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-3 sm:p-4 transition-all">
+        <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-5xl w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[92vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between pb-3 border-b border-gray-100 dark:border-gray-800 shrink-0">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="badge-green px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Permenaker No. 1/2017</span>
+                        <span class="badge-blue px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">PP 35 &amp; 36/2021</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mt-1">Tabel Acuan Struktur &amp; Skala Upah Resmi</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Matriks acuan golongan jabatan, rentang upah, gaji pokok, tunjangan tetap, dan tarif lembur (TUL 1/173) per departemen.</p>
+                </div>
+                <button onclick="closeAcuanUpahModal()" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Filter & Search Bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0" id="acuanDeptFilterTabs">
+                    <button type="button" onclick="filterAcuanUpahTable('Semua')" class="acuan-tab-btn active btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 shadow-2xs">Semua (24 Posisi)</button>
+                    <button type="button" onclick="filterAcuanUpahTable('Engineering')" class="acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Engineering (8)</button>
+                    <button type="button" onclick="filterAcuanUpahTable('Design')" class="acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Design (5)</button>
+                    <button type="button" onclick="filterAcuanUpahTable('Finance')" class="acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Finance (5)</button>
+                    <button type="button" onclick="filterAcuanUpahTable('Marketing')" class="acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Marketing (5)</button>
+                    <button type="button" onclick="filterAcuanUpahTable('HR & Operations')" class="acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">HR &amp; Ops (6)</button>
+                </div>
+                <div class="relative w-full sm:w-64">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="acuanSearchInput" oninput="onAcuanSearch(this.value)" placeholder="Cari jabatan atau grade..." class="w-full pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-white">
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="overflow-x-auto flex-1 border border-gray-100 dark:border-gray-800 rounded-xl">
+                <table class="w-full text-left text-xs">
+                    <thead class="sticky top-0 bg-gray-50 dark:bg-gray-800/90 backdrop-blur-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 font-semibold z-10">
+                        <tr>
+                            <th class="px-4 py-3">Golongan &amp; Level</th>
+                            <th class="px-4 py-3">Jabatan &amp; Departemen</th>
+                            <th class="px-4 py-3">Rentang Skala Upah</th>
+                            <th class="px-4 py-3">Gaji Pokok Acuan</th>
+                            <th class="px-4 py-3">Tunj. Tetap</th>
+                            <th class="px-4 py-3">Upah Sebulan (100%)</th>
+                            <th class="px-4 py-3">Tarif Lembur (1/173)</th>
+                            <th class="px-4 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="acuanUpahTableBody" class="divide-y divide-gray-100 dark:divide-gray-800 text-gray-700 dark:text-gray-300 font-medium">
+                        <!-- Diisi via renderAcuanUpahTable() -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Compliance Footnote -->
+            <div class="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-800/40 text-[11px] text-emerald-900 dark:text-emerald-300 flex items-center justify-between shrink-0 flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                    <span><strong>Kepatuhan UU Cipta Kerja &amp; Permenaker 1/2017:</strong> Gaji pokok minimal 75% dari total upah tetap. Skala upah ini menjadi acuan tunggal saat pengisian data karyawan.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closeAcuanUpahModal()" class="btn-tactile btn-primary px-4 py-1.5 rounded-xl text-xs font-semibold shadow-xs">Selesai Meninjau</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 4. MODAL TAMBAH / EDIT KARYAWAN -->
     <div id="employeeModal" onclick="if(event.target === this) closeEmployeeModal()" class="fixed inset-0 bg-black/40 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
         <div class="bg-white dark:bg-[#15202E] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-gray-100 dark:border-[#1E2E40] max-h-[90vh] overflow-y-auto">
@@ -2126,7 +2244,9 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Departemen</label>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-gray-700 dark:text-gray-300 font-semibold">Departemen</label>
+                        </div>
                         <select id="empDept" onchange="onDeptChange()" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium">
                             <option value="Engineering">Engineering / IT</option>
                             <option value="Design">Product &amp; Design</option>
@@ -2138,9 +2258,9 @@
                     <div>
                         <div class="flex items-center justify-between mb-1">
                             <label class="block text-gray-700 dark:text-gray-300 font-semibold">Jabatan / Posisi</label>
-                            <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                                <i data-lucide="sparkles" class="w-3 h-3"></i> Auto Nominal
-                            </span>
+                            <button type="button" onclick="openAcuanUpahModal(document.getElementById('empDept').value)" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1">
+                                <i data-lucide="book-open" class="w-3 h-3"></i> Acuan Upah
+                            </button>
                         </div>
                         <select id="empRoleSelect" onchange="onRoleSelectChange(true)" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium">
                             <!-- Diisi dinamis via JS sesuai Departemen -->
@@ -2152,6 +2272,15 @@
                 <div id="empRoleCustomContainer" class="hidden">
                     <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Tulis Nama Jabatan / Posisi Baru</label>
                     <input type="text" id="empRoleCustom" placeholder="Contoh: AI Research Specialist" class="w-full p-2.5 rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50/40 dark:bg-emerald-950/20 text-gray-900 dark:text-white font-medium placeholder-gray-400">
+                </div>
+
+                <!-- Auto-Nominal Benchmark Indicator -->
+                <div id="empSalaryAcuanBadge" class="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/50 flex items-center justify-between text-[11px] text-emerald-800 dark:text-emerald-300">
+                    <div class="flex items-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                        <span>Gaji otomatis disesuaikan dengan <strong>Acuan Struktur &amp; Skala Upah</strong> resmi.</span>
+                    </div>
+                    <button type="button" onclick="openAcuanUpahModal(document.getElementById('empDept').value)" class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 hover:underline uppercase tracking-wider shrink-0">Buka Acuan &rarr;</button>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -2204,6 +2333,29 @@
                     </div>
                 </div>
 
+                <!-- Informasi Rekening Bank Karyawan -->
+                <div class="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100 dark:border-gray-800">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Bank Pembayaran Gaji</label>
+                        <select id="empBankName" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium">
+                            <option value="BCA">BCA (Bank Central Asia)</option>
+                            <option value="Bank Mandiri">Bank Mandiri</option>
+                            <option value="BRI">BRI (Bank Rakyat Indonesia)</option>
+                            <option value="BNI">BNI (Bank Negara Indonesia)</option>
+                            <option value="BSI">BSI (Bank Syariah Indonesia)</option>
+                            <option value="CIMB Niaga">CIMB Niaga</option>
+                            <option value="Bank Permata">Bank Permata</option>
+                            <option value="Bank Jago">Bank Jago</option>
+                            <option value="SeaBank">SeaBank</option>
+                            <option value="Lainnya">Lainnya / Tunai</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Nomor Rekening Bank</label>
+                        <input type="text" id="empBankRekening" placeholder="Contoh: 8271928371" class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-mono font-medium">
+                    </div>
+                </div>
+
                 <div class="pt-3 flex justify-end gap-2.5 border-t border-gray-100 dark:border-gray-800">
                     <button type="button" onclick="closeEmployeeModal()" class="btn-tactile btn-secondary px-4.5 py-2.5 rounded-xl text-xs font-semibold">Batal</button>
                     <button type="submit" class="btn-tactile btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm">Simpan Data Karyawan</button>
@@ -2233,10 +2385,13 @@
             <div class="space-y-4 text-xs">
                 <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60">
                     <div>
-                        <span class="text-gray-500 dark:text-gray-400 block text-[11px]">Perusahaan & Periode</span>
+                        <span class="text-gray-500 dark:text-gray-400 block text-[11px]">Perusahaan &amp; Periode</span>
                         <span class="font-bold text-gray-900 dark:text-white" id="slipModalCompanyHeader">MFA Studio · Oktober 2026</span>
                     </div>
-                    <span class="badge-green px-2.5 py-0.5 rounded-full font-bold text-[11px]">Sah & Terverifikasi</span>
+                    <div class="text-right">
+                        <span class="text-gray-500 dark:text-gray-400 block text-[11px]">Rekening Pencairan</span>
+                        <span class="font-bold font-mono text-gray-900 dark:text-white text-xs" id="slipModalBankRekening">BCA · 8271928371</span>
+                    </div>
                 </div>
 
                 <!-- Penerimaan -->
@@ -2453,13 +2608,125 @@
 
         // Sample Data Template
         const sampleEmployees = [
-            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer", dept: "Design", avatar: "AW", pokok: 12000000, tunjangan: 1500000, ptkp: "TK/0", masaKerja: 14, status: "siap" },
-            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 15000000, tunjangan: 2000000, ptkp: "K/1", masaKerja: 26, status: "siap" },
-            { id: "MFA-003", name: "Citra Maharani", role: "Finance Analyst", dept: "Finance", avatar: "CM", pokok: 10000000, tunjangan: 1000000, ptkp: "TK/1", masaKerja: 9, status: "siap" },
-            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive", dept: "Marketing", avatar: "DP", pokok: 9000000, tunjangan: 1250000, ptkp: "K/0", masaKerja: 5, status: "tinjau" },
-            { id: "MFA-005", name: "Eka Putri", role: "People Operations", dept: "HR & Operations", avatar: "EP", pokok: 11000000, tunjangan: 1000000, ptkp: "TK/0", masaKerja: 18, status: "siap" },
-            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 9500000, tunjangan: 1000000, ptkp: "K/2", masaKerja: 11, status: "siap" }
+            { id: "MFA-001", name: "Ayu Wulandari", role: "Product Designer / UI/UX", dept: "Design", avatar: "AW", pokok: 11000000, tunjangan: 1500000, ptkp: "TK/0", masaKerja: 14, status: "siap", bank: "BCA", rekening: "8271928371" },
+            { id: "MFA-002", name: "Bima Saputra", role: "Software Engineer", dept: "Engineering", avatar: "BS", pokok: 12000000, tunjangan: 1500000, ptkp: "K/1", masaKerja: 26, status: "siap", bank: "Bank Mandiri", rekening: "1370019283741" },
+            { id: "MFA-003", name: "Citra Maharani", role: "Staff Akuntansi & Finance", dept: "Finance", avatar: "CM", pokok: 7000000, tunjangan: 1000000, ptkp: "TK/1", masaKerja: 9, status: "siap", bank: "BNI", rekening: "0982314567" },
+            { id: "MFA-004", name: "Dimas Pratama", role: "Account Executive / B2B Sales", dept: "Marketing", avatar: "DP", pokok: 8000000, tunjangan: 1500000, ptkp: "K/0", masaKerja: 5, status: "tinjau", bank: "BRI", rekening: "012301982736501" },
+            { id: "MFA-005", name: "Eka Putri", role: "HR Generalist", dept: "HR & Operations", avatar: "EP", pokok: 7500000, tunjangan: 1000000, ptkp: "TK/0", masaKerja: 18, status: "siap", bank: "BSI", rekening: "7123984712" },
+            { id: "MFA-006", name: "Fajar Ramadhan", role: "Marketing Specialist", dept: "Marketing", avatar: "FR", pokok: 7500000, tunjangan: 1000000, ptkp: "K/2", masaKerja: 11, status: "siap", bank: "CIMB Niaga", rekening: "701928374612" }
         ];
+
+
+        // ================= PERIODE PAYROLL & STATE MANAJEMEN =================
+        let currentPayrollPeriod = localStorage.getItem('mfa_payroll_period') || '2026-10';
+
+        function getPeriodDetails(periodStr) {
+            const parts = (periodStr || '2026-10').split('-');
+            const year = parseInt(parts[0], 10) || 2026;
+            const month = parseInt(parts[1], 10) || 10;
+            const date = new Date(year, month - 1, 1);
+            const monthName = date.toLocaleDateString('id-ID', { month: 'long' });
+            const lastDay = new Date(year, month, 0).getDate();
+
+            return {
+                year,
+                month,
+                title: `${monthName} ${year}`,
+                dateRange: `01–${lastDay} ${monthName} ${year}`,
+                payDate: `27 ${monthName.slice(0, 3)} ${year}`,
+                fullPayDate: `27 ${monthName} ${year}`
+            };
+        }
+
+        function updatePeriodDisplay() {
+            const details = getPeriodDetails(currentPayrollPeriod);
+            const elPicker = document.getElementById('payrollMonthPicker');
+            if (elPicker) elPicker.value = currentPayrollPeriod;
+
+            const elTitle = document.getElementById('periodTitle');
+            if (elTitle) elTitle.innerText = details.title;
+
+            const elRange = document.getElementById('periodDateRange');
+            if (elRange) elRange.innerText = details.dateRange;
+
+            const elPay = document.getElementById('periodPayDate');
+            if (elPay) elPay.innerText = details.payDate;
+
+            const elStepPay = document.getElementById('periodStepPayDate');
+            if (elStepPay) elStepPay.innerText = details.fullPayDate;
+
+            const elApprovalTitle = document.getElementById('approvalPeriodTitle');
+            if (elApprovalTitle) elApprovalTitle.innerText = `Pengajuan Payroll Periode ${details.title}`;
+        }
+
+        function changePayrollPeriod(newPeriod) {
+            if (!newPeriod) return;
+            currentPayrollPeriod = newPeriod;
+            localStorage.setItem('mfa_payroll_period', newPeriod);
+            updatePeriodDisplay();
+            renderAll();
+            const details = getPeriodDetails(newPeriod);
+            showToast(`Periode payroll dialihkan ke ${details.title}`);
+        }
+
+        // ================= CADANGAN & PEMULIHAN DATA JSON (1-CLICK BACKUP & RESTORE) =================
+        function downloadBackupJson() {
+            const backupData = {
+                app: "MFA HRIS & PayRoll Enterprise",
+                version: "2.2.0",
+                timestamp: new Date().toISOString(),
+                period: currentPayrollPeriod,
+                companySettings: companySettings,
+                employees: employees,
+                attendance: attendance,
+                stats: {
+                    totalEmployees: employees.length,
+                    exportedAt: new Date().toLocaleString('id-ID')
+                }
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `MFA_PAYROLL_BACKUP_${new Date().toISOString().slice(0, 10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Cadangan data JSON berhasil diunduh!");
+        }
+
+        function restoreBackupJson(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!data.employees || !Array.isArray(data.employees)) {
+                        alert("Format file JSON tidak valid. Pastikan file merupakan hasil backup dari MFA HRIS & PayRoll.");
+                        return;
+                    }
+
+                    const exportDate = (data.stats && data.stats.exportedAt) ? data.stats.exportedAt : 'sebelumnya';
+                    if (confirm(`Pulihkan ${data.employees.length} data karyawan dari cadangan tanggal ${exportDate}? Data saat ini akan digantikan.`)) {
+                        employees = data.employees;
+                        if (data.attendance) attendance = data.attendance;
+                        if (data.companySettings) companySettings = data.companySettings;
+                        if (data.period) currentPayrollPeriod = data.period;
+
+                        saveToStorage();
+                        updatePeriodDisplay();
+                        renderAll();
+                        showToast("Data sistem berhasil dipulihkan dari cadangan JSON!");
+                    }
+                } catch (err) {
+                    alert("Gagal membaca file JSON: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
 
         function formatRupiah(num) {
             return 'Rp' + Math.round(num || 0).toLocaleString('id-ID');
@@ -3630,7 +3897,7 @@ function doPost(e) {
                             </div>
                             <div>
                                 <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
-                                <p class="text-[11px] text-gray-400">${emp.id}</p>
+                                <p class="text-[11px] text-gray-400">${emp.id}${emp.bank ? ` · <span class="font-mono text-emerald-700 dark:text-emerald-400 font-semibold">${emp.bank} ${emp.rekening || ''}</span>` : ''}</p>
                             </div>
                         </div>
                     </td>
@@ -3730,43 +3997,43 @@ function doPost(e) {
         // ================= MASTER DEPARTEMEN & JABATAN DENGAN BENCHMARK GAJI =================
         const DEPARTMENT_ROLES = {
             "Engineering": [
-                { role: "Software Engineer", pokok: 12000000, tunjangan: 1500000 },
-                { role: "Senior Software Engineer", pokok: 18000000, tunjangan: 2500000 },
-                { role: "Tech Lead / Engineering Manager", pokok: 25000000, tunjangan: 3500000 },
-                { role: "Frontend Developer", pokok: 10000000, tunjangan: 1500000 },
-                { role: "Backend Developer", pokok: 11000000, tunjangan: 1500000 },
-                { role: "QA Engineer / Software Tester", pokok: 9000000, tunjangan: 1200000 },
-                { role: "DevOps & Cloud Engineer", pokok: 15000000, tunjangan: 2000000 },
-                { role: "IT Support Specialist", pokok: 6500000, tunjangan: 1000000 }
+                { role: "IT Support Specialist", grade: "Grade 1", level: "Support / Entry", pokok: 6500000, tunjangan: 1000000, minUpah: 6000000, maxUpah: 8500000, kualifikasi: "D3/S1 IT, 0-2 thn" },
+                { role: "QA Engineer / Software Tester", grade: "Grade 2", level: "Junior / Assoc", pokok: 9000000, tunjangan: 1200000, minUpah: 8000000, maxUpah: 11500000, kualifikasi: "S1 IT, 1-3 thn" },
+                { role: "Frontend Developer", grade: "Grade 3", level: "Mid / Specialist", pokok: 10000000, tunjangan: 1500000, minUpah: 9000000, maxUpah: 13500000, kualifikasi: "S1 IT, React/Vue/Tailwind 2+ thn" },
+                { role: "Backend Developer", grade: "Grade 3", level: "Mid / Specialist", pokok: 11000000, tunjangan: 1500000, minUpah: 10000000, maxUpah: 14500000, kualifikasi: "S1 IT, Node/Go/PostgreSQL 2+ thn" },
+                { role: "Software Engineer", grade: "Grade 3", level: "Mid / Specialist", pokok: 12000000, tunjangan: 1500000, minUpah: 11000000, maxUpah: 15500000, kualifikasi: "S1 IT / CS, Fullstack 2-4 thn" },
+                { role: "DevOps & Cloud Engineer", grade: "Grade 4", level: "Senior Specialist", pokok: 15000000, tunjangan: 2000000, minUpah: 14000000, maxUpah: 20000000, kualifikasi: "S1 IT, Docker/K8s/AWS 3-5 thn" },
+                { role: "Senior Software Engineer", grade: "Grade 4", level: "Senior Specialist", pokok: 18000000, tunjangan: 2500000, minUpah: 16000000, maxUpah: 23500000, kualifikasi: "S1/S2 IT, Arsitektur Sistem 5+ thn" },
+                { role: "Tech Lead / Engineering Manager", grade: "Grade 5", level: "Lead / Manager", pokok: 25000000, tunjangan: 3500000, minUpah: 22000000, maxUpah: 32000000, kualifikasi: "S1/S2 CS, People & Tech Lead 6+ thn" }
             ],
             "Design": [
-                { role: "Product Designer / UI/UX", pokok: 11000000, tunjangan: 1500000 },
-                { role: "Senior UI/UX Designer", pokok: 16000000, tunjangan: 2000000 },
-                { role: "Product Manager", pokok: 17000000, tunjangan: 2500000 },
-                { role: "Graphic Designer & Creative", pokok: 7500000, tunjangan: 1000000 },
-                { role: "Motion & Brand Designer", pokok: 9500000, tunjangan: 1200000 }
+                { role: "Graphic Designer & Creative", grade: "Grade 2", level: "Junior / Assoc", pokok: 7500000, tunjangan: 1000000, minUpah: 6500000, maxUpah: 9500000, kualifikasi: "D3/S1 DKV, Adobe/Figma 1-3 thn" },
+                { role: "Motion & Brand Designer", grade: "Grade 3", level: "Mid / Specialist", pokok: 9500000, tunjangan: 1200000, minUpah: 8500000, maxUpah: 12000000, kualifikasi: "S1 DKV, After Effects/3D 2+ thn" },
+                { role: "Product Designer / UI/UX", grade: "Grade 3", level: "Mid / Specialist", pokok: 11000000, tunjangan: 1500000, minUpah: 9500000, maxUpah: 14000000, kualifikasi: "S1 Desain/IT, Figma/Design System 2-4 thn" },
+                { role: "Senior UI/UX Designer", grade: "Grade 4", level: "Senior Specialist", pokok: 16000000, tunjangan: 2000000, minUpah: 14000000, maxUpah: 20000000, kualifikasi: "S1 Desain, UX Research & DS 4+ thn" },
+                { role: "Product Manager", grade: "Grade 5", level: "Lead / Manager", pokok: 17000000, tunjangan: 2500000, minUpah: 15000000, maxUpah: 24000000, kualifikasi: "S1/S2 Bisnis/IT, Product Roadmap 4-6 thn" }
             ],
             "Finance": [
-                { role: "Staff Akuntansi & Finance", pokok: 7000000, tunjangan: 1000000 },
-                { role: "Senior Accountant", pokok: 12000000, tunjangan: 1800000 },
-                { role: "Tax Specialist (Pajak PPh & PPN)", pokok: 10000000, tunjangan: 1500000 },
-                { role: "Payroll & Compensation Officer", pokok: 8500000, tunjangan: 1200000 },
-                { role: "Finance Manager", pokok: 20000000, tunjangan: 3000000 }
+                { role: "Staff Akuntansi & Finance", grade: "Grade 2", level: "Junior / Assoc", pokok: 7000000, tunjangan: 1000000, minUpah: 6000000, maxUpah: 9000000, kualifikasi: "S1 Akuntansi, Brevet A/B 1-3 thn" },
+                { role: "Payroll & Compensation Officer", grade: "Grade 3", level: "Mid / Specialist", pokok: 8500000, tunjangan: 1200000, minUpah: 7500000, maxUpah: 11000000, kualifikasi: "S1 Akuntansi/HR, Sertifikasi Payroll 2+ thn" },
+                { role: "Tax Specialist (Pajak PPh & PPN)", grade: "Grade 3", level: "Mid / Specialist", pokok: 10000000, tunjangan: 1500000, minUpah: 9000000, maxUpah: 13000000, kualifikasi: "S1 Perpajakan/Akuntansi, Brevet C 2-4 thn" },
+                { role: "Senior Accountant", grade: "Grade 4", level: "Senior Specialist", pokok: 12000000, tunjangan: 1800000, minUpah: 10500000, maxUpah: 16000000, kualifikasi: "S1 Akuntansi, IFRS & Audit 4+ thn" },
+                { role: "Finance Manager", grade: "Grade 5", level: "Lead / Manager", pokok: 20000000, tunjangan: 3000000, minUpah: 17000000, maxUpah: 26000000, kualifikasi: "S1/S2 Keuangan/Akuntansi, Manajerial 5+ thn" }
             ],
             "Marketing": [
-                { role: "Marketing Specialist", pokok: 7500000, tunjangan: 1000000 },
-                { role: "Digital Marketing & Growth Lead", pokok: 12000000, tunjangan: 1800000 },
-                { role: "Account Executive / B2B Sales", pokok: 8000000, tunjangan: 1500000 },
-                { role: "Content Creator & Copywriter", pokok: 6500000, tunjangan: 1000000 },
-                { role: "Marketing & Brand Manager", pokok: 18000000, tunjangan: 2500000 }
+                { role: "Content Creator & Copywriter", grade: "Grade 2", level: "Junior / Assoc", pokok: 6500000, tunjangan: 1000000, minUpah: 5500000, maxUpah: 8500000, kualifikasi: "S1 Komunikasi, Copy & Storytelling 1-3 thn" },
+                { role: "Marketing Specialist", grade: "Grade 2", level: "Junior / Assoc", pokok: 7500000, tunjangan: 1000000, minUpah: 6500000, maxUpah: 9500000, kualifikasi: "S1 Manajemen/Komunikasi, Campaign 1-3 thn" },
+                { role: "Account Executive / B2B Sales", grade: "Grade 3", level: "Mid / Specialist", pokok: 8000000, tunjangan: 1500000, minUpah: 7000000, maxUpah: 12000000, kualifikasi: "S1 Komunikasi/Bisnis, B2B Deal-Closing 2+ thn" },
+                { role: "Digital Marketing & Growth Lead", grade: "Grade 4", level: "Senior Specialist", pokok: 12000000, tunjangan: 1800000, minUpah: 10500000, maxUpah: 16000000, kualifikasi: "S1 Pemasaran, SEO/SEM & Ads 3-5 thn" },
+                { role: "Marketing & Brand Manager", grade: "Grade 5", level: "Lead / Manager", pokok: 18000000, tunjangan: 2500000, minUpah: 15000000, maxUpah: 24000000, kualifikasi: "S1/S2 Marketing, Brand Strategy 5+ thn" }
             ],
             "HR & Operations": [
-                { role: "HR Generalist", pokok: 7500000, tunjangan: 1000000 },
-                { role: "Talent Acquisition & Recruiter", pokok: 8500000, tunjangan: 1200000 },
-                { role: "People & Culture Specialist", pokok: 9000000, tunjangan: 1500000 },
-                { role: "Operations Specialist", pokok: 7000000, tunjangan: 1000000 },
-                { role: "HR & Operational Manager", pokok: 19000000, tunjangan: 2800000 },
-                { role: "Office Administrator", pokok: 5500000, tunjangan: 800000 }
+                { role: "Office Administrator", grade: "Grade 1", level: "Support / Entry", pokok: 5500000, tunjangan: 800000, minUpah: 5000000, maxUpah: 7000000, kualifikasi: "D3/S1 Administrasi, Office & Filing 0-2 thn" },
+                { role: "Operations Specialist", grade: "Grade 2", level: "Junior / Assoc", pokok: 7000000, tunjangan: 1000000, minUpah: 6000000, maxUpah: 9000000, kualifikasi: "S1 Manajemen/Teknik Industri, SOP 1-3 thn" },
+                { role: "HR Generalist", grade: "Grade 2", level: "Junior / Assoc", pokok: 7500000, tunjangan: 1000000, minUpah: 6500000, maxUpah: 9500000, kualifikasi: "S1 Psikologi/Hukum/Manajemen, HR Ops 1-3 thn" },
+                { role: "Talent Acquisition & Recruiter", grade: "Grade 3", level: "Mid / Specialist", pokok: 8500000, tunjangan: 1200000, minUpah: 7500000, maxUpah: 11000000, kualifikasi: "S1 Psikologi/HR, End-to-end Hiring 2+ thn" },
+                { role: "People & Culture Specialist", grade: "Grade 3", level: "Mid / Specialist", pokok: 9000000, tunjangan: 1500000, minUpah: 8000000, maxUpah: 12500000, kualifikasi: "S1 Psikologi/SDM, People Engagement 2-4 thn" },
+                { role: "HR & Operational Manager", grade: "Grade 5", level: "Lead / Manager", pokok: 19000000, tunjangan: 2800000, minUpah: 16000000, maxUpah: 25000000, kualifikasi: "S1/S2 Psikologi/Hukum, Leadership SDM 5+ thn" }
             ]
         };
 
@@ -3850,13 +4117,146 @@ function doPost(e) {
             updateNominalPreviews();
         }
 
+
+        // ================= TABEL ACUAN STRUKTUR & SKALA UPAH RESMI (PERMENAKER 1/2017) =================
+        let currentAcuanDeptFilter = 'Semua';
+        let acuanSearchTerm = '';
+
+        function openAcuanUpahModal(deptFilter = 'Semua') {
+            currentAcuanDeptFilter = deptFilter || 'Semua';
+            const modal = document.getElementById('acuanUpahModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            filterAcuanUpahTable(currentAcuanDeptFilter);
+            lucide.createIcons();
+        }
+
+        function closeAcuanUpahModal() {
+            const modal = document.getElementById('acuanUpahModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function filterAcuanUpahTable(dept) {
+            currentAcuanDeptFilter = dept;
+            const tabButtons = document.querySelectorAll('#acuanDeptFilterTabs .acuan-tab-btn');
+            tabButtons.forEach(btn => {
+                const text = btn.innerText;
+                const matches = (dept === 'Semua' && text.startsWith('Semua')) || (dept !== 'Semua' && text.includes(dept.split(' ')[0]));
+                if (matches) {
+                    btn.className = "acuan-tab-btn active btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 shadow-2xs";
+                } else {
+                    btn.className = "acuan-tab-btn btn-tactile px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800";
+                }
+            });
+            renderAcuanUpahTable();
+        }
+
+        function onAcuanSearch(query) {
+            acuanSearchTerm = (query || '').toLowerCase().trim();
+            renderAcuanUpahTable();
+        }
+
+        function renderAcuanUpahTable() {
+            const tbody = document.getElementById('acuanUpahTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let allRoles = [];
+            Object.keys(DEPARTMENT_ROLES).forEach(deptKey => {
+                if (currentAcuanDeptFilter === 'Semua' || currentAcuanDeptFilter === deptKey) {
+                    DEPARTMENT_ROLES[deptKey].forEach(item => {
+                        allRoles.push({ ...item, dept: deptKey });
+                    });
+                }
+            });
+
+            if (acuanSearchTerm) {
+                allRoles = allRoles.filter(r => 
+                    r.role.toLowerCase().includes(acuanSearchTerm) ||
+                    r.dept.toLowerCase().includes(acuanSearchTerm) ||
+                    (r.grade && r.grade.toLowerCase().includes(acuanSearchTerm)) ||
+                    (r.level && r.level.toLowerCase().includes(acuanSearchTerm))
+                );
+            }
+
+            if (allRoles.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-gray-400">Tidak ada jabatan atau kriteria acuan yang cocok.</td></tr>`;
+                return;
+            }
+
+            allRoles.forEach(item => {
+                const totalUpah = item.pokok + item.tunjangan;
+                const tulJam = Math.round(totalUpah / 173);
+                const pokokRatio = ((item.pokok / totalUpah) * 100).toFixed(0);
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-emerald-50/30 dark:hover:bg-gray-800/50 transition border-b border-gray-100 dark:border-gray-800";
+                tr.innerHTML = `
+                    <td class="px-4 py-3">
+                        <span class="inline-block px-2 py-0.5 rounded-md font-bold text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">${item.grade || 'Grade 3'}</span>
+                        <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">${item.level || 'Specialist'}</p>
+                    </td>
+                    <td class="px-4 py-3">
+                        <p class="font-bold text-gray-900 dark:text-white">${item.role}</p>
+                        <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold">${item.dept}</span>
+                            <span class="text-[10px] text-gray-400">${item.kualifikasi || ''}</span>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 font-mono text-[11px] text-gray-600 dark:text-gray-300">
+                        ${formatRupiah(item.minUpah)} – ${formatRupiah(item.maxUpah)}
+                    </td>
+                    <td class="px-4 py-3 font-bold font-mono text-gray-900 dark:text-white">
+                        ${formatRupiah(item.pokok)}
+                        <span class="text-[10px] text-emerald-600 font-semibold ml-1">(${pokokRatio}%)</span>
+                    </td>
+                    <td class="px-4 py-3 font-mono text-gray-600 dark:text-gray-300">
+                        ${formatRupiah(item.tunjangan)}
+                    </td>
+                    <td class="px-4 py-3 font-bold font-mono text-emerald-800 dark:text-emerald-300">
+                        ${formatRupiah(totalUpah)}
+                    </td>
+                    <td class="px-4 py-3 font-mono text-gray-600 dark:text-gray-300">
+                        ${formatRupiah(tulJam)}/jam
+                    </td>
+                    <td class="px-4 py-3 text-right">
+                        <button type="button" onclick="useAcuanSalary('${item.dept}', '${item.role.replace(/'/g, "\\'")}', ${item.pokok}, ${item.tunjangan})" class="btn-tactile btn-primary px-3 py-1.5 rounded-xl text-xs font-semibold gap-1 shadow-2xs inline-flex items-center" title="Terapkan jabatan dan nominal ini ke form karyawan">
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                            <span>Gunakan</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        function useAcuanSalary(dept, role, pokok, tunjangan) {
+            closeAcuanUpahModal();
+            openEmployeeModal();
+            const deptSelect = document.getElementById('empDept');
+            if (deptSelect) deptSelect.value = dept;
+            onDeptChange(role);
+            const pokokInput = document.getElementById('empPokok');
+            if (pokokInput) pokokInput.value = pokok;
+            const tunjInput = document.getElementById('empTunjangan');
+            if (tunjInput) tunjInput.value = tunjangan;
+            updateNominalPreviews();
+            showToast(`Acuan gaji ${role} (${dept}) berhasil diterapkan ke form!`);
+        }
+
         // ================= CRUD KARYAWAN =================
         function openEmployeeModal() {
             document.getElementById('empFormIndex').value = "-1";
             document.getElementById('empModalTitle').innerText = "Tambah Karyawan Baru";
             document.getElementById('empForm').reset();
             document.getElementById('empNik').value = "MFA-00" + (employees.length + 1);
-            onDeptChange(); // Otomatis mengisi opsi jabatan dan nominal gaji & tunjangan default!
+            if (document.getElementById('empBankName')) document.getElementById('empBankName').value = 'BCA';
+            if (document.getElementById('empBankRekening')) document.getElementById('empBankRekening').value = '';
+            onDeptChange(); // Otomatis mengisi opsi jabatan dan nominal gaji & tunjangan default sesuai acuan!
             updateNominalPreviews();
             document.getElementById('employeeModal').classList.remove('hidden');
             document.getElementById('employeeModal').classList.add('flex');
@@ -3889,6 +4289,9 @@ function doPost(e) {
 
             const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
+            const bank = document.getElementById('empBankName') ? document.getElementById('empBankName').value : 'BCA';
+            const rekening = document.getElementById('empBankRekening') ? document.getElementById('empBankRekening').value.trim() : '';
+
             const empData = {
                 id,
                 name,
@@ -3899,6 +4302,8 @@ function doPost(e) {
                 tunjangan,
                 ptkp,
                 masaKerja,
+                bank,
+                rekening,
                 status: "siap"
             };
 
@@ -3932,6 +4337,8 @@ function doPost(e) {
             updateNominalPreviews();
             document.getElementById('empPtkp').value = emp.ptkp || 'TK/0';
             document.getElementById('empMasaKerja').value = emp.masaKerja || 12;
+            if (document.getElementById('empBankName')) document.getElementById('empBankName').value = emp.bank || 'BCA';
+            if (document.getElementById('empBankRekening')) document.getElementById('empBankRekening').value = emp.rekening || '';
 
             document.getElementById('employeeModal').classList.remove('hidden');
             document.getElementById('employeeModal').classList.add('flex');
@@ -4063,10 +4470,13 @@ function doPost(e) {
             currentModalEmp = emp;
             const calc = calculatePayrollForEmployee(emp);
 
+            const periodDetails = getPeriodDetails(currentPayrollPeriod);
             document.getElementById('modalAvatar').innerText = emp.avatar || emp.name.substring(0, 2).toUpperCase();
             document.getElementById('modalName').innerText = emp.name;
             document.getElementById('modalSub').innerText = `${emp.id} · ${emp.role} (${emp.dept}) · Masa Kerja ${emp.masaKerja || 12} Bulan`;
-            document.getElementById('slipModalCompanyHeader').innerText = `${companySettings.name} · Periode Oktober 2026`;
+            document.getElementById('slipModalCompanyHeader').innerText = `${companySettings.name} · ${periodDetails.title}`;
+            const elBank = document.getElementById('slipModalBankRekening');
+            if (elBank) elBank.innerText = `${emp.bank || 'BCA'} · ${emp.rekening || '-'}`;
             
             document.getElementById('modalGajiPokok').innerText = formatRupiah(emp.pokok);
             document.getElementById('modalTunjangan').innerText = formatRupiah(emp.tunjangan);
@@ -4134,7 +4544,7 @@ function doPost(e) {
                         </div>
                         <div style="text-align: right;">
                             <span style="font-size: 12px; font-weight: 800; color: #1B3B2B; background: #ECFDF5; padding: 4px 10px; border-radius: 9999px; border: 1px solid #A7F3D0;">SLIP GAJI RESMI</span>
-                            <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">Periode: Oktober 2026</p>
+                            <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">Periode: ${getPeriodDetails(currentPayrollPeriod).title} | Rekening: ${emp.bank || 'BCA'} ${emp.rekening ? '• ' + emp.rekening : ''}</p>
                         </div>
                     </div>
 
@@ -4307,7 +4717,7 @@ function doPost(e) {
             ];
 
             const tableHeaders = [
-                "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", 
+                "No", "ID Karyawan", "Nama Karyawan", "Jabatan", "Departemen", "Bank Pembayaran", "No Rekening",
                 "Gaji Pokok", "Tunjangan Tetap", "Lembur Biasa", "Lembur Libur", 
                 "Total Lembur", "Potongan Alpha", "Gaji Bruto", "BPJS Kes Karyawan", 
                 "BPJS Kes Kantor", "BPJS TK Karyawan", "BPJS TK Kantor", "PPh 21 TER", 
@@ -4345,6 +4755,8 @@ function doPost(e) {
                     emp.name,
                     emp.role,
                     emp.dept,
+                    emp.bank || 'BCA',
+                    emp.rekening || '-',
                     emp.pokok,
                     emp.tunjangan,
                     calc.lemburBiasaNominal,
@@ -4473,10 +4885,10 @@ function doPost(e) {
                 return;
             }
 
-            let csv = "ID,Nama,Jabatan,Departemen,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
+            let csv = "ID,Nama,Jabatan,Departemen,Bank Pembayaran,No Rekening,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
-                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
+                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
             });
 
             // Prepend \uFEFF UTF-8 BOM agar Excel membukanya langsung rapi tanpa error encoding
@@ -4621,6 +5033,7 @@ function doPost(e) {
             closePesangonModal();
             closeProrataModal();
             closeEmployeeModal();
+            closeAcuanUpahModal();
             closeSlipModal();
             closeTaxSimulatorModal();
             closeApprovalModal();
@@ -4639,6 +5052,7 @@ function doPost(e) {
             }
             applyTheme();
             applyCompanyBranding();
+            updatePeriodDisplay();
             renderAll();
         });
     </script>
