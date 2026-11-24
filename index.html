@@ -403,22 +403,72 @@
                 display: none !important;
             }
         }
+
+        /* ==========================================================================
+           DESKTOP & MOBILE SIDEBAR COLLAPSE / FULL-WIDTH ENGINE
+           ========================================================================== */
+        #sidebar {
+            transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #mainContent {
+            transition: margin-left 260ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Desktop default (>=1024px) */
+        @media (min-width: 1024px) {
+            #sidebar {
+                transform: translateX(0);
+            }
+            #mainContent {
+                margin-left: 270px;
+            }
+            /* When user collapses sidebar on desktop (Full Content Mode) */
+            body.sidebar-collapsed #sidebar {
+                transform: translateX(-100%) !important;
+            }
+            body.sidebar-collapsed #mainContent {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Mobile (<1024px) */
+        @media (max-width: 1023px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+            #mainContent {
+                margin-left: 0 !important;
+            }
+            /* When mobile drawer is opened */
+            body.sidebar-mobile-open #sidebar {
+                transform: translateX(0) !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex text-[13px] bg-[#F8F9FA] dark:bg-[#0B1118] text-[#1E293B] dark:text-[#E2E8F0] transition-colors duration-200">
 
+    <!-- MOBILE BACKDROP OVERLAY -->
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-35 hidden transition-opacity duration-300"></div>
+
     <!-- SIDEBAR -->
-    <aside id="sidebar" class="w-[270px] bg-[#FAFAFA] dark:bg-[#0F172A] border-r border-[#ECECEC] dark:border-[#1E293B] flex flex-col justify-between fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:translate-x-0 -translate-x-full">
+    <aside id="sidebar" class="w-[270px] bg-[#FAFAFA] dark:bg-[#0F172A] border-r border-[#ECECEC] dark:border-[#1E293B] flex flex-col justify-between fixed inset-y-0 left-0 z-40 shadow-xl lg:shadow-none">
         <div class="flex flex-col flex-1 overflow-y-auto">
-            <!-- Brand Logo with MFA Monogram -->
-            <div class="px-6 pt-6 pb-4 flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-[#1B3B2B] flex items-center justify-center text-white font-extrabold shadow-sm text-xs tracking-tight">
-                    MFA
+            <!-- Brand Logo with MFA Monogram & Collapse Button -->
+            <div class="px-5 pt-5 pb-3 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-[#1B3B2B] flex items-center justify-center text-white font-extrabold shadow-sm text-xs tracking-tight shrink-0">
+                        MFA
+                    </div>
+                    <div class="flex items-baseline gap-1.5">
+                        <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">mfa</span>
+                        <span class="text-[10px] font-bold tracking-widest text-mfa-600 dark:text-emerald-400 uppercase">PAYROLL</span>
+                    </div>
                 </div>
-                <div class="flex items-baseline gap-1.5">
-                    <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">mfa</span>
-                    <span class="text-[10px] font-bold tracking-widest text-mfa-600 dark:text-emerald-400 uppercase">PAYROLL</span>
-                </div>
+                <!-- Quick Close Button inside Sidebar -->
+                <button onclick="toggleSidebar()" class="btn-tactile btn-ghost p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" title="Sembunyikan Menu (Mode Full Content)">
+                    <i data-lucide="panel-left-close" class="w-4 h-4"></i>
+                </button>
             </div>
 
             <!-- Workspace Selector Card -->
@@ -438,46 +488,52 @@
             </div>
 
             <!-- Navigation Links -->
-            <nav class="px-3 pt-3 space-y-5">
+            <nav class="px-3 pt-2 space-y-4">
                 <!-- Section 1: OPERASIONAL PAYROLL -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Operasional Payroll</p>
+                    <p class="px-3.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-1.5">Operasional Payroll</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                <span>Ringkasan</span>
+                            <button onclick="switchView('ringkasan')" id="nav-ringkasan" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="layout-grid" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Ringkasan</span>
+                                </div>
                             </button>
                         </li>
                         <li>
                             <!-- Active Default Menu: Penggajian -->
-                            <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl nav-item-active btn-tactile text-left transition-all">
-                                <i data-lucide="wallet" class="w-4 h-4 text-[#173823] dark:text-emerald-300"></i>
-                                <span class="font-semibold">Penggajian</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <i data-lucide="calendar" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                <span>Kehadiran &amp; Lembur</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="users" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                    <span>Data Karyawan</span>
+                            <button onclick="switchView('penggajian')" id="nav-penggajian" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl nav-item-active btn-tactile font-semibold text-left transition-all shadow-xs">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="wallet" class="w-4 h-4 text-[#173823] dark:text-emerald-300 shrink-0"></i>
+                                    <span class="truncate">Penggajian</span>
                                 </div>
-                                <span class="bg-gray-200/80 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarKaryawanCount">0</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                    <span>Persetujuan</span>
+                            <button onclick="switchView('kehadiran')" id="nav-kehadiran" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Kehadiran &amp; Lembur</span>
                                 </div>
-                                <span class="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-bold px-1.5 py-0.5 rounded-full" id="sidebarApprovalCount">0</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="switchView('karyawan')" id="nav-karyawan" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="users" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Data Karyawan</span>
+                                </div>
+                                <span class="bg-gray-200/80 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0" id="sidebarKaryawanCount">0</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="switchView('persetujuan')" id="nav-persetujuan" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Persetujuan</span>
+                                </div>
+                                <span class="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0" id="sidebarApprovalCount">0</span>
                             </button>
                         </li>
                     </ul>
@@ -485,21 +541,23 @@
 
                 <!-- Section 2: ANALISIS & REGULASI -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Analisis &amp; Regulasi</p>
+                    <p class="px-3.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-1.5">Analisis &amp; Regulasi</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600 dark:text-emerald-400"></i>
-                                    <span class="font-semibold text-gray-800 dark:text-gray-200">10 Rumus Payroll UU</span>
+                            <button onclick="switchView('bnsp')" id="nav-bnsp" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="book-open-check" class="w-4 h-4 text-mfa-600 dark:text-emerald-400 shrink-0"></i>
+                                    <span class="truncate">10 Rumus Payroll UU</span>
                                 </div>
-                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">BNSP</span>
+                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shrink-0">BNSP</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <i data-lucide="line-chart" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                <span>Laporan</span>
+                            <button onclick="switchView('laporan')" id="nav-laporan" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Laporan</span>
+                                </div>
                             </button>
                         </li>
                     </ul>
@@ -507,21 +565,23 @@
 
                 <!-- Section 3: PENGATURAN & INTEGRASI -->
                 <div>
-                    <p class="px-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-2">Pengaturan &amp; Integrasi</p>
+                    <p class="px-3.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-1.5">Pengaturan &amp; Integrasi</p>
                     <ul class="space-y-1">
                         <li>
-                            <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                                    <span>Excel &amp; Google Sheets</span>
+                            <button onclick="openSheetsModal()" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0"></i>
+                                    <span class="truncate">Excel &amp; Google Sheets</span>
                                 </div>
-                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">Sync</span>
+                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0">Sync</span>
                             </button>
                         </li>
                         <li>
-                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
-                                <i data-lucide="sliders" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                                <span>Pengaturan Perusahaan</span>
+                            <button onclick="switchView('pengaturan')" id="nav-pengaturan" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i data-lucide="sliders" class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0"></i>
+                                    <span class="truncate">Pengaturan Perusahaan</span>
+                                </div>
                             </button>
                         </li>
                     </ul>
@@ -529,7 +589,7 @@
             </nav>
         </div>
 
-        <!-- Sidebar User Footer Card (Ringkas, Elegan, Profesional) -->
+        <!-- Sidebar User Footer Card (Ringkas, Elegan, Presisi) -->
         <div class="p-3 border-t border-[#ECECEC] dark:border-[#1E293B]">
             <div class="p-2.5 rounded-2xl bg-white dark:bg-[#15202E] border border-gray-200/90 dark:border-[#1E2E40] shadow-xs flex items-center justify-between gap-2.5 transition-all hover:border-gray-300 dark:hover:border-gray-700">
                 <div class="flex items-center gap-2.5 min-w-0">
@@ -537,18 +597,14 @@
                         <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1B3B2B] to-[#12281D] text-white flex items-center justify-center text-xs font-bold shadow-xs">
                             FA
                         </div>
-                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white dark:border-[#15202E] rounded-full"></span>
+                        <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-emerald-500 border-2 border-white dark:border-[#15202E] rounded-full"></span>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-1.5">
-                            <p class="text-xs font-bold text-gray-900 dark:text-white truncate leading-tight">Faari</p>
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <p class="text-xs font-bold text-gray-900 dark:text-white truncate">Faari</p>
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                         </div>
-                        <p class="text-[11px] text-gray-400 dark:text-gray-400 truncate leading-tight">Lead HR &amp; Administrator</p>
-                        <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold leading-tight mt-0.5 flex items-center gap-1">
-                            <span class="inline-block w-1 h-1 rounded-full bg-emerald-500"></span>
-                            Online / Tersinkron
-                        </p>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 truncate">Lead HR Administrator</p>
                     </div>
                 </div>
                 <button title="Pengaturan & Profil" onclick="switchView('pengaturan')" class="btn-tactile btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 shrink-0 transition-all">
@@ -558,13 +614,13 @@
         </div>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 lg:ml-[270px] flex flex-col min-w-0">
+    <!-- MAIN CONTENT AREA (Collapsible to Full Width) -->
+    <div id="mainContent" class="flex-1 flex flex-col min-w-0 transition-all duration-300">
 
         <!-- TOP BAR -->
-        <header class="h-14 bg-white/70 dark:bg-[#0F172A]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#1E293B] px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
+        <header class="h-14 bg-white/70 dark:bg-[#0F172A]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#1E293B] px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-20">
             <div class="flex items-center gap-3">
-                <button onclick="toggleSidebar()" class="btn-tactile btn-ghost p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all">
+                <button onclick="toggleSidebar()" id="sidebarToggleBtn" class="btn-tactile btn-ghost p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all" title="Sembunyikan / Tampilkan Menu (Sidebar)">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
                 <!-- Breadcrumbs -->
@@ -608,7 +664,7 @@
         </header>
 
         <!-- MAIN SCROLLABLE CONTAINER -->
-        <main class="p-6 sm:p-8 space-y-6 max-w-7xl w-full mx-auto">
+        <main class="p-5 sm:p-7 lg:p-8 space-y-6 w-full max-w-[1700px] mx-auto transition-all duration-300">
 
             <!-- ================= VIEW: 10 RUMUS PAYROLL RESMI UU ================= -->
             <section id="view-bnsp" class="space-y-6 hidden">
@@ -971,39 +1027,41 @@
             <!-- ================= VIEW: PENGGAJIAN (CORE VIEW) ================= -->
             <section id="view-penggajian" class="space-y-6">
                 <!-- Page Title & Header Actions -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-1">
                     <div>
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Penggajian</h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola payroll dengan akurat. Pastikan setiap kerja keras terbayar.</p>
                     </div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="sendPayrollToGoogleSheets()" class="btn-tactile btn-emerald px-4 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all" title="Kirim & perbarui data payroll ke Google Sheets secara otomatis">
-                            <i data-lucide="send" class="w-4 h-4"></i>
-                            <span>Kirim ke Google Sheets</span>
+                    <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                        <button onclick="sendPayrollToGoogleSheets()" class="btn-tactile btn-emerald px-3.5 py-2 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all shrink-0" title="Kirim & perbarui data payroll ke Google Sheets secara otomatis">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>Google Sheets</span>
                         </button>
-                        <button onclick="bulkPrintSlips()" class="btn-tactile btn-secondary px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-2xs transition-all inline-flex items-center" title="Cetak slip gaji massal (karyawan terpilih atau semua karyawan)">
-                            <i data-lucide="printer" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                            <span id="bulkPrintBtnLabel">Cetak Slip Massal</span>
+                        <button onclick="bulkPrintSlips()" class="btn-tactile btn-secondary px-3.5 py-2 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all inline-flex items-center shrink-0" title="Cetak slip gaji massal (karyawan terpilih atau semua karyawan)">
+                            <i data-lucide="printer" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400"></i>
+                            <span id="bulkPrintBtnLabel">Cetak Slip (0)</span>
                         </button>
-                        <button onclick="exportPayrollExcel()" class="btn-tactile btn-tint-emerald px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-2xs transition-all" title="Unduh Laporan Excel .xlsx otomatis rapi dengan formula & kolom pas">
-                            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                            <span>Ekspor Excel (.xlsx)</span>
-                        </button>
-                        <button onclick="exportPayrollCsv()" class="btn-tactile btn-secondary px-3.5 py-2.5 rounded-xl text-xs font-semibold gap-1.5 shadow-2xs transition-all" title="Unduh Format CSV">
-                            <i data-lucide="download" class="w-4 h-4 text-gray-500 dark:text-gray-400"></i>
-                            <span>CSV</span>
-                        </button>
-                        <button onclick="openApprovalModal()" class="btn-tactile btn-primary px-4.5 py-2.5 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all">
-                            <span>Ajukan persetujuan</span>
-                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        <div class="inline-flex rounded-xl shadow-2xs overflow-hidden border border-gray-200 dark:border-gray-700 shrink-0">
+                            <button onclick="exportPayrollExcel()" class="btn-tactile bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 px-3 py-2 text-xs font-semibold gap-1.5 border-r border-gray-200 dark:border-gray-700 transition-all" title="Unduh Laporan Excel .xlsx otomatis rapi">
+                                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+                                <span>Excel</span>
+                            </button>
+                            <button onclick="exportPayrollCsv()" class="btn-tactile bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-2 text-xs font-semibold gap-1 transition-all" title="Unduh Format CSV">
+                                <i data-lucide="download" class="w-3.5 h-3.5 text-gray-500"></i>
+                                <span>CSV</span>
+                            </button>
+                        </div>
+                        <button onclick="openApprovalModal()" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold gap-2 shadow-sm transition-all shrink-0">
+                            <span>Ajukan Persetujuan</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 6 Metric Cards (Enterprise Dynamic Calculation & CTC) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5">
                     <!-- Total Gaji Bersih -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between hover:shadow-xs transition-all">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
                             <span class="text-xs font-medium">Total gaji bersih</span>
                             <i data-lucide="wallet" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
@@ -1017,7 +1075,7 @@
                     </div>
 
                     <!-- Total Penghasilan Bruto -->
-                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between hover:shadow-xs transition-all">
                         <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
                             <span class="text-xs font-medium">Total gaji bruto</span>
                             <i data-lucide="layers" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
@@ -1031,14 +1089,14 @@
                     </div>
 
                     <!-- Total Beban Perusahaan (CTC) -->
-                    <div class="bg-white dark:bg-[#15202E] border border-blue-200 dark:border-blue-900/60 rounded-2xl p-4 shadow-2xs flex flex-col justify-between bg-gradient-to-br from-white to-blue-50/30 dark:from-[#15202E] dark:to-blue-950/20">
-                        <div class="flex items-center justify-between text-blue-700 dark:text-blue-400 mb-2">
-                            <span class="text-xs font-bold">Beban Perusahaan (CTC)</span>
+                    <div class="bg-white dark:bg-[#15202E] border border-[#E9EAE8] dark:border-[#1E2E40] rounded-2xl p-4 shadow-2xs flex flex-col justify-between hover:shadow-xs transition-all">
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+                            <span class="text-xs font-medium">Beban Perusahaan (CTC)</span>
                             <i data-lucide="building-2" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
                         </div>
                         <div>
-                            <h2 class="text-xl font-extrabold text-blue-900 dark:text-blue-300 tracking-tight" id="metricTotalCTC">Rp0</h2>
-                            <div class="mt-1.5 text-[11px] text-blue-600 dark:text-blue-400 font-medium">
+                            <h2 class="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight" id="metricTotalCTC">Rp0</h2>
+                            <div class="mt-1.5 text-[11px] text-gray-500 dark:text-gray-400 font-medium">
                                 Bruto + BPJS Kantor
                             </div>
                         </div>
@@ -4271,13 +4329,12 @@ function doPost(e) {
             views.forEach(v => {
                 const el = document.getElementById('view-' + v);
                 const nav = document.getElementById('nav-' + v);
-                const hasBadge = ['karyawan', 'persetujuan', 'bnsp'].includes(v);
                 if (v === viewName) {
                     if (el) el.classList.remove('hidden');
-                    if (nav) nav.className = `w-full flex items-center ${hasBadge ? 'justify-between' : 'gap-3'} px-3 py-2 rounded-xl nav-item-active btn-tactile text-left transition-all`;
+                    if (nav) nav.className = "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl nav-item-active btn-tactile font-semibold text-left transition-all shadow-xs";
                 } else {
                     if (el) el.classList.add('hidden');
-                    if (nav) nav.className = `w-full flex items-center ${hasBadge ? 'justify-between' : 'gap-3'} px-3 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all`;
+                    if (nav) nav.className = "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-gray-800/60 btn-tactile font-medium text-left transition-all";
                 }
             });
 
@@ -4293,9 +4350,11 @@ function doPost(e) {
             };
             document.getElementById('topbarBreadcrumb').innerText = titles[viewName] || 'Penggajian';
 
-            const sb = document.getElementById('sidebar');
-            if (!sb.classList.contains('-translate-x-full')) {
-                sb.classList.add('-translate-x-full');
+            // Auto-tutup drawer pada layar mobile setelah memilih menu
+            if (window.innerWidth < 1024) {
+                document.body.classList.remove('sidebar-mobile-open');
+                const backdrop = document.getElementById('sidebarBackdrop');
+                if (backdrop) backdrop.classList.add('hidden');
             }
 
             renderAll();
@@ -4345,9 +4404,28 @@ function doPost(e) {
             showToast("Semua perhitungan gaji, lembur, dan pajak diperbarui!");
         }
 
+        // ================= SIDEBAR TOGGLE & FULL-WIDTH CONTROLLER =================
         function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            if (sb) sb.classList.toggle('-translate-x-full');
+            const isDesktop = window.innerWidth >= 1024;
+            const backdrop = document.getElementById('sidebarBackdrop');
+
+            if (isDesktop) {
+                // Desktop: Toggle Full Content Mode
+                document.body.classList.toggle('sidebar-collapsed');
+                const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+                localStorage.setItem('mfa_sidebar_collapsed', isCollapsed ? 'true' : 'false');
+                if (backdrop) backdrop.classList.add('hidden');
+                showToast(isCollapsed ? "Mode Layar Penuh (Sidebar Disembunyikan)" : "Sidebar Ditampilkan");
+            } else {
+                // Mobile: Toggle Drawer
+                document.body.classList.toggle('sidebar-mobile-open');
+                const isOpen = document.body.classList.contains('sidebar-mobile-open');
+                if (backdrop) {
+                    if (isOpen) backdrop.classList.remove('hidden');
+                    else backdrop.classList.add('hidden');
+                }
+            }
+            lucide.createIcons();
         }
 
         function showToast(msg) {
@@ -4388,6 +4466,10 @@ function doPost(e) {
 
         // Inisialisasi awal
         document.addEventListener('DOMContentLoaded', () => {
+            // Restore status sidebar desktop jika sebelumnya di-collapse
+            if (localStorage.getItem('mfa_sidebar_collapsed') === 'true' && window.innerWidth >= 1024) {
+                document.body.classList.add('sidebar-collapsed');
+            }
             applyTheme();
             applyCompanyBranding();
             renderAll();
