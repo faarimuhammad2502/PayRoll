@@ -1,0 +1,11 @@
+{
+  "name": "mfa-payroll",
+  "private": true,
+  "version": "1.0.0",
+  "description": "MFA Payroll - Sistem Penggajian & HRIS Enterprise",
+  "scripts": {
+    "build:hardened": "node scripts/build-dist.mjs",
+    "test": "node tests/qa_test_suite.js"
+  },
+  "author": "Muhammad Faari Akbar (MFA-EV)"
+}
