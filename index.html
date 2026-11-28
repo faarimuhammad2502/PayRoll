@@ -2322,7 +2322,7 @@
             <div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800 shrink-0">
                 <span class="text-[11px] text-gray-400 flex items-center gap-1.5">
                     <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                    Data rekening &amp; nominal terenkripsi secara lokal di sisi peramban.
+                    Data rekening &amp; nominal tersimpan lokal di peramban perangkat ini (offline, tidak dikirim ke server luar).
                 </span>
                 <button type="button" onclick="closeDisbursementModal()" class="btn-tactile btn-primary px-4 py-2 rounded-xl text-xs font-semibold shadow-xs">Selesai / Tutup</button>
             </div>
@@ -2714,18 +2714,124 @@
             showToast(isDarkMode ? "Mode Gelap (Dark Mode) diaktifkan" : "Mode Terang (Light Mode) diaktifkan");
         }
 
-        // Storage Keys
-        let companySettings = JSON.parse(localStorage.getItem('mfa_company_settings')) || {
-            name: "MFA Studio",
-            workDays: 5,
-            jkkRiskRate: 0.0024,
-            npwp: "01.234.567.8-012.000",
-            sheetsUrl: "",
-            sheetsWebhookUrl: ""
-        };
+        // Security & Sanitization Helpers
+        function escapeHTML(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
-        let employees = JSON.parse(localStorage.getItem('mfa_payroll_employees')) || [];
-        let attendance = JSON.parse(localStorage.getItem('mfa_payroll_attendance')) || {};
+        function sanitizeText(value, maxLen = 120) {
+            return String(value == null ? '' : value)
+                .replace(/[\u0000-\u001F\u007F]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .slice(0, maxLen);
+        }
+
+        function sanitizeEmpId(value, fallback = 'MFA-EMP') {
+            const clean = String(value == null ? '' : value).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 48);
+            return clean || fallback;
+        }
+
+        function sanitizeCsvCell(value) {
+            let s = String(value == null ? '' : value).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, ' ');
+            if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+            return '"' + s.replace(/"/g, '""') + '"';
+        }
+
+        function safeParseStorage(key, fallback) {
+            try {
+                if (typeof localStorage === 'undefined') return fallback;
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed == null ? fallback : parsed;
+            } catch (_) {
+                return fallback;
+            }
+        }
+
+        function isAllowedGoogleSheetsUrl(rawUrl) {
+            return /^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/i.test(String(rawUrl || '').trim());
+        }
+
+        function isAllowedAppsScriptWebhookUrl(rawUrl) {
+            return /^https:\/\/script\.google\.com\/macros\/s\/[a-zA-Z0-9-_]+\/exec(?:[?#].*)?$/i.test(String(rawUrl || '').trim());
+        }
+
+        function sanitizeEmployee(emp, idx = 0) {
+            if (!emp || typeof emp !== 'object' || Array.isArray(emp)) return null;
+            const name = sanitizeText(emp.name, 100) || `Karyawan ${idx + 1}`;
+            const id = sanitizeEmpId(emp.id, `MFA-${String(idx + 1).padStart(3, '0')}`);
+            const ptkpRaw = sanitizeText(emp.ptkp, 10).toUpperCase();
+            const allowedPtkp = ['TK/0', 'TK/1', 'TK/2', 'TK/3', 'K/0', 'K/1', 'K/2', 'K/3'];
+            return {
+                id,
+                name,
+                role: sanitizeText(emp.role, 80) || 'Staff',
+                dept: sanitizeText(emp.dept, 60) || 'General',
+                avatar: sanitizeText(emp.avatar, 4).toUpperCase() || name.substring(0, 2).toUpperCase(),
+                pokok: Math.max(0, Number.isFinite(Number(emp.pokok)) ? Number(emp.pokok) : 0),
+                tunjangan: Math.max(0, Number.isFinite(Number(emp.tunjangan)) ? Number(emp.tunjangan) : 0),
+                ptkp: allowedPtkp.includes(ptkpRaw) ? ptkpRaw : 'TK/0',
+                masaKerja: Math.max(0, Math.min(600, Math.trunc(Number(emp.masaKerja) || 12))),
+                statusKontrak: sanitizeText(emp.statusKontrak, 30) || 'Tetap',
+                npwp: sanitizeText(emp.npwp, 30),
+                status: emp.status === 'tinjau' ? 'tinjau' : 'siap',
+                bank: sanitizeText(emp.bank, 30) || 'BCA',
+                rekening: sanitizeText(emp.rekening, 32).replace(/[^0-9A-Za-z-]/g, ''),
+                cutiTahunan: Math.max(0, Math.min(60, Math.trunc(Number(emp.cutiTahunan ?? 12) || 0))),
+                saldoKasbon: Math.max(0, Number.isFinite(Number(emp.saldoKasbon)) ? Number(emp.saldoKasbon) : 0),
+                cicilanKasbon: Math.max(0, Number.isFinite(Number(emp.cicilanKasbon)) ? Number(emp.cicilanKasbon) : 0)
+            };
+        }
+
+        function sanitizeAttendanceMap(rawMap) {
+            const out = {};
+            if (!rawMap || typeof rawMap !== 'object' || Array.isArray(rawMap)) return out;
+            Object.keys(rawMap).forEach(k => {
+                if (k === '__proto__' || k === 'constructor' || k === 'prototype') return;
+                const safeKey = sanitizeEmpId(k, '');
+                const v = rawMap[k];
+                if (!safeKey || !v || typeof v !== 'object') return;
+                out[safeKey] = {
+                    hadir: Math.max(0, Math.min(31, Number(v.hadir ?? 22) || 0)),
+                    cuti: Math.max(0, Math.min(31, Number(v.cuti || 0) || 0)),
+                    sakit: Math.max(0, Math.min(31, Number(v.sakit || 0) || 0)),
+                    alpha: Math.max(0, Math.min(31, Number(v.alpha || 0) || 0)),
+                    lemburBiasa: Math.max(0, Math.min(200, Number(v.lemburBiasa || 0) || 0)),
+                    lemburLibur: Math.max(0, Math.min(200, Number(v.lemburLibur || 0) || 0))
+                };
+            });
+            return out;
+        }
+
+        function sanitizeCompanySettings(raw) {
+            const s = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
+            const sheetsUrlRaw = sanitizeText(s.sheetsUrl, 300);
+            const webhookRaw = sanitizeText(s.sheetsWebhookUrl, 300);
+            return {
+                name: sanitizeText(s.name, 80) || "MFA Studio",
+                workDays: Number(s.workDays) === 6 ? 6 : 5,
+                jkkRiskRate: [0.0024, 0.0054, 0.0089, 0.0127, 0.0174].includes(Number(s.jkkRiskRate)) ? Number(s.jkkRiskRate) : 0.0024,
+                npwp: sanitizeText(s.npwp, 30) || "01.234.567.8-012.000",
+                sheetsUrl: isAllowedGoogleSheetsUrl(sheetsUrlRaw) ? sheetsUrlRaw : "",
+                sheetsWebhookUrl: isAllowedAppsScriptWebhookUrl(webhookRaw) ? webhookRaw : ""
+            };
+        }
+
+        // Storage Keys
+        let companySettings = sanitizeCompanySettings(safeParseStorage('mfa_company_settings', null));
+
+        let employees = (() => {
+            const parsed = safeParseStorage('mfa_payroll_employees', []);
+            return Array.isArray(parsed) ? parsed.map((e, i) => sanitizeEmployee(e, i)).filter(Boolean) : [];
+        })();
+        let attendance = sanitizeAttendanceMap(safeParseStorage('mfa_payroll_attendance', {}));
 
         // Auto-sanitize corrupt rows from previous raw HTML web fetches
         function isCorruptEmp(e) {
@@ -2848,12 +2954,18 @@
                         return;
                     }
 
-                    const exportDate = (data.stats && data.stats.exportedAt) ? data.stats.exportedAt : 'sebelumnya';
+                    const exportDate = (data.stats && data.stats.exportedAt) ? String(data.stats.exportedAt) : 'sebelumnya';
+                    if (data.employees.length > 2000) {
+                        alert("Ukuran cadangan melebihi batas aman (maks. 2000 karyawan).");
+                        return;
+                    }
                     if (confirm(`Pulihkan ${data.employees.length} data karyawan dari cadangan tanggal ${exportDate}? Data saat ini akan digantikan.`)) {
-                        employees = data.employees;
-                        if (data.attendance) attendance = data.attendance;
-                        if (data.companySettings) companySettings = data.companySettings;
-                        if (data.period) currentPayrollPeriod = data.period;
+                        employees = data.employees.map((item, idx) => sanitizeEmployee(item, idx)).filter(Boolean);
+                        if (data.attendance) attendance = sanitizeAttendanceMap(data.attendance);
+                        if (data.companySettings) companySettings = sanitizeCompanySettings(data.companySettings);
+                        if (typeof data.period === 'string' && /^\d{4}-\d{2}$/.test(data.period)) {
+                            currentPayrollPeriod = data.period;
+                        }
 
                         saveToStorage();
                         updatePeriodDisplay();
@@ -2927,8 +3039,16 @@
 
         // ================= ENGINE KALKULASI UTAMA (10 RUMUS RESMI UU) =================
         function calculatePayrollForEmployee(emp) {
-            const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
-            const upahBulanan = emp.pokok + emp.tunjangan;
+            const attRaw = attendance[emp.id] || { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
+            const att = {
+                hadir: Math.max(0, Number(attRaw.hadir ?? 22) || 0),
+                alpha: Math.max(0, Number(attRaw.alpha || 0) || 0),
+                lemburBiasa: Math.max(0, Number(attRaw.lemburBiasa || 0) || 0),
+                lemburLibur: Math.max(0, Number(attRaw.lemburLibur || 0) || 0)
+            };
+            const safePokok = Math.max(0, Number(emp.pokok) || 0);
+            const safeTunjangan = Math.max(0, Number(emp.tunjangan) || 0);
+            const upahBulanan = safePokok + safeTunjangan;
 
             // 1. Rumus 02: Tarif Upah Lembur (TUL) = 1/173 x Upah Sebulan (PP 35/2021)
             const upahPerJam = upahBulanan / 173;
@@ -2960,7 +3080,7 @@
             const potonganAlpha = (att.alpha || 0) * upahHarian;
 
             // 5. Total Penghasilan Bruto
-            const totalBruto = Math.max(0, emp.pokok + emp.tunjangan + totalLembur);
+            const totalBruto = Math.max(0, safePokok + safeTunjangan + totalLembur);
 
             // 6. BPJS Kesehatan (1% Karyawan, Maks Upah Rp12.000.000)
             const basisBpjsKes = Math.min(upahBulanan, 12000000);
@@ -2968,18 +3088,18 @@
             const bpjsKesPerusahaan = basisBpjsKes * 0.04;
 
             // 7. Rumus 06: BPJS TK JHT (Pekerja 2%, Kantor 3.7%)
-            const jhtKaryawan = emp.pokok * 0.02;
-            const jhtPerusahaan = emp.pokok * 0.037;
+            const jhtKaryawan = safePokok * 0.02;
+            const jhtPerusahaan = safePokok * 0.037;
 
             // 8. Rumus 07: BPJS TK JKM (Perusahaan 0.3%)
-            const jkmPerusahaan = emp.pokok * 0.003;
+            const jkmPerusahaan = safePokok * 0.003;
 
             // 9. Rumus 08 & 09: BPJS TK JKK (0.24% - 1.74% Perusahaan)
             const jkkRate = companySettings.jkkRiskRate || 0.0024;
-            const jkkPerusahaan = emp.pokok * jkkRate;
+            const jkkPerusahaan = safePokok * jkkRate;
 
             // 10. Rumus 10: BPJS TK Jaminan Pensiun / JP (Pekerja 1%, Kantor 2% Maks Upah Rp10.042.300)
-            const basisJP = Math.min(emp.pokok, 10042300);
+            const basisJP = Math.min(safePokok, 10042300);
             const jpKaryawan = basisJP * 0.01;
             const jpPerusahaan = basisJP * 0.02;
 
@@ -3363,6 +3483,11 @@ function doPost(e) {
                 return;
             }
 
+            if (!isAllowedAppsScriptWebhookUrl(webhookUrl)) {
+                alert("URL Web App harus berupa endpoint resmi Google Apps Script (https://script.google.com/macros/s/.../exec).");
+                return;
+            }
+
             if (employees.length === 0) {
                 alert("Belum ada data karyawan untuk dikirim ke Google Sheets. Silakan input karyawan atau klik 'Muat Contoh'.");
                 return;
@@ -3560,7 +3685,7 @@ function doPost(e) {
         }
 
         function openInGoogleSheets() {
-            window.open('https://sheets.new', '_blank');
+            window.open('https://sheets.new', '_blank', 'noopener,noreferrer');
             showToast("Membuka Google Sheets baru. Anda dapat meng-import file template CSV / XLSX.");
         }
 
@@ -3601,31 +3726,20 @@ function doPost(e) {
                         const row = empJson[i];
                         if (!row || !row[0] || !row[1]) continue;
 
-                        const id = String(row[0]).trim();
-                        const name = String(row[1]).trim();
-                        const role = row[2] ? String(row[2]).trim() : 'Staff';
-                        const dept = row[3] ? String(row[3]).trim() : 'General';
-                        const pokok = parseFloat(row[4]) || 0;
-                        const tunjangan = parseFloat(row[5]) || 0;
-                        const ptkp = row[6] ? String(row[6]).trim().toUpperCase() : 'TK/0';
-                        const masaKerja = parseInt(row[7]) || 12;
-                        const statusKontrak = row[8] ? String(row[8]).trim() : 'Tetap';
-                        const npwp = row[9] ? String(row[9]).trim() : '';
-
-                        newEmployees.push({
-                            id,
-                            name,
-                            role,
-                            dept,
-                            avatar: name.substring(0, 2).toUpperCase(),
-                            pokok,
-                            tunjangan,
-                            ptkp,
-                            masaKerja,
-                            statusKontrak,
-                            npwp,
-                            status: "siap"
-                        });
+                        const emp = sanitizeEmployee({
+                            id: row[0],
+                            name: row[1],
+                            role: row[2] || 'Staff',
+                            dept: row[3] || 'General',
+                            pokok: Math.max(0, parseFloat(row[4]) || 0),
+                            tunjangan: Math.max(0, parseFloat(row[5]) || 0),
+                            ptkp: row[6] || 'TK/0',
+                            masaKerja: Math.max(0, parseInt(row[7], 10) || 12),
+                            statusKontrak: row[8] || 'Tetap',
+                            npwp: row[9] || ''
+                        }, newEmployees.length);
+                        if (!emp) continue;
+                        newEmployees.push(emp);
                     }
 
                     // Cari Sheet Absensi & Lembur jika ada
@@ -3676,7 +3790,8 @@ function doPost(e) {
         }
 
         function formatGoogleSheetsExportUrl(rawUrl) {
-            let url = rawUrl.trim();
+            let url = String(rawUrl || '').trim();
+            if (!isAllowedGoogleSheetsUrl(url)) return null;
             const sheetIdMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
             if (sheetIdMatch && sheetIdMatch[1]) {
                 const sheetId = sheetIdMatch[1];
@@ -3684,7 +3799,7 @@ function doPost(e) {
                 const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
                 return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
             }
-            return url;
+            return null;
         }
 
         function showSheetsAccessAlert() {
@@ -3697,10 +3812,13 @@ function doPost(e) {
                 alert("Silakan masukkan URL Google Sheets yang ingin disinkronkan.");
                 return;
             }
+            const fetchUrl = formatGoogleSheetsExportUrl(rawUrl);
+            if (!fetchUrl) {
+                alert("URL harus berasal dari Google Sheets resmi (https://docs.google.com/spreadsheets/d/...).");
+                return;
+            }
             companySettings.sheetsUrl = rawUrl;
             saveToStorage();
-
-            const fetchUrl = formatGoogleSheetsExportUrl(rawUrl);
             showToast("Menghubungkan ke Google Sheets...");
 
             fetch(fetchUrl)
@@ -3781,29 +3899,21 @@ function doPost(e) {
                 if (id.includes('function') || id.includes('var ') || id.includes('{') || id.includes('prototype') || id.includes('typeof')) continue;
                 if (name.includes('function') || name.includes('var ') || name.includes('{') || name.includes('prototype') || name.includes('typeof')) continue;
 
-                const role = row[2] ? String(row[2]).trim() : 'Staff';
-                const dept = row[3] ? String(row[3]).trim() : 'General';
-                const pokok = parseFloat(String(row[4] || '0').replace(/[^0-9.-]+/g, '')) || 0;
-                const tunjangan = parseFloat(String(row[5] || '0').replace(/[^0-9.-]+/g, '')) || 0;
-                const ptkp = row[6] ? String(row[6]).trim().toUpperCase() : 'TK/0';
-                const masaKerja = parseInt(String(row[7] || '12').replace(/[^0-9]+/g, '')) || 12;
-                const statusKontrak = row[8] ? String(row[8]).trim() : 'Tetap';
-                const npwp = row[9] ? String(row[9]).trim() : '';
-
-                newEmployees.push({
+                const safeEmp = sanitizeEmployee({
                     id,
                     name,
-                    role,
-                    dept,
-                    avatar: name.substring(0, 2).toUpperCase(),
-                    pokok,
-                    tunjangan,
-                    ptkp,
-                    masaKerja,
-                    statusKontrak,
-                    npwp,
-                    status: "siap"
-                });
+                    role: row[2] || 'Staff',
+                    dept: row[3] || 'General',
+                    pokok: Math.max(0, parseFloat(String(row[4] || '0').replace(/[^0-9.-]+/g, '')) || 0),
+                    tunjangan: Math.max(0, parseFloat(String(row[5] || '0').replace(/[^0-9.-]+/g, '')) || 0),
+                    ptkp: row[6] || 'TK/0',
+                    masaKerja: Math.max(0, parseInt(String(row[7] || '12').replace(/[^0-9]+/g, ''), 10) || 12),
+                    statusKontrak: row[8] || 'Tetap',
+                    npwp: row[9] || ''
+                }, newEmployees.length);
+                if (!safeEmp) continue;
+
+                newEmployees.push(safeEmp);
 
                 // Attendance jika tersedia di sheet yang sama
                 if (row.length >= 10) {
@@ -3884,20 +3994,25 @@ function doPost(e) {
                     ? `<span class="badge-green px-2.5 py-0.5 rounded-full font-medium inline-block">Siap diproses</span>`
                     : `<span class="badge-amber px-2.5 py-0.5 rounded-full font-medium inline-block">Perlu ditinjau</span>`;
 
+                const safeId = escapeHTML(sanitizeEmpId(emp.id));
+                const safeName = escapeHTML(emp.name);
+                const safeRole = escapeHTML(emp.role);
+                const safeAvatar = escapeHTML(emp.avatar || String(emp.name || 'MF').substring(0, 2).toUpperCase());
+
                 const tr = document.createElement('tr');
                 tr.className = `hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800 ${isSelected ? 'bg-mfa-50/40 dark:bg-emerald-950/20' : ''}`;
                 tr.innerHTML = `
                     <td class="px-6 py-4">
-                        <input type="checkbox" onchange="toggleSelectRow('${emp.id}')" ${isSelected ? 'checked' : ''} class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
+                        <input type="checkbox" data-emp="${safeId}" onchange="toggleSelectRow(this.dataset.emp)" ${isSelected ? 'checked' : ''} class="rounded border-gray-300 text-mfa-800 focus:ring-mfa-800 w-4 h-4 cursor-pointer">
                     </td>
                     <td class="px-3 py-4">
-                        <div class="flex items-center gap-3 cursor-pointer" onclick="openSlipModal('${emp.id}')">
+                        <div class="flex items-center gap-3 cursor-pointer" data-emp="${safeId}" onclick="openSlipModal(this.dataset.emp)">
                             <div class="w-8 h-8 rounded-full bg-mfa-100 dark:bg-emerald-950 text-mfa-900 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shrink-0 border border-mfa-200 dark:border-emerald-800">
-                                ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
+                                ${safeAvatar}
                             </div>
                             <div>
-                                <p class="font-semibold text-gray-900 dark:text-white leading-tight hover:text-mfa-800 dark:hover:text-emerald-400 transition">${emp.name}</p>
-                                <p class="text-[11px] text-gray-400 leading-tight mt-0.5">${emp.id} · ${emp.role}</p>
+                                <p class="font-semibold text-gray-900 dark:text-white leading-tight hover:text-mfa-800 dark:hover:text-emerald-400 transition">${safeName}</p>
+                                <p class="text-[11px] text-gray-400 leading-tight mt-0.5">${safeId} · ${safeRole}</p>
                             </div>
                         </div>
                     </td>
@@ -3908,10 +4023,10 @@ function doPost(e) {
                     <td class="px-4 py-4">${statusBadge}</td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex items-center justify-end gap-1">
-                            <button onclick="openSlipModal('${emp.id}')" class="btn-tactile btn-ghost p-2 rounded-lg text-mfa-800 dark:text-emerald-400 hover:bg-mfa-100/70 dark:hover:bg-gray-800 border border-transparent hover:border-mfa-200 dark:hover:border-emerald-800/60 shadow-2xs" title="Lihat Slip Gaji">
+                            <button data-emp="${safeId}" onclick="openSlipModal(this.dataset.emp)" class="btn-tactile btn-ghost p-2 rounded-lg text-mfa-800 dark:text-emerald-400 hover:bg-mfa-100/70 dark:hover:bg-gray-800 border border-transparent hover:border-mfa-200 dark:hover:border-emerald-800/60 shadow-2xs" title="Lihat Slip Gaji">
                                 <i data-lucide="receipt" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="editEmployee('${emp.id}')" class="btn-tactile btn-ghost p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 shadow-2xs" title="Edit Karyawan">
+                            <button data-emp="${safeId}" onclick="editEmployee(this.dataset.emp)" class="btn-tactile btn-ghost p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 shadow-2xs" title="Edit Karyawan">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -4037,35 +4152,44 @@ function doPost(e) {
             }
 
             employees.forEach(emp => {
+                const safeId = escapeHTML(sanitizeEmpId(emp.id));
+                const safeName = escapeHTML(emp.name);
+                const safeRole = escapeHTML(emp.role);
+                const safeDept = escapeHTML(emp.dept);
+                const safeBank = escapeHTML(emp.bank);
+                const safeRek = escapeHTML(emp.rekening || '');
+                const safePtkp = escapeHTML(emp.ptkp);
+                const safeAvatar = escapeHTML(emp.avatar || String(emp.name || 'MF').substring(0, 2).toUpperCase());
+
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
                     <td class="px-6 py-3.5">
                         <div class="flex items-center gap-2.5">
                             <div class="w-7 h-7 rounded-full bg-[#1B3B2B] text-white flex items-center justify-center font-bold text-xs">
-                                ${emp.avatar || emp.name.substring(0, 2).toUpperCase()}
+                                ${safeAvatar}
                             </div>
                             <div>
-                                <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
-                                <p class="text-[11px] text-gray-400">${emp.id}${emp.bank ? ` · <span class="font-mono text-emerald-700 dark:text-emerald-400 font-semibold">${emp.bank} ${emp.rekening || ''}</span>` : ''}</p>
+                                <p class="font-bold text-gray-900 dark:text-white">${safeName}</p>
+                                <p class="text-[11px] text-gray-400">${safeId}${emp.bank ? ` · <span class="font-mono text-emerald-700 dark:text-emerald-400 font-semibold">${safeBank} ${safeRek}</span>` : ''}</p>
                             </div>
                         </div>
                     </td>
                     <td class="px-4 py-3.5 text-gray-700 dark:text-gray-300">
-                        <span class="font-semibold">${emp.masaKerja || 12} Bulan</span>
+                        <span class="font-semibold">${Number(emp.masaKerja) || 12} Bulan</span>
                     </td>
                     <td class="px-4 py-3.5">
-                        <p class="font-medium text-gray-800 dark:text-gray-200">${emp.role}</p>
-                        <p class="text-[11px] text-gray-400">${emp.dept}</p>
+                        <p class="font-medium text-gray-800 dark:text-gray-200">${safeRole}</p>
+                        <p class="text-[11px] text-gray-400">${safeDept}</p>
                     </td>
                     <td class="px-4 py-3.5 font-semibold text-gray-900 dark:text-white">${formatRupiah(emp.pokok)}</td>
                     <td class="px-4 py-3.5 text-gray-600 dark:text-gray-300">${formatRupiah(emp.tunjangan)}</td>
                     <td class="px-4 py-3.5">
-                        <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${emp.ptkp}</span>
+                        <span class="badge-blue px-2 py-0.5 rounded-full font-semibold">${safePtkp}</span>
                     </td>
                     <td class="px-6 py-3.5 text-right">
-                        <button onclick="editEmployee('${emp.id}')" class="btn-tactile btn-ghost p-1.5 rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 mr-1.5" title="Edit Data"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                        <button onclick="deleteEmployee('${emp.id}')" class="btn-tactile btn-ghost p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Hapus Karyawan"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        <button data-emp="${safeId}" onclick="editEmployee(this.dataset.emp)" class="btn-tactile btn-ghost p-1.5 rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 mr-1.5" title="Edit Data"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        <button data-emp="${safeId}" onclick="deleteEmployee(this.dataset.emp)" class="btn-tactile btn-ghost p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Hapus Karyawan"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -4084,26 +4208,28 @@ function doPost(e) {
             employees.forEach(emp => {
                 const att = attendance[emp.id] || { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
                 const calc = calculatePayrollForEmployee(emp);
+                const safeId = escapeHTML(sanitizeEmpId(emp.id));
+                const safeName = escapeHTML(emp.name);
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
                     <td class="px-6 py-3.5">
-                        <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
-                        <p class="text-[11px] text-gray-400">${emp.id}</p>
+                        <p class="font-bold text-gray-900 dark:text-white">${safeName}</p>
+                        <p class="text-[11px] text-gray-400">${safeId}</p>
                     </td>
                     <td class="px-4 py-3.5 text-gray-600 dark:text-gray-300 font-mono">${formatRupiah(calc.upahPerJam)}</td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.hadir}" onchange="updateAttendance('${emp.id}', 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700">
+                        <input type="number" min="0" max="31" value="${Number(att.hadir) || 0}" data-emp="${safeId}" onchange="updateAttendance(this.dataset.emp, 'hadir', this.value)" class="w-16 p-1 border rounded-lg text-center font-semibold bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="31" value="${att.alpha || 0}" onchange="updateAttendance('${emp.id}', 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 dark:text-rose-400 font-bold bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                        <input type="number" min="0" max="31" value="${Number(att.alpha) || 0}" data-emp="${safeId}" onchange="updateAttendance(this.dataset.emp, 'alpha', this.value)" class="w-16 p-1 border rounded-lg text-center text-rose-600 dark:text-rose-400 font-bold bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="100" value="${att.lemburBiasa || 0}" onchange="updateAttendance('${emp.id}', 'lemburBiasa', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                        <input type="number" min="0" max="100" value="${Number(att.lemburBiasa) || 0}" data-emp="${safeId}" onchange="updateAttendance(this.dataset.emp, 'lemburBiasa', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5">
-                        <input type="number" min="0" max="100" value="${att.lemburLibur || 0}" onchange="updateAttendance('${emp.id}', 'lemburLibur', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-purple-700 dark:text-purple-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                        <input type="number" min="0" max="100" value="${Number(att.lemburLibur) || 0}" data-emp="${safeId}" onchange="updateAttendance(this.dataset.emp, 'lemburLibur', this.value)" class="w-16 p-1 border rounded-lg text-center font-bold text-purple-700 dark:text-purple-400 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     </td>
                     <td class="px-4 py-3.5 font-bold text-emerald-800 dark:text-emerald-300">${formatRupiah(calc.totalLembur)}</td>
                 `;
@@ -4125,9 +4251,9 @@ function doPost(e) {
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
-                    <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">${emp.name}</td>
+                    <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">${escapeHTML(emp.name)}</td>
                     <td class="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono">08.123.456.7-012.000</td>
-                    <td class="px-4 py-3 font-bold">${calc.terCat} (${emp.ptkp})</td>
+                    <td class="px-4 py-3 font-bold">${escapeHTML(calc.terCat)} (${escapeHTML(emp.ptkp)})</td>
                     <td class="px-4 py-3 font-bold text-gray-900 dark:text-white">${formatRupiah(calc.totalBruto)}</td>
                     <td class="px-4 py-3 font-semibold text-mfa-800 dark:text-emerald-400">${(calc.terRate * 100).toFixed(2)}%</td>
                     <td class="px-4 py-3 font-bold text-rose-600 dark:text-rose-400">${formatRupiah(calc.pph21)}</td>
@@ -4448,31 +4574,31 @@ function doPost(e) {
             const saldoKasbon = parseFloat(document.getElementById('empSaldoKasbon')?.value) || 0;
             const cicilanKasbon = parseFloat(document.getElementById('empCicilanKasbon')?.value) || 0;
 
-            const empData = {
+            const empData = sanitizeEmployee({
                 id,
                 name,
                 dept,
                 role,
                 avatar: initials,
-                pokok,
-                tunjangan,
+                pokok: Math.max(0, pokok),
+                tunjangan: Math.max(0, tunjangan),
                 ptkp,
-                masaKerja,
+                masaKerja: Math.max(0, masaKerja),
                 bank,
                 rekening,
-                cutiTahunan,
-                saldoKasbon,
-                cicilanKasbon,
+                cutiTahunan: Math.max(0, cutiTahunan),
+                saldoKasbon: Math.max(0, saldoKasbon),
+                cicilanKasbon: Math.max(0, cicilanKasbon),
                 status: "siap"
-            };
+            });
 
             if (idx >= 0) {
                 employees[idx] = empData;
-                showToast(`Data karyawan ${name} berhasil diperbarui!`);
+                showToast(`Data karyawan ${empData.name} berhasil diperbarui!`);
             } else {
                 employees.push(empData);
-                attendance[id] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
-                showToast(`Karyawan ${name} berhasil ditambahkan!`);
+                attendance[empData.id] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
+                showToast(`Karyawan ${empData.name} berhasil ditambahkan!`);
             }
 
             saveToStorage();
@@ -4518,8 +4644,12 @@ function doPost(e) {
         }
 
         function updateAttendance(empId, field, val) {
-            if (!attendance[empId]) attendance[empId] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
-            attendance[empId][field] = parseFloat(val) || 0;
+            const safeId = sanitizeEmpId(empId, '');
+            const allowedFields = ['hadir', 'cuti', 'sakit', 'alpha', 'lemburBiasa', 'lemburLibur'];
+            if (!safeId || !allowedFields.includes(field)) return;
+            if (!attendance[safeId]) attendance[safeId] = { hadir: 22, alpha: 0, lemburBiasa: 0, lemburLibur: 0 };
+            const num = Math.max(0, Number.isFinite(parseFloat(val)) ? parseFloat(val) : 0);
+            attendance[safeId][field] = (field === 'lemburBiasa' || field === 'lemburLibur') ? Math.min(200, num) : Math.min(31, num);
             saveToStorage();
             renderMetrics();
             renderPayrollTable();
@@ -4705,6 +4835,15 @@ function doPost(e) {
 
             targetEmps.forEach((emp, idx) => {
                 const calc = calculatePayrollForEmployee(emp);
+                const safeCompName = escapeHTML(companySettings.name);
+                const safeCompNpwp = escapeHTML(companySettings.npwp || '-');
+                const safeBank = escapeHTML(emp.bank || 'BCA');
+                const safeRek = emp.rekening ? '• ' + escapeHTML(emp.rekening) : '';
+                const safeName = escapeHTML(emp.name);
+                const safeId = escapeHTML(sanitizeEmpId(emp.id));
+                const safeDept = escapeHTML(emp.dept);
+                const safeRole = escapeHTML(emp.role);
+                const safePtkp = escapeHTML(emp.ptkp);
                 const page = document.createElement('div');
                 page.className = 'slip-page';
                 page.innerHTML = `
@@ -4712,26 +4851,26 @@ function doPost(e) {
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div style="width: 28px; height: 28px; background: #1B3B2B; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">MFA</div>
-                                <h2 style="font-size: 18px; font-weight: 800; color: #111827; margin: 0;">${companySettings.name}</h2>
+                                <h2 style="font-size: 18px; font-weight: 800; color: #111827; margin: 0;">${safeCompName}</h2>
                             </div>
-                            <p style="font-size: 11px; color: #4B5563; margin-top: 4px;">NPWP: ${companySettings.npwp || '-'} · Sistem HRIS & Penggajian Terintegrasi</p>
+                            <p style="font-size: 11px; color: #4B5563; margin-top: 4px;">NPWP: ${safeCompNpwp} · Sistem HRIS & Penggajian Terintegrasi</p>
                         </div>
                         <div style="text-align: right;">
                             <span style="font-size: 12px; font-weight: 800; color: #1B3B2B; background: #ECFDF5; padding: 4px 10px; border-radius: 9999px; border: 1px solid #A7F3D0;">SLIP GAJI RESMI</span>
-                            <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">Periode: ${getPeriodDetails(currentPayrollPeriod).title} | Rekening: ${emp.bank || 'BCA'} ${emp.rekening ? '• ' + emp.rekening : ''}</p>
+                            <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">Periode: ${escapeHTML(getPeriodDetails(currentPayrollPeriod).title)} | Rekening: ${safeBank} ${safeRek}</p>
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; background: #F9FAFB; padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 11px;">
                         <div>
-                            <p style="color: #6B7280; margin-bottom: 4px;">Nama Karyawan: <strong style="color: #111827;">${emp.name}</strong></p>
-                            <p style="color: #6B7280; margin-bottom: 4px;">NIK / ID: <strong style="color: #111827;">${emp.id}</strong></p>
-                            <p style="color: #6B7280;">Departemen: <strong style="color: #111827;">${emp.dept}</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Nama Karyawan: <strong style="color: #111827;">${safeName}</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">NIK / ID: <strong style="color: #111827;">${safeId}</strong></p>
+                            <p style="color: #6B7280;">Departemen: <strong style="color: #111827;">${safeDept}</strong></p>
                         </div>
                         <div>
-                            <p style="color: #6B7280; margin-bottom: 4px;">Jabatan: <strong style="color: #111827;">${emp.role}</strong></p>
-                            <p style="color: #6B7280; margin-bottom: 4px;">Status PTKP: <strong style="color: #111827;">${emp.ptkp} (${calc.terCat})</strong></p>
-                            <p style="color: #6B7280;">Masa Kerja: <strong style="color: #111827;">${emp.masaKerja || 12} Bulan</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Jabatan: <strong style="color: #111827;">${safeRole}</strong></p>
+                            <p style="color: #6B7280; margin-bottom: 4px;">Status PTKP: <strong style="color: #111827;">${safePtkp} (${escapeHTML(calc.terCat)})</strong></p>
+                            <p style="color: #6B7280;">Masa Kerja: <strong style="color: #111827;">${Number(emp.masaKerja) || 12} Bulan</strong></p>
                         </div>
                     </div>
 
@@ -4785,11 +4924,11 @@ function doPost(e) {
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; font-size: 11px; text-align: center;">
                         <div>
                             <p style="color: #6B7280; margin-bottom: 40px;">Diterima oleh Karyawan,</p>
-                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${emp.name}</p>
+                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${safeName}</p>
                         </div>
                         <div>
                             <p style="color: #6B7280; margin-bottom: 40px;">Disahkan oleh HR & Finance,</p>
-                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${companySettings.name}</p>
+                            <p style="font-weight: bold; color: #111827; border-top: 1px solid #D1D5DB; display: inline-block; padding-top: 4px; min-width: 160px;">${safeCompName}</p>
                         </div>
                     </div>
                 `;
@@ -5064,7 +5203,7 @@ function doPost(e) {
             let csv = "ID,Nama,Jabatan,Departemen,Bank Pembayaran,No Rekening,Gaji Pokok,Tunjangan,Lembur Biasa,Lembur Libur,Total Lembur,Potongan Alpha,Potongan Kasbon,Total Bruto,BPJS Kes Karyawan,BPJS Kes Kantor,BPJS TK Karyawan,BPJS TK Kantor,PPh 21 TER,Total Potongan,Take Home Pay,Total CTC Perusahaan\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
-                csv += `"${emp.id}","${emp.name}","${emp.role}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${emp.pokok},${emp.tunjangan},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.potonganKasbon || 0},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
+                csv += `${sanitizeCsvCell(emp.id)},${sanitizeCsvCell(emp.name)},${sanitizeCsvCell(emp.role)},${sanitizeCsvCell(emp.dept)},${sanitizeCsvCell(emp.bank || 'BCA')},${sanitizeCsvCell(emp.rekening || '-')},${Math.round(emp.pokok || 0)},${Math.round(emp.tunjangan || 0)},${calc.lemburBiasaNominal},${calc.lemburLiburNominal},${calc.totalLembur},${calc.potonganAlpha},${calc.potonganKasbon || 0},${calc.totalBruto},${calc.bpjsKesKaryawan},${calc.bpjsKesPerusahaan},${calc.bpjsTkKaryawan},${calc.bpjsTkPerusahaan},${calc.pph21},${calc.totalPotongan},${calc.gajiBersih},${calc.totalCTC}\n`;
             });
 
             // Prepend \uFEFF UTF-8 BOM agar Excel membukanya langsung rapi tanpa error encoding
@@ -5190,7 +5329,7 @@ function doPost(e) {
             toast.className = "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 pointer-events-auto animate-in slide-in-from-bottom-2 duration-200 border border-gray-800 dark:border-gray-200";
             toast.innerHTML = `
                 <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
-                <span>${msg}</span>
+                <span>${escapeHTML(msg)}</span>
             `;
             container.appendChild(toast);
             lucide.createIcons();
@@ -5249,20 +5388,25 @@ function doPost(e) {
             employees.forEach((emp, idx) => {
                 const calc = calculatePayrollForEmployee(emp);
                 const hasRekening = Boolean(emp.rekening && emp.rekening.trim().length >= 5);
+                const safeName = escapeHTML(emp.name);
+                const safeId = escapeHTML(sanitizeEmpId(emp.id));
+                const safeDept = escapeHTML(emp.dept);
+                const safeBank = escapeHTML(emp.bank || 'BCA');
+                const safeRek = escapeHTML(emp.rekening || '(Belum Diisi)');
 
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition border-b border-gray-100 dark:border-gray-800";
                 tr.innerHTML = `
                     <td class="px-4 py-3 text-gray-400 font-mono">${idx + 1}</td>
                     <td class="px-4 py-3">
-                        <p class="font-bold text-gray-900 dark:text-white">${emp.name}</p>
-                        <p class="text-[10px] text-gray-400">${emp.id} &bull; ${emp.dept}</p>
+                        <p class="font-bold text-gray-900 dark:text-white">${safeName}</p>
+                        <p class="text-[10px] text-gray-400">${safeId} &bull; ${safeDept}</p>
                     </td>
                     <td class="px-4 py-3 font-semibold text-gray-800 dark:text-gray-200">
-                        ${emp.bank || 'BCA'}
+                        ${safeBank}
                     </td>
                     <td class="px-4 py-3 font-mono ${hasRekening ? 'text-gray-900 dark:text-white font-semibold' : 'text-rose-500 font-bold'}">
-                        ${emp.rekening || '(Belum Diisi)'}
+                        ${safeRek}
                     </td>
                     <td class="px-4 py-3 font-bold font-mono text-emerald-800 dark:text-emerald-300">
                         ${formatRupiah(calc.gajiBersih)}
@@ -5281,14 +5425,16 @@ function doPost(e) {
         function exportDisbursementBca(format = 'csv') {
             if (employees.length === 0) return;
             const periodTitle = getPeriodDetails(currentPayrollPeriod).title;
-            const remarkText = `Gaji ${periodTitle}`.substring(0, 18);
+            const remarkText = `Gaji ${periodTitle}`.replace(/[=+\-@\r\n,]/g, ' ').substring(0, 18);
 
             let content = "No Rekening,Nama Penerima,Nominal,Berita,Kode Bank\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
                 const rek = (emp.rekening || '').replace(/[^0-9]/g, '');
-                const cleanName = (emp.name || '').replace(/,/g, '');
-                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},${remarkText},${emp.bank || 'BCA'}\n`;
+                let cleanName = String(emp.name || '').replace(/[\r\n,]/g, ' ').trim();
+                if (/^[=+\-@\t]/.test(cleanName)) cleanName = "'" + cleanName;
+                const cleanBank = String(emp.bank || 'BCA').replace(/[\r\n,]/g, ' ').replace(/^[=+\-@\t]/, '');
+                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},${remarkText},${cleanBank}\n`;
             });
 
             const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
@@ -5304,15 +5450,18 @@ function doPost(e) {
         function exportDisbursementMandiri() {
             if (employees.length === 0) return;
             const periodTitle = getPeriodDetails(currentPayrollPeriod).title;
-            const remark1 = `Gaji ${periodTitle}`.substring(0, 30);
-            const compName = (companySettings.name || 'MFA Studio').substring(0, 30);
+            const remark1 = `Gaji ${periodTitle}`.replace(/[=+\-@\r\n,]/g, ' ').substring(0, 30);
+            let compName = String(companySettings.name || 'MFA Studio').replace(/[\r\n,]/g, ' ').trim().substring(0, 30);
+            if (/^[=+\-@\t]/.test(compName)) compName = "'" + compName;
 
             let content = "Beneficiary Account Number,Beneficiary Name,Amount,Currency,Remark 1,Remark 2,Beneficiary Bank\n";
             employees.forEach(emp => {
                 const calc = calculatePayrollForEmployee(emp);
                 const rek = (emp.rekening || '').replace(/[^0-9]/g, '');
-                const cleanName = (emp.name || '').replace(/,/g, '');
-                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},IDR,${remark1},${compName},${emp.bank || 'MANDIRI'}\n`;
+                let cleanName = String(emp.name || '').replace(/[\r\n,]/g, ' ').trim();
+                if (/^[=+\-@\t]/.test(cleanName)) cleanName = "'" + cleanName;
+                const cleanBank = String(emp.bank || 'MANDIRI').replace(/[\r\n,]/g, ' ').replace(/^[=+\-@\t]/, '');
+                content += `${rek},${cleanName},${Math.round(calc.gajiBersih)},IDR,${remark1},${compName},${cleanBank}\n`;
             });
 
             const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
@@ -5332,7 +5481,7 @@ function doPost(e) {
             let content = "No,ID Karyawan,Nama Karyawan,Departemen,Bank Tujuan,Nomor Rekening,Nominal Transfer (THP),Berita Transfer\n";
             employees.forEach((emp, idx) => {
                 const calc = calculatePayrollForEmployee(emp);
-                content += `${idx + 1},"${emp.id}","${emp.name}","${emp.dept}","${emp.bank || 'BCA'}","${emp.rekening || '-'}",${Math.round(calc.gajiBersih)},"Gaji ${periodTitle}"\n`;
+                content += `${idx + 1},${sanitizeCsvCell(emp.id)},${sanitizeCsvCell(emp.name)},${sanitizeCsvCell(emp.dept)},${sanitizeCsvCell(emp.bank || 'BCA')},${sanitizeCsvCell(emp.rekening || '-')},${Math.round(calc.gajiBersih)},${sanitizeCsvCell('Gaji ' + periodTitle)}\n`;
             });
 
             const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });

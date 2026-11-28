@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 
 const rootDir = path.resolve(import.meta.dirname, '..');
 const distDir = path.join(rootDir, 'dist');
-const STATIC_ASSETS = ['favicon.svg', 'banner.png', 'wind_logo.png'];
+const STATIC_ASSETS = ['favicon.svg', 'banner.png', 'wind_logo.png', 'vercel.json'];
 const ROOT_JS_FILES = ['data.js'];
 
 /**
